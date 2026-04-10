@@ -18,13 +18,11 @@
   --accent:    #6366f1;
   --accent2:   #818cf8;
   --green:     #34d399;
-  --green-d:   #065f46;
   --orange:    #fb923c;
-  --orange-d:  #7c2d12;
   --red:       #f87171;
-  --red-d:     #7f1d1d;
   --yellow:    #fbbf24;
-  --yellow-d:  #78350f;
+  --pink:      #f472b6;
+  --violet:    #a78bfa;
   --mono:      'IBM Plex Mono', monospace;
   --sans:      'IBM Plex Sans', sans-serif;
 }
@@ -39,8 +37,6 @@ body {
   font-size: 15px;
   min-height: 100vh;
 }
-
-/* Grid lines background */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: 0;
@@ -51,258 +47,162 @@ body::before {
   pointer-events: none;
 }
 
-.page { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
+.page { max-width: 1140px; margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 1; }
 
-/* Header */
-header {
-  padding: 40px 0 32px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 40px;
-}
-.header-tag {
-  font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--accent2);
-  margin-bottom: 10px; display: block;
-}
-header h1 {
-  font-size: 2rem; font-weight: 700; letter-spacing: -.02em;
-  color: var(--text); margin-bottom: 6px;
-}
-header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
-.header-meta {
-  margin-top: 16px; display: flex; gap: 20px; flex-wrap: wrap;
-  font-family: var(--mono); font-size: .72rem; color: var(--muted);
-}
-.header-meta span { display: flex; align-items: center; gap: 6px; }
-.header-meta span::before { content: '//'; color: var(--accent); }
+/* ── Header ─────────────────────────────────────────── */
+header { padding: 40px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+.header-tag { font-family: var(--mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent2); margin-bottom: 10px; display: block; }
+header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin-bottom: 6px; }
+header p { color: var(--muted); font-size: .9rem; max-width: 600px; }
+.header-meta { margin-top: 16px; display: flex; gap: 20px; flex-wrap: wrap; font-family: var(--mono); font-size: .72rem; color: var(--muted); }
+.header-meta span::before { content: '//'; color: var(--accent); margin-right: 6px; }
 
-/* Layout */
-.grid { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
-@media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+/* Currency + version bar */
+.header-toolbar {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.currency-toggle { display: flex; gap: 4px; }
+.currency-btn {
+  font-family: var(--mono); font-size: .7rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--border2); background: transparent; color: var(--muted); transition: all .15s;
+}
+.currency-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+.fx-label { font-family: var(--mono); font-size: .7rem; color: var(--muted); }
+.fx-input {
+  width: 72px; background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--text); padding: 3px 8px; border-radius: 4px;
+  font-family: var(--mono); font-size: .72rem; outline: none;
+}
+.fx-input:focus { border-color: var(--accent); }
 
-/* Panel */
-.panel {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden;
-}
-.panel-header {
-  padding: 16px 20px 14px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 10px;
-}
-.panel-header h2 {
-  font-family: var(--mono); font-size: .78rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: .1em; color: var(--accent2);
-}
-.panel-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 8px var(--accent); flex-shrink: 0;
-}
-.panel-body { padding: 20px; }
+/* ── Layout ──────────────────────────────────────────── */
+.grid { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
 
-/* Form elements */
-.field { margin-bottom: 18px; }
+/* ── Panel ───────────────────────────────────────────── */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+.panel-header { padding: 14px 20px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.panel-header h2 { font-family: var(--mono); font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--accent2); }
+.panel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); flex-shrink: 0; }
+.panel-body { padding: 18px 20px; }
+
+/* ── Form ────────────────────────────────────────────── */
+.field { margin-bottom: 16px; }
 .field:last-child { margin-bottom: 0; }
-.field label {
-  display: block; font-family: var(--mono); font-size: .72rem;
-  text-transform: uppercase; letter-spacing: .08em;
-  color: var(--muted); margin-bottom: 7px;
-}
-.field label .hint {
-  font-size: .68rem; color: var(--accent2); margin-left: 8px;
-  text-transform: none; letter-spacing: 0; font-weight: 400;
-}
-.field input[type=range] {
-  width: 100%; height: 4px; border-radius: 2px;
-  background: var(--border2); accent-color: var(--accent);
-  cursor: pointer; outline: none; border: none;
-}
+.field label { display: block; font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 7px; }
+.field label .hint { font-size: .68rem; color: var(--accent2); margin-left: 8px; text-transform: none; letter-spacing: 0; font-weight: 400; }
+.field input[type=range] { width: 100%; height: 4px; border-radius: 2px; background: var(--border2); accent-color: var(--accent); cursor: pointer; outline: none; border: none; }
 .range-row { display: flex; align-items: center; gap: 12px; }
-.range-val {
-  font-family: var(--mono); font-size: .88rem; font-weight: 600;
-  color: var(--accent2); min-width: 80px; text-align: right;
-  white-space: nowrap;
-}
-.field select {
+.range-val { font-family: var(--mono); font-size: .88rem; font-weight: 600; color: var(--accent2); min-width: 90px; text-align: right; white-space: nowrap; }
+.field select, .field input[type=number] {
   width: 100%; background: var(--surface2); border: 1px solid var(--border2);
   color: var(--text); padding: 8px 10px; border-radius: 6px;
-  font-family: var(--mono); font-size: .82rem; cursor: pointer;
-  outline: none; appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236366f1'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center;
+  font-family: var(--mono); font-size: .82rem; cursor: pointer; outline: none;
 }
-.field select:focus { border-color: var(--accent); }
+.field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236366f1'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+.field select:focus, .field input[type=number]:focus { border-color: var(--accent); }
 
-.section-divider {
-  font-family: var(--mono); font-size: .68rem; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--muted);
-  margin: 22px 0 14px; padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
+.section-divider { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 20px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 
-/* Resultados */
+/* ── Warn / Info inline ──────────────────────────────── */
+.warn-inline { font-family: var(--mono); font-size: .67rem; color: var(--orange); line-height: 1.6; margin-top: 6px; padding: 6px 10px; background: rgba(251,146,60,.07); border-left: 2px solid var(--orange); border-radius: 0 4px 4px 0; }
+.info-inline { font-family: var(--mono); font-size: .67rem; color: var(--accent2); line-height: 1.6; margin-top: 6px; padding: 6px 10px; background: rgba(99,102,241,.07); border-left: 2px solid var(--accent); border-radius: 0 4px 4px 0; }
+.talent-warn { background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: .83rem; line-height: 1.65; display: none; }
+.talent-warn strong { color: var(--red); display: block; font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+
+/* ── Advanced section ────────────────────────────────── */
+.adv-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); cursor: pointer; user-select: none; }
+.adv-toggle-row label { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--accent2); cursor: pointer; margin-bottom: 0; }
+.adv-section { display: none; margin-top: 12px; padding: 14px; background: rgba(99,102,241,.05); border: 1px solid rgba(99,102,241,.2); border-radius: 8px; }
+.adv-section.visible { display: block; }
+
+/* ── Toggle (mensual/anual) ──────────────────────────── */
+.toggle-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.toggle-btn { font-family: var(--mono); font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 5px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all .15s; }
+.toggle-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+.annual-toggle { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .72rem; color: var(--muted); cursor: pointer; user-select: none; }
+.annual-toggle input { accent-color: var(--accent); cursor: pointer; }
+.judge-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-family: var(--mono); font-size: .72rem; color: var(--muted); cursor: pointer; user-select: none; }
+.judge-row input { accent-color: var(--accent); cursor: pointer; }
+
+/* ── Result hero ─────────────────────────────────────── */
 .result-hero {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border: 1px solid var(--accent);
-  border-radius: 10px; padding: 24px 28px; margin-bottom: 20px;
-  position: relative; overflow: hidden;
+  border: 1px solid var(--accent); border-radius: 10px; padding: 22px 26px; margin-bottom: 20px; position: relative; overflow: hidden;
 }
-.result-hero::before {
-  content: '';
-  position: absolute; top: -30px; right: -30px;
-  width: 120px; height: 120px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 70%);
-}
-.result-hero-label {
-  font-family: var(--mono); font-size: .68rem; text-transform: uppercase;
-  letter-spacing: .12em; color: var(--accent2); margin-bottom: 6px;
-}
-.result-hero-amount {
-  font-family: var(--mono); font-size: 2.4rem; font-weight: 700;
-  color: var(--text); line-height: 1; margin-bottom: 4px;
-}
+.result-hero::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 70%); }
+.result-hero-label { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent2); margin-bottom: 4px; }
+.result-hero-amount { font-family: var(--mono); font-size: 2.6rem; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
 .result-hero-sub { font-size: .82rem; color: var(--muted); }
 
-/* Desglose */
-.desglose { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-.desglose-item {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 7px; padding: 10px 14px;
-}
-.desglose-bar-wrap {
-  flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden;
-}
-.desglose-bar { height: 100%; border-radius: 2px; transition: width .5s ease; }
-.desglose-label { font-family: var(--mono); font-size: .72rem; color: var(--muted); min-width: 130px; }
-.desglose-val { font-family: var(--mono); font-size: .78rem; font-weight: 600; color: var(--text); min-width: 70px; text-align: right; }
+/* ── Desglose ────────────────────────────────────────── */
+.desglose { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.desglose-item { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 9px 14px; }
+.desglose-item.extra { border-color: rgba(99,102,241,.3); }
+.desglose-bar-wrap { flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.desglose-bar { height: 100%; border-radius: 2px; transition: width .4s ease; }
+.desglose-label { font-family: var(--mono); font-size: .72rem; color: var(--muted); min-width: 150px; }
+.desglose-val { font-family: var(--mono); font-size: .78rem; font-weight: 600; color: var(--text); min-width: 80px; text-align: right; }
 
-/* Comparativa de modelos */
-.modelos-tabla { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-.modelos-tabla th {
-  font-family: var(--mono); font-size: .65rem; text-transform: uppercase;
-  letter-spacing: .08em; color: var(--muted); padding: 8px 10px;
-  text-align: left; border-bottom: 1px solid var(--border);
-}
-.modelos-tabla td {
-  padding: 9px 10px; border-bottom: 1px solid var(--border);
-  font-family: var(--mono); font-size: .78rem; color: var(--text);
-  vertical-align: middle;
-}
+/* ── Model table ─────────────────────────────────────── */
+.modelos-tabla { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+.modelos-tabla th { font-family: var(--mono); font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+.modelos-tabla td { padding: 9px 10px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: .78rem; color: var(--text); vertical-align: middle; }
 .modelos-tabla tr:last-child td { border-bottom: none; }
 .modelos-tabla tr.selected td { background: rgba(99,102,241,.08); }
-.modelos-tabla tr:hover td { background: var(--surface2); cursor: pointer; }
-.cost-chip {
-  display: inline-block; padding: 2px 8px; border-radius: 20px;
-  font-size: .7rem; font-weight: 600; white-space: nowrap;
-}
+.modelos-tabla tr:hover td { background: var(--surface2); }
+.cost-chip { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: .7rem; font-weight: 600; white-space: nowrap; }
 .chip-green  { background: rgba(52,211,153,.12); color: var(--green); }
 .chip-yellow { background: rgba(251,191,36,.12); color: var(--yellow); }
 .chip-orange { background: rgba(251,146,60,.12); color: var(--orange); }
 .chip-red    { background: rgba(248,113,113,.12); color: var(--red); }
 
-/* Recomendación */
-.recomendacion {
-  border-radius: 8px; padding: 16px 18px; margin-bottom: 16px;
-  border: 1px solid;
-}
+/* ── Arquitecturas ───────────────────────────────────── */
+.arq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+@media (max-width: 600px) { .arq-grid { grid-template-columns: 1fr; } }
+.arq-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; transition: all .15s; }
+.arq-card.mejor { border-color: var(--green); background: rgba(52,211,153,.05); }
+.arq-nombre { font-family: var(--mono); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text); margin-bottom: 4px; }
+.arq-coste { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+.arq-desc { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+.arq-warn { font-family: var(--mono); font-size: .63rem; color: var(--orange); margin-top: 5px; display: block; line-height: 1.4; }
+.mejor-badge { font-family: var(--mono); font-size: .65rem; color: var(--green); margin-top: 6px; display: block; }
+
+/* ── GPU scaling info ────────────────────────────────── */
+.gpu-scaling { background: rgba(167,139,250,.08); border: 1px solid rgba(167,139,250,.25); border-radius: 8px; padding: 12px 16px; margin-top: 10px; font-size: .83rem; line-height: 1.65; display: none; }
+.gpu-scaling strong { color: var(--violet); display: block; font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+
+/* ── TCO panel ───────────────────────────────────────── */
+.tco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+@media (max-width: 600px) { .tco-grid { grid-template-columns: 1fr; } }
+.tco-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; background: var(--surface2); }
+.tco-year { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 6px; }
+.tco-total { font-family: var(--mono); font-size: 1.25rem; font-weight: 700; color: var(--accent2); margin-bottom: 8px; }
+.tco-breakdown { font-family: var(--mono); font-size: .66rem; color: var(--muted); line-height: 1.8; }
+.tco-options { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.tco-check { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: .72rem; color: var(--muted); cursor: pointer; user-select: none; }
+.tco-check input { accent-color: var(--accent); cursor: pointer; }
+.tco-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.tco-input-row label { font-family: var(--mono); font-size: .7rem; color: var(--muted); white-space: nowrap; }
+.tco-input-row input[type=number] { width: 110px; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); padding: 5px 8px; border-radius: 6px; font-family: var(--mono); font-size: .78rem; outline: none; }
+.tco-input-row input[type=number]:focus { border-color: var(--accent); }
+
+/* ── Recomendación ───────────────────────────────────── */
+.recomendacion { border-radius: 8px; padding: 16px 18px; margin-bottom: 16px; border: 1px solid; }
 .rec-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .rec-icon { font-size: 1.1rem; }
 .rec-titulo { font-family: var(--mono); font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
 .rec-body { font-size: .85rem; line-height: 1.65; }
 
-/* Arquitecturas */
-.arq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-@media (max-width: 600px) { .arq-grid { grid-template-columns: 1fr; } }
-.arq-card {
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 14px 16px; cursor: pointer; transition: all .15s;
-}
-.arq-card:hover { border-color: var(--accent); }
-.arq-card.mejor { border-color: var(--green); background: rgba(52,211,153,.05); }
-.arq-card .arq-nombre { font-family: var(--mono); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text); margin-bottom: 4px; }
-.arq-card .arq-coste { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-.arq-card .arq-desc { font-size: .75rem; color: var(--muted); line-height: 1.5; }
-.arq-card .mejor-badge { font-family: var(--mono); font-size: .65rem; color: var(--green); margin-top: 6px; display: block; }
+.nota-precios { font-family: var(--mono); font-size: .68rem; color: var(--muted); padding: 10px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; line-height: 1.7; }
 
-/* Nota de precios */
-.nota-precios {
-  font-family: var(--mono); font-size: .68rem; color: var(--muted);
-  padding: 10px 14px; background: var(--surface2);
-  border: 1px solid var(--border); border-radius: 6px; margin-bottom: 16px;
-  line-height: 1.7;
-}
-
-
-/* Advanced mode toggle */
-.adv-toggle-row {
-  display: flex; align-items: center; gap: 8px; margin-top: 16px;
-  padding-top: 16px; border-top: 1px solid var(--border);
-  cursor: pointer; user-select: none;
-}
-.adv-toggle-row label {
-  font-family: var(--mono); font-size: .72rem; text-transform: uppercase;
-  letter-spacing: .08em; color: var(--accent2); cursor: pointer;
-  margin-bottom: 0;
-}
-.adv-section {
-  display: none; margin-top: 4px;
-  padding: 14px; background: rgba(99,102,241,.05);
-  border: 1px solid rgba(99,102,241,.2); border-radius: 8px;
-}
-.adv-section.visible { display: block; }
-
-/* Number input */
-.field input[type=number] {
-  width: 100%; background: var(--surface2); border: 1px solid var(--border2);
-  color: var(--text); padding: 7px 10px; border-radius: 6px;
-  font-family: var(--mono); font-size: .82rem; outline: none;
-}
-.field input[type=number]:focus { border-color: var(--accent); }
-
-/* Warning inline */
-.warn-inline {
-  font-family: var(--mono); font-size: .67rem; color: var(--orange);
-  line-height: 1.6; margin-top: 6px; padding: 6px 10px;
-  background: rgba(251,146,60,.07); border-left: 2px solid var(--orange);
-  border-radius: 0 4px 4px 0;
-}
-
-/* BD vectorial cost chip in desglose */
-.desglose-item.extra { border-color: rgba(99,102,241,.3); }
-
-/* Judge toggle */
-.judge-row {
-  display: flex; align-items: center; gap: 8px; margin-top: 8px;
-  font-family: var(--mono); font-size: .72rem; color: var(--muted);
-  cursor: pointer; user-select: none;
-}
-.judge-row input { accent-color: var(--accent); cursor: pointer; }
-
-/* Arquitectura warning badge */
-.arq-warn {
-  font-family: var(--mono); font-size: .63rem; color: var(--orange);
-  margin-top: 5px; display: block; line-height: 1.4;
-}
-
-/* Toggle */
-.toggle-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.toggle-btn {
-  font-family: var(--mono); font-size: .7rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: .06em;
-  padding: 5px 12px; border-radius: 4px; cursor: pointer;
-  border: 1px solid var(--border); background: transparent;
-  color: var(--muted); transition: all .15s;
-}
-.toggle-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-
-/* Annual toggle */
-.annual-toggle {
-  display: flex; align-items: center; gap: 8px;
-  font-family: var(--mono); font-size: .72rem; color: var(--muted);
-  cursor: pointer; user-select: none;
-}
-.annual-toggle input { accent-color: var(--accent); cursor: pointer; }
+/* ── Tooltip ─────────────────────────────────────────── */
+.tooltip-wrap { position: relative; display: inline-block; }
+.tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: rgba(129,140,248,.2); color: var(--accent2); font-size: .68rem; cursor: help; margin-left: 6px; font-family: var(--mono); font-weight: 700; }
+.tooltip-box { display: none; position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(100% + 6px); width: 280px; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-family: var(--sans); font-size: .78rem; color: var(--text); line-height: 1.5; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+.tooltip-wrap:hover .tooltip-box { display: block; }
 </style>
 </head>
 <body>
@@ -310,19 +210,29 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
 
 <header>
   <span class="header-tag">Comprender la IA · Herramienta de decisión</span>
-  <h1>Calculador de costes RAG <span style="font-family:var(--mono);font-size:.7rem;font-weight:400;color:var(--accent2);vertical-align:middle;margin-left:8px;">v2</span></h1>
-  <p>Estima el coste mensual de tu sistema RAG antes de comprometerte con una arquitectura. Responde la pregunta real del manager: ¿cuánto nos cuesta al mes?</p>
+  <h1>Calculador de costes RAG <span style="font-family:var(--mono);font-size:.7rem;font-weight:400;color:var(--accent2);vertical-align:middle;margin-left:8px;"></span></h1>
+  <p>Estima el coste real de tu sistema RAG antes de comprometerte con una arquitectura. Incluye escalado GPU, fine-tuning por tokens, TCO a 3 años y conversión USD/EUR.</p>
   <div class="header-meta">
-    <span>Precios API actualizados 2026</span>
-    <span>Embeddings + LLM + reindexación</span>
-    <span>Modo local incluido</span>
-    <span>BD vectorial · LLM-as-judge · Top-K/chunk</span>
+    <span>Precios API 2026</span>
+    <span>Escalado GPU real</span>
+    <span>Fine-tuning por tokens</span>
+    <span>TCO 1–3 años</span>
+    <span>USD / EUR</span>
+  </div>
+  <div class="header-toolbar">
+    <div class="currency-toggle">
+      <button class="currency-btn active" id="btn-usd" onclick="setCurrency('USD',this)">USD $</button>
+      <button class="currency-btn" id="btn-eur" onclick="setCurrency('EUR',this)">EUR €</button>
+    </div>
+    <span class="fx-label">Tipo de cambio USD→EUR:</span>
+    <input class="fx-input" type="number" id="fx-rate" value="0.92" min="0.5" max="1.5" step="0.01" onchange="calcular()">
+    <span style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Actualiza si los precios cambian.</span>
   </div>
 </header>
 
 <div class="grid">
 
-  <!-- Panel izquierdo: inputs -->
+  <!-- ══ Panel izquierdo ══ -->
   <div>
     <div class="panel">
       <div class="panel-header">
@@ -336,8 +246,7 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
         <div class="field">
           <label>Consultas por mes <span class="hint">queries de usuarios</span></label>
           <div class="range-row">
-            <input type="range" id="queries" min="100" max="500000" step="100" value="10000"
-                   oninput="calcular()">
+            <input type="range" id="queries" min="100" max="1000000" step="100" value="10000" oninput="debouncedCalc()">
             <span class="range-val" id="queries-val">10.000</span>
           </div>
         </div>
@@ -345,8 +254,7 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
         <div class="field">
           <label>Tokens por consulta (input) <span class="hint">pregunta + contexto RAG</span></label>
           <div class="range-row">
-            <input type="range" id="tokens-in" min="500" max="8000" step="100" value="2000"
-                   oninput="calcular()">
+            <input type="range" id="tokens-in" min="500" max="16000" step="100" value="2000" oninput="debouncedCalc()">
             <span class="range-val" id="tokens-in-val">2.000</span>
           </div>
         </div>
@@ -354,8 +262,7 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
         <div class="field">
           <label>Tokens por respuesta (output)</label>
           <div class="range-row">
-            <input type="range" id="tokens-out" min="100" max="2000" step="50" value="400"
-                   oninput="calcular()">
+            <input type="range" id="tokens-out" min="100" max="4000" step="50" value="400" oninput="debouncedCalc()">
             <span class="range-val" id="tokens-out-val">400</span>
           </div>
         </div>
@@ -363,10 +270,9 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
         <div class="section-divider">// Corpus y reindexación</div>
 
         <div class="field">
-          <label>Documentos en el corpus <span class="hint">nº de docs</span></label>
+          <label>Documentos en el corpus</label>
           <div class="range-row">
-            <input type="range" id="docs" min="10" max="100000" step="10" value="1000"
-                   oninput="calcular()">
+            <input type="range" id="docs" min="10" max="500000" step="10" value="1000" oninput="debouncedCalc()">
             <span class="range-val" id="docs-val">1.000</span>
           </div>
         </div>
@@ -374,17 +280,15 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
         <div class="field">
           <label>Tokens por documento <span class="hint">media por doc</span></label>
           <div class="range-row">
-            <input type="range" id="tokens-doc" min="200" max="5000" step="100" value="800"
-                   oninput="calcular()">
+            <input type="range" id="tokens-doc" min="200" max="8000" step="100" value="800" oninput="debouncedCalc()">
             <span class="range-val" id="tokens-doc-val">800</span>
           </div>
         </div>
 
         <div class="field">
-          <label>Reindexaciones por mes <span class="hint">actualizaciones del corpus</span></label>
+          <label>Reindexaciones por mes</label>
           <div class="range-row">
-            <input type="range" id="reindex" min="0" max="30" step="1" value="4"
-                   oninput="calcular()">
+            <input type="range" id="reindex" min="0" max="30" step="1" value="4" oninput="debouncedCalc()">
             <span class="range-val" id="reindex-val">4</span>
           </div>
         </div>
@@ -396,7 +300,7 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
           <select id="embed-model" onchange="calcular()">
             <option value="0.02"  data-name="text-embedding-3-small (OpenAI)" selected>text-embedding-3-small · $0.02/1M</option>
             <option value="0.13"  data-name="text-embedding-3-large (OpenAI)">text-embedding-3-large · $0.13/1M</option>
-            <option value="0.10"  data-name="Cohere embed-v3 (multilingual)">Cohere embed-v3 multilingual · $0.10/1M</option>
+            <option value="0.10"  data-name="Cohere embed-v3 multilingual">Cohere embed-v3 multilingual · $0.10/1M</option>
             <option value="0"     data-name="nomic-embed / BGE-M3 (local)">nomic-embed / BGE-M3 — Local (gratis)</option>
           </select>
         </div>
@@ -410,13 +314,20 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
             <option value="3.00|15.00" data-name="Claude 3.7 Sonnet">Claude 3.7 Sonnet · $3/$15 por 1M</option>
             <option value="0.075|0.30" data-name="Gemini 1.5 Flash">Gemini 1.5 Flash · $0.075/$0.30 por 1M</option>
             <option value="1.25|5.00"  data-name="Gemini 1.5 Pro">Gemini 1.5 Pro · $1.25/$5 por 1M</option>
-            <option value="0|0"        data-name="Llama 3 / Mistral (local)">Llama 3 / Mistral — Local (gratis*)</option>
+            <option value="0|0"        data-name="Llama 3 / Mistral (local)">Llama 3 / Mistral — Local (GPU propia)*</option>
           </select>
         </div>
 
+        <!-- Talent warning — shown when local -->
+        <div class="talent-warn" id="talent-warn">
+          <strong>⚠ Coste de talento humano — no incluido en el cálculo</strong>
+          Los modelos locales eliminan el coste de API pero añaden complejidad operativa real:
+          un ingeniero de MLOps dedicado cuesta ~80–120k €/año. Valora si el ahorro en tokens
+          compensa el equipo que necesitas para operar, monitorizar y actualizar la infraestructura.
+          Esta calculadora no incluye el coste de personal. Consúltalo con tu responsable de presupuesto.
+        </div>
 
-        <!-- BD vectorial -->
-        <div class="field">
+        <div class="field" style="margin-top:12px;">
           <label>Base de datos vectorial</label>
           <select id="bd-vectorial" onchange="calcular()">
             <option value="0"   data-name="Local (pgvector/FAISS/Chroma)" selected>Local — pgvector / FAISS / Chroma (gratis)</option>
@@ -427,10 +338,14 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
           </select>
         </div>
 
-        <!-- LLM-as-judge toggle -->
+        <!-- LLM-as-judge -->
         <label class="judge-row">
           <input type="checkbox" id="llm-judge" onchange="calcular()">
-          Incluir validación con LLM-as-judge <span style="color:var(--accent2);margin-left:4px;">(×1.6 coste LLM)</span>
+          Incluir validación LLM-as-judge
+          <span class="tooltip-wrap">
+            <span class="tooltip-icon">?</span>
+            <span class="tooltip-box">Simula una llamada adicional a un modelo de validación por cada respuesta generada. El factor por defecto es ×1.6 (llamada de tamaño similar). Ajústalo en modo avanzado si tu prompt de evaluación es más pequeño o más grande.</span>
+          </span>
         </label>
 
         <!-- Advanced toggle -->
@@ -440,12 +355,12 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
         </div>
         <div class="adv-section" id="adv-section">
 
-          <div class="section-divider" style="margin-top:0;">// Parámetros de retrieval</div>
+          <div class="section-divider" style="margin-top:0;">// Retrieval</div>
 
           <div class="field">
             <label>Top-K <span class="hint">fragmentos recuperados por query</span></label>
             <div class="range-row">
-              <input type="range" id="top-k" min="1" max="20" step="1" value="5" oninput="calcular()">
+              <input type="range" id="top-k" min="1" max="20" step="1" value="5" oninput="debouncedCalc()">
               <span class="range-val" id="top-k-val">5</span>
             </div>
           </div>
@@ -453,45 +368,115 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
           <div class="field">
             <label>Tamaño de chunk <span class="hint">tokens por fragmento</span></label>
             <div class="range-row">
-              <input type="range" id="chunk-size" min="128" max="2048" step="64" value="512" oninput="calcular()">
+              <input type="range" id="chunk-size" min="128" max="2048" step="64" value="512" oninput="debouncedCalc()">
               <span class="range-val" id="chunk-size-val">512</span>
             </div>
           </div>
-          <div class="warn-inline" id="tokens-in-auto-note">
-            ℹ tokens input calculados automáticamente: chunk × top-K + 200 (query + instrucción) = <span id="tokens-in-auto">2.700</span>
+          <div class="info-inline" id="tokens-in-auto-note" style="display:none;">
+            ℹ tokens input = chunk × top-K + 200 = <span id="tokens-in-auto">2.700</span>
+          </div>
+
+          <div class="section-divider">// Factor LLM-as-judge</div>
+
+          <div class="field">
+            <label>Factor de coste judge
+              <span class="tooltip-wrap">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-box">1.0 = sin validación. 1.6 = llamada de validación de tamaño similar. 2.0 = validación con modelo equivalente al generador. Ajusta según el tamaño de tu prompt de evaluación.</span>
+              </span>
+            </label>
+            <div class="range-row">
+              <input type="range" id="judge-factor" min="1.0" max="2.0" step="0.1" value="1.6" oninput="debouncedCalc()">
+              <span class="range-val" id="judge-factor-val">×1.6</span>
+            </div>
           </div>
 
           <div class="section-divider">// Fine-tuning (para comparativa)</div>
 
           <div class="field">
-            <label>Coste estimado fine-tuning <span class="hint">total, en €</span></label>
-            <input type="number" id="ft-cost" value="500" min="0" step="10" onchange="calcular()" style="margin-bottom:4px;">
-            <div class="warn-inline">
-              ⚠ Estimación muy gruesa. El coste real depende del volumen de datos, modelo base y frecuencia de reentrenamiento. GPT-4o-mini con 10k ejemplos: ~$30. GPT-4o mismo volumen: ~$250. Modelos 70B en infra propia: miles de dólares. Consulta los precios de tu proveedor antes de decidir.
+            <label>Modelo base para fine-tuning</label>
+            <select id="ft-model" onchange="calcular()">
+              <option value="3.00"  data-label="GPT-4o-mini FT ($3/1M tok)" selected>GPT-4o-mini fine-tuning · $3/1M tokens</option>
+              <option value="25.00" data-label="GPT-4o FT ($25/1M tok)">GPT-4o fine-tuning · $25/1M tokens</option>
+              <option value="8.00"  data-label="Claude Haiku FT ($8/1M tok)">Claude 3.5 Haiku fine-tuning · $8/1M tokens</option>
+              <option value="2.00"  data-label="Llama 3 local FT ($2/1M tok est.)">Llama 3 local fine-tuning · ~$2/1M tokens est.</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Tokens de entrenamiento <span class="hint">millones de tokens</span></label>
+            <div class="range-row">
+              <input type="range" id="ft-tokens" min="0.1" max="50" step="0.1" value="1" oninput="debouncedCalc()">
+              <span class="range-val" id="ft-tokens-val">1M tok</span>
             </div>
           </div>
 
           <div class="field">
+            <label>Épocas de entrenamiento</label>
+            <div class="range-row">
+              <input type="range" id="ft-epochs" min="1" max="10" step="1" value="3" oninput="debouncedCalc()">
+              <span class="range-val" id="ft-epochs-val">3</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Factor de riesgo
+              <span class="tooltip-wrap">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-box">Multiplica el coste de entrenamiento para contemplar intentos fallidos, ajustes de hiperparámetros y datos de validación. ×2 es un valor conservador habitual en producción real.</span>
+              </span>
+            </label>
+            <div class="range-row">
+              <input type="range" id="ft-risk" min="1" max="4" step="0.5" value="2" oninput="debouncedCalc()">
+              <span class="range-val" id="ft-risk-val">×2</span>
+            </div>
+          </div>
+
+          <div class="info-inline" id="ft-coste-calculado">
+            Coste FT estimado: <strong id="ft-coste-val">—</strong>
+          </div>
+
+          <div class="field" style="margin-top:10px;">
             <label>Amortización fine-tuning <span class="hint">meses</span></label>
             <div class="range-row">
-              <input type="range" id="ft-months" min="1" max="24" step="1" value="3" oninput="calcular()">
+              <input type="range" id="ft-months" min="1" max="24" step="1" value="3" oninput="debouncedCalc()">
               <span class="range-val" id="ft-months-val">3 meses</span>
             </div>
           </div>
 
-          <div class="section-divider">// Modelo local (GPU)</div>
+          <div class="section-divider">// GPU local</div>
 
           <div class="field">
-            <label>Coste infraestructura GPU/mes <span class="hint">€ — solo si usas modelo local</span></label>
-            <input type="number" id="gpu-cost" value="100" min="0" step="10" onchange="calcular()">
-            <div class="warn-inline" id="gpu-warn" style="display:none;">
-              ⚠ Tienes seleccionado un modelo local. Este coste de GPU se suma al total automáticamente.
+            <label>Concurrencia esperada <span class="hint">queries simultáneas pico</span></label>
+            <div class="range-row">
+              <input type="range" id="concurrency" min="1" max="200" step="1" value="10" oninput="debouncedCalc()">
+              <span class="range-val" id="concurrency-val">10</span>
             </div>
           </div>
 
-          <div class="section-divider">// Ventana de contexto (para Ctx. largo)</div>
           <div class="field">
-            <label>Ventana de contexto del modelo <span class="hint">tokens máx.</span></label>
+            <label>Tipo de GPU
+              <span class="tooltip-wrap">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-box">A10G (~$1/h): buena para modelos 7B–13B, ~10–15 consultas concurrentes. A100 40GB (~$3/h): modelos hasta 70B, ~25–40 concurrentes. H100 (~$8/h): modelos grandes, alta concurrencia.</span>
+              </span>
+            </label>
+            <select id="gpu-type" onchange="calcular()">
+              <option value="1|10"  data-name="A10G">NVIDIA A10G · ~$1/h · hasta ~10 concurrent.</option>
+              <option value="3|30"  data-name="A100 40GB" selected>NVIDIA A100 40GB · ~$3/h · hasta ~30 concurrent.</option>
+              <option value="8|60"  data-name="H100">NVIDIA H100 · ~$8/h · hasta ~60 concurrent.</option>
+            </select>
+          </div>
+
+          <!-- GPU scaling info — shown when local -->
+          <div class="gpu-scaling" id="gpu-scaling">
+            <strong>📊 Escalado de infraestructura calculado</strong>
+            <span id="gpu-scaling-text">—</span>
+          </div>
+
+          <div class="section-divider">// Ventana de contexto</div>
+          <div class="field">
+            <label>Ventana de contexto del modelo</label>
             <select id="ctx-window" onchange="calcular()">
               <option value="32000">32K tokens (GPT-4o-mini, modelos base)</option>
               <option value="128000" selected>128K tokens (GPT-4o, Claude 3.x, Gemini Flash)</option>
@@ -502,7 +487,7 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
 
         </div>
 
-        <div style="margin-top:20px;">
+        <div style="margin-top:16px;">
           <label class="annual-toggle">
             <input type="checkbox" id="anual" onchange="calcular()">
             Mostrar también coste anual
@@ -513,10 +498,9 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
     </div>
   </div>
 
-  <!-- Panel derecho: resultados -->
+  <!-- ══ Panel derecho ══ -->
   <div>
 
-    <!-- Coste total -->
     <div class="result-hero">
       <div class="result-hero-label">// Coste total estimado</div>
       <div class="result-hero-amount" id="total-mes">—</div>
@@ -524,57 +508,79 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
     </div>
 
     <!-- Desglose -->
-    <div class="panel" style="margin-bottom:20px;">
+    <div class="panel">
       <div class="panel-header">
         <div class="panel-dot" style="background:var(--green);box-shadow:0 0 8px var(--green);"></div>
         <h2>Desglose por componente</h2>
       </div>
       <div class="panel-body">
-        <div class="desglose" id="desglose">
-          <!-- JS rellena aquí -->
-        </div>
+        <div class="desglose" id="desglose"></div>
         <div class="nota-precios">
-          * LLM local: coste de infraestructura no incluido (~$50–300/mes GPU cloud).<br>
-          * Precios de API aproximados a fecha 2026. Verifica precios actuales antes de presupuestar.<br>
+          * APIs facturan en USD. Conversión aplicada al tipo de cambio configurado arriba.<br>
+          * Precios orientativos 2026. Verifica con el proveedor antes de presupuestar.<br>
           * 1 token ≈ 0.75 palabras en inglés / 0.6 palabras en español.
         </div>
       </div>
     </div>
 
-    <!-- Comparativa de modelos LLM -->
-    <div class="panel" style="margin-bottom:20px;">
+    <!-- Comparativa modelos -->
+    <div class="panel">
       <div class="panel-header">
         <div class="panel-dot" style="background:var(--yellow);box-shadow:0 0 8px var(--yellow);"></div>
         <h2>Comparativa de modelos LLM</h2>
       </div>
       <div class="panel-body">
-        <div class="toggle-row" id="periodo-toggle">
+        <div class="toggle-row">
           <button class="toggle-btn active" onclick="setPeriodo('mes',this)">/ mes</button>
           <button class="toggle-btn" onclick="setPeriodo('ano',this)">/ año</button>
         </div>
         <table class="modelos-tabla">
-          <thead>
-            <tr>
-              <th>Modelo</th>
-              <th>Coste LLM</th>
-              <th>Coste total</th>
-              <th>Nivel</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Modelo</th><th>Ratio inp/out</th><th>Coste LLM</th><th>Coste total</th><th>Nivel</th></tr></thead>
           <tbody id="tabla-modelos"></tbody>
         </table>
       </div>
     </div>
 
     <!-- Comparativa arquitecturas -->
-    <div class="panel" style="margin-bottom:20px;">
+    <div class="panel">
       <div class="panel-header">
         <div class="panel-dot" style="background:var(--orange);box-shadow:0 0 8px var(--orange);"></div>
         <h2>RAG vs. Fine-tuning vs. Contexto largo</h2>
       </div>
       <div class="panel-body">
-        <div class="arq-grid" id="arq-grid">
-          <!-- JS rellena aquí -->
+        <div class="arq-grid" id="arq-grid"></div>
+      </div>
+    </div>
+
+    <!-- TCO -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-dot" style="background:var(--violet);box-shadow:0 0 8px var(--violet);"></div>
+        <h2>Coste total de propiedad (TCO)</h2>
+      </div>
+      <div class="panel-body">
+        <div class="tco-options">
+          <label class="tco-check">
+            <input type="checkbox" id="tco-personal" onchange="calcular()">
+            Incluir coste de personal
+          </label>
+          <label class="tco-check">
+            <input type="checkbox" id="tco-datos" onchange="calcular()">
+            Incluir preparación de datos (FT)
+          </label>
+        </div>
+        <div class="tco-input-row" id="tco-personal-row" style="display:none;">
+          <label>Coste equipo/año (€):</label>
+          <input type="number" id="tco-personal-cost" value="80000" min="0" step="5000" onchange="calcular()">
+          <span style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">p.ej. 1 MLOps engineer = ~80–120k€</span>
+        </div>
+        <div class="tco-input-row" id="tco-datos-row" style="display:none;">
+          <label>Preparación datos (€, único):</label>
+          <input type="number" id="tco-datos-cost" value="5000" min="0" step="500" onchange="calcular()">
+        </div>
+        <div class="tco-grid" id="tco-grid"></div>
+        <div class="nota-precios" style="margin-top:0;">
+          TCO = costes API + BD vectorial + GPU + personal (si activado) + datos (si FT activo). No incluye contingencias.
         </div>
       </div>
     </div>
@@ -587,277 +593,362 @@ header p { color: var(--muted); font-size: .9rem; max-width: 560px; }
 </div>
 
 <script>
-// ── Datos de modelos ───────────────────────────────────────────────
-
+// ── Modelos ────────────────────────────────────────────────────────
 const MODELOS_LLM = [
-  { id:"gpt4o-mini",   nombre:"GPT-4o-mini",          inp:0.15,   out:0.60,   nivel:"eco" },
-  { id:"gpt4o",        nombre:"GPT-4o",                inp:2.50,   out:10.00,  nivel:"pro" },
-  { id:"haiku",        nombre:"Claude 3.5 Haiku",      inp:0.80,   out:4.00,   nivel:"eco" },
-  { id:"sonnet",       nombre:"Claude 3.7 Sonnet",     inp:3.00,   out:15.00,  nivel:"pro" },
-  { id:"gemini-flash", nombre:"Gemini 1.5 Flash",      inp:0.075,  out:0.30,   nivel:"eco" },
-  { id:"gemini-pro",   nombre:"Gemini 1.5 Pro",        inp:1.25,   out:5.00,   nivel:"pro" },
-  { id:"local",        nombre:"Llama 3 / Mistral (local)", inp:0, out:0,       nivel:"local" },
+  { id:"gpt4o-mini",   nombre:"GPT-4o-mini",              inp:0.15,  out:0.60  },
+  { id:"gpt4o",        nombre:"GPT-4o",                    inp:2.50,  out:10.00 },
+  { id:"haiku",        nombre:"Claude 3.5 Haiku",          inp:0.80,  out:4.00  },
+  { id:"sonnet",       nombre:"Claude 3.7 Sonnet",         inp:3.00,  out:15.00 },
+  { id:"gemini-flash", nombre:"Gemini 1.5 Flash",          inp:0.075, out:0.30  },
+  { id:"gemini-pro",   nombre:"Gemini 1.5 Pro",            inp:1.25,  out:5.00  },
+  { id:"local",        nombre:"Llama 3 / Mistral (local)", inp:0,     out:0     },
 ];
 
-// Modelo de embedding seleccionado
 let embedPrice = 0.02;
 let llmInp = 0.15, llmOut = 0.60;
-let periodo = "mes";   // "mes" | "ano"
+let periodo = "mes";
+let currency = "USD";
+let debounceTimer = null;
 
-// ── Parsear parámetros ─────────────────────────────────────────────
+// ── Debounce ───────────────────────────────────────────────────────
+function debouncedCalc() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => requestAnimationFrame(calcular), 80);
+}
 
+// ── Currency ───────────────────────────────────────────────────────
+function setCurrency(c, btn) {
+  currency = c;
+  document.querySelectorAll(".currency-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  calcular();
+}
+
+function fx() {
+  if (currency === "EUR") return +document.getElementById("fx-rate").value || 0.92;
+  return 1;
+}
+
+function sym() { return currency === "EUR" ? "€" : "$"; }
+
+function fmtMoney(v) {
+  const s = sym();
+  const vv = v * fx();
+  if (vv >= 10000) return s + Math.round(vv).toLocaleString("es-ES");
+  if (vv >= 100)   return s + vv.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  if (vv >= 1)     return s + vv.toFixed(2);
+  if (vv >= 0.01)  return s + vv.toFixed(3);
+  return `< ${s}0.01`;
+}
+
+// ── Params ─────────────────────────────────────────────────────────
 function params() {
-  const topK     = +document.getElementById("top-k").value;
-  const chunkSz  = +document.getElementById("chunk-size").value;
-  const advOpen  = document.getElementById("adv-section").classList.contains("visible");
-  // If advanced mode: compute tokensIn from chunk*topK+200, else use slider
+  const topK    = +document.getElementById("top-k").value;
+  const chunkSz = +document.getElementById("chunk-size").value;
+  const advOpen = document.getElementById("adv-section").classList.contains("visible");
   const tokensInAuto = chunkSz * topK + 200;
+
+  const gpuVal  = document.getElementById("gpu-type").value.split("|");
+  const ftModelEl = document.getElementById("ft-model");
+  const ftModelPrice = +ftModelEl.value;
+
   return {
-    queries:    +document.getElementById("queries").value,
-    tokensIn:   advOpen ? tokensInAuto : +document.getElementById("tokens-in").value,
-    tokensOut:  +document.getElementById("tokens-out").value,
-    docs:       +document.getElementById("docs").value,
-    tokensDoc:  +document.getElementById("tokens-doc").value,
-    reindex:    +document.getElementById("reindex").value,
-    anual:      document.getElementById("anual").checked,
-    bdCost:     +document.getElementById("bd-vectorial").value,
-    judge:      document.getElementById("llm-judge").checked,
-    ftCost:     +document.getElementById("ft-cost").value,
-    ftMonths:   +document.getElementById("ft-months").value,
-    gpuCost:    +document.getElementById("gpu-cost").value,
-    ctxWindow:  +document.getElementById("ctx-window").value,
-    topK,
-    chunkSz,
-    advOpen,
-    tokensInAuto,
+    queries:     +document.getElementById("queries").value,
+    tokensIn:    advOpen ? tokensInAuto : +document.getElementById("tokens-in").value,
+    tokensOut:   +document.getElementById("tokens-out").value,
+    docs:        +document.getElementById("docs").value,
+    tokensDoc:   +document.getElementById("tokens-doc").value,
+    reindex:     +document.getElementById("reindex").value,
+    anual:       document.getElementById("anual").checked,
+    bdCost:      +document.getElementById("bd-vectorial").value,
+    judge:       document.getElementById("llm-judge").checked,
+    judgeFactor: +document.getElementById("judge-factor").value,
+    ftModelPrice,
+    ftTokensM:   +document.getElementById("ft-tokens").value,
+    ftEpochs:    +document.getElementById("ft-epochs").value,
+    ftRisk:      +document.getElementById("ft-risk").value,
+    ftMonths:    +document.getElementById("ft-months").value,
+    concurrency: +document.getElementById("concurrency").value,
+    gpuHourCost: +gpuVal[0],
+    gpuMaxConc:  +gpuVal[1],
+    ctxWindow:   +document.getElementById("ctx-window").value,
+    topK, chunkSz, advOpen, tokensInAuto,
+    tcoPersonal:    document.getElementById("tco-personal").checked,
+    tcoDatos:       document.getElementById("tco-datos").checked,
+    tcoPersonalCost: +document.getElementById("tco-personal-cost").value,
+    tcoDatosCost:   +document.getElementById("tco-datos-cost").value,
   };
 }
 
-// ── Cálculos ───────────────────────────────────────────────────────
-
+// ── Core calculation ───────────────────────────────────────────────
 function calcularComponentes(p, iEmbed, iInp, iOut) {
-  // Coste embeddings queries (mensual)
-  const embQ = (p.queries * p.tokensIn / 1_000_000) * iEmbed;
-  // Coste embeddings reindexación (mensual)
+  const embQ = (p.queries * p.tokensIn  / 1_000_000) * iEmbed;
   const embR = (p.reindex * p.docs * p.tokensDoc / 1_000_000) * iEmbed;
-  // Coste LLM input (mensual) — ×1.6 si LLM-as-judge activo
-  const judgeMultiplier = (p && p.judge) ? 1.6 : 1.0;
-  const llmI = (p.queries * p.tokensIn / 1_000_000) * iInp * judgeMultiplier;
-  // Coste LLM output (mensual)
-  const llmO = (p.queries * p.tokensOut / 1_000_000) * iOut * judgeMultiplier;
-
-  const total = embQ + embR + llmI + llmO;
-  return { embQ, embR, llmI, llmO, total };
+  const jm   = (p.judge && p.judgeFactor) ? p.judgeFactor : 1.0;
+  const llmI = (p.queries * p.tokensIn  / 1_000_000) * iInp * jm;
+  const llmO = (p.queries * p.tokensOut / 1_000_000) * iOut * jm;
+  return { embQ, embR, llmI, llmO, total: embQ + embR + llmI + llmO };
 }
 
-function fmtEur(v, decimals=2) {
-  if (v >= 10000) return "€" + Math.round(v).toLocaleString("es-ES");
-  if (v >= 100)   return "€" + v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  if (v >= 1)     return "€" + v.toFixed(2);
-  if (v >= 0.01)  return "€" + v.toFixed(3);
-  return "< €0.01";
+function calcGPU(p) {
+  // Instances needed = ceil(concurrency / gpuMaxConc)
+  const instances = Math.ceil(p.concurrency / p.gpuMaxConc);
+  const hoursPerMonth = instances * 730; // 730h = avg month
+  return { instances, costPerMonth: hoursPerMonth * p.gpuHourCost };
 }
 
-function nivelChip(coste) {
-  if (coste === 0)     return '<span class="cost-chip chip-green">local</span>';
-  if (coste < 10)      return '<span class="cost-chip chip-green">económico</span>';
-  if (coste < 100)     return '<span class="cost-chip chip-yellow">moderado</span>';
-  if (coste < 1000)    return '<span class="cost-chip chip-orange">elevado</span>';
-  return                      '<span class="cost-chip chip-red">alto</span>';
+function calcFT(p) {
+  // tokens × epochs × price/1M × risk factor
+  const rawCost = p.ftTokensM * p.ftEpochs * p.ftModelPrice * p.ftRisk;
+  return rawCost; // in USD
 }
 
-function barColor(pct) {
-  if (pct < 20) return "var(--green)";
-  if (pct < 50) return "var(--yellow)";
-  if (pct < 80) return "var(--orange)";
-  return "var(--red)";
+function nivelChip(v) {
+  if (v === 0)    return '<span class="cost-chip chip-green">local</span>';
+  if (v < 10)     return '<span class="cost-chip chip-green">económico</span>';
+  if (v < 100)    return '<span class="cost-chip chip-yellow">moderado</span>';
+  if (v < 1000)   return '<span class="cost-chip chip-orange">elevado</span>';
+  return                  '<span class="cost-chip chip-red">alto</span>';
 }
 
-// ── Actualizar UI ─────────────────────────────────────────────────
+// ── Safe DOM helpers ───────────────────────────────────────────────
+function setTxt(id, v)  { const e = document.getElementById(id); if (e) e.textContent = v; }
+function setDisp(id, v) { const e = document.getElementById(id); if (e) e.style.display = v; }
+function setHTML(id, v) { const e = document.getElementById(id); if (e) e.innerHTML = v; }
 
+// ── Main calcular ──────────────────────────────────────────────────
 function calcular() {
   const p = params();
 
-  // Modelos seleccionados
   const embedSel = document.getElementById("embed-model");
   embedPrice = +embedSel.value;
   const llmSel = document.getElementById("llm-model");
   const [sInp, sOut] = llmSel.value.split("|");
   llmInp = +sInp; llmOut = +sOut;
-
-  // Labels básicos (siempre en DOM)
-  const fmt = v => v >= 1000 ? (v/1000).toFixed(v >= 100000?0:1)+"K" : v.toString();
-  document.getElementById("queries-val").textContent    = fmt(p.queries);
-  document.getElementById("tokens-in-val").textContent  = p.tokensIn.toLocaleString("es-ES");
-  document.getElementById("tokens-out-val").textContent = p.tokensOut.toLocaleString("es-ES");
-  document.getElementById("docs-val").textContent       = fmt(p.docs);
-  document.getElementById("tokens-doc-val").textContent = p.tokensDoc.toLocaleString("es-ES");
-  document.getElementById("reindex-val").textContent    = p.reindex;
-
-  // Labels modo avanzado — safe update via helper
-  function setTxt(id, val) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  }
-  function setDisplay(id, val) {
-    const el = document.getElementById(id);
-    if (el) el.style.display = val;
-  }
-  setTxt("top-k-val",       p.topK);
-  setTxt("chunk-size-val",  p.chunkSz.toLocaleString("es-ES"));
-  setTxt("ft-months-val",   p.ftMonths + " meses");
-  setTxt("tokens-in-auto",  p.tokensInAuto.toLocaleString("es-ES"));
-  setDisplay("tokens-in-auto-note", p.advOpen ? "block" : "none");
-
-  // isLocal y gpuMes — declarados una sola vez
   const isLocal = (llmInp === 0 && llmOut === 0);
-  const gpuMes  = (isLocal && p.advOpen) ? p.gpuCost : 0;
-  setDisplay("gpu-warn", (p.advOpen && isLocal) ? "block" : "none");
 
-  // Cálculo principal
+  // ── Range labels ──
+  const fmt = v => v >= 1000000 ? (v/1000000).toFixed(1)+"M" : v >= 1000 ? (v/1000).toFixed(v>=100000?0:1)+"K" : v.toString();
+  setTxt("queries-val",    fmt(p.queries));
+  setTxt("tokens-in-val",  p.tokensIn.toLocaleString("es-ES"));
+  setTxt("tokens-out-val", p.tokensOut.toLocaleString("es-ES"));
+  setTxt("docs-val",       fmt(p.docs));
+  setTxt("tokens-doc-val", p.tokensDoc.toLocaleString("es-ES"));
+  setTxt("reindex-val",    p.reindex);
+  setTxt("top-k-val",      p.topK);
+  setTxt("chunk-size-val", p.chunkSz.toLocaleString("es-ES"));
+  setTxt("ft-tokens-val",  p.ftTokensM + "M tok");
+  setTxt("ft-epochs-val",  p.ftEpochs);
+  setTxt("ft-risk-val",    "×" + p.ftRisk);
+  setTxt("ft-months-val",  p.ftMonths + " meses");
+  setTxt("judge-factor-val", "×" + p.judgeFactor.toFixed(1));
+  setTxt("concurrency-val", p.concurrency);
+  setTxt("tokens-in-auto", p.tokensInAuto.toLocaleString("es-ES"));
+  setDisp("tokens-in-auto-note", p.advOpen ? "block" : "none");
+
+  // FT cost preview
+  const ftTotal = calcFT(p);
+  setTxt("ft-coste-val", fmtMoney(ftTotal));
+
+  // GPU scaling
+  const gpu = calcGPU(p);
+  const gpuMonthly = isLocal ? gpu.costPerMonth : 0;
+  setDisp("gpu-scaling", (isLocal && p.advOpen) ? "block" : "none");
+  setDisp("talent-warn", isLocal ? "block" : "none");
+  if (isLocal && p.advOpen) {
+    setTxt("gpu-scaling-text",
+      `${gpu.instances} instancia(s) necesaria(s) para ${p.concurrency} queries concurrentes. ` +
+      `Coste estimado: ${fmtMoney(gpu.costPerMonth)}/mes (${gpu.instances} × 730h × ${sym()}${p.gpuHourCost}/h).`
+    );
+  }
+
+  // ── Core costs ──
   const c = calcularComponentes(p, embedPrice, llmInp, llmOut);
-  const totalMes  = c.total + p.bdCost + gpuMes;
+  const totalMes  = c.total + p.bdCost + gpuMonthly;
   const multP     = (periodo === "ano") ? 12 : 1;
   const totalMult = totalMes * multP;
 
-  // Hero
-  document.getElementById("total-mes").textContent = fmtEur(totalMult);
-  document.getElementById("total-sub").textContent =
-    `por ${periodo === "ano" ? "año" : "mes"} · ${embedSel.options[embedSel.selectedIndex].dataset.name} + ${llmSel.options[llmSel.selectedIndex].dataset.name}`;
+  // ── Hero ──
+  setTxt("total-mes", fmtMoney(totalMult));
+  setTxt("total-sub", `por ${periodo === "ano" ? "año" : "mes"} · ${embedSel.options[embedSel.selectedIndex].dataset.name} + ${llmSel.options[llmSel.selectedIndex].dataset.name}`);
 
-  // Desglose
+  // ── Desglose ──
   const items = [
-    { label: "Embed. queries",      val: c.embQ * multP, color: "#6366f1" },
-    { label: "Embed. reindexación", val: c.embR * multP, color: "#818cf8" },
-    { label: p.judge ? "LLM input (+judge ×1.6)" : "LLM input tokens",
-      val: c.llmI * multP, color: "#34d399" },
-    { label: p.judge ? "LLM output (+judge ×1.6)" : "LLM output tokens",
-      val: c.llmO * multP, color: "#fbbf24" },
-    ...(p.bdCost > 0 ? [{ label: "BD vectorial",    val: p.bdCost * multP, color: "#f472b6", extra: true }] : []),
-    ...(gpuMes   > 0 ? [{ label: "GPU / infra local", val: gpuMes * multP, color: "#a78bfa", extra: true }] : []),
+    { label:"Embed. queries",        val: c.embQ,       color:"#6366f1" },
+    { label:"Embed. reindexación",   val: c.embR,       color:"#818cf8" },
+    { label: p.judge ? `LLM input (judge ×${p.judgeFactor.toFixed(1)})` : "LLM input tokens",
+                                     val: c.llmI,       color:"#34d399" },
+    { label: p.judge ? `LLM output (judge ×${p.judgeFactor.toFixed(1)})` : "LLM output tokens",
+                                     val: c.llmO,       color:"#fbbf24" },
+    ...(p.bdCost > 0 ? [{ label:"BD vectorial",     val: p.bdCost,     color:"#f472b6", extra:true }] : []),
+    ...(gpuMonthly > 0 ? [{ label:`GPU (${gpu.instances} inst.)`, val: gpuMonthly, color:"#a78bfa", extra:true }] : []),
   ];
-  const totalItems = items.reduce((a, i) => a + i.val, 0) || 1;
-
-  document.getElementById("desglose").innerHTML =
+  const tot = items.reduce((a, i) => a + i.val, 0) || 1;
+  setHTML("desglose",
     items.map(item => {
-      const pct = Math.max(2, item.val / totalItems * 100);
+      const pct = Math.max(2, item.val / tot * 100);
       return `<div class="desglose-item${item.extra ? " extra" : ""}">
         <span class="desglose-label">${item.label}</span>
-        <div class="desglose-bar-wrap">
-          <div class="desglose-bar" style="width:${pct}%;background:${item.color};"></div>
-        </div>
-        <span class="desglose-val">${fmtEur(item.val)}</span>
+        <div class="desglose-bar-wrap"><div class="desglose-bar" style="width:${pct}%;background:${item.color};"></div></div>
+        <span class="desglose-val">${fmtMoney(item.val * multP)}</span>
       </div>`;
     }).join("") +
-    (p.judge ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:8px;">⚠ LLM-as-judge activo: coste LLM ×1.6 (llamada de validación secundaria incluida)</div>` : "") +
-    (periodo === "ano" ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:4px;">Coste anual = mensual × 12</div>` : "");
+    (p.judge ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:8px;">⚠ LLM-as-judge activo: factor ×${p.judgeFactor.toFixed(1)} aplicado al coste LLM</div>` : "") +
+    (periodo === "ano" ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:4px;">Coste anual = mensual × 12</div>` : "")
+  );
 
-  // Tabla comparativa de modelos
+  // ── Tabla modelos ──
   const filas = MODELOS_LLM.map(m => {
-    const cv = calcularComponentes(p, embedPrice, m.inp, m.out);
-    const costeTotal = (cv.total + p.bdCost + ((m.inp === 0 && m.out === 0 && p.advOpen) ? p.gpuCost : 0)) * multP;
-    const costeLLM   = (cv.llmI + cv.llmO) * multP;
-    const isSelected = (m.inp === llmInp && m.out === llmOut);
-    return { m, costeTotal, costeLLM, isSelected };
-  }).sort((a, b) => a.costeTotal - b.costeTotal);
+    const isLoc = (m.inp === 0 && m.out === 0);
+    const gpuM  = isLoc ? calcGPU(p).costPerMonth : 0;
+    const cv    = calcularComponentes(p, embedPrice, m.inp, m.out);
+    const ct    = (cv.total + p.bdCost + gpuM) * multP;
+    const cl    = (cv.llmI + cv.llmO) * multP;
+    const ratio = m.out > 0 ? `1:${(m.out/m.inp).toFixed(0)}` : "—";
+    const sel   = (m.inp === llmInp && m.out === llmOut);
+    return `<tr class="${sel ? "selected" : ""}">
+      <td>${sel ? "▶ " : ""}${m.nombre}</td>
+      <td style="color:var(--muted);">${ratio}</td>
+      <td style="font-weight:600;">${fmtMoney(cl)}</td>
+      <td style="font-weight:700;color:var(--accent2);">${fmtMoney(ct)}</td>
+      <td>${nivelChip(ct * fx())}</td>
+    </tr>`;
+  }).sort((a, b) => 0);
 
-  document.getElementById("tabla-modelos").innerHTML = filas.map(({ m, costeTotal, costeLLM, isSelected }) =>
-    `<tr class="${isSelected ? "selected" : ""}">
-      <td>${isSelected ? "▶ " : ""}${m.nombre}</td>
-      <td style="font-weight:600;">${fmtEur(costeLLM)}</td>
-      <td style="font-weight:700;color:var(--accent2);">${fmtEur(costeTotal)}</td>
-      <td>${nivelChip(costeTotal)}</td>
+  // Re-sort by total cost
+  const filasData = MODELOS_LLM.map(m => {
+    const isLoc = (m.inp === 0 && m.out === 0);
+    const gpuM  = isLoc ? calcGPU(p).costPerMonth : 0;
+    const cv    = calcularComponentes(p, embedPrice, m.inp, m.out);
+    const ct    = (cv.total + p.bdCost + gpuM) * multP;
+    const cl    = (cv.llmI + cv.llmO) * multP;
+    const ratio = m.out > 0 ? `1:${(m.out/m.inp).toFixed(0)}` : "local";
+    const sel   = (m.inp === llmInp && m.out === llmOut);
+    return { m, ct, cl, ratio, sel };
+  }).sort((a, b) => a.ct - b.ct);
+
+  setHTML("tabla-modelos", filasData.map(({m, ct, cl, ratio, sel}) =>
+    `<tr class="${sel ? "selected" : ""}">
+      <td>${sel ? "▶ " : ""}${m.nombre}</td>
+      <td style="color:var(--muted);">${ratio}</td>
+      <td style="font-weight:600;">${fmtMoney(cl)}</td>
+      <td style="font-weight:700;color:var(--accent2);">${fmtMoney(ct)}</td>
+      <td>${nivelChip(ct * fx())}</td>
     </tr>`
-  ).join("");
+  ).join(""));
 
-  // Comparativa de arquitecturas
+  // ── Arquitecturas ──
   const costRAG = totalMes;
 
-  const ftInference  = calcularComponentes(p, 0, llmInp * 0.5, llmOut * 0.5);
-  const ftAmortizado = p.ftCost / Math.max(1, p.ftMonths);
-  const costFT       = ftInference.total + ftAmortizado + p.bdCost + gpuMes;
+  const ftAmort  = calcFT(p) / Math.max(1, p.ftMonths);
+  const ftInf    = calcularComponentes(p, 0, llmInp * 0.5, llmOut * 0.5);
+  const costFT   = ftInf.total + ftAmort + p.bdCost + gpuMonthly;
 
-  const corpusTokens = p.docs * p.tokensDoc;
-  const ctxTokensUsed = Math.min(corpusTokens, p.ctxWindow);
-  const costCtx = (p.queries * ctxTokensUsed / 1_000_000) * llmInp
-                + (p.queries * p.tokensOut   / 1_000_000) * llmOut
-                + p.bdCost + gpuMes;
+  const corpusT  = p.docs * p.tokensDoc;
+  const ctxUsed  = Math.min(corpusT, p.ctxWindow);
+  const ctxLimit = ctxUsed < corpusT;
+  const costCtx  = (p.queries * ctxUsed / 1_000_000) * llmInp
+                 + (p.queries * p.tokensOut / 1_000_000) * llmOut
+                 + p.bdCost + gpuMonthly;
 
-  const ctxLimitado = ctxTokensUsed < corpusTokens;
   const arqs = [
     {
-      nombre: "RAG",
-      coste: costRAG,
-      desc: "Chunking + embedding + retrieval + generación. Actualización instantánea.",
+      nombre:"RAG", coste: costRAG,
+      desc:"Chunking + embedding + retrieval + generación. Actualización instantánea del corpus.",
       warn: null,
       mejor: costRAG <= costFT && costRAG <= costCtx
     },
     {
-      nombre: "Fine-tuning",
-      coste: costFT,
-      desc: `Entrenamiento amortizado (${p.ftMonths} meses) + inferencia más eficiente. Datos estáticos.`,
-      warn: "⚠ Coste de entrenamiento estimado por ti. El real puede diferir según modelo y volumen.",
+      nombre:"Fine-tuning", coste: costFT,
+      desc:`Entrenamiento: ${fmtMoney(calcFT(p))} × ×${p.ftRisk} riesgo, amortizado ${p.ftMonths} meses. Inferencia más barata.`,
+      warn:"⚠ Coste calculado sobre tokens × épocas × precio/modelo × factor riesgo. No incluye reentrenamientos si los datos cambian.",
       mejor: costFT < costRAG && costFT <= costCtx
     },
     {
-      nombre: "Ctx. largo",
-      coste: costCtx,
-      desc: ctxLimitado
-        ? `Corpus (${Math.round(corpusTokens/1000)}K tok) excede ventana del modelo (${Math.round(p.ctxWindow/1000)}K). Calculado sobre el límite.`
-        : `Todo el corpus en el prompt (${Math.round(ctxTokensUsed/1000)}K tokens). Sin chunking.`,
-      warn: "⚠ Degradación de precisión (lost in the middle). Sin trazabilidad de fuente.",
+      nombre:"Ctx. largo", coste: costCtx,
+      desc: ctxLimit
+        ? `Corpus ${Math.round(corpusT/1000)}K tok > ventana ${Math.round(p.ctxWindow/1000)}K tok. Calculado sobre el límite real.`
+        : `Corpus completo en el prompt (${Math.round(ctxUsed/1000)}K tokens). Sin chunking ni retrieval.`,
+      warn:"⚠ Degradación de precisión en razonamiento multi-paso (lost in the middle). Sin trazabilidad de fuente.",
       mejor: costCtx < costRAG && costCtx < costFT
     },
   ];
 
-  document.getElementById("arq-grid").innerHTML = arqs.map(a =>
+  setHTML("arq-grid", arqs.map(a =>
     `<div class="arq-card ${a.mejor ? "mejor" : ""}">
       <div class="arq-nombre">${a.nombre}</div>
-      <div class="arq-coste" style="color:${a.mejor ? "var(--green)" : "var(--accent2)"};">${fmtEur(a.coste * multP)}</div>
+      <div class="arq-coste" style="color:${a.mejor ? "var(--green)" : "var(--accent2)"};">${fmtMoney(a.coste * multP)}</div>
       <div class="arq-desc">${a.desc}</div>
       ${a.warn ? `<span class="arq-warn">${a.warn}</span>` : ""}
       ${a.mejor ? '<span class="mejor-badge">★ más económico para esta configuración</span>' : ""}
     </div>`
-  ).join("");
+  ).join(""));
 
-  // Recomendación
-  generarRecomendacion(costRAG * 12, p);
+  // ── TCO ──
+  const personalAno  = p.tcoPersonal ? p.tcoPersonalCost : 0;
+  const datosUnico   = p.tcoDatos    ? p.tcoDatosCost    : 0;
+  const ftTotalCost  = p.tcoDatos    ? calcFT(p)          : 0;
+  setDisp("tco-personal-row", p.tcoPersonal ? "flex" : "none");
+  setDisp("tco-datos-row",    p.tcoDatos    ? "flex" : "none");
+
+  const tcoYears = [1, 2, 3].map(y => {
+    const api    = totalMes * 12 * y;
+    const personal = personalAno * y;
+    const datos  = y === 1 ? (datosUnico + ftTotalCost) : 0; // one-time in year 1
+    const total  = api + personal + datos;
+    return { y, api, personal, datos, total };
+  });
+
+  setHTML("tco-grid", tcoYears.map(t =>
+    `<div class="tco-card">
+      <div class="tco-year">Año ${t.y}</div>
+      <div class="tco-total">${fmtMoney(t.total)}</div>
+      <div class="tco-breakdown">
+        API+infra: ${fmtMoney(t.api)}<br>
+        ${t.personal > 0 ? `Personal: ${fmtMoney(t.personal)}<br>` : ""}
+        ${t.datos > 0    ? `Datos/FT: ${fmtMoney(t.datos)}<br>`    : ""}
+      </div>
+    </div>`
+  ).join(""));
+
+  // ── Recomendación ──
+  generarRecomendacion(costRAG * 12, p, isLocal, gpu);
 }
 
-function generarRecomendacion(costeAnual, p) {
-  let tipo, color, icon, titulo, texto;
+function generarRecomendacion(costeAnual, p, isLocal, gpu) {
+  let tipo, color, borderColor, icon, titulo, texto;
 
-  if (llmInp === 0 && embedPrice === 0) {
-    tipo = "local"; color = "rgba(99,102,241,.15)"; icon = "💻";
+  if (isLocal) {
+    tipo = "local"; color = "rgba(99,102,241,.12)"; borderColor = "var(--accent)"; icon = "💻";
     titulo = "Arquitectura completamente local";
-    texto = `Tu configuración tiene coste de API nulo. Solo necesitas infraestructura de cómputo (GPU propia o instancia cloud: ~$50–300/mes según capacidad). <strong>Ideal para datos confidenciales o presupuesto muy ajustado.</strong> Ojo: la calidad de los modelos locales actuales es inferior a GPT-4o o Claude 3.7 en tareas complejas.`;
-  } else if (costeAnual < 500) {
-    tipo = "eco"; color = "rgba(52,211,153,.1)"; icon = "✅";
+    texto = `Tu configuración tiene coste de API nulo. Necesitas ${gpu.instances} instancia(s) GPU para ${p.concurrency} queries concurrentes — aproximadamente ${fmtMoney(gpu.costPerMonth)}/mes en cómputo. <strong>Recuerda: la operativa local requiere MLOps dedicado (~80–120k€/año).</strong> Ideal para datos muy confidenciales o volúmenes altísimos donde el ahorro en API compensa claramente el equipo.`;
+  } else if (costeAnual * fx() < 500) {
+    tipo = "eco"; color = "rgba(52,211,153,.1)"; borderColor = "var(--green)"; icon = "✅";
     titulo = "Presupuesto muy bajo — viable en MVP y proyectos piloto";
-    texto = `Menos de ${fmtEur(costeAnual)} al año. <strong>No necesitas justificación financiera especial</strong> para arrancar. Usa esta configuración para el piloto y escala si el valor está demostrado. Considera que con ${p.queries.toLocaleString("es-ES")} consultas/mes estás en volumen bajo.`;
-  } else if (costeAnual < 5000) {
-    tipo = "mod"; color = "rgba(251,191,36,.1)"; icon = "⚖️";
+    texto = `Menos de ${fmtMoney(costeAnual)} al año. <strong>No necesitas justificación financiera especial</strong> para arrancar. Usa esta configuración para el piloto y escala si el valor está demostrado.`;
+  } else if (costeAnual * fx() < 5000) {
+    tipo = "mod"; color = "rgba(251,191,36,.1)"; borderColor = "var(--yellow)"; icon = "⚖️";
     titulo = "Presupuesto moderado — justificable con ROI claro";
-    texto = `Entre ${fmtEur(costeAnual/12)}/mes y ${fmtEur(costeAnual)}/año. <strong>Calculadora de ROI recomendada:</strong> si el sistema ahorra 2 horas semanales a 5 personas a €35/h = €18.200/año de productividad recuperada. La inversión se justifica con facilidad. Asegúrate de medir el impacto desde el primer mes.`;
-  } else if (costeAnual < 30000) {
-    tipo = "elev"; color = "rgba(251,146,60,.1)"; icon = "⚠️";
+    texto = `${fmtMoney(costeAnual/12)}/mes · ${fmtMoney(costeAnual)}/año. <strong>Calculadora de ROI:</strong> si el sistema ahorra 2 horas semanales a 5 personas a 35€/h = ~18.200€/año de productividad recuperada. La inversión se justifica con facilidad en la mayoría de los casos.`;
+  } else if (costeAnual * fx() < 30000) {
+    tipo = "elev"; color = "rgba(251,146,60,.1)"; borderColor = "var(--orange)"; icon = "⚠️";
     titulo = "Presupuesto elevado — requiere optimización";
-    texto = `${fmtEur(costeAnual)}/año es significativo. <strong>Acciones recomendadas antes de aprobar:</strong> (1) Evalúa si GPT-4o-mini o Gemini Flash pueden dar calidad suficiente a menor coste. (2) Considera caché de respuestas para queries repetidas. (3) Reduce tokens de contexto: el Top-K a 3 en lugar de 5 reduce un ~40% los tokens de input.`;
+    texto = `${fmtMoney(costeAnual)}/año es significativo. <strong>Acciones recomendadas:</strong> (1) Evalúa modelos más económicos (GPT-4o-mini, Gemini Flash). (2) Implementa caché de respuestas para queries repetidas. (3) Reduce Top-K a 3 en lugar de 5 — ahorra ~40% en tokens de input.`;
   } else {
-    tipo = "alto"; color = "rgba(248,113,113,.1)"; icon = "🚨";
+    tipo = "alto"; color = "rgba(248,113,113,.1)"; borderColor = "var(--red)"; icon = "🚨";
     titulo = "Presupuesto alto — considera arquitectura local o híbrida";
-    texto = `Más de ${fmtEur(costeAnual)}/año requiere un caso de negocio robusto. <strong>Alternativas a evaluar:</strong> (1) Modelos locales (Llama 3, Mistral) con GPU propia: amortizable en 6–12 meses. (2) Fine-tuning de un modelo más pequeño si el conocimiento es estable. (3) Arquitectura híbrida: respuestas frecuentes desde caché determinista, solo las complejas al LLM.`;
+    texto = `Más de ${fmtMoney(costeAnual)}/año requiere un caso de negocio sólido. <strong>Alternativas:</strong> (1) Modelo local con GPU propia: amortizable en 6–12 meses a este volumen. (2) Fine-tuning de modelo pequeño si el conocimiento es estable. (3) Arquitectura híbrida: caché determinista para queries frecuentes, LLM solo para las complejas.`;
   }
 
-  const borderColor = {local:"var(--accent)",eco:"var(--green)",mod:"var(--yellow)",elev:"var(--orange)",alto:"var(--red)"}[tipo];
-  document.getElementById("recomendacion-wrap").innerHTML =
+  setHTML("recomendacion-wrap",
     `<div class="recomendacion" style="background:${color};border-color:${borderColor};">
       <div class="rec-header">
         <span class="rec-icon">${icon}</span>
         <span class="rec-titulo" style="color:${borderColor};">${titulo}</span>
       </div>
       <div class="rec-body">${texto}</div>
-    </div>`;
+    </div>`
+  );
 }
 
 function setPeriodo(p, btn) {
@@ -867,19 +958,15 @@ function setPeriodo(p, btn) {
   calcular();
 }
 
-// ── Advanced mode toggle ─────────────────────────────────────────
 function toggleAdv() {
-  const sec = document.getElementById("adv-section");
+  const sec  = document.getElementById("adv-section");
   const chev = document.getElementById("adv-chevron");
   sec.classList.toggle("visible");
   chev.textContent = sec.classList.contains("visible") ? "▼ ocultar" : "▶ mostrar";
   calcular();
 }
 
-// ── Tabla de modelos: also pass p for judge ───────────────────────
-// (already handled via global p in calcular scope)
-
-// ── Init ──────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────
 calcular();
 </script>
 </body>
