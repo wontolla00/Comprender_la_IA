@@ -6,7 +6,7 @@
 <title>Calculador de costes RAG · Comprender la IA</title>
 <style>
 /* ======================================================
-   ESTILOS COMPLETOS (mismos que en la versión francesa v3)
+   ESTILOS COMPLETOS (mismos que en la versión inglesa)
    ====================================================== */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -113,7 +113,7 @@ header p {
 .currency-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 .fx-label { font-family: var(--mono); font-size: .7rem; color: var(--muted); }
 .fx-input {
-  width: 72px;
+  width: 85px;
   background: var(--surface2);
   border: 1px solid var(--border2);
   color: var(--text);
@@ -665,7 +665,8 @@ header p {
     </div>
     <span class="fx-label">Tipo de cambio USD→EUR :</span>
     <input class="fx-input" type="number" id="fx-rate" value="0.92" min="0.5" max="1.5" step="0.01" onchange="calcular()">
-    <span style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Actualícelo si los tipos cambian.</span>
+    <button class="toolbar-btn" onclick="fetchExchangeRate()" style="background:var(--accent);color:white;border-color:var(--accent);">🔄 Actualizar tipo de cambio</button>
+    <span style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Actualización automática desde API pública</span>
     <button class="toolbar-btn" onclick="exportPDF()">📄 Exportar PDF</button>
     <button class="toolbar-btn" onclick="copyURL()">🔗 Copiar URL</button>
   </div>
@@ -764,7 +765,7 @@ header p {
           <strong>⚠ Modelo local seleccionado</strong>
           Los modelos locales eliminan el coste de la API pero añaden una complejidad operativa real:
           un ingeniero MLOps dedicado cuesta ~80–120k €/año. Evalúe si el ahorro en tokens compensa
-          el equipo necesario para operar, monitorear y actualizar la infraestructura.
+          el equipo necesario para operar, monitorizar y actualizar la infraestructura.
         </div>
 
         <div class="field" style="margin-top:12px;">
@@ -1117,6 +1118,30 @@ let currency = "USD";
 let debounceTimer = null;
 
 // ═══════════════════════════════════════════════════════════════════
+// ACTUALIZACIÓN DEL TIPO DE CAMBIO (API pública)
+// ═══════════════════════════════════════════════════════════════════
+async function fetchExchangeRate() {
+  try {
+    const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
+    if (!response.ok) throw new Error('Error de red');
+    const data = await response.json();
+    const rate = data.usd.eur;
+    if (rate && typeof rate === 'number') {
+      document.getElementById('fx-rate').value = rate.toFixed(4);
+      calcular();
+      console.log(`Tipo de cambio actualizado: 1 USD = ${rate} EUR`);
+    } else {
+      throw new Error('Formato inválido');
+    }
+  } catch (error) {
+    console.warn('No se pudo obtener el tipo de cambio, usando valor por defecto', error);
+    const fxInput = document.getElementById('fx-rate');
+    fxInput.style.borderColor = 'var(--orange)';
+    setTimeout(() => { fxInput.style.borderColor = ''; }, 2000);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // UTILIDADES
 // ═══════════════════════════════════════════════════════════════════
 function debouncedCalc() {
@@ -1267,7 +1292,6 @@ function calcularComponentes(p, iEmbed, iInp, iOut) {
 function calcular() {
   const p = params();
 
-  // Modelos seleccionados
   const embedSel = document.getElementById("embed-model");
   embedPrice = +embedSel.value;
   const llmSel  = document.getElementById("llm-model");
@@ -1278,11 +1302,9 @@ function calcular() {
   const selModelData = MODELOS_LLM.find(m => m.inp === llmInp && m.out === llmOut);
   llmParams = selModelData ? selModelData.params : 70;
 
-  // UI dinámica
   setDisp("ft-model-group", p.ftMode === "api" ? "block" : "none");
   setDisp("ft-gpu-group",   p.ftMode === "local" ? "block" : "none");
 
-  // Actualizar valores mostrados
   setTxt("queries-val",           fmtNum(p.queries));
   setTxt("tokens-in-val",         p.tokensIn.toLocaleString("es-ES"));
   setTxt("tokens-out-val",        p.tokensOut.toLocaleString("es-ES"));
@@ -1388,7 +1410,7 @@ function calcular() {
       <td style="font-weight:600;">${fmtMoney(cl)}</td>
       <td style="font-weight:700;color:var(--accent2);">${fmtMoney(ct)}</td>
       <td>${nivelChip(ct * fx())}</td>
-    </table>`
+    </tr>`
   ).join(""));
 
   // ── Comparativa de arquitecturas ──────────────────────────────
@@ -1617,6 +1639,7 @@ function exportPDF() { window.print(); }
 // INICIALIZACIÓN
 // ═══════════════════════════════════════════════════════════════════
 loadFromURL();
+fetchExchangeRate();  // Carga automática al iniciar
 const _calcOrig = calcular;
 calcular = function() {
   _calcOrig();
