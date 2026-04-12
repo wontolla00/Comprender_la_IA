@@ -1,102 +1,48 @@
-# 💰 Calculador de costes RAG
+# Calculador de costes RAG 
 
-Herramienta interactiva para estimar los **costes mensuales (o anuales)** de un sistema RAG (Retrieval-Augmented Generation) basado en APIs de LLM y embeddings, incluyendo componentes como bases de datos vectoriales, reindexación, validación con LLM-as-judge e infraestructura local.
+## Descripción
+Herramienta de decisión para estimar el coste real de un sistema RAG (Retrieval-Augmented Generation).  
+Incluye:
+- Coste de las llamadas API (embedding + LLM)
+- Coste de una base de datos vectorial (cloud o local)
+- Coste del fine‑tuning (API o GPU local)
+- Coste de una infraestructura GPU local (escalado, VRAM, cuantización, latencia)
+- TCO a 1, 2 y 3 años (personal, electricidad, desarrollo, datos)
+- Comparativa entre RAG, fine‑tuning y contexto largo
+- Caché semántico para reducir llamadas
+- Compartir configuración mediante URL
+- Exportación a PDF
 
-> 🔗 **Acceso directo**: abre el archivo `calculador_costes_rag.html` en cualquier navegador moderno (sin necesidad de servidor web).
+## Funcionalidades principales
+- **Cálculo dinámico** : todos los deslizadores y opciones recalculan al instante.
+- **Modo avanzado** : muestra parámetros de recuperación (Top‑K, tamaño de fragmento), fine‑tuning, GPU, electricidad.
+- **Cuantización GPU** : FP16, INT8, INT4 – ajusta la VRAM necesaria.
+- **Tipo de cambio automático** : botón para obtener el tipo USD/EUR real mediante una API pública.
+- **Comparativa de modelos** : tabla de costes para 8 LLM (Gemini, GPT‑4o, Claude, Mistral, local).
+- **Recomendación pedagógica** : según el presupuesto, ofrece acciones concretas (caché, Top‑K, modelo local…).
 
----
+## Uso
+1. Abra el archivo `calculador-costes-rag-es.html` en un navegador moderno.
+2. Ajuste los parámetros (volumen, corpus, modelos, caché…).
+3. Active el modo avanzado para ajustar la recuperación, el fine‑tuning y el escalado GPU.
+4. Use los botones **Copiar URL** para compartir su configuración o **Exportar PDF** para guardar un informe.
+5. Haga clic en **🔄 Actualizar tipo de cambio** para obtener el tipo USD/EUR actual.
 
-## 🎯 ¿Para qué sirve?
+## Tecnologías
+- HTML5 / CSS3 (diseño oscuro, responsive)
+- JavaScript (ES6) – cálculos en tiempo real
+- API pública `cdn.jsdelivr.net` para el tipo de cambio
+- Impresión mediante CSS `@media print`
 
-- **Estimar costes** de tu sistema RAG antes de implementarlo.
-- **Comparar arquitecturas**: RAG vs. Fine-tuning vs. Contexto largo.
-- **Elegir modelos** (embeddings, LLM, BD vectorial) según volumen de consultas y presupuesto.
-- **Visualizar desglose** por componente (embedding queries, reindexación, LLM input/output, BD vectorial, GPU local).
-- **Recibir recomendaciones** automáticas según el coste total anual.
+## Limitaciones
+- Los precios son indicativos (2026) – verifique siempre las tarifas con los proveedores.
+- La latencia estimada es una heurística simple.
+- El TCO no cubre imprevistos ni costes de migración.
 
----
+## Versiones
+- v1 : cálculo básico (API + BD)
+- v2 : añadido escalado GPU, fine‑tuning local, TCO
+- v3 : añadido caché semántico, tipo de cambio automático, compartir URL, recomendación estructurada
 
-## ⚙️ Parámetros configurables
-
-### Volumen de uso
-| Parámetro | Descripción | Rango |
-|-----------|-------------|-------|
-| Consultas por mes | Número de peticiones de usuario | 100 – 500.000 |
-| Tokens por consulta (input) | Prompt + contexto recuperado | 500 – 8.000 |
-| Tokens por respuesta (output) | Longitud de la respuesta generada | 100 – 2.000 |
-
-### Corpus y reindexación
-| Parámetro | Descripción |
-|-----------|-------------|
-| Documentos en el corpus | Número total de documentos |
-| Tokens por documento | Tamaño medio de cada documento |
-| Reindexaciones por mes | Frecuencia de actualización del índice vectorial |
-
-### Modelos y servicios
-- **Embeddings**: text-embedding-3-small/large, Cohere embed-v3, o local (gratis).
-- **LLM**: GPT-4o-mini, GPT-4o, Claude 3.5 Haiku, Claude 3.7 Sonnet, Gemini 1.5 Flash/Pro, o local (Llama 3, Mistral).
-- **Base de datos vectorial**: Local (gratis), Pinecone, Weaviate, Qdrant.
-- **LLM-as-judge**: multiplica el coste del LLM por 1.6 (validación secundaria).
-
-### Modo avanzado (activar manualmente)
-- Top-K (fragmentos recuperados por consulta)
-- Tamaño de chunk (tokens por fragmento)
-- Coste estimado de fine-tuning y amortización en meses
-- Coste de infraestructura GPU (si usas modelo local)
-- Ventana de contexto del modelo (hasta 1M tokens)
-
----
-
-## 📊 Interpretación de resultados
-
-### 1. Coste total estimado
-- Muestra el coste por mes o por año según la configuración.
-- Incluye todos los componentes activos.
-
-### 2. Desglose por componente
-- Barras visuales con porcentaje sobre el total.
-- Permite identificar qué parte del sistema es más costosa.
-
-### 3. Comparativa de modelos LLM
-- Tabla ordenada de menor a mayor coste total.
-- Destaca el modelo seleccionado actualmente.
-
-### 4. Comparativa de arquitecturas
-- **RAG** → Coste con recuperación vectorial.
-- **Fine-tuning** → Entrenamiento amortizado + inferencia más barata.
-- **Contexto largo** → Todo el corpus en el prompt (útil si cabe en la ventana de contexto).
-
-### 5. Recomendación personalizada
-- Basada en el coste anual estimado.
-- Ofrece consejos prácticos (cambiar modelo, optimizar Top-K, arquitectura local, etc.).
-
----
-
-## 📌 Notas importantes
-
-- Los precios de API están actualizados a **2026** (valores aproximados).  
-  *Siempre verifica las tarifas oficiales antes de presupuestar.*
-- **Modelos locales** (embedding o LLM) muestran coste 0, pero necesitarás infraestructura GPU (añade ese coste en modo avanzado).
-- El **modo avanzado** permite ajustes finos (Top-K, chunk, fine-tuning) que afectan drásticamente al coste final.
-- La estimación de **fine-tuning** es orientativa; los costes reales varían según plataforma (OpenAI, Together AI, infra propia) y volumen de datos.
-
----
-
-## 🛠️ Personalización
-
-Si deseas cambiar los precios por defecto o añadir nuevos modelos:
-- Abre el HTML con un editor de texto.
-- Busca `MODELOS_LLM` y `embed-model` en el `<select>` correspondiente.
-- Modifica los valores numéricos (coste por millón de tokens).
-
----
-
-## 📄 Licencia
-
-Esta herramienta es de uso libre. Puedes copiarla, modificarla y distribuirla según tus necesidades.
-
----
-
-## 🤝 ¿Necesitas ayuda?
-
-Si encuentras algún error o quieres sugerir mejoras, abre un issue en tu repositorio o contacta al autor. ¡Feliz estimación de costes RAG!
+## Autor
+Herramienta desarrollada como parte de una reflexión sobre la transparencia de costes en IA.
