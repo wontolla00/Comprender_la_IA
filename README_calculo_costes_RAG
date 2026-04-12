@@ -1,48 +1,147 @@
-# Calculador de costes RAG 
+# Calculador de Costes RAG
 
-## Descripción
-Herramienta de decisión para estimar el coste real de un sistema RAG (Retrieval-Augmented Generation).  
-Incluye:
-- Coste de las llamadas API (embedding + LLM)
-- Coste de una base de datos vectorial (cloud o local)
-- Coste del fine‑tuning (API o GPU local)
-- Coste de una infraestructura GPU local (escalado, VRAM, cuantización, latencia)
-- TCO a 1, 2 y 3 años (personal, electricidad, desarrollo, datos)
-- Comparativa entre RAG, fine‑tuning y contexto largo
-- Caché semántico para reducir llamadas
-- Compartir configuración mediante URL
-- Exportación a PDF
+> Herramienta de decisión avanzada para estimar el coste total de propiedad (TCO) de un sistema de Recuperación Aumentada con Generación (RAG).
+
+---
+
+## ¿Qué es esta herramienta?
+
+El **Calculador de Costes RAG** es una aplicación web de una sola página (HTML sin dependencias) que permite estimar, comparar y optimizar el coste de un sistema RAG basado en LLMs. Cubre todos los componentes de coste relevantes: embeddings, llamadas al LLM, base de datos vectorial, GPU local, fine-tuning y tráfico de red.
+
+---
 
 ## Funcionalidades principales
-- **Cálculo dinámico** : todos los deslizadores y opciones recalculan al instante.
-- **Modo avanzado** : muestra parámetros de recuperación (Top‑K, tamaño de fragmento), fine‑tuning, GPU, electricidad.
-- **Cuantización GPU** : FP16, INT8, INT4 – ajusta la VRAM necesaria.
-- **Tipo de cambio automático** : botón para obtener el tipo USD/EUR real mediante una API pública.
-- **Comparativa de modelos** : tabla de costes para 8 LLM (Gemini, GPT‑4o, Claude, Mistral, local).
-- **Recomendación pedagógica** : según el presupuesto, ofrece acciones concretas (caché, Top‑K, modelo local…).
+
+### Parámetros de entrada
+| Parámetro | Descripción |
+|---|---|
+| Consultas por mes | Volumen total de peticiones al sistema |
+| Tokens de entrada / salida | Longitud media del prompt + contexto RAG y de la respuesta |
+| Número de documentos | Tamaño del corpus indexado |
+| Tokens por documento | Longitud media de cada documento |
+| Reindexaciones / mes | Frecuencia de actualización del índice vectorial |
+
+### Modelos soportados
+
+**Embeddings**
+- OpenAI `text-embedding-3-small` · `text-embedding-3-large`
+- Cohere `embed-english-v3`
+- Local (BAAI/BGE, E5) — gratuito
+
+**LLMs**
+- Gemini 1.5 Flash / Pro
+- GPT-4o-mini / GPT-4o
+- Claude 3.5 Haiku / Claude 3.7 Sonnet
+- Mistral 7B (API)
+- Llama 3 / Mistral (local)
+- **⚙️ Modelo personalizado** — introduce manualmente el precio de entrada y salida
+
+### Bases de datos vectoriales
+- Local: pgvector, FAISS, Chroma — gratuito
+- **Serverless Cloud (Pinecone)** — cálculo dinámico basado en volumetría real (chunks × dimensiones × bytes + read units)
+- Planes gestionados: Pinecone Starter/Standard, Weaviate Cloud, Qdrant Cloud Pro
+
+---
+
+## Novedades de la v2
+
+### 1 · Caché dual (Exacto + Semántico)
+La v2 distingue dos niveles de caché con lógica de coste diferenciada:
+
+- **Caché Exacto** (0 % coste): consultas idénticas servidas directamente desde caché. Ni embedding ni LLM se ejecutan.
+- **Caché Semántico** (coste parcial): consultas similares pero no idénticas. Se paga el embedding para buscar similitud en el caché, pero se evita la llamada al LLM. Requiere Redis u otro vector store de caché.
+
+Esto refleja el comportamiento real de un sistema de caché semántico (ej. GPTCache, LangChain SemanticCache).
+
+### 2 · Costes de red / Egress
+Disponible en Modo Avanzado. Permite incluir el coste del tráfico de datos saliente en proveedores cloud (AWS, GCP, Azure: ~$0.08–0.12/GB). Se calcula sobre el volumen de tokens de respuesta generados por el LLM.
+
+### 3 · Modelo LLM personalizado
+Al seleccionar "⚙️ Modelo Personalizado" en el selector LLM, aparecen dos campos para introducir manualmente el precio por millón de tokens de entrada y salida. Permite evaluar modelos propios, fine-tuned o proveedores alternativos no listados.
+
+### 4 · BD Vectorial Serverless dinámica
+La opción Serverless Cloud calcula el coste automáticamente:
+- **Almacenamiento**: `(docs × tokens_doc / 500 tokens_chunk) × 1536 dims × 4 bytes` → GB → $/GB
+- **Read units**: `consultas_efectivas × 10 unidades × $2/millón`
+
+---
+
+## Modo Avanzado
+
+Desplegable desde el panel de parámetros. Incluye:
+
+| Sección | Parámetros |
+|---|---|
+| Recuperación y contexto | Top-K, tamaño de fragmento, ventana de contexto |
+| LLM-as-judge | Factor de coste de validación (×1.0 – ×2.0) |
+| Red y Egress | Activar/desactivar, tarifa $/GB configurable |
+| Fine-tuning API | Modelo FT, tokens de entrenamiento, épocas, factor de riesgo, amortización |
+| Fine-tuning local | Horas GPU, tipo de GPU |
+| GPU local y escalado | Tipo de GPU, cuantización (FP16/INT8/INT4), VRAM, concurrencia |
+| Electricidad | Coste del kWh para cálculo local |
+
+---
+
+## Paneles de resultados
+
+### Desglose por componente
+Barras proporcionales con el coste detallado de cada elemento: embedding de consultas, embedding de reindexación, LLM entrada, LLM salida, BD vectorial, GPU y Egress.
+
+### Comparativa de modelos LLM
+Tabla ordenada por coste total con todos los modelos disponibles, mostrando el modelo actualmente seleccionado y el nivel de coste (económico / moderado / alto / muy alto).
+
+### RAG vs Fine-tuning vs Contexto largo
+Comparativa automática de las tres arquitecturas principales para el volumen configurado, con estimación de precisión y advertencias contextuales.
+
+### TCO a 3 años
+Coste Total de Propiedad acumulado año a año, incluyendo opcionalmente:
+- Coste de personal / equipo MLOps (configurable)
+- Preparación de datos y fine-tuning
+- Electricidad para GPU local
+- Desarrollo inicial (coste único, año 1)
+
+### Recomendación inteligente
+Panel contextual que clasifica el proyecto por nivel de presupuesto anual y propone acciones concretas de optimización (caché, reducción Top-K, modelo local, fine-tuning, negociación empresarial).
+
+---
+
+## Otras funcionalidades
+
+- **USD / EUR** — Selector de moneda con tipo de cambio configurable y actualización automática desde API pública (`@fawazahmed0/currency-api`)
+- **Exportar PDF** — Impresión optimizada con CSS `@media print`
+- **Copiar URL** — Serializa toda la configuración en Base64 en la URL para compartir o guardar configuraciones
+- **Vista mensual / anual** — Toggle que multiplica todos los costes × 12
+- **Modo debounce** — Los sliders esperan 80 ms antes de recalcular para evitar bloqueos en dispositivos lentos
+
+---
 
 ## Uso
-1. Abra el archivo `calculador-costes-rag-es.html` en un navegador moderno.
-2. Ajuste los parámetros (volumen, corpus, modelos, caché…).
-3. Active el modo avanzado para ajustar la recuperación, el fine‑tuning y el escalado GPU.
-4. Use los botones **Copiar URL** para compartir su configuración o **Exportar PDF** para guardar un informe.
-5. Haga clic en **🔄 Actualizar tipo de cambio** para obtener el tipo USD/EUR actual.
 
-## Tecnologías
-- HTML5 / CSS3 (diseño oscuro, responsive)
-- JavaScript (ES6) – cálculos en tiempo real
-- API pública `cdn.jsdelivr.net` para el tipo de cambio
-- Impresión mediante CSS `@media print`
+No requiere instalación ni servidor. Abrir `Calculador_costes_RAG_v2.html` directamente en cualquier navegador moderno.
 
-## Limitaciones
-- Los precios son indicativos (2026) – verifique siempre las tarifas con los proveedores.
-- La latencia estimada es una heurística simple.
-- El TCO no cubre imprevistos ni costes de migración.
+```
+Doble clic en el archivo → se abre en el navegador → listo
+```
 
-## Versiones
-- v1 : cálculo básico (API + BD)
-- v2 : añadido escalado GPU, fine‑tuning local, TCO
-- v3 : añadido caché semántico, tipo de cambio automático, compartir URL, recomendación estructurada
+---
 
-## Autor
-Herramienta desarrollada como parte de una reflexión sobre la transparencia de costes en IA.
+## Estructura del archivo
+
+El archivo es HTML autónomo con CSS y JavaScript embebidos. No tiene dependencias externas salvo la fuente tipográfica IBM Plex (cargada desde Google Fonts) y la API de tipo de cambio (ambas opcionales: la herramienta funciona sin conexión con los valores por defecto).
+
+---
+
+## Limitaciones y avisos
+
+- Los precios son indicativos a 2026. Verifique siempre las tarifas actuales con cada proveedor.
+- 1 token ≈ 0.75 palabras en inglés / 0.6 palabras en español.
+- El TCO no incluye imprevistos ni tiempo de mantenimiento no planificado.
+- La precisión estimada de las arquitecturas es orientativa y depende fuertemente de la calidad de los datos y del diseño del prompt.
+- El coste de Egress solo se aplica a modelos de API (no a inferencia local).
+
+---
+
+## Licencia
+
+Herramienta de uso libre para fines educativos y de toma de decisiones arquitectónicas.
+
