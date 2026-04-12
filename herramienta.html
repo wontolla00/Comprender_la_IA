@@ -666,7 +666,7 @@ header p {
     <span class="fx-label">Tipo de cambio USD→EUR :</span>
     <input class="fx-input" type="number" id="fx-rate" value="0.92" min="0.5" max="1.5" step="0.01" onchange="calcular()">
     <button class="toolbar-btn" onclick="fetchExchangeRate()" style="background:var(--accent);color:white;border-color:var(--accent);">🔄 Actualizar tipo de cambio</button>
-    <span style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Actualización automática desde API pública</span>
+    <span id="fx-status" style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Cargando…</span>
     <button class="toolbar-btn" onclick="exportPDF()">📄 Exportar PDF</button>
     <button class="toolbar-btn" onclick="copyURL()">🔗 Copiar URL</button>
   </div>
@@ -1061,7 +1061,8 @@ header p {
         <div class="tco-options">
           <label class="tco-check"><input type="checkbox" id="tco-personal" onchange="calcular()"> Coste de personal</label>
           <label class="tco-check"><input type="checkbox" id="tco-datos" onchange="calcular()"> Preparación de datos (FT)</label>
-          <label class="tco-check"><input type="checkbox" id="tco-electricity" onchange="calcular()"> Electricidad (local)</label>
+          <label class="tco-check" id="tco-electricity-label"><input type="checkbox" id="tco-electricity" onchange="calcular()"> Electricidad (local)</label>
+          <span id="tco-electricity-note" style="display:none;font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-left:4px;">(solo modelo local)</span>
           <label class="tco-check"><input type="checkbox" id="tco-dev" onchange="calcular()"> Desarrollo inicial</label>
         </div>
         <div class="tco-input-row" id="tco-personal-row" style="display:none;">
@@ -1121,6 +1122,9 @@ let debounceTimer = null;
 // ACTUALIZACIÓN DEL TIPO DE CAMBIO (API pública)
 // ═══════════════════════════════════════════════════════════════════
 async function fetchExchangeRate() {
+  const statusEl = document.getElementById('fx-status');
+  statusEl.textContent = 'Actualizando…';
+  statusEl.style.color = 'var(--muted)';
   try {
     const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
     if (!response.ok) throw new Error('Error de red');
@@ -1129,15 +1133,19 @@ async function fetchExchangeRate() {
     if (rate && typeof rate === 'number') {
       document.getElementById('fx-rate').value = rate.toFixed(4);
       calcular();
-      console.log(`Tipo de cambio actualizado: 1 USD = ${rate} EUR`);
+      const now = new Date();
+      const hhmm = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+      statusEl.textContent = `✓ Actualizado a las ${hhmm}`;
+      statusEl.style.color = 'var(--green)';
     } else {
       throw new Error('Formato inválido');
     }
   } catch (error) {
-    console.warn('No se pudo obtener el tipo de cambio, usando valor por defecto', error);
     const fxInput = document.getElementById('fx-rate');
     fxInput.style.borderColor = 'var(--orange)';
     setTimeout(() => { fxInput.style.borderColor = ''; }, 2000);
+    statusEl.textContent = '⚠ API no disponible — usando valor manual';
+    statusEl.style.color = 'var(--orange)';
   }
 }
 
@@ -1456,6 +1464,23 @@ function calcular() {
   setDisp("tco-datos-row",       p.tcoDatos    ? "flex" : "none");
   setDisp("tco-electricity-row", (p.tcoElectricity && isLocal) ? "flex" : "none");
   setDisp("tco-dev-row",         p.tcoDev      ? "flex" : "none");
+
+  // Electricidad: deshabilitar checkbox si no hay modelo local
+  const elecCheckbox = document.getElementById("tco-electricity");
+  const elecLabel    = document.getElementById("tco-electricity-label");
+  const elecNote     = document.getElementById("tco-electricity-note");
+  if (!isLocal) {
+    elecCheckbox.checked  = false;
+    elecCheckbox.disabled = true;
+    elecLabel.style.opacity = "0.4";
+    elecLabel.style.cursor  = "not-allowed";
+    elecNote.style.display  = "inline";
+  } else {
+    elecCheckbox.disabled   = false;
+    elecLabel.style.opacity = "1";
+    elecLabel.style.cursor  = "pointer";
+    elecNote.style.display  = "none";
+  }
 
   const tcoYears = [1, 2, 3].map(y => {
     const api          = totalMes * 12 * y;
