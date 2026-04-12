@@ -588,6 +588,7 @@ header p {
   margin-top: 10px;
   line-height: 1.7;
 }
+.flex-row { display: flex; gap: 10px; align-items: center; }
 
 .tooltip-wrap { position: relative; display: inline-block; }
 .tooltip-icon {
@@ -666,7 +667,7 @@ header p {
     <span class="fx-label">Tipo de cambio USD→EUR :</span>
     <input class="fx-input" type="number" id="fx-rate" value="0.92" min="0.5" max="1.5" step="0.01" onchange="calcular()">
     <button class="toolbar-btn" onclick="fetchExchangeRate()" style="background:var(--accent);color:white;border-color:var(--accent);">🔄 Actualizar tipo de cambio</button>
-    <span id="fx-status" style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Cargando…</span>
+    <span style="font-family:var(--mono);font-size:.68rem;color:var(--muted);">Actualización automática desde API pública</span>
     <button class="toolbar-btn" onclick="exportPDF()">📄 Exportar PDF</button>
     <button class="toolbar-btn" onclick="copyURL()">🔗 Copiar URL</button>
   </div>
@@ -749,7 +750,7 @@ header p {
 
         <div class="field">
           <label>Modelo LLM</label>
-          <select id="llm-model" onchange="calcular()">
+          <select id="llm-model" onchange="checkCustomLLM()">
             <option value="0.075|0.30"  data-name="Gemini 1.5 Flash">Gemini 1.5 Flash · $0.075/$0.30 por 1M</option>
             <option value="0.15|0.60"   data-name="GPT-4o-mini" selected>GPT-4o-mini · $0.15/$0.60 por 1M</option>
             <option value="0.25|0.75"   data-name="Mistral 7B (API)">Mistral 7B (API) · $0.25/$0.75 por 1M</option>
@@ -758,7 +759,21 @@ header p {
             <option value="2.50|10.00"  data-name="GPT-4o">GPT-4o · $2.50/$10.00 por 1M</option>
             <option value="3.00|15.00"  data-name="Claude 3.7 Sonnet">Claude 3.7 Sonnet · $3.00/$15.00 por 1M</option>
             <option value="0|0"         data-name="Llama 3 / Mistral (local)">Llama 3 / Mistral (local)</option>
+            <option value="custom"      data-name="Modelo Personalizado">⚙️ Modelo Personalizado (precio manual)</option>
           </select>
+        </div>
+
+        <div id="custom-llm-fields" style="display:none; background: var(--surface2); padding: 10px; border-radius: 6px; margin-bottom: 16px; border: 1px solid var(--border2);">
+          <div class="flex-row">
+            <div style="flex:1">
+              <label style="font-size:.65rem;font-family:var(--mono);display:block;margin-bottom:4px;color:var(--muted);">Precio Entrada ($/1M)</label>
+              <input type="number" id="custom-in" value="1.00" step="0.05" oninput="calcular()" style="width:100%;background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:6px 8px;border-radius:4px;font-family:var(--mono);font-size:.82rem;outline:none;">
+            </div>
+            <div style="flex:1">
+              <label style="font-size:.65rem;font-family:var(--mono);display:block;margin-bottom:4px;color:var(--muted);">Precio Salida ($/1M)</label>
+              <input type="number" id="custom-out" value="2.00" step="0.05" oninput="calcular()" style="width:100%;background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:6px 8px;border-radius:4px;font-family:var(--mono);font-size:.82rem;outline:none;">
+            </div>
+          </div>
         </div>
 
         <div class="talent-warn" id="talent-warn">
@@ -769,27 +784,45 @@ header p {
         </div>
 
         <div class="field" style="margin-top:12px;">
-          <label>Tasa de acierto de caché
+          <label>Tasa de caché EXACTO (0 coste)
             <span class="tooltip-wrap">
               <span class="tooltip-icon">?</span>
-              <span class="tooltip-box">Porcentaje de consultas servidas desde caché (respuestas idénticas o muy similares). Reduce el coste de LLM y embedding proporcionalmente. Un caché bien configurado alcanza 20–40% en usos repetitivos.</span>
+              <span class="tooltip-box">Consultas idénticas servidas desde caché. Bypass completo: ni embedding ni LLM. Ideal para preguntas repetitivas con respuesta determinista.</span>
             </span>
           </label>
           <div class="range-row">
-            <input type="range" id="cache-rate" min="0" max="80" step="5" value="0" oninput="debouncedCalc()">
-            <span class="range-val" id="cache-rate-val">0%</span>
+            <input type="range" id="cache-exact" min="0" max="60" step="5" value="10" oninput="debouncedCalc()">
+            <span class="range-val" id="cache-exact-val">10%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Tasa de caché SEMÁNTICO
+            <span class="tooltip-wrap">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-box">Consultas similares (no idénticas). Paga el embedding para buscar similitud en caché, pero evita la llamada al LLM. Requiere Redis u otro vector store de caché.</span>
+            </span>
+            <span class="hint">Paga embedding, evita LLM</span>
+          </label>
+          <div class="range-row">
+            <input type="range" id="cache-sem" min="0" max="50" step="5" value="15" oninput="debouncedCalc()">
+            <span class="range-val" id="cache-sem-val">15%</span>
           </div>
         </div>
 
         <div class="field">
           <label>Base de datos vectorial</label>
           <select id="bd-vectorial" onchange="calcular()">
-            <option value="0"   data-name="Local (pgvector/FAISS/Chroma)" selected>Local — pgvector / FAISS / Chroma (gratuito)</option>
-            <option value="70"  data-name="Pinecone Starter">Pinecone Starter · ~$70/mes</option>
-            <option value="200" data-name="Pinecone Standard">Pinecone Standard · ~$200/mes</option>
-            <option value="150" data-name="Weaviate Cloud básico">Weaviate Cloud básico · ~$150/mes</option>
-            <option value="400" data-name="Qdrant Cloud Pro">Qdrant Cloud Pro · ~$400/mes</option>
+            <option value="0"          data-name="Local (pgvector/FAISS/Chroma)" selected>Local — pgvector / FAISS / Chroma (gratuito)</option>
+            <option value="serverless" data-name="Serverless Cloud (Pinecone)">Serverless Cloud (Pinecone) — Basado en volumetría</option>
+            <option value="70"         data-name="Pinecone Starter">Pinecone Starter · ~$70/mes</option>
+            <option value="150"        data-name="Weaviate Cloud básico">Weaviate Cloud básico · ~$150/mes</option>
+            <option value="200"        data-name="Pinecone Standard">Pinecone Standard · ~$200/mes</option>
+            <option value="400"        data-name="Qdrant Cloud Pro">Qdrant Cloud Pro · ~$400/mes</option>
           </select>
+          <div class="info-inline" id="serverless-bd-note" style="display:none;">
+            ℹ Coste calculado dinámicamente: almacenamiento vectorial + read units por consulta.
+          </div>
         </div>
 
         <label class="judge-row">
@@ -851,6 +884,23 @@ header p {
             <div class="range-row">
               <input type="range" id="judge-factor" min="1.0" max="2.0" step="0.1" value="1.6" oninput="debouncedCalc()">
               <span class="range-val" id="judge-factor-val">×1.6</span>
+            </div>
+          </div>
+
+          <div class="section-divider">// Red y Egress (Cloud)</div>
+
+          <div class="field">
+            <label>
+              <input type="checkbox" id="egress-check" onchange="calcular()" checked style="accent-color: var(--accent);">
+              Incluir costes de red Cloud (Egress / salida de datos)
+            </label>
+            <div class="flex-row" style="margin-top:8px;">
+              <input type="number" id="egress-rate" value="0.09" step="0.01" min="0" onchange="calcular()"
+                style="width:90px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:4px;font-family:var(--mono);font-size:.78rem;outline:none;">
+              <span style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">$/GB transferido (salida). AWS/GCP/Azure ~$0.08–0.12/GB</span>
+            </div>
+            <div class="info-inline" style="margin-top:6px;">
+              ℹ Se estima en base a tokens de respuesta × 4 bytes/token. Se aplica solo a modelos de API (no local).
             </div>
           </div>
 
@@ -1061,8 +1111,7 @@ header p {
         <div class="tco-options">
           <label class="tco-check"><input type="checkbox" id="tco-personal" onchange="calcular()"> Coste de personal</label>
           <label class="tco-check"><input type="checkbox" id="tco-datos" onchange="calcular()"> Preparación de datos (FT)</label>
-          <label class="tco-check" id="tco-electricity-label"><input type="checkbox" id="tco-electricity" onchange="calcular()"> Electricidad (local)</label>
-          <span id="tco-electricity-note" style="display:none;font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-left:4px;">(solo modelo local)</span>
+          <label class="tco-check"><input type="checkbox" id="tco-electricity" onchange="calcular()"> Electricidad (local)</label>
           <label class="tco-check"><input type="checkbox" id="tco-dev" onchange="calcular()"> Desarrollo inicial</label>
         </div>
         <div class="tco-input-row" id="tco-personal-row" style="display:none;">
@@ -1118,13 +1167,16 @@ let periodo = "mes";
 let currency = "USD";
 let debounceTimer = null;
 
+function checkCustomLLM() {
+  const isCustom = document.getElementById('llm-model').value === 'custom';
+  document.getElementById('custom-llm-fields').style.display = isCustom ? 'block' : 'none';
+  calcular();
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // ACTUALIZACIÓN DEL TIPO DE CAMBIO (API pública)
 // ═══════════════════════════════════════════════════════════════════
 async function fetchExchangeRate() {
-  const statusEl = document.getElementById('fx-status');
-  statusEl.textContent = 'Actualizando…';
-  statusEl.style.color = 'var(--muted)';
   try {
     const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
     if (!response.ok) throw new Error('Error de red');
@@ -1133,19 +1185,15 @@ async function fetchExchangeRate() {
     if (rate && typeof rate === 'number') {
       document.getElementById('fx-rate').value = rate.toFixed(4);
       calcular();
-      const now = new Date();
-      const hhmm = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-      statusEl.textContent = `✓ Actualizado a las ${hhmm}`;
-      statusEl.style.color = 'var(--green)';
+      console.log(`Tipo de cambio actualizado: 1 USD = ${rate} EUR`);
     } else {
       throw new Error('Formato inválido');
     }
   } catch (error) {
+    console.warn('No se pudo obtener el tipo de cambio, usando valor por defecto', error);
     const fxInput = document.getElementById('fx-rate');
     fxInput.style.borderColor = 'var(--orange)';
     setTimeout(() => { fxInput.style.borderColor = ''; }, 2000);
-    statusEl.textContent = '⚠ API no disponible — usando valor manual';
-    statusEl.style.color = 'var(--orange)';
   }
 }
 
@@ -1211,7 +1259,10 @@ function params() {
   const ftMode    = document.getElementById("ft-mode").value;
   const ftModelPrice = ftMode === "api" ? +document.getElementById("ft-model").value : 0;
   const ftGpuHours   = ftMode === "local" ? +document.getElementById("ft-gpu-hours").value : 0;
-  const cacheRate = +document.getElementById("cache-rate").value / 100;
+  const cacheExact = +document.getElementById("cache-exact").value / 100;
+  const cacheSem   = +document.getElementById("cache-sem").value / 100;
+  // Combined effective cache rate for backward compat displays
+  const cacheRate  = cacheExact + (1 - cacheExact) * cacheSem;
 
   return {
     queries:        +document.getElementById("queries").value,
@@ -1221,10 +1272,12 @@ function params() {
     tokensDoc:      +document.getElementById("tokens-doc").value,
     reindex:        +document.getElementById("reindex").value,
     anual:          document.getElementById("anual").checked,
-    bdCost:         +document.getElementById("bd-vectorial").value,
+    bdCost:         document.getElementById("bd-vectorial").value,
     judge:          document.getElementById("llm-judge").checked,
     judgeFactor:    +document.getElementById("judge-factor").value,
-    cacheRate,
+    cacheExact, cacheSem, cacheRate,
+    egressCheck:    document.getElementById("egress-check").checked,
+    egressRate:     +document.getElementById("egress-rate").value,
     ftMode, ftModelPrice, ftGpuHours,
     ftTokensM:      +document.getElementById("ft-tokens").value,
     ftEpochs:       +document.getElementById("ft-epochs").value,
@@ -1285,13 +1338,20 @@ function calcFT(p) {
 // COMPONENTES DE COSTE (embedding + LLM)
 // ═══════════════════════════════════════════════════════════════════
 function calcularComponentes(p, iEmbed, iInp, iOut) {
-  const effectiveQueries = p.queries * (1 - p.cacheRate);
+  // Dual cache logic:
+  // - Exact cache: bypass everything (no embedding, no LLM)
+  // - Semantic cache: pays embedding to search similarity, but avoids LLM
+  const qAfterExact    = p.queries * (1 - p.cacheExact);   // passes exact cache
+  const qAfterSemantic = qAfterExact * (1 - p.cacheSem);   // passes semantic cache → needs LLM
+
   const jm  = (p.judge && p.judgeFactor) ? p.judgeFactor : 1.0;
-  const embQ = (effectiveQueries * p.tokensIn  / 1_000_000) * iEmbed;
+  // Embedding: all queries not caught by exact cache (semantic cache queries still need embedding for similarity search)
+  const embQ = (qAfterExact * p.tokensIn  / 1_000_000) * iEmbed;
   const embR = (p.reindex * p.docs * p.tokensDoc / 1_000_000) * iEmbed;
-  const llmI = (effectiveQueries * p.tokensIn  / 1_000_000) * iInp * jm;
-  const llmO = (effectiveQueries * p.tokensOut / 1_000_000) * iOut * jm;
-  return { embQ, embR, llmI, llmO, total: embQ + embR + llmI + llmO };
+  // LLM: only queries that pass both caches
+  const llmI = (qAfterSemantic * p.tokensIn  / 1_000_000) * iInp * jm;
+  const llmO = (qAfterSemantic * p.tokensOut / 1_000_000) * iOut * jm;
+  return { embQ, embR, llmI, llmO, total: embQ + embR + llmI + llmO, qAfterExact, qAfterSemantic };
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1303,9 +1363,17 @@ function calcular() {
   const embedSel = document.getElementById("embed-model");
   embedPrice = +embedSel.value;
   const llmSel  = document.getElementById("llm-model");
-  const [sInp, sOut] = llmSel.value.split("|");
-  llmInp = +sInp; llmOut = +sOut;
-  const isLocal = (llmInp === 0 && llmOut === 0);
+  const llmVal  = llmSel.value;
+  let isCustomLLM = (llmVal === 'custom');
+
+  if (isCustomLLM) {
+    llmInp = +document.getElementById('custom-in').value;
+    llmOut = +document.getElementById('custom-out').value;
+  } else {
+    const [sInp, sOut] = llmVal.split("|");
+    llmInp = +sInp; llmOut = +sOut;
+  }
+  const isLocal = (!isCustomLLM && llmInp === 0 && llmOut === 0);
 
   const selModelData = MODELOS_LLM.find(m => m.inp === llmInp && m.out === llmOut);
   llmParams = selModelData ? selModelData.params : 70;
@@ -1328,7 +1396,8 @@ function calcular() {
   setTxt("ft-gpu-hours-val",      p.ftGpuHours + " h");
   setTxt("judge-factor-val",      "×" + p.judgeFactor.toFixed(1));
   setTxt("concurrency-val",       p.concurrency);
-  setTxt("cache-rate-val",        p.cacheRate * 100 + "%");
+  setTxt("cache-exact-val",       (p.cacheExact * 100).toFixed(0) + "%");
+  setTxt("cache-sem-val",         (p.cacheSem * 100).toFixed(0) + "%");
   setTxt("electricity-cost-val",  p.electricityCost.toFixed(2).replace(".", ",") + " €");
   setTxt("tokens-in-auto",        p.tokensInAuto.toLocaleString("es-ES"));
   setDisp("tokens-in-auto-note",  p.advOpen ? "block" : "none");
@@ -1357,17 +1426,44 @@ function calcular() {
     setTxt("latencia-estimada", isLocal ? "—" : "depende del proveedor API");
   }
 
-  const c        = calcularComponentes(p, embedPrice, llmInp, llmOut);
-  const totalMes = c.total + p.bdCost + gpuMonthly;
+  // ── BD Vectorial (con lógica serverless dinámica) ─────────────
+  let bdCostNum = 0;
+  const bdVal = document.getElementById("bd-vectorial").value;
+  const isServerless = (bdVal === 'serverless');
+  setDisp("serverless-bd-note", isServerless ? "block" : "none");
+  if (isServerless) {
+    const chunks = (p.docs * p.tokensDoc) / 500;
+    const gbStorage = (chunks * 1536 * 4) / Math.pow(1024, 3);
+    const costStorage = Math.max(0, gbStorage * 0.33);
+    const qEffective = p.queries * (1 - p.cacheExact);
+    const costReads = (qEffective * 10 / 1000000) * 2.0;
+    bdCostNum = costStorage + costReads;
+  } else {
+    bdCostNum = +bdVal || 0;
+  }
+
+  const c = calcularComponentes(p, embedPrice, llmInp, llmOut);
+
+  // ── Egress (tráfico de red salida) ────────────────────────────
+  let egressCost = 0;
+  if (!isLocal && p.egressCheck && p.advOpen) {
+    const gbOut = (c.qAfterSemantic * p.tokensOut * 4) / Math.pow(1024, 3);
+    egressCost = gbOut * p.egressRate;
+  }
+
+  const totalMes = c.total + bdCostNum + gpuMonthly + egressCost;
   const multP    = (periodo === "ano") ? 12 : 1;
   const totalMult = totalMes * multP;
 
   setTxt("total-mes", fmtMoney(totalMult));
+  const llmDisplayName = isCustomLLM
+    ? `Modelo personalizado ($${llmInp}/$${llmOut})`
+    : (llmSel.options[llmSel.selectedIndex]?.dataset?.name || "LLM");
   setTxt("total-sub",
     `por ${periodo === "ano" ? "año" : "mes"} · ` +
     `${embedSel.options[embedSel.selectedIndex].dataset.name} + ` +
-    `${llmSel.options[llmSel.selectedIndex].dataset.name}` +
-    (p.cacheRate > 0 ? ` · caché ${p.cacheRate * 100}%` : "")
+    `${llmDisplayName}` +
+    (p.cacheExact > 0 || p.cacheSem > 0 ? ` · caché E:${(p.cacheExact*100).toFixed(0)}% S:${(p.cacheSem*100).toFixed(0)}%` : "")
   );
 
   // ── Desglose ─────────────────────────────────────────────────
@@ -1376,10 +1472,19 @@ function calcular() {
     { label: "Embedding reindexación", val: c.embR,     color: "#818cf8" },
     { label: p.judge ? `LLM entrada (judge ×${p.judgeFactor.toFixed(1)})` : "LLM entrada tokens", val: c.llmI, color: "#34d399" },
     { label: p.judge ? `LLM salida (judge ×${p.judgeFactor.toFixed(1)})` : "LLM salida tokens", val: c.llmO, color: "#fbbf24" },
-    ...(p.bdCost > 0 ? [{ label: "BD vectorial", val: p.bdCost, color: "#f472b6", extra: true }] : []),
+    ...(bdCostNum > 0 ? [{ label: isServerless ? "BD vectorial (serverless)" : "BD vectorial", val: bdCostNum, color: "#f472b6", extra: true }] : []),
     ...(gpuMonthly > 0 ? [{ label: `GPU (${gpu.instances} inst. · ${gpu.vramNeededGB.toFixed(0)}GB)`, val: gpuMonthly, color: "#a78bfa", extra: true }] : []),
+    ...(egressCost > 0 ? [{ label: "Red / Egress (salida cloud)", val: egressCost, color: "#fb923c", extra: true }] : []),
   ];
   const tot = items.reduce((a, i) => a + i.val, 0) || 1;
+
+  const totalCacheRate = p.cacheExact + (1 - p.cacheExact) * p.cacheSem;
+  const cacheSavingsNote = totalCacheRate > 0
+    ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--green);margin-top:8px;">` +
+      `✓ Caché exacto ${(p.cacheExact*100).toFixed(0)}% + semántico ${(p.cacheSem*100).toFixed(0)}% — ` +
+      `el semántico sigue pagando embedding para buscar similitud en caché` +
+      `</div>`
+    : "";
 
   setHTML("desglose",
     items.map(item => {
@@ -1392,9 +1497,7 @@ function calcular() {
         <span class="desglose-val">${fmtMoney(item.val * multP)}</span>
       </div>`;
     }).join("") +
-    (p.cacheRate > 0
-      ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--green);margin-top:8px;">✓ Caché ${p.cacheRate * 100}% activo — ahorro estimado : ${fmtMoney(c.total * p.cacheRate / (1 - p.cacheRate) * multP)}</div>`
-      : "") +
+    cacheSavingsNote +
     (p.judge ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:4px;">⚠ LLM-as-judge activo : factor ×${p.judgeFactor.toFixed(1)} aplicado sobre LLM</div>` : "") +
     (periodo === "ano" ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:4px;">// Coste anual = mensual × 12</div>` : "")
   );
@@ -1404,10 +1507,10 @@ function calcular() {
     const isLoc = (m.inp === 0 && m.out === 0);
     const gpuM  = isLoc ? calcGPU(p, m.params).costPerMonth : 0;
     const cv    = calcularComponentes(p, embedPrice, m.inp, m.out);
-    const ct    = (cv.total + p.bdCost + gpuM) * multP;
+    const ct    = (cv.total + bdCostNum + gpuM) * multP;
     const cl    = (cv.llmI + cv.llmO) * multP;
     const ratio = m.out > 0 ? `1:${(m.out / m.inp).toFixed(0)}` : "local";
-    const sel   = (m.inp === llmInp && m.out === llmOut);
+    const sel   = (!isCustomLLM && m.inp === llmInp && m.out === llmOut);
     return { m, ct, cl, ratio, sel };
   }).sort((a, b) => a.ct - b.ct);
 
@@ -1419,25 +1522,27 @@ function calcular() {
       <td style="font-weight:700;color:var(--accent2);">${fmtMoney(ct)}</td>
       <td>${nivelChip(ct * fx())}</td>
     </tr>`
-  ).join(""));
+  ).join("") +
+  (isCustomLLM ? `<tr style="background:rgba(99,102,241,.06);"><td colspan="5" style="font-family:var(--mono);font-size:.68rem;color:var(--accent2);padding:8px 10px;">▶ Modelo personalizado: $${llmInp}/$${llmOut} por 1M tokens</td></tr>` : "")
+  );
 
   // ── Comparativa de arquitecturas ──────────────────────────────
   const costRAG = totalMes;
   const ftAmort = calcFT(p) / Math.max(1, p.ftMonths);
   const ftInf   = calcularComponentes(p, 0, llmInp * 0.5, llmOut * 0.5);
-  const costFT  = ftInf.total + ftAmort + p.bdCost + gpuMonthly;
+  const costFT  = ftInf.total + ftAmort + bdCostNum + gpuMonthly;
 
   const corpusT = p.docs * p.tokensDoc;
   const ctxUsed = Math.min(corpusT, p.ctxWindow);
   const ctxLimit = ctxUsed < corpusT;
-  const costCtx = (p.queries * ctxUsed / 1_000_000) * llmInp
-                + (p.queries * p.tokensOut / 1_000_000) * llmOut
-                + p.bdCost + gpuMonthly;
+  const costCtx = (p.queries * ctxUsed / 1000000) * llmInp
+                + (p.queries * p.tokensOut / 1000000) * llmOut
+                + bdCostNum + gpuMonthly;
 
   const arqs = [
     { nombre: "RAG", coste: costRAG, desc: "Fragmentación + embedding + recuperación + generación. Actualización instantánea del corpus sin reentrenamiento.", precision: "★★★★☆", precisionNote: "Rastreable (fuentes citadas)", warn: null, mejor: costRAG <= costFT && costRAG <= costCtx },
-    { nombre: "Fine‑tuning", coste: costFT, desc: `Entrenamiento : ${fmtMoney(calcFT(p))} × ${p.ftRisk} (riesgo), amortizado en ${p.ftMonths} meses. Inferencia más rápida y más barata a largo plazo.`, precision: "★★★☆☆", precisionNote: "Menos rastreable, más rápido", warn: "⚠ Requiere reentrenamiento completo para cada actualización del corpus. No incluye reentrenamientos posteriores.", mejor: costFT < costRAG && costFT <= costCtx },
-    { nombre: "Contexto largo", coste: costCtx, desc: ctxLimit ? `Corpus (${Math.round(corpusT / 1000)}K tok) supera la ventana (${Math.round(p.ctxWindow / 1000)}K tok). Calculado sobre el límite real — el resto del corpus se ignora.` : `Corpus completo (${Math.round(ctxUsed / 1000)}K tokens) inyectado en cada prompt. Sin fragmentación ni recuperación.`, precision: "★★☆☆☆", precisionNote: "Pérdida en medio, no rastreable", warn: "⚠ Posible degradación de la precisión (lost in the middle). Sin trazabilidad de fuentes. Coste token muy elevado a gran escala.", mejor: costCtx < costRAG && costCtx < costFT }
+    { nombre: "Fine-tuning", coste: costFT, desc: `Entrenamiento : ${fmtMoney(calcFT(p))} × ${p.ftRisk} (riesgo), amortizado en ${p.ftMonths} meses. Inferencia más rápida y más barata a largo plazo.`, precision: "★★★☆☆", precisionNote: "Menos rastreable, más rápido", warn: "⚠ Requiere reentrenamiento completo para cada actualización del corpus.", mejor: costFT < costRAG && costFT <= costCtx },
+    { nombre: "Contexto largo", coste: costCtx, desc: ctxLimit ? `Corpus (${Math.round(corpusT / 1000)}K tok) supera la ventana (${Math.round(p.ctxWindow / 1000)}K tok). Calculado sobre el límite real.` : `Corpus completo (${Math.round(ctxUsed / 1000)}K tokens) inyectado en cada prompt.`, precision: "★★☆☆☆", precisionNote: "Pérdida en medio, no rastreable", warn: "⚠ Posible degradación (lost in the middle). Sin trazabilidad de fuentes.", mejor: costCtx < costRAG && costCtx < costFT }
   ];
 
   setHTML("arq-grid", arqs.map(a =>
@@ -1464,23 +1569,6 @@ function calcular() {
   setDisp("tco-datos-row",       p.tcoDatos    ? "flex" : "none");
   setDisp("tco-electricity-row", (p.tcoElectricity && isLocal) ? "flex" : "none");
   setDisp("tco-dev-row",         p.tcoDev      ? "flex" : "none");
-
-  // Electricidad: deshabilitar checkbox si no hay modelo local
-  const elecCheckbox = document.getElementById("tco-electricity");
-  const elecLabel    = document.getElementById("tco-electricity-label");
-  const elecNote     = document.getElementById("tco-electricity-note");
-  if (!isLocal) {
-    elecCheckbox.checked  = false;
-    elecCheckbox.disabled = true;
-    elecLabel.style.opacity = "0.4";
-    elecLabel.style.cursor  = "not-allowed";
-    elecNote.style.display  = "inline";
-  } else {
-    elecCheckbox.disabled   = false;
-    elecLabel.style.opacity = "1";
-    elecLabel.style.cursor  = "pointer";
-    elecNote.style.display  = "none";
-  }
 
   const tcoYears = [1, 2, 3].map(y => {
     const api          = totalMes * 12 * y;
@@ -1509,6 +1597,7 @@ function calcular() {
   // ── Recomendación ─────────────────────────────────────────────
   generarRecomendacion(totalMes * 12, p, isLocal, gpu);
 }
+
 
 // ═══════════════════════════════════════════════════════════════════
 // GENERADOR DE RECOMENDACIÓN (pedagógico, con acciones concretas)
