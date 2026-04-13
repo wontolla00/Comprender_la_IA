@@ -806,7 +806,8 @@ body.dark .dilema-opcion { background: rgba(0,0,0,.3); }
     <div class="toc-item"><a href="#cap5">Cap. 5 — Cómo funciona un LLM por dentro</a></div>
     <div class="toc-item"><a href="#cap6">Cap. 6 — Búsqueda vectorial avanzada</a></div>
     <div class="toc-item"><a href="#cap7">Cap. 7 — Diagnóstico y optimización RAG</a></div>
-	<div class="toc-item"><a href="#cap8">Cap. 8 — Prompt engineering</a></div>
+	<div class="toc-item"><a href="#cap8">Cap. 8 — Prompt engineering (DSPy, evaluación, CI/CD)</a></div>
+	<div class="toc-item"><a href="#lab-cap8-prompt">Lab. Cap. 8 — Prompt engineering frágil (4 casos)</a></div>
 	<div class="toc-item"><a href="#cap9">Cap. 9 — Modelos de razonamiento nativo</a></div>
 	<div class="toc-item"><a href="#cap10">Cap. 10 — Agentes IA: poder, complejidad y sus límites reales</a></div>
   </div>
@@ -3135,7 +3136,12 @@ body.dark .dilema-opcion { background: rgba(0,0,0,.3); }
 
   <div class="hilo">
     <strong>🧵 Para qué te sirve esto</strong>
-    El prompt es la interfaz de programación del LLM. Escribir buenos prompts no es talento: es conocer los principios que determinan cómo el modelo interpreta las instrucciones. Este capítulo te da esos principios y las técnicas que más impacto tienen en calidad del output.
+    El prompt es la interfaz de programación del LLM. Escribir buenos prompts no es talento: es conocer los principios que determinan cómo el modelo interpreta las instrucciones. Este capítulo te da esos principios, las técnicas de mayor impacto, las herramientas para optimizarlos automáticamente y el sistema para gestionarlos en producción. El prompt engineering mal hecho es la segunda causa principal de fallos en sistemas RAG en producción, después de los problemas de retrieval.
+  </div>
+  
+  <div class="hilo">
+    <strong>📌 Nota de alcance</strong>
+    Este capítulo cubre los fundamentos y las herramientas más establecidas a 2026. El prompt engineering evoluciona rápidamente: las secciones 8.5 en adelante tienen mayor caducidad que las secciones 8.1–8.4. Para técnicas emergentes y benchmarks actualizados, consulta el repositorio del manual y los canales de cada proveedor.
   </div>
 
   <h2>8.1 El prompt como especificación técnica</h2>
@@ -3235,7 +3241,396 @@ const response = await openai.chat.completions.create({
     <li>Evalúa el nuevo prompt sobre el mismo golden dataset</li>
     <li>Despliega solo si la métrica mejora o no empeora. Documenta el resultado.</li>
   </ol>
+  
+ <h3>Métricas específicas para prompts</h3>
+  <table>
+    <thead><tr><th>Métrica</th><th>Qué mide</th><th>Cómo calcularla</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Robustez</strong></td><td>El mismo significado produce respuestas equivalentes</td><td>Parafrasear la misma pregunta 5–10 veces, medir similitud semántica de las respuestas (coseno &gt; 0.85 como umbral)</td></tr>
+      <tr><td><strong>Sensibilidad</strong></td><td>Pequeños cambios en el prompt producen grandes cambios en la salida</td><td>Añadir palabras irrelevantes ("por favor" / "urgente") y ver si la respuesta cambia semánticamente</td></tr>
+      <tr><td><strong>Especificidad</strong></td><td>El prompt fuerza al modelo a ceñirse a lo pedido</td><td>% de respuestas que siguen el formato esperado; % que evitan información no solicitada</td></tr>
+      <tr><td><strong>Estabilidad</strong></td><td>El mismo prompt con temperatura baja produce respuestas consistentes</td><td>Ejecutar N veces (N≥20) la misma consulta a temperatura 0.2–0.3 y medir varianza de la respuesta</td></tr>
+    </tbody>
+  </table>
+  <h2>8.5 Optimización algorítmica de prompts: DSPy</h2>
 
+  <p>El ajuste manual de prompts —probar, observar, modificar, repetir— es el método más común, pero también el menos eficiente. Existen frameworks que tratan el prompt como un programa optimizable, no como una instrucción de lenguaje natural.</p>
+
+  <h3>¿Qué es DSPy?</h3>
+  <p>DSPy (Stanford, 2023–2025) abstrae el prompt engineering como un problema de optimización. En lugar de escribir el prompt manualmente, defines la firma de entrada/salida, los módulos que combinan las llamadas al LLM, unos pocos ejemplos de entrenamiento y una métrica de calidad. DSPy busca automáticamente la mejor instrucción, el mejor formato de few-shot y la mejor estructura de razonamiento.</p>
+
+  <pre># pip install dspy-ai ragas sentence-transformers
+import dspy
+from dspy.teleprompt import BootstrapFewShot
+from dspy.evaluate import Evaluate
+
+# 1. Configurar el LM
+lm = dspy.OpenAI(model='gpt-4o-mini', max_tokens=300)
+dspy.settings.configure(lm=lm)
+
+# 2. Definir la firma: declara qué entra y qué sale
+class ResponderConContexto(dspy.Signature):
+    """Responde a la pregunta basándote ÚNICAMENTE en el contexto proporcionado."""
+    contexto = dspy.InputField(desc="Fragmentos de documentos relevantes")
+    pregunta = dspy.InputField()
+    respuesta = dspy.OutputField(desc="Respuesta concisa, citando la fuente cuando sea posible")
+
+# 3. Definir el módulo (cómo se llama al LLM)
+class RAGModule(dspy.Module):
+    def __init__(self):
+        self.responder = dspy.ChainOfThought(ResponderConContexto)
+    def forward(self, contexto, pregunta):
+        return self.responder(contexto=contexto, pregunta=pregunta)
+
+# 4. Golden dataset (20-200 ejemplos son suficientes)
+ejemplos = [
+    dspy.Example(
+        contexto="El RGPD establece un plazo de un mes para responder a solicitudes de acceso.",
+        pregunta="¿Cuál es el plazo del RGPD?",
+        respuesta="Un mes."
+    ),
+    dspy.Example(
+        contexto="La garantía legal mínima en la UE es de dos años desde la entrega.",
+        pregunta="¿Cuánto dura la garantía legal?",
+        respuesta="Dos años desde la entrega."
+    ),
+    # Añade 15-20 ejemplos más de tu dominio específico
+]
+train_set = [ex.with_inputs("contexto", "pregunta") for ex in ejemplos]
+
+# 5. Definir la métrica de calidad
+def metric_exactitud(example, prediction, trace=None):
+    return example.respuesta.strip().lower() == prediction.respuesta.strip().lower()
+
+# Para respuestas abiertas, usa similitud semántica:
+from sentence_transformers import SentenceTransformer, util
+_st = SentenceTransformer('all-MiniLM-L6-v2')
+def metric_semantica(example, prediction, trace=None):
+    e1 = _st.encode(example.respuesta)
+    e2 = _st.encode(prediction.respuesta)
+    return 1.0 if util.cos_sim(e1, e2).item() > 0.85 else 0.0
+
+# 6. Optimizar (puede requerir decenas de llamadas a la API)
+optimizador = BootstrapFewShot(metric=metric_exactitud, max_bootstrapped_demos=4)
+modelo_optimizado = optimizador.compile(RAGModule(), trainset=train_set)
+
+# 7. Evaluar sobre un conjunto de test independiente
+evaluador = Evaluate(devset=train_set, metric=metric_exactitud, num_threads=4)
+score = evaluador(modelo_optimizado)
+print(f"Exactitud tras optimización: {score:.1%}")
+
+# 8. Guardar el prompt optimizado como artefacto de producción
+modelo_optimizado.save("prompts/rag_v2.json")  # JSON con instrucciones + ejemplos óptimos</pre>
+
+  <div class="callout">
+    <strong>💡 Optimizadores disponibles en DSPy</strong>
+    <strong>BootstrapFewShot:</strong> genera ejemplos few-shot a partir del dataset. El más rápido y económico.<br>
+    <strong>BootstrapFewShotWithRandomSearch:</strong> añade búsqueda aleatoria sobre el número de ejemplos.<br>
+    <strong>COPRO:</strong> optimiza instrucciones y ejemplos conjuntamente. Más costoso, mejores resultados.<br>
+    <strong>MIPRO:</strong> el más avanzado; usa un LLM como meta-optimizador. Para producción de alto valor.
+  </div>
+
+  <h3>Métricas de evaluación con DSPy y RAGAS</h3>
+  <pre>from ragas.metrics import faithfulness, answer_relevancy
+from ragas import evaluate
+from datasets import Dataset
+
+# Métrica de faithfulness para usar dentro de DSPy
+def metric_faithfulness_dspy(example, prediction, trace=None):
+    """Mide si la respuesta está soportada por el contexto recuperado."""
+    dataset = Dataset.from_dict({
+        "question": [example.pregunta],
+        "answer":   [prediction.respuesta],
+        "contexts": [[example.contexto]],
+    })
+    result = evaluate(dataset, metrics=[faithfulness])
+    score = result["faithfulness"]
+    return 1.0 if score > 0.8 else 0.0
+
+# Usar esta métrica en lugar de metric_exactitud para sistemas RAG
+optimizador = BootstrapFewShot(metric=metric_faithfulness_dspy, max_bootstrapped_demos=4)
+modelo_optimizado = optimizador.compile(RAGModule(), trainset=train_set)</pre>
+
+  <table>
+    <thead><tr><th>Situación</th><th>¿Usar DSPy?</th></tr></thead>
+    <tbody>
+      <tr><td>Tienes un golden dataset de calidad (≥20 ejemplos) y la métrica está definida</td><td>✅ Sí</td></tr>
+      <tr><td>El prompt manual es largo y frágil (cambia con pequeñas modificaciones)</td><td>✅ Sí</td></tr>
+      <tr><td>El prompt se usará en producción con miles de consultas</td><td>✅ La inversión se amortiza</td></tr>
+      <tr><td>Estás en fase de prototipo, sin golden dataset</td><td>❌ No merece la pena aún</td></tr>
+      <tr><td>Usas un modelo de razonamiento nativo (o1, o3, Gemini Thinking)</td><td>❌ Contraproducente</td></tr>
+      <tr><td>El LLM base no puede realizar la tarea (necesita fine-tuning)</td><td>❌ DSPy no lo solucionará</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Otras arquitecturas de razonamiento automático</h3>
+  <p><strong>Self-ask:</strong> el modelo se pregunta subpreguntas a sí mismo antes de responder. Útil para tareas multi-paso donde el orden no es obvio.</p>
+  <p><strong>Reflexión:</strong> el modelo genera una respuesta, luego la evalúa con un evaluador separado (o consigo mismo) y corrige si es necesario. Implementa un bucle interno de calidad.</p>
+  <p><strong>Generated Knowledge Prompting:</strong> el modelo genera primero hechos relevantes sobre la pregunta, luego responde basándose en ellos. Mejora la precisión factual en dominios especializados.</p>
+  <p>Estas técnicas pueden combinarse con DSPy: DSPy proporciona módulos (<code>dspy.ReAct</code>, <code>dspy.ProgramOfThought</code>) para implementarlas sin escribir el prompt a mano.</p>
+
+  <h2>8.6 Automatización de pruebas de prompt en CI/CD</h2>
+
+  <p>Los prompts son código. Un cambio de prompt sin pruebas automáticas es un cambio sin revisión. Integra la evaluación de prompts en tu pipeline de CI/CD:</p>
+
+  <pre># evaluate_prompt.py — script de evaluación para CI/CD
+import json, sys, argparse
+import dspy
+from dspy.evaluate import Evaluate
+
+def cargar_golden_dataset(path):
+    with open(path) as f:
+        data = json.load(f)
+    return [dspy.Example(**ex).with_inputs("contexto", "pregunta") for ex in data]
+
+def metric_exactitud(example, prediction, trace=None):
+    return example.respuesta.strip().lower() == prediction.respuesta.strip().lower()
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--golden-dataset", required=True)
+    parser.add_argument("--prompt-path", required=True)
+    parser.add_argument("--min-exactitud", type=float, default=0.85)
+    args = parser.parse_args()
+
+    lm = dspy.OpenAI(model='gpt-4o-mini', max_tokens=200)
+    dspy.settings.configure(lm=lm)
+
+    dataset = cargar_golden_dataset(args.golden_dataset)
+    modelo = RAGModule()
+    modelo.load(args.prompt_path)
+
+    evaluador = Evaluate(devset=dataset, metric=metric_exactitud, num_threads=4)
+    score = evaluador(modelo)
+
+    print(f"Exactitud: {score:.1%} (mínimo requerido: {args.min_exactitud:.1%})")
+    if score < args.min_exactitud:
+        print("❌ El prompt no supera el umbral mínimo. PR rechazado.")
+        sys.exit(1)
+    print("✅ Prompt validado. Listo para producción.")
+
+if __name__ == "__main__":
+    main()</pre>
+
+  <pre># .github/workflows/prompt_tests.yml
+name: Prompt Validation
+on: [pull_request]
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar dependencias
+        run: pip install dspy-ai ragas sentence-transformers datasets
+      - name: Evaluar prompt contra golden dataset
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python evaluate_prompt.py             --golden-dataset tests/golden_prompts.json             --prompt-path prompts/rag_v2.json             --min-exactitud 0.85</pre>
+
+  <div class="callout">
+    <strong>💡 Regla de oro: canary deployments de prompts</strong>
+    Antes de desplegar un nuevo prompt al 100% del tráfico, despliégalo al 1–5% durante 24 horas y mide faithfulness, latencia y feedback de usuarios. Si las métricas no empeoran, aumenta el porcentaje gradualmente. El mismo principio que usas para desplegar código nuevo.
+  </div>
+
+  <h2>8.7 Gestión de prompts en producción</h2>
+
+  <h3>Herramientas de gestión</h3>
+  <table>
+    <thead><tr><th>Herramienta</th><th>Función principal</th><th>Modelo de precios</th></tr></thead>
+    <tbody>
+      <tr><td><strong>LangSmith</strong></td><td>Trazabilidad + evaluación + versionado de prompts</td><td>Comercial (freemium)</td></tr>
+      <tr><td><strong>PromptLayer</strong></td><td>Versionado de prompts, comparativas A/B, logs</td><td>Comercial</td></tr>
+      <tr><td><strong>HumanLoop</strong></td><td>Gestión de prompts + human-in-the-loop</td><td>Comercial</td></tr>
+      <tr><td><strong>MLflow (plugin)</strong></td><td>Versionado básico de prompts como artefactos</td><td>Open source</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Buenas prácticas</h3>
+  <ul>
+    <li><strong>El prompt es un artefacto versionado:</strong> guarda el hash del prompt junto a cada respuesta en los logs. Sin el hash, no puedes reproducir el comportamiento pasado.</li>
+    <li><strong>Separación de entornos:</strong> cada cambio de prompt debe pasar por desarrollo → staging → producción, con pruebas automáticas en cada etapa.</li>
+    <li><strong>Prompt como código:</strong> almacena los prompts en archivos de texto (.txt o .jinja) versionados en el mismo repositorio que el código. No los pegues directamente en el código fuente.</li>
+    <li><strong>Documenta el porqué:</strong> registra qué problema resolvía cada cambio de prompt. En 6 meses no recordarás por qué añadiste esa instrucción.</li>
+  </ul>
+
+  <h2>8.8 Reducción de coste y latencia</h2>
+
+  <h3>Prompt compression</h3>
+  <p>Herramientas como LLMLingua (Microsoft) comprimen el prompt eliminando palabras redundantes sin perder calidad. Pueden reducir el tamaño del prompt hasta un 80% con una pérdida de calidad del 1–5%. Útil para prompts largos con instrucciones + ejemplos + contexto.</p>
+
+  <pre># pip install llmlingua
+from llmlingua import PromptCompressor
+
+compresor = PromptCompressor()
+prompt_largo = """
+[Instrucciones largas de sistema + fragmentos RAG extensos + ejemplos few-shot]
+"""
+resultado = compresor.compress_prompt(
+    prompt_largo,
+    ratio=0.4,        # Conserva el 40% de los tokens (comprime un 60%)
+    target_token=200  # O define el número de tokens objetivo
+)
+print(f"Tokens originales: {resultado['origin_tokens']}")
+print(f"Tokens comprimidos: {resultado['compressed_tokens']}")
+print(f"Ratio real: {resultado['ratio']:.1%}")
+prompt_comprimido = resultado['compressed_prompt']</pre>
+
+  <h3>Prompt caching</h3>
+  <p>Cuando el prefijo del prompt (instrucciones de sistema + contexto estático) se repite en muchas consultas, los proveedores ofrecen caching que reduce el coste de esos tokens entre un 50% y un 90%. Ver Capítulo 15 (MLOps) para la implementación en producción.</p>
+
+  <div class="warning">
+    <strong>⚠️ Prompt compression y modelos de razonamiento</strong>
+    No apliques compresión agresiva a prompts dirigidos a modelos de razonamiento nativo (o1, o3). Estos modelos son más sensibles a la pérdida de contexto que los modelos estándar; la compresión puede degradar significativamente la calidad del razonamiento.
+  </div>
+
+  <div class="lab-errores" id="lab-cap8-prompt">
+    <div class="lab-header">🔴 Laboratorio de errores — Prompt engineering en producción</div>
+    <div class="lab-body">
+
+      <div class="lab-caso">
+        <div class="lab-caso-titulo">Caso P-1 — Instrucción negativa sin alternativa</div>
+        <div class="lab-io">
+          <div class="lab-input"><strong>Prompt:</strong> "No uses lenguaje técnico."</div>
+          <div class="lab-output"><strong>Comportamiento:</strong> El modelo a veces usa lenguaje técnico, a veces no. La instrucción negativa no define qué hacer.</div>
+        </div>
+        <div class="lab-fix"><strong>Corrección:</strong> "Usa lenguaje accesible para alguien sin formación técnica. Por ejemplo, en lugar de 'ratio de liquidez corriente', di 'capacidad de pagar deudas a corto plazo'."</div>
+      </div>
+
+      <div class="lab-caso">
+        <div class="lab-caso-titulo">Caso P-2 — Instrucciones contradictorias</div>
+        <div class="lab-io">
+          <div class="lab-input"><strong>Prompt:</strong> "Responde siempre en una sola frase. Asegúrate de cubrir todos los aspectos de la pregunta."</div>
+          <div class="lab-output"><strong>Comportamiento:</strong> Para preguntas complejas, el modelo prioriza una instrucción sobre la otra de forma impredecible según el wording exacto.</div>
+        </div>
+        <div class="lab-fix"><strong>Corrección:</strong> Elimina la contradicción: "Responde en el menor número de frases posible sin omitir información esencial."</div>
+      </div>
+
+      <div class="lab-caso">
+        <div class="lab-caso-titulo">Caso P-3 — Sensibilidad no detectada por pruebas manuales</div>
+        <div class="lab-io">
+          <div class="lab-input"><strong>Prompt base:</strong> "Clasifica esta reseña como POSITIVA, NEGATIVA o NEUTRAL."</div>
+          <div class="lab-output"><strong>Problema:</strong> El prompt funciona bien en pruebas manuales, pero en producción las reseñas con emojis o sarcasmo se clasifican mal sistemáticamente.</div>
+        </div>
+        <div class="lab-fix"><strong>Corrección:</strong> Añadir ejemplos de casos difíciles en few-shot. Ejecutar pruebas de robustez con paráfrasis y variaciones antes de desplegar. Medir sensibilidad con similitud semántica (umbral coseno &gt; 0.85).</div>
+      </div>
+
+      <div class="lab-caso">
+        <div class="lab-caso-titulo">Caso P-4 — Prompt frágil: cambia comportamiento con variaciones mínimas</div>
+        <div class="lab-io">
+          <div class="lab-input"><strong>Prompt:</strong> "Extrae el importe total de la factura."</div>
+          <div class="lab-output"><strong>Problema:</strong> Funciona con facturas en formato estándar. Falla con facturas en otros idiomas, con "Total a pagar:" en lugar de "Importe total:", o con múltiples subtotales.</div>
+        </div>
+        <div class="lab-fix"><strong>Corrección:</strong> Añadir instrucción de fallback explícita: "Si no encuentras un importe total claro, devuelve null y explica qué encontraste." Añadir ejemplos few-shot con casos de borde. Medir estabilidad con 20+ facturas reales del corpus de producción.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <h2>8.9 Ejercicios prácticos</h2>
+  <p>El repositorio del manual incluye el notebook <code>08_prompt_engineering.ipynb</code> con los siguientes ejercicios ejecutables:</p>
+
+  <div class="callout">
+    <strong>📓 Notebook: 08_prompt_engineering.ipynb</strong>
+    <strong>Requisitos:</strong> <code>pip install dspy-ai ragas sentence-transformers datasets llmlingua</code> + API key de OpenAI o compatible.<br>
+    <strong>Coste estimado por ejecución completa:</strong> &lt;$1 con gpt-4o-mini.
+  </div>
+
+  <pre># ── EJERCICIO 1: Optimización manual vs DSPy ──────────────────────
+# Dado un golden dataset de 20 preguntas sobre tu dominio,
+# optimiza un prompt manualmente y compáralo con DSPy.
+# Mide: exactitud, faithfulness y coste de tokens.
+
+import dspy, json
+from dspy.teleprompt import BootstrapFewShot
+from dspy.evaluate import Evaluate
+
+lm = dspy.OpenAI(model='gpt-4o-mini', max_tokens=200)
+dspy.settings.configure(lm=lm)
+
+# Carga tu golden dataset (mínimo 20 ejemplos)
+with open("tests/golden_prompts.json") as f:
+    raw = json.load(f)
+dataset = [dspy.Example(**ex).with_inputs("contexto", "pregunta") for ex in raw]
+train, test = dataset[:15], dataset[15:]
+
+class RAGModule(dspy.Module):
+    def __init__(self):
+        self.responder = dspy.ChainOfThought("contexto, pregunta -> respuesta")
+    def forward(self, contexto, pregunta):
+        return self.responder(contexto=contexto, pregunta=pregunta)
+
+def metric_exactitud(example, prediction, trace=None):
+    return example.respuesta.strip().lower() == prediction.respuesta.strip().lower()
+
+# Baseline: módulo sin optimizar
+baseline = RAGModule()
+ev = Evaluate(devset=test, metric=metric_exactitud, num_threads=2)
+score_baseline = ev(baseline)
+print(f"Baseline (sin DSPy): {score_baseline:.1%}")
+
+# Optimizado con DSPy
+opt = BootstrapFewShot(metric=metric_exactitud, max_bootstrapped_demos=3)
+modelo_opt = opt.compile(RAGModule(), trainset=train)
+score_opt = ev(modelo_opt)
+print(f"Optimizado con DSPy: {score_opt:.1%}")
+print(f"Mejora: {score_opt - score_baseline:+.1%}")
+
+# ── EJERCICIO 2: Evaluación de robustez ───────────────────────────
+from sentence_transformers import SentenceTransformer, util
+import numpy as np
+
+st = SentenceTransformer('all-MiniLM-L6-v2')
+pregunta_base = "¿Cuál es el plazo de garantía legal?"
+parafrasis = [
+    "Dime el plazo de garantía por ley.",
+    "¿Durante cuánto tiempo cubre la garantía legal?",
+    "Garantía legal: ¿cuántos años son?",
+    "¿Qué dice la ley sobre el plazo de garantía?",
+    "¿Cuánto tiempo tengo de garantía según la normativa?"
+]
+
+# Obtener respuestas para la pregunta base y sus paráfrasis
+# (sustituye por tu función real de llamada al LLM)
+respuestas = ["Dos años desde la entrega."] * (len(parafrasis) + 1)  # simulación
+
+embeddings = st.encode(respuestas)
+sims = [util.cos_sim(embeddings[0], embeddings[i]).item() for i in range(1, len(embeddings))]
+robustez = np.mean(sims)
+
+print(f"Robustez media del prompt: {robustez:.3f}")
+print("✅ Aceptable" if robustez >= 0.85 else "⚠️ Frágil — rediseña el prompt")
+
+# ── EJERCICIO 3: Prueba de estabilidad ────────────────────────────
+from collections import Counter
+import statistics
+
+def test_estabilidad(respuestas_multiples):
+    """Mide qué porcentaje de veces el modelo da la respuesta más frecuente."""
+    normalizadas = [r.strip().lower() for r in respuestas_multiples]
+    contador = Counter(normalizadas)
+    mas_frecuente = max(contador.values())
+    return mas_frecuente / len(normalizadas), contador
+
+# En producción: ejecuta la misma consulta 20-30 veces con temp=0.3
+respuestas_simuladas = ["Dos años."] * 17 + ["24 meses."] * 2 + ["Dos años desde la entrega."] * 1
+estabilidad, dist = test_estabilidad(respuestas_simuladas)
+print(f"Estabilidad: {estabilidad:.0%} ({dict(dist)})")
+print("✅ Estable" if estabilidad >= 0.80 else "⚠️ Inestable — normaliza el formato de salida")
+
+# ── EJERCICIO 4: CI/CD — rechazo automático de prompt degradado ───
+def evaluar_cambio_prompt(score_actual, score_nuevo, umbral_degradacion=0.05):
+    degradacion = score_actual - score_nuevo
+    if degradacion > umbral_degradacion:
+        print(f"❌ PR rechazado: el nuevo prompt degrada la exactitud en {degradacion:.1%}")
+        return False
+    print(f"✅ PR aceptado: cambio de {score_nuevo - score_actual:+.1%} en exactitud")
+    return True
+
+# Simula la comparación entre el prompt actual y el nuevo
+score_actual = 0.87
+score_nuevo   = 0.81  # cambio degradante
+evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
   <hr class="sep">
   <div class="resultado-final">
     <h3>✅ Resultado de este capítulo</h3>
@@ -3403,7 +3798,7 @@ const response = await openai.chat.completions.create({
     <div class="chapter-meta"><span>⏱ 60 minutos</span><span>🎯 Arquitectos, ingenieros, responsables de producto</span><span>📋 Prerrequisito: Caps. 5 y 7</span></div>
   </div>
 
-  <div class="hilo">
+  <div class="callout">
     <strong>🧵 Para qué te sirve esto</strong>
     Los agentes son la frontera más activa de la IA aplicada en 2025-2026. Son también el área donde los equipos cometen los errores de arquitectura más costosos. Este capítulo te da el marco para aprovechar su potencia sin caer en sus trampas.
   </div>
