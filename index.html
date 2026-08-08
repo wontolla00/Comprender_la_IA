@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. agosto 2026 · v61</title>
+<title>Comprender la IA — Edición 2026 · rev. agosto 2026 · v65</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1059,7 +1059,8 @@ body.dark .exec-mode dt{color:#cbd5e1;}
         margin-left:8px;
         vertical-align:middle;
     }
-    .version-badge.caducidad-alta {background:#fff7ed;border-color:#fdba74;color:#9a3412;}
+    .version-badge::before {content:"rev. ";opacity:.7;}
+       .version-badge.caducidad-alta {background:#fff7ed;border-color:#fdba74;color:#9a3412;}
     .version-badge.estable {background:#dcfce7;border-color:#86efac;color:#14532d;}
     
     .nota-frontera{
@@ -1069,11 +1070,38 @@ body.dark .exec-mode dt{color:#cbd5e1;}
     }
     .nota-frontera strong{color:#9a3412}
     @media print{ .nota-frontera{background:#fff;border-left:4px solid #000} }
+  
+    /* ═══ v62 · Modo de lectura: núcleo vs. completo ═══ */
+    .modo-btn{background:var(--accent-light);border:1px solid var(--border);padding:4px 10px;
+      border-radius:6px;cursor:pointer;font-size:.76rem;font-family:system-ui,sans-serif;
+      color:var(--text);white-space:nowrap;}
+    .modo-btn:hover{background:var(--accent);color:#fff;}
+    .stub-profundidad{
+      background:var(--accent-light,#eff6ff);border:1px dashed var(--border,#cbd5e1);
+      border-radius:8px;padding:.7rem 1.1rem;margin:.4rem 0 1.6rem;
+      font-size:.83rem;color:var(--muted,#64748b);display:flex;align-items:center;
+      gap:.8rem;flex-wrap:wrap;
+    }
+    .stub-profundidad button{
+      background:transparent;border:1px solid var(--accent,#2563eb);color:var(--accent,#2563eb);
+      border-radius:5px;padding:2px 10px;font-size:.76rem;cursor:pointer;white-space:nowrap;
+    }
+    .stub-profundidad button:hover{background:var(--accent,#2563eb);color:#fff;}
+    .banner-modo{
+      background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid #2563eb;
+      border-radius:0 8px 8px 0;padding:.9rem 1.3rem;margin:1rem 0 1.6rem;font-size:.86rem;
+      line-height:1.6;color:#1e3a8a;
+    }
+    .banner-modo strong{color:#1d4ed8}
+    [data-theme="dark"] .banner-modo{background:#11213a;border-color:#1e3a8a;color:#bfdbfe}
+    [data-theme="dark"] .stub-profundidad{background:#0f1c30}
+    @media print{ .stub-profundidad,.banner-modo,.modo-btn{display:none!important}
+                  .oculto-nucleo{display:block!important} }
   </style>
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v30 · jul 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v65 · ago 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1086,8 +1114,54 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <a href="#apendice-r">Ref. senior</a><a href="#glosario">Glosario</a>
 <a href="#lab-mod1" style="color:#dc2626;">🔴 Labs</a>
 </nav>
+<button class="modo-btn" id="btn-modo" title="Alterna entre el núcleo obligatorio y el manual completo">📖 Núcleo</button>
 <button>🌙</button>
 </div>
+
+<div class="callout" id="rutas-proyecto" style="border-left-color:#0891b2;">
+<strong>🧭 Rutas por proyecto — si sabes qué estás construyendo</strong>
+<p style="margin-top:6px;font-size:.88rem;">Las cuatro tarjetas de arriba son rutas por <em>perfil</em>. Pero la unidad real de trabajo no es el rol, es el proyecto: un ingeniero que monta un RAG y otro que audita un sistema heredado necesitan capítulos distintos. Entra por lo que tengas delante:</p>
+</div>
+<div style="overflow-x:auto;margin:14px 0 24px;">
+<table style="width:100%;border-collapse:collapse;font-size:.86rem;">
+<thead>
+<tr><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);white-space:nowrap;">Estoy…</th><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);">Recorrido</th><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);">Qué debes poder responder al final</th></tr>
+</thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Construyendo un RAG desde cero</td>
+  <td style="padding:9px 12px;"><a href="#cap1">1</a> → <a href="#cap2">2</a> → <a href="#cap6">6</a> → <a href="#cap7">7</a> → <a href="#cap13">13</a> → <a href="#cap15">15</a> → <a href="#apendice-costes">Apéndice A</a></td>
+  <td style="padding:9px 12px;">Qué estrategia de chunking elegiste y por qué; cuál es tu <em>golden dataset</em>; qué coste mensual tiene el sistema a volumen previsto.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Arreglando un RAG que responde mal</td>
+  <td style="padding:9px 12px;"><a href="#cap7">7</a> → <a href="#cap6">6.1–6.5</a> → <a href="#cap13">13.3–13.8</a> → <a href="#cap8">8.0b</a></td>
+  <td style="padding:9px 12px;">Si el fallo está en el <em>retrieval</em> o en la generación, con la métrica que lo demuestra — no con una impresión.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Evaluando si necesito agentes</td>
+  <td style="padding:9px 12px;"><a href="#cap9">9.9</a> (la escalera) → <a href="#cap10">10.1–10.3</a> → <a href="#cap12">12</a> → <a href="#cap10">10.8</a></td>
+  <td style="padding:9px 12px;">Qué escalón de la escalera resuelve tu problema, y cuántos agentes puedes encadenar antes de que la fiabilidad caiga por debajo de tu umbral.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Auditando un sistema de terceros</td>
+  <td style="padding:9px 12px;"><a href="#cap11">11</a> → <a href="#cap14">14.1–14.2b</a> → <a href="#cap4">4.2</a> → <a href="#cap16">16.2–16.3</a> → <a href="#cap13">13.14</a></td>
+  <td style="padding:9px 12px;">Qué nivel de criticidad tiene, si la supervisión humana deja huella verificable, y qué campos de log faltan para sostenerlo ante el AI&nbsp;Act.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Llevando a producción algo que ya funciona en piloto</td>
+  <td style="padding:9px 12px;"><a href="#cap11">11</a> → <a href="#cap12">12</a> → <a href="#cap13">13</a> → <a href="#cap15">15</a> → <a href="#cap21">21</a></td>
+  <td style="padding:9px 12px;">Dónde está el <em>circuit breaker</em>, qué dispara el escalado a humano, y cuál es tu ASR medida frente a los ataques del Cap.&nbsp;21.</td>
+</tr>
+<tr>
+  <td style="padding:9px 12px;font-weight:700;">Decidiendo si el proyecto es viable</td>
+  <td style="padding:9px 12px;"><a href="#cap9">9.9</a> → <a href="#cap1">1.7</a> → <a href="#cap11">11.1–11.2</a> → <a href="#apendice-costes">Apéndice A</a></td>
+  <td style="padding:9px 12px;">Si la IA generativa es la herramienta correcta, qué arquitectura, qué nivel de criticidad y qué coste — <em>en ese orden</em>. Si falla la primera pregunta, las otras tres sobran.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
 <div id="prog" style="position:sticky;top:45px;z-index:99;height:4px;background:var(--border);">
 <div id="prog-fill" style="height:100%;background:var(--accent);width:0%;transition:width .3s;"></div>
 </div>
@@ -1143,6 +1217,11 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </div>
 <p style="color:rgba(255,255,255,.6);font-size:.78rem;margin-top:16px;font-style:italic;">El manual completo desarrolla el criterio que permite saber cuándo estas rutas son insuficientes. Las rutas MVP te dan el mapa; el manual completo te da el terreno.</p>
 <p style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:10px;">🎯 Estas cuatro tarjetas son la versión de 10 segundos. Versión con sub-secciones exactas y variante ejecutiva ultra-rápida: <a href="#ruta-mvp-detalle" style="color:#bfdbfe;">Ruta MVP detallada ↓</a>. Tabla de prerrequisitos técnicos y verbo de Bloom por perfil: <a href="#prerrequisitos-perfil" style="color:#bfdbfe;">ver tabla ↓</a>.</p>
+<div class="banner-modo" id="banner-modo">
+<strong>Estás leyendo el núcleo.</strong> El manual se abre mostrando solo el recorrido obligatorio. Las secciones de profundización — subsecciones con sufijo de letra (5.5c, 8.4b…), propuestas del autor ★ y material marcado como avanzado o de referencia — aparecen plegadas con un botón <em>Desplegar</em> en su lugar. Son 33 secciones: el mismo contenido, fuera del camino.
+<br>Pulsa <strong>📖 Núcleo</strong> en la barra superior para ver el manual completo. Los enlaces internos y el buscador despliegan por su cuenta lo que haga falta, así que puedes navegar sin cambiar de modo.
+</div>
+
 </div>
 <!-- ÍNDICE (actualizado) -->
 <div class="toc" id="indice">
@@ -1167,8 +1246,11 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s-puente-lora">· 1.6b Lo mínimo antes de LoRA y RAFT — calculadora interactiva</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;" title="Puedes saltarla ahora y volver justo antes del Cap. 5">📘 Prerrequisito de Cap. 5 · saltable</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s18raft">· 1.8 RAFT en profundidad</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;" title="Puedes saltarla ahora y volver justo antes del Cap. 5">📘 Prerrequisito de Cap. 5 · saltable</span></div>
 <div class="toc-item"><a href="#cap2">Cap. 2 — De esquemas a espacios vectoriales</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 60 min</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s25">· 2.5 Por qué fracasó la Web Semántica, y qué cambió con los LLM</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v63</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s255">· 2.5.5 Cuándo sí: el test del punto de equilibrio</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v65</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item"><a href="#cap3">Cap. 3 — De la calidad del dato a la evaluación probabilística</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 70 min</span></div>
 <div class="toc-item"><a href="#cap4">Cap. 4 — De la trazabilidad de datos a la trazabilidad en IA</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span> <span style="color:var(--muted);font-size:.75rem;">· 50 min</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s47b">· 4.7b Procedencia declarada: cuándo la semántica se paga sola</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v63</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
 </div>
 <div class="toc-part">
 <div class="toc-part-title">Módulo 2 · Fundamentos propios de la IA <span style="font-weight:400;font-size:.8rem;color:var(--muted);">~8 h · Ingeniero / Arquitecto</span></div>
@@ -1182,6 +1264,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57d">· 5.7d FlashAttention e inferencia especulativa</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;"></span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57e">· 5.7e Arquitecturas de hardware: por qué el chip importa tanto como el modelo</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
 <div class="toc-item"><a href="#cap6">Cap. 6 — Búsqueda vectorial avanzada</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 70 min</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s66b">· 6.6b Lo que un grafo plano no puede representar — y qué hacer con eso</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v64</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s65b">· 6.5b De la resolución de entidades al grafo de conocimiento</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s67">· 6.7 Indexación jerárquica (PageIndex)</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s68">· 6.8 LightRAG</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
@@ -1195,6 +1278,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s55c">· → Ver también: GQA, SWA, MLA en sección 5.5c</a></div>
 <div class="toc-item"><a href="#cap7">Cap. 7 — Diagnóstico y optimización RAG</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 60 min</span></div>
 <div class="toc-item"><a href="#cap8">Cap. 8 — Prompt engineering (DSPy, evaluación, CI/CD)</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 80 min</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s87b">· 8.7b El prompt como deuda técnica: la caducidad que no depende de ti</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v63</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#lab-cap8-prompt">· Lab. Cap. 8 — Prompt engineering frágil (4 casos)</a></div>
 <div class="toc-item"><a href="#cap9">Cap. 9 — Modelos de razonamiento nativo <span style="font-size:0.78em;color:#64748b;font-weight:normal;">· incl. 9.6 entrenamiento, 9.7 casos</span></a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span> <span style="color:var(--muted);font-size:.75rem;">· 70 min</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s96b">· 9.6b Razonamiento en espacio latente (frontera)</a></div>
@@ -1203,6 +1287,8 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item"><a href="#cap10">Cap. 10 — Agentes IA: poder, complejidad y sus límites reales</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span> <span style="color:var(--muted);font-size:.75rem;">· 60 min</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s104b">· 10.4b Condiciones de parada del loop de agente: las ocho salidas</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s10mem">· 10.9 Memoria persistente en agentes: del contexto efímero a la continuidad real</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s1096">· 10.9.6 La frontera de recuperación: dónde memoria y contexto se tocan</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v63</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s1097">· 10.9.7 Tres cosas que el discurso de memory engineering da por supuestas</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v63</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.85em;color:var(--muted);"><a href="#s1095cg">· 10.9.5 Del grafo de conocimiento al grafo de contexto</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s10mcp">· 10.10 Interoperabilidad entre agentes: MCP, A2A y la cuestión de la identidad</a></div>
 </div>
@@ -1458,6 +1544,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;">★ Propuesta del autor / 📐 Concepto del autor</td><td style="padding:8px 12px;"><strong>Marco propio del manual.</strong> Útil como herramienta de pensamiento aquí dentro, pero no es vocabulario estándar del sector. Antes de usarlo en una entrevista, licitación o documento externo, tradúcelo con la <a href="#tabla-equivalencias">tabla de equivalencias autor ↔ estándar</a>.</td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;">⚡ Frontera de investigación</td><td style="padding:8px 12px;"><strong>Tendencia emergente.</strong> Resultados prometedores pero no consolidados; pueden cambiar o desaparecer. No bases decisiones de arquitectura solo en estas secciones.</td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;"><span class="version-badge">2026-08</span> &nbsp;·&nbsp; <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></td><td style="padding:8px 12px;"><strong>Fecha de última revisión de la sección.</strong> No todo el manual envejece al mismo ritmo: la similitud coseno y el golden dataset no caducan, pero los precios por token, los <em>leaderboards</em>, el calendario regulatorio y los nombres de modelo sí. El sello naranja marca las secciones cuyo contenido concreto caduca en meses — en ellas, verifica la fuente primaria antes de decidir. <strong>La ausencia de sello significa que la sección no depende de datos con fecha</strong>, no que esté sin revisar.</td></tr>
+<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;">📖 Núcleo / 📚 Completo</td><td style="padding:8px 12px;"><strong>Dos manuales en un fichero.</strong> El botón de la barra superior alterna entre ambos. <em>Núcleo</em> es el manual de campo: el recorrido obligatorio, con las 33 secciones de profundización plegadas (subsecciones con sufijo de letra, propuestas del autor, material avanzado o de referencia) — unas 32.000 palabras fuera del camino, disponibles con un clic. <em>Completo</em> es la obra de consulta entera. Los enlaces internos y el buscador despliegan por su cuenta lo que haga falta, así que no necesitas cambiar de modo para navegar.</td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;">Avanzado · Opcional / Referencia / Contexto</td><td style="padding:8px 12px;"><strong>Profundidad no requerida.</strong> Material para consulta puntual, no para lectura general. Estas secciones aparecen ahora <em>plegadas por defecto</em>: haz clic para desplegarlas. Los enlaces internos las abren automáticamente.</td></tr>
 <tr><td style="padding:8px 12px;white-space:nowrap;font-weight:700;">⚖ Dato normativo</td><td style="padding:8px 12px;"><strong>Sujeto a cambio regulatorio.</strong> Cifras, plazos y obligaciones legales con fecha de última comprobación explícita; verifica la fuente antes de usarlo en decisiones reales.</td></tr>
 </tbody>
@@ -3533,7 +3620,7 @@ Art. 3. Los organismos notificados evaluarán la conformidad de los sistemas ant
 <h4>🧭 Más allá del chunking: cuando la estructura del documento es el índice</h4>
 <p>La estrategia jerárquica (padre→hijo) del selector anterior tiene una extensión radical: no trocear en absoluto, y navegar el documento por su estructura — el índice jerárquico estilo PageIndex que verás en §6.7 y en la arquitectura híbrida de §6.9. Resuelve el problema del fragmento artificial, pero con dos advertencias que el marketing («vectorless RAG») omite: no elimina el coste de retrieval, lo <strong>desplaza</strong> a llamadas LLM de enrutado, generalmente más caras que una búsqueda vectorial; y no elimina la selección, la <strong>cambia de fenotipo</strong> — deja de premiar el fragmento corto autosuficiente y pasa a premiar el documento con jerarquía explícita de encabezados. El ensayo continuo sigue perdiendo, ahora por otra razón. Criterio práctico en §6.7.1.</p>
 </div>
-<h2 id="s-puente-lora">1.6b Lo mínimo que necesitas antes de LoRA y RAFT</h2>
+<h2 id="s-puente-lora" data-nivel="profundidad">1.6b Lo mínimo que necesitas antes de LoRA y RAFT</h2>
 <p style="color:var(--muted);font-size:.82rem;margin:-8px 0 16px;font-style:italic;">(Nota de numeración: esta sección puente se referencia como "1.6b" por su posición justo antes de 1.7 — el capítulo no contempla secciones 1.5 ni 1.6 independientes.)</p>
 <div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
 <strong>⚠ Por qué existe esta sección</strong>
@@ -4493,6 +4580,132 @@ detectar_fuera_de_cobertura("¿Cuál es el salario mínimo interprofesional?")
 <tr style="background:var(--yellow-light);"><td colspan="3"><small>⚠️ <strong>Esta tabla tiene fecha de caducidad.</strong> El ecosistema de modelos de embedding evoluciona rápido. Antes de elegir, consulta siempre el <a href="https://huggingface.co/spaces/mteb/leaderboard" target="_blank">leaderboard MTEB</a> actualizado y filtra por tu tarea (retrieval) e idioma. Los modelos aquí listados son referencia válida a fecha de esta edición (2026), no necesariamente los mejores en el momento en que leas esto.</small></td></tr>
 </tbody>
 </table>
+<h2 id="s25">2.5 Por qué fracasó la Web Semántica, y qué cambió con los LLM</h2>
+<p>En 2001, Tim Berners-Lee, James Hendler y Ora Lassila publicaron en <em>Scientific American</em> el artículo que definió la Web Semántica. La idea era exacta y ambiciosa: si los datos de la web llevaran su significado explícito, en un formalismo que las máquinas pudieran procesar, los agentes automáticos podrían razonar sobre ellos. Se construyó la pila completa — RDF para las afirmaciones, OWL para las ontologías, SPARQL para consultarlas, razonadores para inferir lo no dicho. Fue una de las iniciativas de estandarización mejor diseñadas de la historia de la web.</p>
+<p>No se adoptó. No de forma general. Dos décadas y media después, la parte que sobrevive es real pero acotada: <code>schema.org</code> incrustado para que un buscador renderice resultados enriquecidos, Wikidata, algunos grafos de conocimiento corporativos, y los dominios donde la ontología <em>es</em> el producto (biomedicina, aeronáutica, catalogación bibliotecaria). La visión general — una web de datos autodescriptivos sobre la que agentes autónomos razonan — no ocurrió.</p>
+<p>Conviene entender <strong>por qué</strong>, porque el mismo mecanismo opera hoy en cualquier proyecto que decida "enriquecer semánticamente" sus datos.</p>
+<h3>2.5.1 Las cuatro razones del fracaso</h3>
+<table>
+<thead><tr><th>Causa</th><th>Qué ocurría en la práctica</th></tr></thead>
+<tbody>
+<tr><td><strong>Asimetría de incentivos</strong></td><td>El coste de anotar lo paga quien publica; el beneficio lo recoge quien consume. Sin un consumidor visible que ya pague, anotar es trabajo a fondo perdido. La excepción confirma la regla: <code>schema.org</code> se adoptó masivamente en cuanto Google lo convirtió en visibilidad en el buscador — es decir, en cuanto el publicador cobró.</td></tr>
+<tr><td><strong>Coste de mantenimiento no acotado</strong></td><td>Una ontología es correcta el día que se escribe. El mundo se mueve; la ontología no. Y una ontología obsoleta es peor que ninguna: da respuestas con la autoridad de un formalismo y la vigencia de un archivo. El coste real nunca fue escribirla, fue mantenerla al día indefinidamente.</td></tr>
+<tr><td><strong>Fragilidad ante el desacuerdo</strong></td><td>Los formalismos exigen decidir. ¿Un contratista es un empleado? ¿Un pedido cancelado sigue siendo un pedido? Cuando dos departamentos responden distinto y ambos tienen razón desde su función, el modelo formal no arbitra: obliga a que uno pierda, o se bifurca en dos ontologías que ya no interoperan — que era exactamente el problema que venía a resolver.</td></tr>
+<tr><td><strong>Barrera de entrada</strong></td><td>Escribir OWL bien requiere entender lógica descriptiva. Escribirlo mal produce ontologías que razonan y devuelven basura. La distancia entre "sé usar la sintaxis" y "sé modelar un dominio" resultó ser mucho mayor de lo previsto, y no había ruta gradual entre ambas.</td></tr>
+</tbody>
+</table>
+<div class="callout concept">
+<h4>🧠 El giro que casi todo el mundo cuenta al revés</h4>
+<p>Circula desde 2024 una narrativa con forma de justicia poética: <em>la Web Semántica tenía razón, solo llegó pronto; ahora la IA nos obliga a ser semánticos.</em> Es una historia atractiva y es, en su punto central, <strong>lo contrario de lo que pasó</strong>.</p>
+<p>La Web Semántica pedía que los humanos subieran al formalismo: que expresaran el significado en RDF, en OWL, en tripletas sujeto-predicado-objeto, porque la máquina no podía leer otra cosa. Lo que ocurrió con los LLM es que <strong>la máquina bajó al lenguaje natural</strong>. Hoy un modelo extrae más significado utilizable de un párrafo de documentación en prosa que de una ontología mediocre — y lo hace sin que nadie aprenda lógica descriptiva.</p>
+<p>Esto importa porque la conclusión práctica cambia de signo. Si la lección fuera «formaliza más», el trabajo sería construir ontologías. Si la lección es «la máquina ya lee prosa», el trabajo es <strong>escribir mejor prosa, en el sitio donde el sistema la va a encontrar</strong>. Es mucho más barato, mucho menos frágil, y no exige que nadie aprenda un formalismo nuevo. La ambición de 2001 no se cumplió: se volvió innecesaria en su forma original.</p>
+</div>
+<h3>2.5.2 Lo que sí sigue vigente</h3>
+<p>Nada de lo anterior significa que la semántica explícita sea inútil. Significa que su ámbito de aplicación es más estrecho y distinto del que se prometió. Tres casos donde el formalismo sigue ganando claramente:</p>
+<ul>
+<li><strong>Identidad y desambiguación.</strong> Un identificador estable (<code>ISBN</code>, <code>ORCID</code>, <code>GTIN</code>, un URI de Wikidata) resuelve un problema que ningún embedding resuelve: decir que dos menciones son la <em>misma</em> entidad, no entidades parecidas. La similitud coseno mide proximidad; no establece identidad. Es exactamente la distinción de §2.6, y la razón por la que un grafo de entidades y una búsqueda vectorial se complementan en vez de competir.</li>
+<li><strong>Restricciones duras.</strong> Cuando la regla debe cumplirse siempre y no probabilísticamente — unicidad, integridad referencial, jerarquías de permisos —, un esquema la garantiza y un modelo de lenguaje solo la aproxima. Es la lógica del Patrón Sándwich (§12.2): la validación determinista rodea a la parte generativa, no la sustituye.</li>
+<li><strong>Contratos entre sistemas.</strong> Un OpenAPI bien descrito es hoy más importante, no menos, porque un LLM selecciona herramientas leyendo esas descripciones. Aquí el formalismo no está en la ontología: está en la <em>descripción en prosa</em> de cuándo usar cada endpoint. Es semántica, sí, pero de la que se escribe en español, no en OWL.</li>
+</ul>
+<h3>2.5.3 El coste que el manifiesto semántico no declara <span class="badge-propuesta">★ Propuesta del autor</span></h3>
+<p>El argumento estándar a favor de enriquecer semánticamente los datos usa siempre el mismo ejemplo, y el ejemplo es bueno. Se envía a un modelo <code>{ "status": 1 }</code> y hay que adjuntar un párrafo explicando qué significa ese <code>1</code>, bajo qué condiciones pasa a <code>2</code>, y qué reglas de negocio dispara. Si la estructura fuera autodescriptiva, el párrafo sobraría. La conclusión que se extrae es que la ambigüedad, no el volumen de texto, es el problema real — y que enriquecer semánticamente sale gratis en tokens.</p>
+<p>La primera mitad es correcta. La segunda no, y el error tiene consecuencias de diseño.</p>
+<div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ Tres costes que el argumento omite</strong>
+<ol>
+<li><strong>El manifiesto también son tokens.</strong> «El problema nunca es la cantidad de texto» es falso a escala. Un campo autodescriptivo repetido en 10.000 filas paga su descripción 10.000 veces. La forma económica de la semántica no es incrustarla en cada registro: es declararla <em>una vez</em>, en el esquema o en la cabecera, y que los registros la referencien. Confundir «los datos deben ser autodescriptivos» con «cada registro debe describirse a sí mismo» es la vía rápida a un payload que multiplica por cinco el coste de inferencia.</li>
+<li><strong>Duplica la fuente de verdad.</strong> La semántica de <code>status</code> no vive en el campo: vive en la máquina de estados que lo modifica. Un manifiesto que la reproduce crea una segunda copia que puede desincronizarse — y cuando lo haga, el sistema seguirá funcionando y respondiendo mal, que es el modo de fallo más caro de diagnosticar que existe.</li>
+<li><strong>Un manifiesto es una lectura congelada.</strong> Describe el mundo tal como alguien lo entendió el día que lo escribió. Nada en el fichero se actualiza solo. Un manifiesto desactualizado no degrada con elegancia: hace que el sistema alucine con documentación de respaldo, que es peor que alucinar sin ella, porque ahora el error tiene coartada.</li>
+</ol>
+</div>
+<h3>2.5.4 El criterio de decisión</h3>
+<p>La pregunta útil no es «¿enriquecemos semánticamente?» sino «¿quién mantiene esta declaración al día, y qué pasa el día que deje de hacerlo?». De ahí sale una regla practicable:</p>
+<table>
+<thead><tr><th>Declara explícitamente cuando…</th><th>No lo hagas cuando…</th></tr></thead>
+<tbody>
+<tr><td>El significado <strong>no</strong> es recuperable del contexto (un código opaco, una unidad implícita, una convención interna)</td><td>El nombre del campo ya lo dice: <code>customer_email</code> no necesita manifiesto</td></tr>
+<tr><td>El dato cruza una frontera de equipo o de sistema, donde el contexto tácito se pierde</td><td>Productor y consumidor son el mismo equipo y comparten el contexto</td></tr>
+<tr><td>La declaración se genera <strong>desde</strong> la fuente de verdad (el <code>enum</code>, la migración, el esquema) y no en paralelo a ella</td><td>La declaración se escribe a mano en un sitio distinto del código que la implementa</td></tr>
+<tr><td>Existe un dueño identificable y una prueba que falla si la declaración y el código divergen</td><td>Nadie va a notar que quedó obsoleta hasta que cause un incidente</td></tr>
+</tbody>
+</table>
+<p>La última fila es la que decide. Una declaración semántica sin un test que la ate al código es documentación, y la documentación deriva. Una declaración que rompe la <em>build</em> cuando deja de ser cierta es infraestructura. Solo la segunda paga su coste de mantenimiento a largo plazo — y la diferencia entre ambas no es de rigor conceptual, es de si existe o no un fichero de tests.</p>
+<div class="callout concept">
+<h4>🧭 La versión corta</h4>
+<p>Los LLM no obligan a ser semánticos: obligan a ser <strong>explícitos</strong>, que es más barato y menos frágil. La diferencia práctica es que ser explícito se hace escribiendo bien en el sitio correcto — el nombre del campo, la descripción del endpoint, el comentario de la migración — mientras que ser semántico en el sentido de 2001 exige un formalismo, un mantenedor y una autoridad que arbitre los desacuerdos. Lo primero se puede empezar el lunes. Lo segundo es un proyecto, y hay que decidirlo como tal.</p>
+<p><em>Continúa en §4.7b, con el caso donde declarar la semántica sí se paga sola, y en §8.7b, con el tipo de instrucción que envejece por el otro motivo — no porque el mundo cambie, sino porque cambia el modelo.</em></p>
+</div>
+<h2 id="s255">2.5.5 Cuándo sí: el test del punto de equilibrio <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<p>Las secciones anteriores explican por qué el formalismo pesado no se adoptó (§2.5.1), por qué los LLM lo volvieron innecesario en su forma original (§2.5.2), y qué costes trae un manifiesto que nadie mantiene (§2.5.3). Falta el lado positivo, y sin él el capítulo se lee como un alegato: <strong>hay casos donde el formalismo compartido gana con claridad</strong>, y conviene saber reconocerlos antes de descartarlo por reflejo.</p>
+<h3>2.5.5.1 La cadena automática, otra vez</h3>
+<p>El razonamiento que lleva a un proyecto de ontología suele tener esta forma:</p>
+<p style="text-align:center;font-family:var(--ff-mono);font-size:.86rem;margin:14px 0;">los datos son inconsistentes → necesitamos semántica<br/>→ necesitamos una ontología → necesitamos RDF</p>
+<p>Cada paso es defendible. La conclusión no se sigue. Y merece la pena detenerse en <em>por qué</em> no se sigue, porque es la misma figura que aparece en §5.5b (<em>«el modelo atiende peor al centro, luego rediseña el ensamblado»</em>), en §6.6b (<em>«el grafo plano pierde información, luego construye un formalismo más rico»</em>) y en §8.7b (<em>«el modelo razona mejor, luego borra tus instrucciones»</em>).</p>
+<p>En los cuatro casos se parte de una observación correcta y se salta a una arquitectura concreta sin pasar por la pregunta intermedia: <strong>¿qué capacidad concreta se vuelve posible, y quién la va a usar?</strong></p>
+<p>Y en el caso de la ontología hay un eslabón especialmente flojo. La inconsistencia de datos <em>casi nunca</em> es un problema de ontología. Suele venir de sistemas fuente duplicados, identificadores incompatibles, ausencia de propietario o definiciones locales sin control. Representar esos problemas como tripletas no los resuelve — los representa.</p>
+<h3>2.5.5.2 Desempaquetar antes de decidir</h3>
+<div class="callout concept">
+<h4>🧩 «Semántica» no es un paquete indivisible</h4>
+<p>El error operativo más caro de esta zona no es elegir mal el formalismo: es <strong>aprobar siete decisiones como si fueran una</strong>. Un requisito modesto — alinear cuatro identificadores entre dos sistemas — se convierte en una ontología corporativa, un almacén de tripletas, un entorno de inferencia, mapeos de origen, herramientas especializadas y una función de gobernanza nueva.</p>
+<p>Son decisiones separadas y cada una necesita su propia justificación:</p>
+<table>
+<thead><tr><th>Pieza</th><th>Qué aporta</th><th>Se puede tener sin…</th></tr></thead>
+<tbody>
+<tr><td><strong>Modelo de datos en grafo</strong></td><td>Representar información conectada</td><td>ontología, inferencia, almacén dedicado</td></tr>
+<tr><td><strong>Identificadores globales</strong></td><td>Nombrar un recurso sin compartir clave de base de datos</td><td>ontología formal</td></tr>
+<tr><td><strong>Vocabulario compartido</strong></td><td>Que dos partes usen el mismo término</td><td>lógica descriptiva</td></tr>
+<tr><td><strong>Validación de forma</strong></td><td>Comprobar que un dato cumple condiciones</td><td>razonador</td></tr>
+<tr><td><strong>Inferencia formal</strong></td><td>Derivar lo implícito de lo asertado</td><td>—</td></tr>
+<tr><td><strong>Procedencia</strong></td><td>De dónde salió cada afirmación</td><td>todo lo anterior</td></tr>
+<tr><td><strong>Gobernanza semántica</strong></td><td>Quién decide y aprueba los cambios</td><td>nada: es la que no se puede saltar</td></tr>
+</tbody>
+</table>
+<p>Se puede usar un grafo sin inferencia. Validar sin una ontología de dominio grande. Registrar procedencia sin un almacén especializado. La única fila que no admite atajo es la última, y es justamente la que no aparece en las demostraciones.</p>
+</div>
+<h3>2.5.5.3 Un identificador global no es una identidad estable</h3>
+<p>Conviene desarmar una confusión concreta porque aparece en casi todas las propuestas. Un identificador con alcance global — un URI, un IRI — resuelve <em>el nombrado</em>: dos sistemas independientes pueden referirse al mismo recurso sin compartir una clave.</p>
+<p>Lo que no resuelve es la identidad. Alguien tiene que decidir qué identifica exactamente, quién puede crear uno nuevo, si puede reasignarse, cómo se resuelven duplicados y qué pasa cuando la entidad representada cambia. <strong>El estándar aporta el mecanismo; la organización tiene que aportar la política.</strong> Un identificador global sin gestionar no es más fiable que una clave relacional sin gestionar — solo es más largo.</p>
+<h3>2.5.5.4 Las condiciones donde el formalismo compartido gana</h3>
+<p>Con eso desbrozado, los casos favorables se ven con nitidez. No son marginales: son reales y bien delimitados.</p>
+<table>
+<thead><tr><th>Condición</th><th>Por qué inclina la balanza</th></tr></thead>
+<tbody>
+<tr><td><strong>Intercambio entre organizaciones independientes</strong></td><td>El acuerdo tiene que existir fuera de cualquier aplicación, base de datos o proveedor. Es el caso más fuerte, y el único que no admite sustituto local</td></tr>
+<tr><td><strong>Un estándar ya reconocido por la contraparte</strong></td><td>Reguladores, comunidades científicas o consorcios sectoriales que ya usan el vocabulario. Evita negociación repetida</td></tr>
+<tr><td><strong>Muchas fuentes que evolucionan por separado</strong></td><td>El mapeo punto a punto entre <em>n</em> sistemas crece con <em>n²</em>. Un vocabulario común lo convierte en <em>n</em></td></tr>
+<tr><td><strong>Una conclusión derivada cambia una decisión real</strong></td><td>Una clasificación inferida que dispara un control de conformidad o altera una ruta de aprobación. Si nadie usa la conclusión, la inferencia es decorativa</td></tr>
+<tr><td><strong>El conocimiento debe sobrevivir a los sistemas</strong></td><td>Las aplicaciones se sustituyen y los proveedores cambian. Identidades, clasificaciones y procedencia pueden tener que durar más</td></tr>
+<tr><td><strong>Publicar o consumir datos enlazados <em>es</em> el requisito</strong></td><td>Entonces no es una opción de implementación entre varias: es la capacidad pedida</td></tr>
+</tbody>
+</table>
+<p>La tercera fila merece énfasis porque es el argumento cuantitativo que suele faltar en las críticas al formalismo. Con dos sistemas, un mapeo directo es más barato que un vocabulario compartido. Con ocho sistemas y tres socios externos, veintiocho mapeos bilaterales cuestan más que una ontología mediana — y hay que decirlo cuando se costea la alternativa simple, porque si no la comparación está trucada.</p>
+<h3>2.5.5.5 El criterio, en una tabla</h3>
+<table>
+<thead><tr><th></th><th>Formalismo compartido</th><th>Modelo local (esquema, API, contrato, grafo de propiedades)</th></tr></thead>
+<tbody>
+<tr><td><strong>Consumidores</strong></td><td>Varios, independientes, <strong>comprometidos por nombre</strong></td><td>Uno, o varios bajo el mismo equipo</td></tr>
+<tr><td><strong>Frontera</strong></td><td>El significado cruza organización o proveedor</td><td>Todo ocurre dentro de un límite operativo</td></tr>
+<tr><td><strong>Esquema</strong></td><td>Evoluciona sin un dueño único</td><td>Controlado, con cambios planificados</td></tr>
+<tr><td><strong>Carga</strong></td><td>Intercambio, publicación, preservación</td><td>Transaccional: validar, escribir, recuperar</td></tr>
+<tr><td><strong>Inferencia</strong></td><td>Cambia una acción o un control</td><td>El código calcula lo mismo</td></tr>
+<tr><td><strong>Dueño de la evolución</strong></td><td><strong>Existe y está financiado</strong></td><td>El equipo de producto</td></tr>
+</tbody>
+</table>
+<div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ La fila que decide, y las dos trampas del test</strong>
+<p>Si no hay un dueño financiado de la evolución semántica, ninguna de las demás filas importa: el modelo compartido derivará como cualquier otro modelo empresarial, con el agravante de que sus fallos afectarán a más consumidores. Es la condición que hundió a la Web Semántica (§2.5.1) y no ha cambiado.</p>
+<p><strong>Primera trampa: la reutilización futura.</strong> «Otros equipos lo aprovecharán más adelante» es la justificación más común y la menos comprobable. Una respuesta útil nombra las aplicaciones, los equipos y los mapeos concretos que dejarán de mantenerse. Si no se pueden nombrar, el modelo es de una aplicación, no infraestructura.</p>
+<p><strong>Segunda trampa, y es la del propio test: costear un solo lado.</strong> Es fácil desglosar en tres categorías el coste del formalismo y despachar la alternativa con un «los demás modelos también tienen costes». Un punto de equilibrio con un solo platillo en la balanza no es un punto de equilibrio. La comparación honesta cuesta las dos opciones con el mismo detalle — incluido el <em>n²</em> de los mapeos bilaterales, que juega a favor del formalismo.</p>
+</div>
+<h3>2.5.5.6 Y lo que un test así no puede darte</h3>
+<p>Cualquier lista de este tipo — la de arriba incluida — es cualitativa y no tiene umbral. No hay un número de «síes» que decida. Aplicada sin cuidado, confirma la intuición de quien la aplica: quien llega convencido de que hace falta una ontología encontrará seis razones, y quien llega convencido de lo contrario encontrará otras seis.</p>
+<p>Dos correcciones la vuelven utilizable:</p>
+<ul>
+<li><strong>Exigir un contrafáctico nombrado</strong> en lugar de una lista de ventajas. No «mejoraría la interoperabilidad», sino «hoy el equipo X mantiene N mapeos y dejaría de mantener M de ellos».</li>
+<li><strong>Escribir los disparadores de revisión</strong> junto con la decisión, mientras se conoce el razonamiento. Qué tendría que ocurrir para reabrirla: un segundo consumidor, una contraparte externa, una conclusión derivada que altere un control, un salto de escala, la aparición de un dueño financiado. Una decisión de arquitectura sin disparadores es una lectura congelada más: envejece igual que la ontología que evitaba, y no hay forma de saber cuándo dejó de valer.</li>
+</ul>
+<p>Ese último punto convierte un veredicto en una condición comprobable, y es lo que separa un registro de decisión que se puede reevaluar de uno que hay que reconstruir por arqueología.</p>
+<p><em>Referencia cruzada: §2.5.1 (las cuatro causas del fracaso), §2.5.3 (los costes del manifiesto), §2.5.4 (cuándo declarar), §4.4 (catálogo y gobernanza de modelos), §6.6b (los límites del grafo plano y la sobrecorrección contraria), §8.7b (decisiones con procedencia y disparadores).</em></p>
 <h2>2.6 Lo que el espacio vectorial no puede representar</h2>
 <p>El espacio vectorial es extraordinariamente potente para la similitud semántica. Pero tiene límites que importa conocer antes de diseñar sistemas sobre él.</p>
 <p><strong>No captura la estructura lógica.</strong> "A implica B" y "B implica A" tienen embeddings parecidos, pero son afirmaciones con causalidades opuestas. El espacio vectorial no entiende la dirección del argumento.</p>
@@ -5253,6 +5466,28 @@ function score(){
 </tbody>
 </table>
 </div>
+<h2 id="s47b">4.7b Procedencia declarada: el caso donde la semántica sí se paga sola <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<p>§4.7 trata del linaje del contenido. Hay un caso particular donde declarar la semántica del dato no es una mejora opcional sino la diferencia entre auditar y aparentar que se audita, y donde el criterio de §2.5.4 se cumple entero: la declaración se genera desde la fuente de verdad, tiene dueño, y un test falla si deja de ser cierta.</p>
+<div class="callout concept">
+<h4>📐 Un número que no dice cómo se obtuvo es una afirmación, no una medida</h4>
+<p><strong>El patrón del fallo.</strong> Una métrica de calidad se calcula normalmente con un modelo — un cross-encoder NLI, un bi-encoder de embeddings. Cuando ese modelo no carga, o lanza en una llamada concreta, el código degrada a una heurística más simple. Es lo correcto: es preferible un valor aproximado a una excepción que tumba el pipeline. El problema es lo que sale por el otro lado:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;">{ "cross_entailment": 0.61 }</pre>
+<p>Ese <code>0.61</code> puede ser una medición del modelo NLI o el resultado de <code>vec_coherence − 0.15</code>. El JSON no distingue. Nada en el log distingue. Y como el número está en el rango esperado, nadie lo mira dos veces. Una métrica que aparenta ser una medición sin serlo, dentro de una herramienta de auditoría.</p>
+<p><strong>La corrección.</strong> El score deja de ser un escalar y pasa a ser una afirmación sobre sí mismo:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;">{
+  "cross_entailment": {
+    "value": 0.61,
+    "method": "heuristic_fallback",
+    "evidence_type": "estimated",
+    "fallback_reason": "nli_encoder_exception:RuntimeError"
+  }
+}</pre>
+<p>Cuatro campos donde había uno. El coste en tokens es trivial y el criterio de §2.5.4 se cumple: el <code>fallback_reason</code> no se escribe a mano en ningún sitio, lo produce el mismo <code>except</code> que provoca la degradación. No puede desincronizarse porque no hay dos copias.</p>
+<p><strong>Y la parte que casi siempre se olvida: la agregación.</strong> Arreglar esto por interacción no basta. Si el informe promedia los valores y descarta la procedencia, el mismo fallo reaparece un nivel más arriba — «cross_entailment medio = 0,61» vuelve a ser un número mudo que puede ser la media de veinte heurísticas. La transparencia tiene que sobrevivir a la agregación, porque el agregado es lo que el cliente lee y lo que se convierte en afirmación.</p>
+<p>Aquí se aplica la <strong>regla de no compensación</strong> del marco de niveles de evidencia (§13.6): el nivel de un lote es el <em>mínimo</em> de sus partes, nunca el promedio. Una sola interacción degradada impide afirmar que el lote está medido. Es deliberadamente duro, y esa es la idea: una auditoría que redondea su propia incertidumbre hacia arriba no vale nada.</p>
+<p><strong>Relación con el AI Act.</strong> El Art. 12 (registro) y el Art. 15 (exactitud y robustez) exigen que un sistema de alto riesgo documente sus métricas de rendimiento. Un score sin procedencia no cumple ese requisito por mucho que exista: no permite distinguir la medición de la estimación, que es precisamente lo que la exigencia de exactitud pretende asegurar. Declarar <code>evidence_type</code> convierte un requisito narrativo en un campo verificable — y es la ruta más corta de «tenemos métricas» a «podemos demostrar cómo se obtuvieron».</p>
+<p><em>Referencia cruzada: §2.5.4 (cuándo declarar), §4.7 (procedencia del contenido), §10.9.6 (el mismo patrón aplicado a la memoria recuperada), §13.6 (niveles de evidencia y no compensación), §16 (AI Act, Arts. 12 y 15).</em></p>
+</div>
 <h2 id="s51">5.1 Cómo "conoce" el modelo: distribución estadística y representaciones internas</h2>
 <p>La confusión más frecuente sobre los LLM nace de una metáfora equivocada: pensar que el modelo tiene una base de conocimiento que consulta, como una base de datos. No es así —pero tampoco es un simple predictor de tokens vacío de contenido.</p>
 <p>Un LLM es una función matemática de <strong>miles de millones de parámetros</strong> que, dado un texto de entrada, calcula la distribución de probabilidad sobre los posibles tokens que podrían seguir. Todo el "conocimiento" está codificado como pesos numéricos en esa función, aprendidos durante el entrenamiento. No hay filas, ni tablas, ni índices. Solo números.</p>
@@ -5791,7 +6026,7 @@ function score(){
 <hr class="sep"/>
 <details class="sec-plegada" style="border:1px solid var(--border,#e2e8f0);border-radius:10px;margin:28px 0;padding:0 18px 12px;background:#fffdf5;">
 <summary style="cursor:pointer;padding:14px 0;font-weight:700;color:#92400e;font-size:.95rem;">📕 5.2b Taxonomía completa de mecanismos de atención <span style="font-weight:400;color:var(--muted,#64748b);font-size:.82rem;">— sección avanzada, plegada por defecto · clic para desplegar</span></summary>
-<h2 id="s52b">5.2b Taxonomía completa de mecanismos de atención <span class="level-tag level-avanzado">Avanzado · Referencia</span></h2>
+<h2 id="s52b" data-nivel="profundidad">5.2b Taxonomía completa de mecanismos de atención <span class="level-tag level-avanzado">Avanzado · Referencia</span></h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
 Hay más de 40 variantes documentadas de atención. No las usarás todas, ni siquiera la mayoría. Pero entender qué hace cada familia de mecanismos te permite leer papers, elegir modelos y diseñar arquitecturas con criterio — en lugar de copiar configuraciones sin saber por qué.
@@ -6634,7 +6869,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
 <tr><td>500.000 tokens</td><td>~375.000 palabras / enciclopedia</td><td>❌ Necesita RAG</td></tr>
 </tbody>
 </table>
-<h2 id="cap55b">5.5b El fenómeno "lost in the middle": mecanismo, umbrales y decisión</h2>
+<h2 id="cap55b" data-nivel="profundidad">5.5b El fenómeno "lost in the middle": mecanismo, umbrales y decisión</h2>
 <div id="w-litm" style="margin:28px 0 36px;font-family:system-ui,sans-serif;">
 <div style="background:linear-gradient(135deg,#1c1917,#292524,#3f1d12);border-radius:14px;padding:24px 24px 20px;color:#fff;position:relative;overflow:hidden;">
 <div style="position:absolute;top:-20px;right:-20px;width:180px;height:180px;background:radial-gradient(circle,rgba(251,191,36,.08),transparent 70%);pointer-events:none;"></div>
@@ -6861,7 +7096,20 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                     no son gratis
      Insertar entre 5.5b y 5.6
      ═══════════════════════════════════════════════════════════════════════════ -->
-<h2 id="s55c">5.5c Capas de atención híbridas: por qué los contextos largos no son gratis</h2>
+<div class="callout concept">
+<h4>🔬 Nota de actualización — cuánto queda de "lost in the middle"</h4>
+<p>Todo lo anterior describe un efecto real y bien documentado. Lo que conviene añadir es <strong>cuánto</strong> queda de él, porque el resultado original se mide sobre modelos y longitudes de 2023 y se sigue citando en 2026 como si fuera una propiedad invariante de la arquitectura transformer. No lo es. La magnitud depende del modelo, del entrenamiento en contexto largo, y de la longitud concreta a la que se opere. En los modelos actuales entrenados explícitamente para contextos largos el efecto es sensiblemente más débil que en las curvas que ilustran el paper original.</p>
+<p>Esto no lo invalida como criterio de diseño — poner las restricciones duras arriba y lo relevante cerca del final sigue siendo lo correcto por defecto, y no cuesta nada. Lo que cambia es <strong>cuánto esfuerzo merece</strong>. Reordenar un prompt es barato. Rediseñar un pipeline de ensamblado entero alrededor de una curva medida en otro modelo, no.</p>
+<p><strong>El criterio, y esto es lo transferible más allá de este efecto concreto:</strong> cuando una recomendación de colocación tenga un coste no trivial, mídela en tu corpus con tu modelo antes de adoptarla. Un A/B de posición es sencillo — mismo contexto recuperado en los dos brazos, la única variable es dónde va la pregunta — y devuelve un número en una tarde.</p>
+<p>Hay que diseñarlo con dos precauciones, porque sin ellas mide ruido:</p>
+<ul>
+<li><strong>Repeticiones.</strong> Con temperatura distinta de cero, una sola pasada mostrará una diferencia entre los brazos exista o no. Hay que ejecutar varias y comparar la diferencia contra la dispersión entre pasadas.</li>
+<li><strong>Un veredicto de "no hay diferencia" es un resultado válido y bueno.</strong> Si la brecha no supera el ruido, la conclusión es <em>deja el defecto y deja de pensar en esto</em>. La mayor parte del valor de medir no está en encontrar la mejora: está en poder dejar de perseguirla.</li>
+</ul>
+<p>La alternativa — aplicar la recomendación porque suena razonable y aparece en todas partes — produce sistemas afinados contra el consenso del año pasado, que es exactamente el patrón que §13.14.6 describe sobre la convergencia entre modelos: <strong>que varias fuentes coincidan mide de qué se ha escrito mucho, no qué es cierto.</strong></p>
+<p><em>Referencia cruzada: §8.7b (la misma lógica aplicada a las instrucciones que envejecen con el modelo), §10.9.6 (colocación de la memoria recuperada), §13.14.6 (convergencia ≠ verdad).</em></p>
+</div>
+<h2 id="s55c" data-nivel="profundidad">5.5c Capas de atención híbridas: por qué los contextos largos no son gratis</h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
   Sabes que GPT-4o tiene 128K tokens de contexto y Gemini 1.5 Pro tiene 1M. Pero dos modelos con el mismo límite nominal pueden comportarse muy diferente en latencia, coste y calidad con contextos largos. La razón está en cómo implementan la atención internamente. Esta sección te da el modelo mental para entender esas diferencias — no para implementarlas, sino para tomar mejores decisiones de selección y uso.
@@ -7170,7 +7418,7 @@ function attnTab(tab) {
      Insertar entre 5.5c y 5.6
      ═══════════════════════════════════════════════════════════════════════════ -->
 <hr class="sep"/>
-<h2 id="s55d">5.5d RoPE y YaRN: cómo se extiende el contexto sin reentrenar</h2>
+<h2 id="s55d" data-nivel="profundidad">5.5d RoPE y YaRN: cómo se extiende el contexto sin reentrenar</h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
   La sección 5.5 explica que Llama 3 tiene 128K tokens de contexto y Gemini 1.5 Pro tiene 1M. Pero ¿por qué algunos modelos pueden extender su contexto sin reentrenar desde cero y otros no? La respuesta está en cómo el modelo codifica la posición de cada token. Sin entender esto, la tabla de contextos de la sección 5.5 es solo números — con esto, entiendes por qué esos números son posibles.
@@ -7332,7 +7580,7 @@ function attnTab(tab) {
      Insertar entre 5.5d y 5.6
      ═══════════════════════════════════════════════════════════════════════════ -->
 <hr class="sep"/>
-<h2 id="s55e">5.5e Erosión de contexto: la degradación longitudinal en sesiones y agentes <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<h2 id="s55e" data-nivel="profundidad">5.5e Erosión de contexto: la degradación longitudinal en sesiones y agentes <span class="badge-propuesta">★ Propuesta del autor</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
@@ -7690,7 +7938,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
      SECCIÓN 5.7b — MoE (Mixture of Experts): parámetros totales vs. activos
      Insertar entre 5.7 y 6.1
      ═══════════════════════════════════════════════════════════════════════════ -->
-<h2 id="s57b">5.7b MoE — Mixture of Experts: cuando el tamaño nominal engaña <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
+<h2 id="s57b" data-nivel="profundidad">5.7b MoE — Mixture of Experts: cuando el tamaño nominal engaña <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
   Mixtral 8×7B, DeepSeek-V3, Grok-1 y probablemente GPT-4 son modelos MoE. Si seleccionas modelos para producción comparando solo el número de parámetros totales, puedes estar comparando cosas fundamentalmente distintas. Esta sección te da el modelo mental correcto para interpretar esas fichas técnicas.
@@ -7832,7 +8080,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <div class="gterm-def">Arquitectura de red neuronal en la que las capas FFN se dividen en N sub-redes independientes ("expertos") y un router selecciona solo K de ellos para cada token. Desacopla el tamaño total del modelo (capacidad) de su coste de inferencia (parámetros activos). Ejemplos: Mixtral 8×7B (47B totales, ~13B activos), DeepSeek-V3 (671B totales, ~37B activos). Implicación práctica: al seleccionar modelos MoE, el número relevante para el presupuesto de cómputo son los parámetros activos, no los totales. → Ver sección 5.7b.</div>
 </div>
 <hr class="sep"/>
-<h2 id="s57c">5.7c Cuantización y destilación: cómo caben los modelos grandes en hardware pequeño <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
+<h2 id="s57c" data-nivel="profundidad">5.7c Cuantización y destilación: cómo caben los modelos grandes en hardware pequeño <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
   Cuando ejecutas <code>ollama pull qwen2.5:14b</code> y el modelo ocupa 9 GB en lugar de los ~28 GB que ocuparía en precisión completa, estás usando cuantización. Cuando usas DeepSeek-R1 de 1.5B que rinde como un modelo de 7B de hace dos años, estás usando el resultado de destilación. Estas técnicas son la razón por la que el stack local que usas es posible. Esta sección explica qué está pasando debajo.
@@ -8019,7 +8267,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
      Insertar entre 5.7c y 6.1
      ═══════════════════════════════════════════════════════════════════════════ -->
 <hr class="sep"/>
-<h2 id="s57d">5.7d Optimización de inferencia: FlashAttention e inferencia especulativa <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
+<h2 id="s57d" data-nivel="profundidad">5.7d Optimización de inferencia: FlashAttention e inferencia especulativa <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <div class="callout">
 <strong>🧵 Alcance de esta sección</strong>
   Estas técnicas operan principalmente en la capa del proveedor del modelo o del servidor de inferencia — no son decisiones que tomes al construir un sistema RAG. Las incluimos porque aparecen en documentación técnica, benchmarks y conversaciones de arquitectura. Saber qué son te permite interpretar correctamente esas fuentes.
@@ -8129,7 +8377,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <h4>📐 Concepto: el precio de la sorpresa</h4>
 <p>La inferencia especulativa tiene una propiedad que casi ninguna divulgación menciona. El procedimiento es <strong>sin pérdida</strong>: la verificación preserva exactamente la distribución del modelo grande — no hace la salida "más media". Pero su aceleración depende de la <strong>tasa de aceptación</strong> del modelo borrador, y esa tasa es más alta cuanto más predecible es el texto. Consecuencia: el texto estadísticamente predecible se genera más rápido y más barato, token a token, que el texto distribucionalmente inusual. Por primera vez, la capa de servicio lleva un señal de precio explícito sobre la sorpresa. No sesga al modelo; sesga la <em>economía</em> alrededor del modelo — presupuestos de latencia, elección de variantes, valores por defecto. Es, además, medible: las tasas de aceptación se loguean en producción, lo que la convierte en un indicador empírico donde antes solo había argumento.</p>
 </div>
-<h2 id="s57e">5.7e Arquitecturas de hardware: por qué el chip importa tanto como el modelo <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
+<h2 id="s57e" data-nivel="profundidad">5.7e Arquitecturas de hardware: por qué el chip importa tanto como el modelo <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <p>La sección anterior explicó por qué el decode está limitado por ancho de banda de memoria. Esa misma tensión — mover datos versus calcular — es la que define, chip a chip, la evolución completa del hardware de IA: de la flexibilidad de propósito general (CPU) a la especialización extrema (LPU), cada generación sacrifica algo de generalidad a cambio de mover menos datos. Las matemáticas nunca fueron lo difícil; alimentar las unidades de cálculo lo suficientemente rápido, sí.</p>
 <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
 <thead><tr style="border-bottom:2px solid var(--border);"><th style="padding:8px 12px;text-align:left;">Chip</th><th style="padding:8px 12px;text-align:left;">Diseño</th><th style="padding:8px 12px;text-align:left;">Tradeoff central</th><th style="padding:8px 12px;text-align:left;">Dónde brilla</th></tr></thead>
@@ -8378,7 +8626,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <strong>💡 Interacción tardía (late interaction): ColBERT para dominios con vocabulario ambiguo</strong>
     Los sistemas de recuperación estándar comprimen la query y el documento en un único vector. <span class="gt">ColBERTv2<span class="tt">Modelo de recuperación de interacción tardía: mantiene representaciones token-a-token de queries y documentos, permitiendo comparaciones más precisas. Requiere infraestructura dedicada pero supera a los modelos de vector único en dominios con vocabulario ambiguo o términos técnicos.</span></span> mantiene representaciones a nivel de token, permitiendo comparaciones más granulares. Es especialmente útil en dominios con vocabulario técnico altamente específico o muchos sinónimos. El coste: requiere infraestructura dedicada (índice MaxSim) y más memoria. Para la mayoría de proyectos de producción, BM25 + vectorial + reranker es suficiente. ColBERT entra en consideración cuando tienes evidencia de que el retrieval falla específicamente en consultas con terminología de nicho.
   </div>
-<h2 id="s63b">6.3b Re-ranking con diversidad: cuando la relevancia no es suficiente</h2>
+<h2 id="s63b" data-nivel="profundidad">6.3b Re-ranking con diversidad: cuando la relevancia no es suficiente</h2>
 <p>Los rerankers estándar maximizan la <em>relevancia individual</em> de cada fragmento respecto a la query. El problema: si los top-5 candidatos dicen prácticamente lo mismo con palabras distintas, el LLM recibe información redundante y puede ignorar fragmentos minoritarios pero cruciales. Este es el <strong>problema de la redundancia en retrieval</strong>, y se vuelve especialmente grave en corpus con muchos documentos temáticamente solapados.</p>
 <div class="concepto-autor" style="margin:28px 0;">
 <span class="concepto-badge">📐 Concepto operativo</span>
@@ -8533,7 +8781,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <strong>⚠️ Error típico de diagnóstico</strong>
     Cuando el sistema RAG produce respuestas incorrectas, el primer instinto suele ser "mejorar el prompt" o "usar un modelo mejor". En la mayoría de los casos, el problema está antes: en el retrieval. Mide siempre Hit Rate@5 primero. Si es inferior a 0.80, el LLM no puede salvarte: está respondiendo sobre documentos que no son los correctos.
   </div>
-<h2 id="s65b">6.5b Antes de GraphRAG: seis términos que se confunden — de la resolución de entidades al grafo de conocimiento</h2>
+<h2 id="s65b" data-nivel="profundidad">6.5b Antes de GraphRAG: seis términos que se confunden — de la resolución de entidades al grafo de conocimiento</h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
     Esta confusión aparece en reuniones de arquitectura constantemente: alguien pide "una ontología" cuando lo que necesita es una taxonomía, o se construye un grafo de conocimiento sobre una jerarquía sin relaciones tipadas y luego se pregunta por qué el retrieval no infiere nada. Los seis términos operan en capas de madurez distintas — cada una necesaria, ninguna sustituye a las demás — y confundirlas es la forma más común de sobre-construir o sub-construir la capa semántica antes de llegar a GraphRAG.
@@ -9012,6 +9260,63 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <p>Puedes diseñar la estrategia de recuperación adecuada para cada tipo de consulta. Sabes cuándo usar búsqueda vectorial sola, cuándo añadir BM25, cuándo incorporar re-ranking (y con qué herramienta según el presupuesto: Cohere, BGE, Jina) y cuándo el problema requiere GraphRAG. Conoces el pipeline operativo completo de GraphRAG — extracción, grafo, community detection, query híbrida — y los costes reales de cada paso para tomar la decisión antes de comprometer la arquitectura. Y tienes las métricas concretas para saber si tu retrieval está funcionando antes de culpar al LLM.</p>
 </div>
 <hr class="sep"/>
+<h2 id="s66b">6.6b Lo que un grafo plano no puede representar — y qué hacer con eso <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<p>§6.6 ha presentado GraphRAG por lo que hace bien: relaciones explícitas, saltos multi-salto, cadenas causales que la búsqueda vectorial no alcanza. Esta sección es la contrapartida, y no es una lista de inconvenientes prácticos. Son <strong>dos límites demostrables</strong> del formalismo, más una consecuencia de diseño que casi nadie extrae correctamente.</p>
+<p>Importa distinguirlo de lo que ya se dijo en §2.6. Allí el argumento era que un vector no establece identidad. Aquí el argumento es más fuerte: hay información que un grafo de aristas binarias <em>no puede contener</em>, y no por una limitación de implementación que una versión futura resolverá.</p>
+<h3>6.6b.1 La ambigüedad de proyección</h3>
+<p>Una arista de grafo conecta exactamente dos nodos. Cuando la realidad presenta una interacción de tres o más elementos que no se descompone en pares, el grafo la representa creando todas las parejas posibles. Y ahí ocurre la pérdida.</p>
+<p>El ejemplo clínico es el más claro. Tres fármacos co-prescritos producen un efecto adverso que <strong>ninguna pareja produce por separado</strong>: aparece solo cuando están los tres. Proyectado a un grafo:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;">Realidad:   {A, B, C} ──> efecto adverso     (un solo hecho, irreducible)
+
+En el grafo: A ── interactúa ── B
+             B ── interactúa ── C
+             A ── interactúa ── C          (tres hechos independientes)</pre>
+<p>Las dos situaciones producen <strong>exactamente el mismo grafo</strong>. Un sistema que lea ese grafo no puede distinguir «hay un efecto de tres cuerpos» de «hay tres interacciones por parejas», porque la diferencia no está representada en ninguna parte. No se ha degradado la información: se ha perdido.</p>
+<p>Esto no es un caso de laboratorio. Aparece en cualquier dominio con composición: una condición contractual que solo se activa si concurren tres cláusulas, un fallo que requiere tres subsistemas en cierto estado, una reacción que necesita tres reactivos. En todos ellos el grafo plano dirá algo que no es falso y tampoco es lo que pasaba.</p>
+<h3>6.6b.2 El techo de las redes neuronales sobre grafos</h3>
+<p>El segundo límite afecta a quien pretenda <em>aprender</em> sobre el grafo en vez de solo recorrerlo. Las Graph Neural Networks de paso de mensajes — la familia dominante — funcionan haciendo que cada nodo agregue información de sus vecinos, repetidamente.</p>
+<p>Se demuestra que ese mecanismo tiene exactamente el mismo poder de distinguir grafos que un procedimiento clásico llamado test de Weisfeiler–Leman de primer orden. La consecuencia práctica, sin matemáticas: <strong>hay estructuras distintas que la red ve idénticas</strong>. No las confunde por falta de entrenamiento o de datos; le son indistinguibles por construcción, igual que dos huellas dactilares distintas serían indistinguibles para un sensor que solo mide el área del dedo.</p>
+<p>Lo que queda fuera de su alcance es justamente lo compositivo: distinguir un conjunto de triángulos independientes de una estructura densamente entrelazada, reconocer motivos de orden superior, detectar que varias piezas forman un todo. Superarlo requiere extender la representación (complejos simpliciales, de celdas) — es decir, dejar de trabajar sobre un grafo plano.</p>
+<div class="callout concept">
+<h4>🧩 Y un tercero, menos formal pero más frecuente: <code>partOf</code> no es transitivo</h4>
+<p>Un grafo trata todas las aristas del mismo tipo como equivalentes, y de ahí sale una inferencia que parece obvia y es falsa:</p>
+<p style="text-align:center;font-family:var(--ff-mono);font-size:.86rem;">el pomo es parte de la puerta · la puerta es parte de la casa<br/>⟹ <s>el pomo es parte funcional de la casa</s></p>
+<p>La conclusión no se sigue. «Parte funcional de» no se hereda hacia arriba: el pomo cumple una función respecto de la puerta, no respecto de la casa. La mereología formal distingue varios tipos de relación parte-todo precisamente porque unos son transitivos y otros no, y un grafo que las aplasta todas en una arista genérica <code>partOf</code> autoriza cadenas de inferencia que no se sostienen.</p>
+<p>Es el fallo más práctico de los tres, porque no necesita un caso de tres cuerpos ni una red neuronal: le ocurre a cualquier GraphRAG que recorra dos saltos de relaciones de composición y presente el resultado como un hecho.</p>
+</div>
+<h3>6.6b.3 La conclusión que NO se sigue</h3>
+<div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ Cuidado con el salto de la crítica a la receta</strong>
+<p>Los tres límites anteriores son correctos. La conclusión que suele acompañarlos — <em>«luego hace falta un formalismo más rico: mereotopología, ontologías fundacionales, hipermodelos poliglotas, gobernanza de metamodelos»</em> — <strong>no se sigue de ellos</strong>, y quien la adopte sin más va derecho a la trampa descrita en §2.5.</p>
+<p>Que un formalismo pierda información demuestra que pierde información. No demuestra que un formalismo más expresivo sea la mejor respuesta, porque cada capa de expresividad trae consigo exactamente lo que hundió a la Web Semántica: alguien que la escriba, alguien que la mantenga al día indefinidamente, una autoridad que arbitre cuando dos departamentos modelan la misma entidad de forma distinta y ambos tienen razón, y una barrera de entrada que separa «sé la sintaxis» de «sé modelar el dominio».</p>
+<p>Y hay una asimetría que decide el asunto: <strong>un grafo plano pierde información de forma predecible; un formalismo rico mal mantenido pierde información de forma impredecible y con autoridad</strong>. El primero se equivoca siempre igual y se puede compensar. El segundo se equivoca de manera distinta cada vez, y trae un aparato formal que hace la respuesta más creíble justo cuando es más falsa.</p>
+</div>
+<h3>6.6b.4 El criterio de decisión</h3>
+<table>
+<thead><tr><th>El grafo plano basta cuando…</th><th>Necesitas contención explícita cuando…</th></tr></thead>
+<tbody>
+<tr><td>Las relaciones que importan son genuinamente binarias (cita, autoría, referencia, dependencia)</td><td>Existen efectos de n cuerpos: condiciones que solo se activan en conjunto</td></tr>
+<tr><td>El corpus es homogéneo y las entidades homónimas designan lo mismo</td><td>Varios documentos usan la misma etiqueta para cosas distintas</td></tr>
+<tr><td>Los recorridos son de uno o dos saltos y se verifican contra el texto</td><td>Se encadenan tres o más saltos y el resultado se presenta como hecho</td></tr>
+<tr><td>Nadie va a mantener una ontología, y conviene admitirlo antes de empezar</td><td>Ya existe un modelo de dominio mantenido con dueño y presupuesto (PLM, MBSE, biomédico, aeronáutico)</td></tr>
+</tbody>
+</table>
+<p>La última fila es la que suele decidir en la práctica, y la que menos se dice en voz alta. En los dominios donde la ontología <em>es</em> el producto — ciclo de vida de producto, ingeniería de sistemas, catalogación biomédica — hay un departamento que la mantiene y el formalismo rico se paga solo. Fuera de ellos, el hipermodelo se convierte en el archivo obsoleto con autoridad de formalismo que describe §2.5.1.</p>
+<h3>6.6b.5 La respuesta intermedia: declarar lo que se colapsó</h3>
+<p>Entre «grafo plano ingenuo» y «reconstruirlo todo sobre mereotopología» hay una opción barata que casi nadie implementa, y que es la aplicación directa del criterio de §2.5.4: <strong>si la estructura no puede representar la frontera, que al menos declare que la cruzó.</strong></p>
+<p>Un GraphRAG típico asigna a cada entidad un identificador global derivado de su etiqueta. «Válvula» en el manual de refrigeración y «Válvula» en un contrato de compras sin relación alguna se funden en un único nodo. Esa fusión es normalmente deseable — es lo que hace posible el multi-salto entre documentos — pero suele ser <strong>invisible</strong>: nada registra que el nodo abarca dos corpus, y un camino de tres saltos puede atravesar tres documentos ajenos y volver con aspecto de cadena causal única.</p>
+<p>Tres campos y un contador lo convierten en algo auditable:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;">nodo.sources          # {"refrigeracion.md", "compras.md"}  qué documentos se fundieron
+nodo.occurrences      # 37   una fusión de 2 y una de 40 no son el mismo objeto
+traversal.boundary_crossings   # 2  resultados alcanzados saliendo del documento origen</pre>
+<p>Y en la explicación que acompaña a cada fragmento recuperado: <em>«este nodo funde 2 documentos; la relación puede no cumplirse dentro de ninguno de ellos por separado»</em>. No arregla la ambigüedad de proyección — nada dentro del formalismo la arregla — pero convierte una pérdida silenciosa en un dato que el lector puede sopesar. Es el mismo patrón de §4.7b y §10.9.6: <strong>el problema rara vez es que la estructura sea pobre; el problema es que no declara lo que pierde.</strong></p>
+<p>Un cero en <code>boundary_crossings</code> es tan informativo como un número alto: dice que el recorrido se quedó dentro de los documentos de los que partió.</p>
+<div class="callout concept">
+<h4>🧭 Cómo encaja con el resto del capítulo</h4>
+<p>Conviene leer §6.7 (indexación jerárquica) inmediatamente después de esta sección, porque <strong>es una respuesta parcial al problema que acaba de plantearse</strong>: un índice de árbol sí preserva contención — un nodo contiene a sus hijos — y por eso una arquitectura híbrida (§6.9) es más robusta que cualquiera de las dos capas por separado. No porque sume técnicas, sino porque el árbol representa lo que el grafo no puede.</p>
+<p>La lección general, que vale más allá de GraphRAG: cuando un formalismo tiene un límite demostrable, las tres salidas son <em>cambiar de formalismo</em> (caro y con dueño), <em>añadir otra representación al lado</em> (lo que hace §6.9), o <em>declarar lo que se pierde</em> (lo más barato, y casi siempre lo que falta). Rara vez es la primera.</p>
+<p><em>Referencia cruzada: §2.5 (por qué el formalismo rico no ganó), §2.5.4 (cuándo declarar), §2.6 (identidad frente a similitud), §4.7b y §10.9.6 (el mismo patrón en otras capas), §6.7 (jerarquía como contención), §6.9 (arquitectura híbrida).</em></p>
+</div>
 <h2 id="s67">6.7 Indexación jerárquica: cuando la estructura del documento es el índice</h2>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -11886,7 +12191,7 @@ if all(v &gt;= 0.8 for v in [resultado['faithfulness'], resultado['answer_releva
 <strong>📌 Nota de alcance</strong>
     Este capítulo cubre los fundamentos y las herramientas más establecidas a 2026. El prompt engineering evoluciona rápidamente: las secciones 8.5 en adelante tienen mayor caducidad que las secciones 8.1–8.4. Para técnicas emergentes y benchmarks actualizados, consulta el repositorio del manual y los canales de cada proveedor.
   </div>
-<h2 id="s80b">8.0b Antes de optimizar el prompt: ¿qué capa del problema tienes realmente?</h2>
+<h2 id="s80b" data-nivel="profundidad">8.0b Antes de optimizar el prompt: ¿qué capa del problema tienes realmente?</h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
     Un error frecuente de diagnóstico: tratar como "mal prompt" un problema que en realidad es de contexto insuficiente, o tratar como "necesito RAG" un problema que en realidad requiere que el sistema verifique y reintente su propio trabajo. Las tres capas siguientes son acumulativas — la 2 contiene a la 1, la 3 contiene a la 2 — y cada una añade coste y latencia. Diagnostica antes de construir.
@@ -11998,7 +12303,7 @@ const response = await openai.chat.completions.create({
 <tr><td><strong>Estabilidad</strong></td><td>El mismo prompt con temperatura baja produce respuestas consistentes</td><td>Ejecutar N veces (N≥20) la misma consulta a temperatura 0.2–0.3 y medir varianza de la respuesta</td></tr>
 </tbody>
 </table>
-<h2>8.4b Zero-shot prompting: alcance y límites reales</h2>
+<h2 data-nivel="profundidad">8.4b Zero-shot prompting: alcance y límites reales</h2>
 <p>El zero-shot prompting es la forma más básica de instrucción: se pide al modelo que realice una tarea sin proporcionar ningún ejemplo previo. El modelo actúa exclusivamente sobre su conocimiento preentrenado.</p>
 <div class="nota">
 <strong>📌 Definición técnica precisa</strong>
@@ -12020,7 +12325,7 @@ const response = await openai.chat.completions.create({
 <strong>⚠️ Anti-patrón crítico: el "prompt determinista"</strong>
     Afirmar que un buen system prompt convierte al LLM en un sistema determinista, reproducible y auditable es una simplificación incorrecta. El prompt comprime la distribución de outputs, pero no elimina la naturaleza probabilística del modelo. Con temperatura=0 y semilla fija en la misma infraestructura, se obtiene reproducibilidad funcional (&gt;99% de consistencia), no determinismo absoluto. Las fuentes reales de variación en producción son: actualizaciones del modelo por el proveedor, cambios de infraestructura y llamadas concurrentes sin semilla fijada.
   </div>
-<h2>8.4c Few-shot como técnica de calibración cultural y de dominio</h2>
+<h2 data-nivel="profundidad">8.4c Few-shot como técnica de calibración cultural y de dominio</h2>
 <p>El few-shot prompting proporciona 2-6 ejemplos del par (input → output esperado) dentro del prompt. Es la técnica con mayor retorno por inversión para dominios con lenguaje específico, porque opera como un <strong>interruptor de sesgo</strong>: redirige el prior estadístico del modelo desde el corpus general hacia los patrones del dominio real.</p>
 <h3>Por qué los modelos aprenden por analogía, no solo por definición</h3>
 <p>Aunque el system prompt puede <em>definir</em> teóricamente los criterios, los modelos de lenguaje tienen mucha mayor dificultad para aplicar definiciones abstractas que para replicar patrones concretos. Esta asimetría tiene consecuencias prácticas importantes:</p>
@@ -12074,7 +12379,7 @@ Mensaje: {{mensaje}}
 <li>Evita el riesgo de sobreajuste a un corpus pequeño o sesgado</li>
 </ul>
 <p>El fine-tuning pasa a ser pertinente cuando el few-shot no supera el 85% de precisión en el golden dataset y se dispone de más de 1.000 ejemplos labellisés de calidad — típicamente entre 9 y 12 meses tras el lanzamiento de un sistema en producción.</p>
-<h2>8.4d Confidencialidad de los artefactos de producción: qué proteger y por qué</h2>
+<h2 data-nivel="profundidad">8.4d Confidencialidad de los artefactos de producción: qué proteger y por qué</h2>
 <p>La ingeniería de prompts cubre habitualmente el diseño y la iteración de los prompts. Pero no aborda una cuestión crítica para los sistemas en producción: <strong>¿qué artefactos del sistema IA deben ser tratados como secretos operativos?</strong> Esta pregunta no es teórica — tiene implicaciones directas sobre la seguridad del sistema.</p>
 <div class="callout concept">
 <h4 id="ca-brechas-sistema">📐 Concepto del autor: La carta de las brechas del sistema</h4>
@@ -12322,6 +12627,57 @@ jobs:
 <li><strong>Documenta el porqué:</strong> registra qué problema resolvía cada cambio de prompt. En 6 meses no recordarás por qué añadiste esa instrucción.</li>
 </ul>
 <p id="mthilo8">Tras el incidente de la compensación (Cap. 7), el equipo de Meridian adoptó exactamente este proceso: cada cambio en el prompt del asistente de atención al cliente pasa por revisión y staging con evaluación automática, y el hash del prompt se registra junto a cada respuesta. El detonante fue descubrir que nadie podía reconstruir qué versión del prompt estaba activa la semana del fallo — la edición ad-hoc había borrado la evidencia.</p>
+<h2 id="s87b">8.7b El prompt como deuda técnica: la caducidad que no depende de ti <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<p>§8.7 trata el prompt como artefacto versionado: hash junto a la respuesta, staging, revisión, registro del porqué. Todo eso protege contra un tipo de cambio — el que <em>tú</em> haces. Falta el otro, que no controlas: <strong>el prompt puede quedarse obsoleto sin que nadie lo toque</strong>, porque cambió el modelo debajo.</p>
+<p>Es deuda técnica en el sentido estricto del término. Un préstamo tomado contra una capacidad que el modelo no tenía, con intereses que se pagan cuando esa capacidad llega y el andamiaje sigue puesto.</p>
+<h3>8.7b.1 Dos relojes distintos</h3>
+<p>La distinción que hace operativa toda esta sección, y que casi nunca se hace explícita, es que <strong>no todas las instrucciones envejecen por el mismo motivo</strong>:</p>
+<table>
+<thead><tr><th></th><th>Declaración descriptiva</th><th>Instrucción prescriptiva</th></tr></thead>
+<tbody>
+<tr><td><strong>Qué dice</strong></td><td>Qué <em>es</em> algo: "este importe es neto", "esta métrica salió de una heurística"</td><td>Cómo <em>hacer</em> algo: "primero analiza el esquema, luego escribe la consulta, luego valídala"</td></tr>
+<tr><td><strong>Envejece con</strong></td><td>El mundo. Caduca cuando cambia la regla de negocio, el esquema o el proceso.</td><td>El modelo. Caduca cuando el modelo aprende a hacer solo lo que le estabas dictando.</td></tr>
+<tr><td><strong>Quién lo detecta</strong></td><td>El dueño del dominio, normalmente cuando ya falló algo</td><td>Nadie, salvo que se mida — el sistema sigue funcionando, solo que peor de lo que podría</td></tr>
+<tr><td><strong>Qué hacer al migrar de modelo</strong></td><td>Conservar. La procedencia no depende del modelo.</td><td>Revisar una por una. Puede que sobre la mitad.</td></tr>
+</tbody>
+</table>
+<p>Esto importa porque el consejo que circula — <em>"borra tu fichero de memoria, tus skills y tus hooks"</em> — mezcla las dos categorías. Como corrección de un exceso concreto es razonable. Generalizado, te lleva por delante la procedencia junto con el andamiaje, y la procedencia es lo que §2.5.4 y §4.7b dicen que hay que conservar.</p>
+<h3>8.7b.2 Por qué el mismo prompt rinde distinto en otro modelo</h3>
+<p>Cualquiera que haya industrializado un caso de uso con LLM y lo haya monitorizado ha visto variaciones, a veces grandes, al cambiar de modelo sin tocar nada más. Dos causas principales:</p>
+<ul>
+<li><strong>La capacidad de planificación cambia.</strong> Un modelo que antes necesitaba que le dictaras los pasos hoy puede decidirlos mejor que tu procedimiento. Seguir imponiéndoselo lo <em>limita</em>: le prohíbes la estrategia que habría elegido. Éste es el caso en que una instrucción no solo sobra, sino que resta.</li>
+<li><strong>La interpretación de las instrucciones cambia.</strong> "Sé conciso", "no inventes", "responde en formato JSON" no significan lo mismo entre familias de modelos, ni siquiera entre versiones. La diferencia es invisible en uso conversacional y se vuelve decisiva cuando se exige precisión y reproducibilidad.</li>
+</ul>
+<p>Y hay un tercer factor que suele confundirse con los anteriores: <strong>no consumes un modelo, consumes un modelo dentro de un arnés</strong> — herramientas disponibles, número de reintentos, orquestación, ventana efectiva. Un cambio en el arnés modifica lo que el modelo <em>puede hacer</em>; un cambio de modelo modifica <em>cómo interpreta lo que le pides</em>. Son fenómenos distintos y mezclarlos hace imposible atribuir una regresión a su causa. Al migrar, conviene mover uno de los dos a la vez.</p>
+<div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ Cambiar de modelo no es una migración de no-regresión</strong>
+<p>Los tests de no-regresión comprueban que nada empeoró respecto al comportamiento anterior. Es la pregunta equivocada. El escenario que importa es el contrario: el sistema pasa todos los tests <em>y aun así</em> está rindiendo por debajo de lo que el modelo nuevo permitiría, porque tus instrucciones lo están conteniendo. Ninguna suite de no-regresión detecta eso, por construcción: mide contra el pasado, y el pasado es justamente lo que hay que cuestionar.</p>
+</div>
+<h3>8.7b.3 El inventario de instrucciones con procedencia</h3>
+<p>La versión utilizable del consejo "borra tus instrucciones" no es borrar a ciegas: es <strong>marcar cada instrucción con el modelo y la fecha en que se comprobó que hacía falta</strong>, y revisarla cuando cambie el modelo. Mismo principio de §4.7b — un artefacto que no dice de dónde viene no se puede auditar:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;"># prompts/sql_generation.yaml
+id: sql_generation
+tuned_for:   "modelo-X-2025-06"    # contra qué se ajustó
+verified_on: "2026-03-14"          # última vez que se midió que aporta
+why:         "sin el paso explícito de validación, 18% de consultas
+              con JOIN incorrecto sobre el golden dataset"
+sunset_check: "reevaluar en cada cambio de familia de modelo"</pre>
+<p>El campo que hace el trabajo es <code>why</code>, y tiene que contener un <strong>número</strong>, no una intención. "Sin esto el modelo se lía" no es revisable dentro de seis meses; "18% de consultas con JOIN incorrecto sobre el golden dataset" sí — se vuelve a medir y se ve si sigue siendo 18% o ya es 2%. Una instrucción cuya justificación no se puede volver a medir no se podrá retirar nunca, porque nadie sabrá si quitarla es seguro. Es exactamente el mismo criterio de §2.5.4: la declaración que no tiene una prueba detrás es documentación, y la documentación no se retira, se acumula.</p>
+<h3>8.7b.4 Protocolo de migración de modelo</h3>
+<ol>
+<li><strong>Congela el arnés.</strong> Mismas herramientas, misma orquestación, mismos reintentos. Solo cambia el modelo. Si mueves las dos cosas a la vez, cualquier diferencia es inatribuible.</li>
+<li><strong>Baseline con las instrucciones actuales.</strong> El golden dataset de §3.3 sobre el modelo nuevo, sin tocar nada. Esto es lo que un test de no-regresión te daría — y es solo el punto de partida.</li>
+<li><strong>Ablación, instrucción por instrucción.</strong> Para cada bloque prescriptivo del prompt: quítalo y vuelve a medir. Si la métrica no empeora, el bloque ya no aporta y es deuda pura. Es tedioso y es el único paso que produce información real.</li>
+<li><strong>Prueba la versión mínima.</strong> Solo objetivo y restricciones duras, sin procedimiento. En modelos con planificación fuerte suele ganar, y cuando gana el ahorro es doble: mejor calidad y menos tokens por llamada.</li>
+<li><strong>Documenta lo retirado, no solo lo que queda.</strong> Anota qué instrucción se eliminó, contra qué modelo y con qué número. Sin ese registro, el próximo incidente hará que alguien la vuelva a añadir "por si acaso", y habrás pagado la deuda dos veces.</li>
+<li><strong>Vuelve a fijar <code>tuned_for</code> y <code>verified_on</code>.</strong> Si no, la migración siguiente empieza otra vez a ciegas.</li>
+</ol>
+<div class="callout concept">
+<h4>🧭 El coste de no hacerlo, y por qué se ignora</h4>
+<p>Es deuda que <strong>no genera síntomas</strong>. Un prompt obsoleto no lanza errores, no dispara alertas, no aparece en un postmortem. Simplemente hace que el sistema rinda por debajo de su techo, indefinidamente, mientras todos los indicadores siguen en verde. Es la forma más difícil de deuda de justificar ante un comité — y por eso se acumula justo en los sistemas mejor gobernados, donde nadie toca lo que funciona.</p>
+<p>La contrapartida sana es no dramatizar: la mayoría de las instrucciones no cuestan casi nada, y una ablación completa en cada actualización menor sería su propia forma de despilfarro. El criterio razonable es <strong>revisión completa al cambiar de familia de modelo</strong>, y revisión de los bloques procedimentales más largos en cada salto de versión mayor.</p>
+<p><em>Referencia cruzada: §3.3 (golden dataset), §4.4 (catálogo de modelos y versiones), §5.5b (nota de actualización: medir antes de rediseñar), §8.4 (protocolo de evaluación de prompts), §8.7 (versionado y hash), §15 (MLOps).</em></p>
+</div>
 <h2>8.8 Reducción de coste y latencia</h2>
 <h3>Prompt compression</h3>
 <p>Herramientas como LLMLingua (Microsoft) comprimen el prompt eliminando palabras redundantes sin perder calidad. Pueden reducir el tamaño del prompt hasta un 80% con una pérdida de calidad del 1–5%. Útil para prompts largos con instrucciones + ejemplos + contexto.</p>
@@ -12389,7 +12745,7 @@ prompt_comprimido = resultado['compressed_prompt']</pre>
 </div>
 </div>
 </div>
-<h2 id="s88b">8.8b Orquestación de agentes en grafo: de la cadena lineal al grafo de ejecución</h2>
+<h2 id="s88b" data-nivel="profundidad">8.8b Orquestación de agentes en grafo: de la cadena lineal al grafo de ejecución</h2>
 <div class="callout">
 <strong>🧵 Por qué esto no es GraphRAG</strong>
     El Cap. 6 (§6.5b–6.6) trata grafos de <em>conocimiento</em>: nodos y aristas que representan entidades y relaciones dentro de un corpus. Esta sección trata grafos de <em>ejecución</em>: nodos que son encargos de trabajo y aristas que son dependencias reales entre ellos. Son estructuras distintas que comparten vocabulario por accidente histórico — no confundir un grafo que se consulta con un grafo que se ejecuta.
@@ -13476,7 +13832,7 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <!-- ═══ SECCIÓN 9.10 — IA NEUROSIMBÓLICA: EL PUENTE DE VUELTA (v29) ═══ -->
 <details class="sec-plegada" style="border:1px solid var(--border,#e2e8f0);border-radius:10px;margin:28px 0;padding:0 18px 12px;background:#fffdf5;">
 <summary style="cursor:pointer;padding:14px 0;font-weight:700;color:#92400e;font-size:.95rem;">📕 9.10 IA neurosimbólica: el puente de vuelta <span style="font-weight:400;color:var(--muted,#64748b);font-size:.82rem;">— sección avanzada, plegada por defecto · clic para desplegar</span></summary>
-<h2 id="s910neuro">9.10 IA neurosimbólica: el puente de vuelta <span class="badge-propuesta">★ Propuesta del autor</span> <span class="level-tag level-avanzado">Avanzado · Opcional</span></h2>
+<h2 id="s910neuro" data-nivel="profundidad">9.10 IA neurosimbólica: el puente de vuelta <span class="badge-propuesta">★ Propuesta del autor</span> <span class="level-tag level-avanzado">Avanzado · Opcional</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
 <div class="callout">
 <strong>🧵 Por qué esta sección, si la Combinación 5 ya existe</strong>
@@ -13900,7 +14256,7 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <p>Ningún agente de tu pipeline es "malicioso" en ese sentido: todos están intentando responder correctamente con el mismo modelo base (o uno muy similar) y la misma información limitada. El fallo típico no es sabotaje, es estar <strong>honestamente equivocado</strong> — un agente razona mal, malinterpreta una premisa o alucina, sin ninguna intención de hacerlo. Y no existe una función de corrección externa: "qué es correcto" lo decide el propio sistema (otro LLM, una votación entre agentes, un umbral de confianza autodeclarado), no un oráculo fuera de él.</p>
 <p>La consecuencia práctica es que "más agentes verificando" no da las garantías de un quórum bizantino. Si los agentes verificadores comparten el mismo sesgo de origen (mismo modelo, mismos datos de entrenamiento, mismo malentendido sobre la tarea), pueden coincidir en estar de acuerdo y equivocados a la vez — el consenso no detecta ese caso porque no hay nada externo al consenso que lo contraste (→ 10.3, errores correlacionados frente a independientes).</p>
 </div>
-<h2>10.3b Recursive Language Models: cuando el modelo se llama a sí mismo</h2>
+<h2 data-nivel="profundidad">10.3b Recursive Language Models: cuando el modelo se llama a sí mismo</h2>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
     Los <span class="gt">Recursive Language Models (RLM)<span class="tt">Patrón arquitectural donde un LLM descompone una tarea en subtareas delegadas jerárquicamente, produciendo un árbol de llamadas. No es una familia de modelos: cualquier LLM puede usarse en una arquitectura recursiva.</span></span> son una familia de arquitecturas donde un LLM descompone una tarea compleja en subtareas y delega cada una —a sí mismo u a otros modelos— de forma jerárquica y anidada. Entender cómo funcionan es esencial porque amplifican el problema de entropía acumulada de la sección anterior de formas que los pipelines lineales no producen.
@@ -14079,7 +14435,7 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <strong>⚠️ El anti-patrón más costoso: agente que actúa directamente</strong>
     El mayor riesgo en arquitecturas de agentes es permitir que el LLM ejecute acciones irreversibles sin validación intermedia: enviar emails, modificar bases de datos, ejecutar transacciones, desplegar código. Si el LLM malinterpreta la instrucción o alucina un parámetro, la acción ya ocurrió. Insertar siempre una capa de confirmación humana o una validación determinista antes de cualquier acción con efectos en sistemas externos.
   </div>
-<h2 id="s104b">10.4b Condiciones de parada del loop de agente: las ocho salidas</h2>
+<h2 id="s104b" data-nivel="profundidad">10.4b Condiciones de parada del loop de agente: las ocho salidas</h2>
 <p>El <a href="#lab-mod2">Caso 2-2 del laboratorio de errores</a> de este módulo diagnostica un patrón muy frecuente: un agente que entra en bucle porque su única condición de parada es "busca hasta tener una respuesta completa" — un criterio que el propio LLM puede justificar indefinidamente. La corrección apuntada allí (<code>max_steps</code> explícito, timeout con respuesta parcial) es necesaria pero incompleta: un agente en producción no tiene una sola salida, tiene que tener varias, cada una vigilando una forma distinta de fallo. Un loop con una sola condición de parada se cuelga; un loop con varias es un sistema.</p>
 <p>Las ocho salidas siguientes son un catálogo práctico, no una jerarquía: cada una vigila un tipo de fallo que las demás no cubren, y todas deben vivir en el harness — el código que envuelve al LLM — nunca en el prompt. Es la misma disciplina que articula el patrón sándwich de la sección siguiente: el LLM propone, el código decide cuándo parar.</p>
 <table>
@@ -14623,6 +14979,76 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
     Consulta: <em>"¿Tiene retraso el vuelo del pasajero VIP?"</em>. Entregar el grafo aeronáutico completo (rutas históricas, tarifas, políticas comerciales de miles de vuelos) obliga al agente a evaluar información irrelevante para decidir sobre una contingencia puntual. El grafo de contexto para este turno es, en cambio, minúsculo y específico: <code>[Vuelo 34/180 actual] + [Retraso en tiempo real: +45 min] + [Pasajero CUST_99482] + [Minutos a la puerta de embarque]</code> — cuatro o cinco nodos, no las decenas de miles del grafo completo. El agente razona sobre ese subgrafo con precisión, no busca dentro de todo el grafo con similitud.
   </div>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">→ Esta sección conecta tres piezas que hasta ahora vivían por separado en el manual: la construcción gobernada del grafo (§6.5b, §6.6), el patrón de reconstrucción de memoria por turno (§6.13.3, 10.9.2), y el riesgo de entropía acumulada cuando un agente arrastra más contexto del que su decisión necesita (§10.3). El grafo de contexto no es un componente nuevo de arquitectura: es el mismo principio de scoping por decisión — no por dominio — aplicado a datos relacionales.</p>
+<h3 id="s1096">10.9.6 La frontera de recuperación: dónde memoria y contexto se tocan</h3>
+<p>Las secciones anteriores han descrito la memoria persistente desde dentro: qué tipos existen, qué se promociona, cómo el bucle reconstruye en vez de acumular. Pero un sistema de memoria impecable puede seguir produciendo un agente que se comporta como si no recordara nada, y la causa no está en la memoria. Está en la frontera.</p>
+<p>Conviene nombrar las dos disciplinas por separado antes de mirar dónde se tocan, porque se construyen juntas, se confunden, y fallan de formas distintas:</p>
+<table>
+<thead><tr><th>Dimensión</th><th>Ingeniería de contexto</th><th>Ingeniería de memoria</th></tr></thead>
+<tbody>
+<tr><td><strong>Pregunta</strong></td><td>¿Qué debe ver el modelo ahora, y en qué orden?</td><td>¿Qué debe conservar el sistema, y hasta cuándo?</td></tr>
+<tr><td><strong>Alcance</strong></td><td>Una sola llamada de inferencia</td><td>Entre llamadas, sesiones y agentes</td></tr>
+<tr><td><strong>Dónde vive el dato</strong></td><td>La ventana activa del modelo</td><td>Almacén externo: SQLite, vectorial, K/V</td></tr>
+<tr><td><strong>Vida del dato</strong></td><td>La duración de la llamada</td><td>Depende del tipo de memoria y de su TTL</td></tr>
+<tr><td><strong>Falla cuando</strong></td><td>La ventana se llena, la colocación es mala, el ruido tapa la señal</td><td>La recuperación falla, el dato caduca, no hay política de escritura</td></tr>
+<tr><td><strong>Mantenimiento</strong></td><td>Compresión proactiva a intervalos definidos</td><td>Expiración, deduplicación, decaimiento de confianza</td></tr>
+</tbody>
+</table>
+<p>La recuperación es la frontera. La memoria produce candidatos; el ensamblado de contexto decide si entran, cuántos, y dónde. Y ahí ocurren los dos fallos que hacen que un sistema con buenas métricas de recuperación funcione mal.</p>
+<h4>Fallo 1 — Recuperar sin presupuesto</h4>
+<p>La búsqueda devuelve cinco memorias relevantes y el ensamblador las inyecta todas. Se repite en cada paso. La ventana se llena de material recuperado y va quedando menos sitio para las instrucciones, las salidas de herramienta y la tarea inmediata.</p>
+<p>Los síntomas engañan de una manera concreta y cara: <strong>las métricas de recuperación salen bien</strong>. El chunk esperado está en el top-k. El <em>hit rate</em> sube. Y el sistema empeora. Se pasan semanas mirando el ranker porque el ranker es lo que está instrumentado, cuando la pérdida ocurrió después.</p>
+<p>El arreglo no es truncar mejor: es <strong>presupuestar antes de recuperar</strong>. La capa de contexto asigna un presupuesto de tokens al paso, y la recuperación devuelve solo lo de más valor que quepa dentro. La recuperación opera dentro de una restricción de contexto en vez de suponer que aguas abajo hay sitio infinito.</p>
+<div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ El detalle que casi nadie implementa: gastar el presupuesto por entrada, no por carácter</strong>
+<p>Cortar el bloque ensamblado con un <code>bloque[:max_chars]</code> resuelve el desbordamiento y abre dos problemas peores, los dos silenciosos.</p>
+<p><strong>Uno.</strong> El corte cae a mitad de frase. <em>"El cliente prefiere que las entregas se hagan por la"</em> se lee exactamente igual que un hecho completo — no hay ninguna marca que distinga una afirmación entera de media, y el modelo razona sobre el trozo creyendo que lo tiene todo.</p>
+<p><strong>Dos.</strong> El trace sigue diciendo que se aplicaron cinco hechos. Un registro de recuperación que <em>exagera</em> lo que llegó al modelo es peor que no tener registro: te manda a depurar exactamente donde no está el problema.</p>
+<p>Gastar el presupuesto por entrada, en orden de prioridad, y contar lo que no cupo, cuesta veinte líneas y convierte un fallo invisible en un número:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;">meta["facts_returned"]     # 5  — lo que encontró la recuperación
+meta["facts_in_context"]   # 3  — lo que llegó al modelo
+meta["dropped_facts"]      # 2
+meta["budget_exceeded"]    # True</pre>
+<p>Es el mismo patrón de §4.7b un piso más arriba: un número que no dice cómo se obtuvo es una afirmación, no una medida. Allí era una métrica de calidad; aquí es el recuento de lo que el modelo llegó a ver.</p>
+</div>
+<h4>Fallo 2 — Recuperar bien y colocar mal</h4>
+<p>La memoria correcta se recupera, se inserta, y el modelo se comporta como si no estuviera. La recuperación funcionó; falló la colocación. Es un fallo especialmente frustrante porque toda la instrumentación apunta a que el sistema hizo lo correcto.</p>
+<p>La regla operativa, con la precaución de la nota de actualización de §5.5b:</p>
+<ul>
+<li><strong>Restricciones duras al principio.</strong> Una política vinculante no es contexto, es una condición de la respuesta. Va arriba y va entera.</li>
+<li><strong>Material recuperado y tarea, cerca del final.</strong> Lo que debe influir en el paso actual va próximo al punto de generación, no anexado donde llegó.</li>
+<li><strong>Nunca cortar una restricción.</strong> Truncar <em>"Nunca reveles datos del cliente salvo que"</em> por la mitad puede invertir la regla. Ante un presupuesto insuficiente para las políticas, la salida correcta es admitirlas enteras y <strong>avisar</strong>: un conjunto de políticas que no cabe es un problema de configuración para un humano, no algo que resolver en el ensamblado.</li>
+</ul>
+<h3 id="s1097">10.9.7 Tres cosas que el discurso de memory engineering da por supuestas <span class="badge-propuesta">★ Propuesta del autor</span></h3>
+<div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ Lo que falta en casi todas las guías de memoria para agentes</strong>
+<p><strong>1. El campo <code>importance</code> no es falsable.</strong> La forma canónica de una política de escritura en la literatura actual es tres umbrales unidos por un <code>and</code>:</p>
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:.8rem;overflow-x:auto;">def should_write_to_long_term(entry) -&gt; bool:
+    return (entry.importance   &gt;= 0.6
+        and entry.confidence   &gt;= 0.7
+        and entry.trust_level  &gt;= 0.5)</pre>
+<p>De dónde sale el 0.6, cómo se calibra, y cómo sabrías que está mal: no se dice en ninguna parte. Y el modo de fallo de un umbral mal puesto es el peor que existe en estos sistemas — no lanza una excepción, no rompe una prueba, no aparece en un dashboard. Degrada la calidad de recuperación despacio, semanas después del cambio, y para entonces el cambio ya no es sospechoso. Un umbral sin un procedimiento de calibración y sin una prueba que lo fije es una constante mágica con nombre de política.</p>
+<p><strong>2. La confianza no compone, y decirlo importa más que tener el campo.</strong> Un <code>trust_level</code> por entrada es buena idea. Sin una regla de composición es una puerta abierta con cartel de puerta cerrada:</p>
+<ul>
+<li>Contenido externo entra con <code>trust = 0.0</code></li>
+<li>Un componente interno lo resume</li>
+<li>El resumen se escribe con <code>trust = 1.0</code> — porque lo escribió un componente interno</li>
+<li>Todas las puertas <code>trust &gt;= 0.5</code> de aguas abajo lo dejan pasar</li>
+</ul>
+<p>La regla que lo cierra cabe en una línea: <strong>una entrada derivada hereda el mínimo de sus fuentes, nunca la confianza de quien la escribió.</strong> Promediar sería peor que no tener el campo — dos fuentes fiables subirían una tercera no fiable por encima del umbral, que es exactamente la compensación que el umbral existe para negar. Es la misma regla de no compensación que gobierna la escala de evidencia de §13.6: <em>el agregado es el suelo, jamás la media</em>.</p>
+<p><strong>3. No hay ninguna métrica de degradación.</strong> Este es el hueco más llamativo, porque estas guías dedican un apartado entero al mantenimiento — expiración, deduplicación, decaimiento — sin proponer una sola forma de <em>saber</em> que la memoria se está degradando. Se prescribe el tratamiento sin el diagnóstico.</p>
+<p>Cuatro señales baratas, todas derivables de lo que un sistema de memoria ya registra:</p>
+<table>
+<thead><tr><th>Señal</th><th>Qué mide</th><th>Qué significa si sube</th></tr></thead>
+<tbody>
+<tr><td><code>dropped_for_budget</code> por turno</td><td>Entradas recuperadas que no llegaron al prompt</td><td>El presupuesto o el <code>top_k</code> están mal calibrados entre sí</td></tr>
+<tr><td>Ratio escrituras / recuperaciones útiles</td><td>Cuánto se escribe frente a cuánto se usa</td><td>La puerta de promoción es demasiado permisiva</td></tr>
+<tr><td>Edad media de lo recuperado</td><td>Si el sistema responde con material viejo</td><td>Falta TTL, o lo nuevo no está ganando al ranquear</td></tr>
+<tr><td>Rechazos por motivo (no el total)</td><td><em>Qué</em> puerta se cerró, no cuántas veces</td><td>Distingue "el extractor devuelve basura" de "las confianzas bajaron"</td></tr>
+</tbody>
+</table>
+<p>La última merece énfasis porque es gratis y casi nunca se hace. Un contador único de rechazos mezcla cinco causas con cinco arreglos distintos en un solo entero. Nombrar el motivo de cada rechazo no cuesta nada en tiempo de ejecución y convierte una cifra opaca en un diagnóstico.</p>
+<p><em>Referencia cruzada: §4.7b (procedencia declarada de una métrica), §5.5b (colocación), §13.6 (no compensación), §15 (MLOps: qué instrumentar).</em></p>
+</div>
 <h2 id="s10mcp">10.10 Interoperabilidad entre agentes: MCP, A2A y la cuestión de la identidad</h2>
 <div class="callout">
 <strong>🧵 Un problema distinto al de la memoria</strong>
@@ -15049,7 +15475,7 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <p>Australia, 2016–2020. El programa «Robodebt» automatizó el cálculo de deudas de beneficiarios de ayudas sociales cruzando datos fiscales anuales con ingresos declarados quincenales, mediante un promediado de ingresos que la justicia declaró después ilegal. El sistema emitió cientos de miles de reclamaciones de deuda erróneas — se recalcularon más de 400.000 —, invirtió la carga de la prueba (el ciudadano debía demostrar que <em>no</em> debía), y operó durante años con sus dashboards operacionales en verde: el sistema procesaba volumen, generaba deudas y recaudaba, exactamente como fue diseñado. El coste: un acuerdo judicial de ~1.800 millones de AUD, una Royal Commission (2023) y daños humanos documentados que ningún indicador técnico capturó.</p>
 <p>Por qué pertenece a este capítulo: Robodebt no fue un fallo de <em>accuracy</em>. El sistema calculaba correctamente la fórmula que le dieron — la fórmula era ilegal. Ninguna métrica de las que este manual enseña a instrumentar (precisión, drift, latencia, faithfulness) lo habría detectado, porque el error vivía en un nivel que los dashboards no miden: la legalidad de la regla, la posibilidad de impugnación, el efecto sobre las personas. Las recomendaciones de la Royal Commission son un checklist de gobernanza aplicable hoy a cualquier sistema de decisión automatizada: documentar la legalidad de los intercambios de datos, publicar reglas y algoritmos para escrutinio experto, y establecer capacidad permanente de monitorizar y auditar decisiones automatizadas en sus aspectos técnicos, de equidad, de sesgo y de usabilidad.</p>
 <div class="callout">La lección conecta con el test de criticidad de §11.1: un sistema que solo «calcula deudas» parece Nivel 2 — hasta que se observa la escala, la autonomía (A3–A4 en la escala de §14.5) y la irreversibilidad práctica para el afectado. Robodebt es el caso documentado de por qué el error de escala de §11.4 no es teórico.</div>
-<h2>11.5b Arquitectura de moderación de contenido: el pipeline en cascada</h2>
+<h2 data-nivel="profundidad">11.5b Arquitectura de moderación de contenido: el pipeline en cascada</h2>
 <p>La moderación de contenido a escala es uno de los casos de uso de IA más comunes en producción y uno de los peor diseñados. El error más frecuente es asumir que la respuesta es siempre un LLM — cuando la mayoría de tareas de moderación son tareas de <strong>clasificación</strong>, no de generación, y existen herramientas específicas más adecuadas.</p>
 <h3>La distinción fundamental: clasificación vs comprensión contextual</h3>
 <table>
@@ -15555,7 +15981,7 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
         except Exception:
             self.registrar_resultado(True)
             return fn_fallback(*args, **kwargs)</pre>
-<h2>12.4b Clasificadores especializados vs LLMs: la tercera vía que falta en la mayoría de debates</h2>
+<h2 data-nivel="profundidad">12.4b Clasificadores especializados vs LLMs: la tercera vía que falta en la mayoría de debates</h2>
 <p>El debate habitual sobre arquitectura IA en producción es "¿LLMs o reglas?". Esta dicotomía omite una categoría entera de herramientas que resuelve muchos problemas de producción mejor que ambas opciones: los <strong>clasificadores especializados</strong>.</p>
 <h3>La taxonomía completa de herramientas</h3>
 <table>
@@ -16084,7 +16510,7 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
     return resultado</pre>
 <!-- v51: arnes MMLU -->
 <div class="warning"><strong>Cuando el arnés miente: mismo modelo, 0.85 → 0.38</strong> — Un caso real de 2026, documentado en la model card de un derivado de Qwen3.6: al activar el <em>chat template</em> durante la evaluación, el score MMLU del mismo modelo base cayó de 0.85 a 0.38. Nada cambió en los pesos — cambió el arnés: el formato de plantilla rompía el mecanismo de scoring por log-probabilidades sobre las opciones. La mitad de la tabla comparativa quedaba invalidada por una opción de configuración. La lección para tu pipeline de evaluación es directa: <em>el resultado de una eval es el par (número, metodología), nunca el número solo.</em> Versiona el arnés (framework, plantilla, few-shot, método de scoring) junto al dataset, y trata cualquier comparación entre números obtenidos con arneses distintos como inválida por defecto. Es el equivalente en evaluación del <code>evidence_type</code> de los scores en producción: un benchmark sin su metodología registrada es evidencia E0–E1, por muchos decimales que enseñe.</div>
-<h2>13.3b El determinismo en LLMs: qué se puede y qué no se puede garantizar</h2>
+<h2 data-nivel="profundidad">13.3b El determinismo en LLMs: qué se puede y qué no se puede garantizar</h2>
 <p>La afirmación "con un buen system prompt, el sistema se vuelve determinista, reproducible y auditable" es una de las más frecuentes en discusiones sobre IA en producción — y una de las más incorrectas. Entender qué garantiza exactamente cada mecanismo evita decisiones de arquitectura basadas en supuestos falsos.</p>
 <h3>Lo que temperatura=0 garantiza y lo que no</h3>
 <table>
@@ -16153,7 +16579,7 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
 <strong>💡 La posición correcta ante la incertidumbre probabilística</strong>
     En sistemas donde una decisión incorrecta tiene consecuencias sobre derechos o seguridad, el diseño correcto no es aumentar la confianza en la IA hasta el punto de tomar decisiones automáticas irreversibles. Es diseñar el flujo para que la incertidumbre del modelo siempre active una ruta de revisión humana. El objetivo es un sistema <em>auditablemente conservador</em>, no un sistema que parezca determinista.
   </div>
-<h2>13.3c Dashboard de KPIs para sistemas de moderación en producción</h2>
+<h2 data-nivel="profundidad">13.3c Dashboard de KPIs para sistemas de moderación en producción</h2>
 <p>Los sistemas de moderación IA en producción requieren un conjunto de métricas específico que va más allá de las métricas de evaluación offline (Faithfulness, Context Recall, Hit Rate). Las métricas offline miden si el sistema funciona bien en el golden dataset. Las métricas de producción miden si el sistema funciona bien en el problema real.</p>
 <div class="warning">
 <strong>⚠️ La métrica insuficiente más frecuente</strong>
@@ -16426,7 +16852,7 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
 <h3>13.10.3 Cómo se conecta con el framework de este capítulo</h3>
 <p>La deuda de comprensión no se detecta con RAGAS ni con el golden dataset — esas herramientas evalúan el comportamiento del sistema en tiempo de ejecución, no la trazabilidad del proceso que lo construyó. Lo que sí se traslada directamente de este capítulo y del 10.9.4 es el principio de fondo: si una decisión —de arquitectura, de diseño de prompt, de código generado— no se puede explicar ni trazar hasta una revisión humana, es equivalente a una decisión sin registro de deliberación, con el mismo problema de fondo que silence_rate mide para decisiones de alto riesgo. Los controles prácticos que de verdad mitigan esto: code review humano obligatorio antes de merge a producción (no solo paso de tests automáticos), atribución explícita de qué porcentaje de un módulo es código generado sin revisión línea a línea, y un golden set de comportamiento que cubra explícitamente los módulos de mayor "deuda de comprensión" conocida — el mismo principio del golden dataset de este capítulo, aplicado al código en vez de a las respuestas del modelo.</p>
 <!-- ═══ SECCIONES 13.11-13.13 — RAGAS EN PROFUNDIDAD + GROUND TRUTH + RED TEAMING (v27) ═══ -->
-<h2 id="s1311">13.11 RAGAS en profundidad: geometría de la evaluación y sus límites <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<h2 id="s1311" data-nivel="profundidad">13.11 RAGAS en profundidad: geometría de la evaluación y sus límites <span class="badge-propuesta">★ Propuesta del autor</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
 <div class="callout">
 <strong>🧵 Por qué esta sección amplía lo que ya sabes de RAGAS</strong>
@@ -16553,7 +16979,7 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
 </div>
 <p>La adición de faithfulness al tráfico RAG resuelve el límite más serio de las métricas de díada: detecta la alucinación factual que el drift no puede detectar — la respuesta fluida, on-topic y factualmente falsa porque el LLM completó los huecos con conocimiento de preentrenamiento contradictorio con el contexto. En el README de cualquier herramienta de auditoría, la frase pasa de «detecta alucinaciones» (indefendible) a «desalineación temática en todo el tráfico; consistencia factual contra contexto en modo RAG instrumentado» — exacta, verificable y más creíble precisamente porque es verdad.</p>
 <hr class="sep"/>
-<h2 id="s1312">13.12 El problema del ground truth: epistemología de la referencia <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<h2 id="s1312" data-nivel="profundidad">13.12 El problema del ground truth: epistemología de la referencia <span class="badge-propuesta">★ Propuesta del autor</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
 <div class="callout">
 <strong>🧵 Por qué esta sección existe en un manual técnico</strong>
@@ -16820,7 +17246,7 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
   </div>
 <!-- ═══ FIN SECCIONES 13.11-13.13 ═══ -->
 <!-- ═══ SECCIÓN 13.14 — CRÍTICA MULTI-MODELO: INTERSECCIÓN VERIFICADA (v28) ═══ -->
-<h2 id="s1314">13.14 Crítica multi-modelo: el protocolo de intersección verificada <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<h2 id="s1314" data-nivel="profundidad">13.14 Crítica multi-modelo: el protocolo de intersección verificada <span class="badge-propuesta">★ Propuesta del autor</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
 <div class="callout">
 <strong>🧵 Por qué esto pertenece al capítulo de QA</strong>
@@ -17075,7 +17501,7 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
 </ul>
 <p>La consecuencia de diseño: la supervisión decorativa no se arregla con exhortación ("presta más atención") ni con asignación formal ("el manager X asume"). Se arregla con arquitectura: fricción calibrada, tasas de rechazo esperadas y trazabilidad del acto de verificación — no solo de su firma. Eso es lo que formaliza la sección siguiente.</p>
 </div>
-<h2 id="s142b">14.2b Derechos de decisión: la capa que la supervisión no resuelve <span class="badge-propuesta">★ Propuesta del autor</span></h2>
+<h2 id="s142b" data-nivel="profundidad">14.2b Derechos de decisión: la capa que la supervisión no resuelve <span class="badge-propuesta">★ Propuesta del autor</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
@@ -17904,7 +18330,7 @@ jobs:
       - name: Pruebas adversariales (prompt injection)
         run: python test_adversarial.py
         # Falla si el sistema sigue instrucciones maliciosas en el corpus</pre>
-<h2>15.4b Optimización de costes: prompt caching</h2>
+<h2 data-nivel="profundidad">15.4b Optimización de costes: prompt caching</h2>
 <p>El prompt caching es una de las optimizaciones de coste más efectivas disponibles en 2025-2026 y una de las menos utilizadas. La mayoría de los principales proveedores (Anthropic, OpenAI, Google) ofrecen descuentos significativos cuando una parte del prompt se repite en múltiples consultas.</p>
 <h3>Cómo funciona</h3>
 <p>Cuando el prefijo de un prompt —el prompt de sistema, las instrucciones de grounding, o un conjunto de fragmentos de contexto fijo— es idéntico en múltiples llamadas, el proveedor puede reutilizar el procesamiento de ese prefijo en lugar de calcularlo de nuevo. El coste de los tokens cacheados se reduce drásticamente respecto a los tokens procesados por primera vez.</p>
@@ -18139,7 +18565,7 @@ jobs:
 <strong>💡 La postura pragmática: diseña para el AI Act, el resto viene incluido</strong>
     Si tu arquitectura cumple con el AI Act (trazabilidad, HITL, documentación técnica, gestión de riesgos), cubre en gran medida los requisitos del NIST AI RMF y de ISO/IEC 42001. Son marcos complementarios, no contradictorios. La inversión en cumplimiento del AI Act no se desperdicia si después buscas certificación ISO 42001 — es trabajo acumulado, no paralelo.
   </div>
-<h2 id="s166b">16.6b El Data Act y la portabilidad de datos: lo que el AI Act no regula</h2>
+<h2 id="s166b" data-nivel="profundidad">16.6b El Data Act y la portabilidad de datos: lo que el AI Act no regula</h2>
 <div class="callout">
 <strong>🧵 Por qué este reglamento es distinto a todo lo demás en este capítulo</strong>
     El AI Act, el NIST AI RMF y el resto de la tabla de 16.6 regulan el <em>riesgo</em> de un sistema de IA. El Data Act regula algo distinto y anterior: quién es dueño de los datos que genera un producto conectado o un servicio cloud, y qué tan fácil —o difícil— es llevárselos a otro proveedor. Es relevante para cualquier sistema RAG porque casi todos dependen de al menos un proveedor cloud para almacenamiento, vector store o cómputo de embeddings.</div>
@@ -19218,7 +19644,7 @@ def evaluar_solicitud(texto: str, req_id: str) -&gt; dict:
 </div>
 </div><div class="container">
 <div class="modulo-hero m5">
-<div class="part-header" id="parte5"><h2>Módulo 5 · Referencia y profundidad</h2></div>
+<div class="part-header" id="parte5"><h2 data-nivel="profundidad">Módulo 5 · Referencia y profundidad</h2></div>
 <h1>Más allá de lo técnico</h1>
 <p>Material avanzado y de referencia: las consecuencias epistemológicas de la IA, los conceptos propios del autor explícitamente marcados, y el glosario extendido de 60+ términos.</p>
 <div class="modulo-meta">
@@ -19881,7 +20307,7 @@ def evaluar_solicitud(texto: str, req_id: str) -&gt; dict:
 </div>
 <p style="margin-top:12px;margin-bottom:0;font-size:.78rem;color:var(--muted);">Las sanciones del AI Act y del RGPD se acumulan. Un mismo incidente puede suponer hasta 55M€ o 11% de facturación si viola ambas normativas.</p>
 </div>
-<h2>21.7 Referencias</h2>
+<h2 data-nivel="profundidad">21.7 Referencias</h2>
 <ul style="font-size:.85rem;line-height:2;">
 <li>Shida et al. (2024). Compound attacks on LLM alignment. <em>arXiv:2404.02652</em>.</li>
 <li>Shen et al. (2024). JailbreakBench: An open robustness benchmark for jailbreaking LLMs. <em>arXiv:2404.01318</em>.</li>
@@ -20215,7 +20641,7 @@ def evaluar_solicitud(texto: str, req_id: str) -&gt; dict:
 </div>
 <details class="sec-plegada" style="border:1px solid var(--border,#e2e8f0);border-radius:10px;margin:28px 0;padding:0 18px 12px;background:#fffdf5;">
 <summary style="cursor:pointer;padding:14px 0;font-weight:700;color:#92400e;font-size:.95rem;">📕 22.10 Physical AI: cuando el modelo actúa en el mundo físico <span style="font-weight:400;color:var(--muted,#64748b);font-size:.82rem;">— sección avanzada, plegada por defecto · clic para desplegar</span></summary>
-<h2 id="mm10">22.10 Physical AI: cuando el modelo multimodal actúa en el mundo físico <span class="level-tag level-avanzado">Avanzado · Contexto</span></h2>
+<h2 id="mm10" data-nivel="profundidad">22.10 Physical AI: cuando el modelo multimodal actúa en el mundo físico <span class="level-tag level-avanzado">Avanzado · Contexto</span></h2>
 <div class="callout">
 <strong>🧵 Por qué esto es una extensión de 22.2, no un tema aparte</strong>
     Los modelos visión-lenguaje del 22.2 (GPT-4V, Gemini) terminan en texto: describen una imagen o razonan sobre ella, pero no actúan. Los modelos Visión-Lenguaje-Acción (VLA) toman el mismo encoder visual y la misma capa de razonamiento del lenguaje y añaden una tercera modalidad de salida — acción motora — entrenada junto con las otras dos. Es la misma arquitectura de proyección a espacio compartido del 22.1, con un tercer espacio: el de trayectorias de actuador.
@@ -22141,7 +22567,7 @@ window.addEventListener('scroll', () => {
     (el.scrollTop / (el.scrollHeight - el.clientHeight) * 100) + '%';
 });
 // Dark mode toggle
-document.querySelectorAll('.topbar button').forEach(btn => {
+document.querySelectorAll('.topbar button:not(.modo-btn)').forEach(btn => {
   btn.addEventListener('click', () => document.body.classList.toggle('dark'));
 });
 // Checklist
@@ -22827,5 +23253,97 @@ faithfulness = vec_coherence - 0.15
   else document.addEventListener("DOMContentLoaded", arrancar);
 })();
 </script>
+
+<script>
+/* ═══ v62 · Modo de lectura ══════════════════════════════════════════════
+   "núcleo"   → oculta las secciones de profundización (sufijo de letra,
+                propuestas del autor, avanzado/referencia) dejando un stub
+                con botón para desplegarlas una a una.
+   "completo" → todo visible.
+   El estado no se persiste: cada apertura empieza en núcleo, que es la
+   lectura por defecto. Los enlaces internos a secciones ocultas las
+   despliegan automáticamente.
+   ═══════════════════════════════════════════════════════════════════════ */
+(function(){
+  var MODO = 'nucleo';
+  var bloques = [];
+
+  function mostrar(b, visible){
+    for (var i=0;i<b.nodos.length;i++) b.nodos[i].style.display = visible ? '' : 'none';
+    b.stub.style.display = visible ? 'none' : '';
+    b.h.style.opacity = visible ? '' : '.62';
+    b.abierto = visible;
+  }
+
+  function crearBloque(h){
+    var nodos = [], n = h.nextElementSibling;
+    while (n && !/^H[12]$/.test(n.tagName) && !n.classList.contains('chapter-header')){
+      nodos.push(n); n = n.nextElementSibling;
+    }
+    if (!nodos.length) return null;
+
+    var stub = document.createElement('div');
+    stub.className = 'stub-profundidad';
+    var txt = document.createElement('span');
+    txt.textContent = 'Sección de profundización — oculta en modo núcleo.';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = 'Desplegar';
+    stub.appendChild(txt); stub.appendChild(btn);
+    h.parentNode.insertBefore(stub, nodos[0]);
+
+    var bloque = { h:h, nodos:nodos, stub:stub, abierto:true };
+    btn.addEventListener('click', function(){ mostrar(bloque, true); });
+    return bloque;
+  }
+
+  function aplicar(){
+    var nucleo = (MODO === 'nucleo');
+    for (var i=0;i<bloques.length;i++) mostrar(bloques[i], !nucleo);
+    var btn = document.getElementById('btn-modo');
+    if (btn) btn.textContent = nucleo ? '📖 Núcleo' : '📚 Completo';
+    var ban = document.getElementById('banner-modo');
+    if (ban) ban.style.display = nucleo ? '' : 'none';
+  }
+
+  function abrirSiOculto(){
+    var id = location.hash.slice(1);
+    if (!id) return;
+    var el = document.getElementById(id);
+    if (!el) return;
+    for (var i=0;i<bloques.length;i++){
+      var b = bloques[i];
+      if (b.abierto) continue;
+      var dentro = (b.h === el);
+      for (var k=0;!dentro && k<b.nodos.length;k++){
+        if (b.nodos[k] === el || (b.nodos[k].contains && b.nodos[k].contains(el))) dentro = true;
+      }
+      if (dentro) mostrar(b, true);
+    }
+    setTimeout(function(){ el.scrollIntoView(); }, 30);
+  }
+
+  function init(){
+    var hs = document.querySelectorAll('h2[data-nivel="profundidad"]');
+    for (var i=0;i<hs.length;i++){
+      var b = crearBloque(hs[i]);
+      if (b) bloques.push(b);
+    }
+    aplicar();
+    var btn = document.getElementById('btn-modo');
+    if (btn) btn.addEventListener('click', function(ev){
+      ev.preventDefault(); ev.stopPropagation();
+      MODO = (MODO === 'nucleo') ? 'completo' : 'nucleo';
+      aplicar();
+    });
+    window.addEventListener('hashchange', abrirSiOculto);
+    abrirSiOculto();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
 </body>
 </html>
