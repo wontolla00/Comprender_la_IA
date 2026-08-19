@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. agosto 2026 · v65</title>
+<title>Comprender la IA — Edición 2026 · rev. agosto 2026 · v68</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1101,7 +1101,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v65 · ago 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v68 · ago 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1255,6 +1255,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-part">
 <div class="toc-part-title">Módulo 2 · Fundamentos propios de la IA <span style="font-weight:400;font-size:.8rem;color:var(--muted);">~8 h · Ingeniero / Arquitecto</span></div>
 <div class="toc-item"><a href="#cap5">Cap. 5 — Cómo funciona un LLM por dentro <span style="font-size:0.78em;color:#64748b;font-weight:normal;">· fine-tuning, LoRA, MoE, GQA, YaRN, cuantización</span></a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 90 min</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s50">· 5.0 Prerrequisito: qué es un tensor</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;" title="Puedes saltarla si ya conoces NumPy/PyTorch">📘 Saltable si ya lo sabes</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s52b">· 5.2b Taxonomía completa de mecanismos de atención</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s55c">· 5.5c Capas de atención híbridas: GQA, SWA, MLA</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;"></span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s55d">· 5.5d RoPE y YaRN: extensión de contexto sin reentrenar</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;"></span></div>
@@ -1263,8 +1264,10 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57c">· 5.7c Cuantización y destilación: cómo caben los modelos grandes</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;"></span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57d">· 5.7d FlashAttention e inferencia especulativa</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;"></span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57e">· 5.7e Arquitecturas de hardware: por qué el chip importa tanto como el modelo</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57f">· 5.7f Leyes de escalado: cuántos datos necesita tu modelo</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></div>
 <div class="toc-item"><a href="#cap6">Cap. 6 — Búsqueda vectorial avanzada</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 70 min</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s66b">· 6.6b Lo que un grafo plano no puede representar — y qué hacer con eso</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v64</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s65a">· 6.5a El techo del oráculo: la medida que decide si el retrieval es tu problema</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v66</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s65b">· 6.5b De la resolución de entidades al grafo de conocimiento</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s67">· 6.7 Indexación jerárquica (PageIndex)</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s68">· 6.8 LightRAG</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
@@ -1304,6 +1307,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s1312">· 13.12 El problema del ground truth: epistemología de la referencia</a><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s1313">· 13.13 Red teaming: marco conceptual completo</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s1314">· 13.14 Crítica multi-modelo: el protocolo de intersección verificada</a><span class="badge-propuesta">★ Propuesta del autor</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s1315">· 13.15 El arnés que miente: procedencia perdida en la evaluación</a><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v66</span><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item"><a href="#cap14">Cap. 14 — Supervisión humana y gobernanza operativa</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 50 min</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s142b">· 14.2b Derechos de decisión y sesgo de automatización: quién delega, quién retoma, quién responde</a><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item"><a href="#cap15">Cap. 15 — MLOps para sistemas RAG</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span><span style="background:#fef9c3;color:#854d0e;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">⚡ Alta caducidad</span> <span style="color:var(--muted);font-size:.75rem;">· 50 min</span></div>
@@ -5459,7 +5463,7 @@ function score(){
 <div style="overflow-x:auto;margin:14px 0 28px;">
 <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
 <tbody>
-<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Núcleo — lee esto</td><td style="padding:8px 12px;"><a href="#s51">5.1 Distribución estadística</a> · <a href="#s52">5.2 Atención</a> · <a href="#s53">5.3 Generación token a token</a> · <a href="#cap54">5.4 Temperatura y muestreo</a> · <a href="#s55">5.5 Ventana de contexto</a> · <a href="#s56">5.6 Knowledge cutoff</a> · <a href="#s57">5.7 Fine-tuning</a></td></tr>
+<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Núcleo — lee esto</td><td style="padding:8px 12px;"><a href="#s50">5.0 Qué es un tensor</a> · <a href="#s51">5.1 Distribución estadística</a> · <a href="#s52">5.2 Atención</a> · <a href="#s53">5.3 Generación token a token</a> · <a href="#cap54">5.4 Temperatura y muestreo</a> · <a href="#s55">5.5 Ventana de contexto</a> · <a href="#s56">5.6 Knowledge cutoff</a> · <a href="#s57">5.7 Fine-tuning</a></td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Contexto largo en profundidad</td><td style="padding:8px 12px;"><a href="#cap55b">5.5b Lost in the middle</a> · <a href="#s55c">5.5c Atención híbrida</a> · <a href="#s55d">5.5d RoPE y YaRN</a> · <a href="#s55e">5.5e Erosión de contexto ★</a></td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Inferencia y tamaño de modelo</td><td style="padding:8px 12px;"><a href="#s57b">5.7b MoE</a> · <a href="#s57c">5.7c Cuantización y destilación</a> · <a href="#s57d">5.7d FlashAttention e inf. especulativa</a></td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Referencia avanzada (plegada)</td><td style="padding:8px 12px;"><a href="#s52b">5.2b Taxonomía de mecanismos de atención</a></td></tr>
@@ -5488,6 +5492,335 @@ function score(){
 <p><strong>Relación con el AI Act.</strong> El Art. 12 (registro) y el Art. 15 (exactitud y robustez) exigen que un sistema de alto riesgo documente sus métricas de rendimiento. Un score sin procedencia no cumple ese requisito por mucho que exista: no permite distinguir la medición de la estimación, que es precisamente lo que la exigencia de exactitud pretende asegurar. Declarar <code>evidence_type</code> convierte un requisito narrativo en un campo verificable — y es la ruta más corta de «tenemos métricas» a «podemos demostrar cómo se obtuvieron».</p>
 <p><em>Referencia cruzada: §2.5.4 (cuándo declarar), §4.7 (procedencia del contenido), §10.9.6 (el mismo patrón aplicado a la memoria recuperada), §13.6 (niveles de evidencia y no compensación), §16 (AI Act, Arts. 12 y 15).</em></p>
 </div>
+<h2 id="s50" data-nivel="fundamento">5.0 Prerrequisito: qué es un tensor <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h2>
+<div class="callout">
+<strong>🧵 Por qué esta sección va antes de la 5.1</strong>
+    Todo lo que sigue en este capítulo —cuantización, KV cache, atención, hardware— opera sobre <strong>tensores</strong> y da ese concepto por sabido. Si vienes de un perfil no técnico o de BI/datos sin exposición directa a NumPy/PyTorch, esta sección es el peldaño que falta. Si ya sabes qué es un tensor, sáltala sin remordimiento: el resto del capítulo no vuelve a explicarlo.
+  </div>
+<p>Un tensor es, sencillamente, un contenedor de números con un número determinado de dimensiones. No es un objeto matemático nuevo — es el mismo tipo de dato que ya usas, generalizado:</p>
+<style>
+.tsr68q-widget{margin:20px 0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#0b0e14;color:#e8ecf5;font:15px/1.55 system-ui,'Segoe UI',Roboto,sans-serif;}
+.tsr68q-widget *{box-sizing:border-box;}
+.tsr68q-inner{padding:22px 22px 26px;}
+.tsr68q-controls{display:flex;gap:22px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px;}
+.tsr68q-group{display:flex;flex-direction:column;gap:7px;}
+.tsr68q-glabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7f8aa3;}
+.tsr68q-tabs{display:flex;gap:8px;flex-wrap:wrap;}
+.tsr68q-tabs button{border:1px solid #232c42;background:#0e1422;color:#cdd6e8;padding:9px 14px;border-radius:999px;font:inherit;font-size:13.5px;cursor:pointer;transition:.2s;}
+.tsr68q-tabs button:hover{border-color:#3b82f6;transform:translateY(-1px);}
+.tsr68q-tabs button.tsr68q-active{background:linear-gradient(135deg,#38bdf8,#a78bfa);border-color:transparent;color:#0b1020;font-weight:700;}
+.tsr68q-addaxis{border:1px solid rgba(45,212,191,.55);background:#0d1f22;color:#5eead4;padding:9px 18px;border-radius:999px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;}
+.tsr68q-addaxis:hover{background:#11303a;transform:translateY(-1px);box-shadow:0 4px 18px rgba(45,212,191,.2);}
+.tsr68q-main{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start;}
+@media(max-width:760px){.tsr68q-main{grid-template-columns:1fr;}}
+.tsr68q-card{background:rgba(17,23,38,.85);border:1px solid #232c42;border-radius:16px;padding:18px;}
+.tsr68q-stage{min-height:400px;display:flex;position:relative;transition:opacity .16s,transform .16s;}
+.tsr68q-stage.tsr68q-swap{opacity:0;transform:scale(.98);}
+.tsr68q-banner{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;background:linear-gradient(135deg,#22d3ee,#a78bfa);color:#0b1020;font-weight:700;white-space:nowrap;padding:8px 16px;border-radius:999px;font-size:13.5px;animation:tsr68qBanner 2.9s ease forwards;}
+@keyframes tsr68qBanner{0%{opacity:0;transform:translate(-50%,-8px);}12%{opacity:1;transform:translate(-50%,0);}80%{opacity:1;}100%{opacity:0;transform:translate(-50%,-4px);}}
+.tsr68q-widget code{background:#0d1424;border:1px solid #232c42;border-radius:6px;padding:1px 6px;font-size:.92em;color:#a5b4fc;}
+.tsr68q-col{display:flex;flex-direction:column;align-items:center;gap:14px;margin:auto;}
+.tsr68q-caption{color:#9aa4b8;font-size:13.5px;text-align:center;}
+.tsr68q-cell{border-radius:7px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:background-color .55s,transform .15s;animation:tsr68qPop .5s cubic-bezier(.2,.8,.3,1.25) backwards;cursor:crosshair;}
+.tsr68q-cell.tsr68q-hot{outline:2px solid #fff;outline-offset:1px;transform:scale(1.15);z-index:3;}
+@keyframes tsr68qPop{from{transform:scale(0);opacity:0;}}
+.tsr68q-appears{animation:tsr68qAppears .55s ease backwards;}
+@keyframes tsr68qAppears{from{opacity:0;}}
+.tsr68q-scalar{display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5);}
+.tsr68q-row1{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.tsr68q-more{border:1px dashed #3b4a6b;color:#9aa4b8;border-radius:8px;padding:10px 12px;font-size:12.5px;margin-left:6px;}
+.tsr68q-grid2{display:grid;gap:4px;align-items:center;}
+.tsr68q-rowlab{color:#9aa4b8;font-size:12px;text-align:right;padding-right:8px;white-space:nowrap;}
+.tsr68q-flex3{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:auto;width:100%;}
+.tsr68q-scenewrap{perspective:1000px;display:flex;align-items:center;justify-content:center;min-height:340px;flex:1 1 380px;touch-action:none;cursor:grab;user-select:none;}
+.tsr68q-scenewrap:active{cursor:grabbing;}
+.tsr68q-scenewrap.tsr68q-small{min-height:240px;flex:0 1 240px;}
+.tsr68q-scene{position:relative;width:0;height:0;transform-style:preserve-3d;}
+.tsr68q-layer{position:absolute;left:0;top:0;display:grid;gap:3px;padding:7px;border-radius:9px;background:rgba(10,15,28,.72);transform-style:preserve-3d;}
+.tsr68q-layer .tsr68q-cell{box-shadow:none;border-radius:4px;}
+.tsr68q-side3{flex:0 1 220px;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.tsr68q-minititle{font-size:13px;color:#9aa4b8;text-align:center;}
+.tsr68q-comp{display:grid;gap:2px;padding:8px;border:1px solid #232c42;border-radius:10px;background:#0a0f1c;}
+.tsr68q-comp .tsr68q-cell{border-radius:3px;}
+.tsr68q-legend{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;font-size:12px;color:#9aa4b8;}
+.tsr68q-legenddot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;}
+.tsr68q-col4{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto;width:100%;}
+.tsr68q-row4{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;}
+.tsr68q-item4{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.tsr68q-tag{font-size:12.5px;color:#9aa4b8;}
+.tsr68q-kvnote{max-width:100%;text-align:center;color:#aab6cf;font-size:13.5px;border:1px dashed #3b4a6b;border-radius:12px;padding:12px 16px;background:rgba(13,20,36,.6);}
+.tsr68q-k{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#7f8aa3;margin-bottom:4px;}
+.tsr68q-v{font-size:20px;font-weight:700;}
+.tsr68q-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
+.tsr68q-chips{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap;}
+.tsr68q-chip{border:1px solid #232c42;background:#0d1424;border-radius:999px;padding:4px 10px;font-size:12.5px;color:#c3cee4;}
+.tsr68q-info p{margin:10px 0;color:#c9d3e6;font-size:14px;}
+.tsr68q-extra{color:#9aa4b8!important;font-size:13px!important;}
+.tsr68q-readout{min-height:46px;border:1px solid #232c42;background:#0a0f1c;border-radius:10px;padding:10px 12px;font-size:13.5px;color:#9fb0cc;display:flex;align-items:center;}
+.tsr68q-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.tsr68q-btns button{flex:1;border:none;border-radius:10px;padding:10px 12px;font:inherit;font-size:13.5px;cursor:pointer;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1020;font-weight:700;transition:.2s;}
+.tsr68q-btns button:hover{filter:brightness(1.12);}
+.tsr68q-btns button.tsr68q-ghost{background:#0d1424;color:#c3cee4;border:1px solid #232c42;font-weight:400;}
+.tsr68q-rigor{margin-top:16px;border-top:1px dashed #2b3652;padding-top:10px;font-size:12.5px;color:#8b96ad;}
+.tsr68q-rigor summary{cursor:pointer;color:#a5b4fc;font-size:12.5px;}
+.tsr68q-rigor p{margin:8px 0 0;line-height:1.5;}
+.tsr68q-rigor b{color:#cbd5e1;}
+.tsr68q-footer{margin-top:16px;color:#7f8aa3;font-size:13.5px;text-align:center;}
+</style>
+<div class="tsr68q-widget" id="tsr68q-root">
+<div class="tsr68q-inner">
+<div class="tsr68q-controls">
+<div class="tsr68q-group">
+<span class="tsr68q-glabel">Explorar</span>
+<nav class="tsr68q-tabs" id="tsr68q-tabs">
+<button type="button" data-d="0" class="tsr68q-active">0D · escalar</button>
+<button type="button" data-d="1">1D · vector</button>
+<button type="button" data-d="2">2D · matriz</button>
+<button type="button" data-d="3">3D · tensor</button>
+<button type="button" data-d="4">4D · lote</button>
+</nav>
+</div>
+<div class="tsr68q-group">
+<span class="tsr68q-glabel">Comprender</span>
+<button type="button" id="tsr68q-addAxis" class="tsr68q-addaxis">Añadir un eje</button>
+</div>
+</div>
+<main class="tsr68q-main">
+<section id="tsr68q-stage" class="tsr68q-card tsr68q-stage"></section>
+<aside class="tsr68q-card tsr68q-info">
+<div class="tsr68q-k">Forma (shape)</div>
+<div class="tsr68q-v tsr68q-mono" id="tsr68q-shape">()</div>
+<div class="tsr68q-chips"><span class="tsr68q-chip" id="tsr68q-ndim">ndim = 0</span><span class="tsr68q-chip" id="tsr68q-elems">1 elemento</span></div>
+<p id="tsr68q-desc"></p>
+<p class="tsr68q-extra" id="tsr68q-extra"></p>
+<div class="tsr68q-k" style="margin-top:14px">Inspector</div>
+<div class="tsr68q-readout" id="tsr68q-readout">Pasa el cursor por una celda…</div>
+<div class="tsr68q-btns">
+<button type="button" id="tsr68q-regen">Regenerar valores</button>
+<button type="button" id="tsr68q-spin" class="tsr68q-ghost">Pausar giro</button>
+</div>
+<details class="tsr68q-rigor">
+<summary>Nota sobre la palabra "tensor"</summary>
+<p>En ML/IA usamos "tensor" para referirnos a <b>arrays multidimensionales de valores</b>. Matemáticamente, <em>tensor</em> tiene un significado bastante más rico (objetos definidos por cómo se transforman al cambiar de base). Para este manual basta la intuición práctica: un contenedor de números con N dimensiones.</p>
+</details>
+</aside>
+</main>
+<div class="tsr68q-footer">La idea clave: al añadir dimensiones no cambia <b>qué</b> es un tensor, solo cuántos índices necesitas para llegar a cada número.<br>En las vistas 3D/4D puedes arrastrar para girar las capas.</div>
+</div>
+</div>
+<script>
+(function(){
+ var root=document.getElementById('tsr68q-root');
+ if(!root)return;
+ var qs=function(s){return root.querySelector(s)};
+ var stage=qs('#tsr68q-stage'),readout=qs('#tsr68q-readout'),spinBtn=qs('#tsr68q-spin'),addBtn=qs('#tsr68q-addAxis');
+ var d=0,cells=[],seed=7,auto=true,dragging=false,last=null,rotX=58,rotZ=40;
+ var ph=[{p1:1,p2:2}],growth=false,lock=false;
+
+ function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
+ function clamp01(v){return Math.max(0,Math.min(1,v))}
+ function smooth(x,y,ch,b){var p=ph[b||0]||ph[0];
+  return clamp01(.5+.47*Math.sin(x*.95+p.p1+ch*2.1)*Math.cos(y*.85+p.p2+ch*1.2))}
+ function heat(v){return 'hsl('+Math.round(260-205*v)+','+Math.round(58+27*v)+'%,'+Math.round(16+46*v)+'%)'}
+ var chBg=[
+  function(v){return 'rgba(255,93,93,'+(.14+.82*v).toFixed(3)+')'},
+  function(v){return 'rgba(94,234,146,'+(.14+.82*v).toFixed(3)+')'},
+  function(v){return 'rgba(99,167,255,'+(.14+.82*v).toFixed(3)+')'}];
+ var chSolid=['#ff5d5d','#5eea92','#63a7ff'];
+
+ function mkdiv(cls,parent){var e=document.createElement('div');if(cls)e.className=cls;if(parent)parent.appendChild(e);return e}
+ function caption(parent,html){var e=mkdiv('tsr68q-caption',parent);e.innerHTML=html;return e}
+ function clearStage(){stage.innerHTML='';cells=[];readout.textContent='Pasa el cursor por una celda…'}
+
+ function makeCell(parent,coordFn,valFn,colorFn,o){
+  o=o||{};var size=o.size||34;
+  var el=document.createElement('div');el.className='tsr68q-cell';
+  el.style.width=el.style.height=size+'px';
+  el.style.animationDelay=(o.delay||0)+'ms';
+  var cur=valFn();
+  function paint(){el.style.background=colorFn(cur);if(o.text)el.textContent=cur.toFixed(2)}
+  paint();
+  el.addEventListener('mouseenter',function(){
+   readout.innerHTML=o.fmt?o.fmt(cur):'<code>'+coordFn()+'</code> = <b>'+cur.toFixed(2)+'</b>';
+   el.classList.add('tsr68q-hot')});
+  el.addEventListener('mouseleave',function(){el.classList.remove('tsr68q-hot')});
+  cells.push({update:function(){cur=valFn();paint()}});
+  parent.appendChild(el);return el;
+ }
+
+ function render0(){clearStage();
+  var w=mkdiv('tsr68q-col',stage);
+  caption(w,'Un único número, sin dimensiones que recorrer');
+  var sc=makeCell(w,function(){return 'temperatura'},function(){return .2+rnd()*.8},heat,{size:140,text:true,delay:80});
+  sc.classList.add('tsr68q-scalar');
+  caption(w,'forma <code>()</code> · ndim 0 · para llegar al dato necesitas <b>0 índices</b>');
+ }
+ function render1(){clearStage();
+  var w=mkdiv('tsr68q-col',stage);
+  caption(w,'Una fila de números: el <b>embedding</b> de una palabra — 768 valores en fila (§2.1)');
+  var row=mkdiv('tsr68q-row1',w);
+  for(var i=0;i<12;i++)(function(i){makeCell(row,function(){return 'x['+i+']'},function(){return rnd()},heat,{size:40,delay:i*(growth?75:35)})})(i);
+  var more=mkdiv('tsr68q-more',row);more.textContent='… +756 valores más';
+  caption(w,'índices 0 … 767 · única dimensión → forma <code>(768,)</code>');
+ }
+ function render2(){clearStage();
+  var w=mkdiv('tsr68q-col',stage);
+  caption(w,'Una tabla: lote de frases, cada fila un embedding (<b>frases x dimensiones</b>)');
+  var g=mkdiv('tsr68q-grid2',w);g.style.gridTemplateColumns='auto repeat(8,34px)';
+  for(var r=0;r<4;r++){
+   var lab=mkdiv('tsr68q-rowlab',g);lab.textContent='frase '+(r+1);
+   if(growth){lab.classList.add('tsr68q-appears');lab.style.animationDelay=(r*340)+'ms'}
+   for(var c=0;c<8;c++)(function(r,c){
+    makeCell(g,function(){return 'X['+r+', '+c+']'},function(){return rnd()},heat,
+     {size:34,delay:growth? r*340+c*18 : (r*8+c)*22})})(r,c);
+  }
+  caption(w,'cada fila = 1 embedding (aquí 8 dims de 768) → forma real <code>(n_frases, 768)</code>');
+ }
+ function pixel(parent,x,y,b,size,delay){
+  var el=document.createElement('div');el.className='tsr68q-cell';
+  el.style.width=el.style.height=size+'px';el.style.animationDelay=delay+'ms';
+  function update(){
+   var rgb=[0,1,2].map(function(ch){return smooth(x,y,ch,b)});
+   el.style.background='rgb('+rgb.map(function(v){return Math.round(v*255)}).join(',')+')';
+   el._t='píxel ['+y+', '+x+'] → rgb('+rgb.map(function(v){return Math.round(v*255)}).join(', ')+')';
+  }
+  update();
+  el.addEventListener('mouseenter',function(){readout.textContent=el._t;el.classList.add('tsr68q-hot')});
+  el.addEventListener('mouseleave',function(){el.classList.remove('tsr68q-hot')});
+  cells.push({update:update});parent.appendChild(el);
+ }
+ function render3(){clearStage();
+  ph=[{p1:rnd()*6.3,p2:rnd()*6.3}];
+  var w=mkdiv('tsr68q-flex3',stage);
+  var sw=mkdiv('tsr68q-scenewrap',w);var sc=mkdiv('tsr68q-scene',sw);
+  for(var ch=0;ch<3;ch++){(function(ch){
+   var L=mkdiv('tsr68q-layer',sc);
+   L.style.gridTemplateColumns='repeat(6,26px)';
+   L.style.transform='translate(-50%,-50%) translateZ('+((1-ch)*46)+'px)';
+   L.style.boxShadow='0 0 0 1px '+chSolid[ch]+'55, 0 26px 60px rgba(0,0,0,.55)';
+   if(growth){L.classList.add('tsr68q-appears');L.style.animationDelay=(ch*450)+'ms'}
+   for(var y=0;y<6;y++)for(var x=0;x<6;x++)(function(y,x){
+    makeCell(L,function(){return 'img['+ch+', '+y+', '+x+']'},function(){return smooth(x,y,ch,0)},chBg[ch],
+     {size:26,delay:growth? ch*450+(y*6+x)*9 : (ch*36+y*6+x)*7})})(y,x);
+  })(ch)}
+  var side=mkdiv('tsr68q-side3',w);
+  if(growth){side.classList.add('tsr68q-appears');side.style.animationDelay='1500ms'}
+  var t=mkdiv('tsr68q-minititle',side);t.textContent='los 3 canales juntos → una imagen';
+  var comp=mkdiv('tsr68q-comp',side);comp.style.gridTemplateColumns='repeat(6,22px)';
+  for(var y2=0;y2<6;y2++)for(var x2=0;x2<6;x2++)pixel(comp,x2,y2,0,22,(y2*6+x2)*8);
+  var lg=mkdiv('tsr68q-legend',side);
+  lg.innerHTML=['R','G','B'].map(function(n,i){return '<span><i class="tsr68q-legenddot" style="background:'+chSolid[i]+'"></i>'+n+' · canal '+i+'</span>'}).join('');
+  var note=mkdiv('tsr68q-minititle',side);note.innerHTML='cada capa es una matriz (6×6);<br>apiladas forman <code>(3, 6, 6)</code>';
+ }
+ function render4(){clearStage();
+  ph=[0,1].map(function(){return {p1:rnd()*6.3,p2:rnd()*6.3}});
+  var w=mkdiv('tsr68q-col4',stage);
+  caption(w,'Un <b>lote de imágenes</b>: la misma pila 3D repetida — forma <code>(2, 3, 5, 5)</code> = lote × canales × alto × ancho');
+  var row=mkdiv('tsr68q-row4',w);
+  for(var b=0;b<2;b++){(function(b){
+   var it=mkdiv('tsr68q-item4',row);
+   if(growth){it.classList.add('tsr68q-appears');it.style.animationDelay=(b*650)+'ms'}
+   var sw=mkdiv('tsr68q-scenewrap tsr68q-small',it);var sc=mkdiv('tsr68q-scene',sw);
+   for(var ch=0;ch<3;ch++){(function(ch){
+    var L=mkdiv('tsr68q-layer',sc);
+    L.style.gridTemplateColumns='repeat(5,18px)';
+    L.style.transform='translate(-50%,-50%) translateZ('+((1-ch)*30)+'px)';
+    L.style.boxShadow='0 0 0 1px '+chSolid[ch]+'55, 0 18px 40px rgba(0,0,0,.5)';
+    for(var y=0;y<5;y++)for(var x=0;x<5;x++)(function(y,x){
+     makeCell(L,function(){return 'T['+b+', '+ch+', '+y+', '+x+']'},function(){return smooth(x,y,ch,b)},chBg[ch],
+      {size:18,delay:growth? b*650+ch*140+(y*5+x)*4 : b*75+ch*25+(y*5+x)*5})})(y,x);
+   })(ch)}
+   var tag=mkdiv('tsr68q-tag',it);tag.innerHTML='imagen '+b+' · <code>T['+b+', :, :, :]</code>';
+  })(b)}
+  var kv=mkdiv('tsr68q-kvnote',w);
+  if(growth){kv.classList.add('tsr68q-appears');kv.style.animationDelay='1400ms'}
+  kv.innerHTML='¿Y más dimensiones? A partir de aquí pueden aparecer más ejes: 5D, 6D, etc. La <b>KV cache</b> (§5.5c) hace justo eso: <code>(capas, cabezas, lote, seq, dim)</code>. El objeto es el mismo; solo crece la lista de índices.';
+ }
+
+ var META=[
+  {shape:'( )',ndim:'ndim = 0',el:'1 elemento',
+   desc:'Un número suelto. <b>temperatura = 0.7</b>. Sin dimensiones que recorrer.',
+   extra:'Es el caso límite: un tensor sin ejes.'},
+  {shape:'(768,)',ndim:'ndim = 1',el:'768 elementos',
+   desc:'Una fila de números. El <b>embedding de una palabra</b>: 768 valores en fila (§2.1).',
+   extra:'Se localiza con 1 índice: <code>x[i]</code>.'},
+  {shape:'(frases, 768)',ndim:'ndim = 2',el:'n_frases × 768',
+   desc:'Una tabla. Un <b>lote de frases</b>, cada fila un embedding: (frases × dimensiones).',
+   extra:'Se localiza con 2 índices: <code>X[frase, dim]</code>.'},
+  {shape:'(3, 6, 6)',ndim:'ndim = 3',el:'3 × 6 × 6 = 108',
+   desc:'Tablas apiladas. Una <b>imagen</b>: cada canal R, G, B es una matriz que se apila en la tercera dimensión.',
+   extra:'Se localiza con 3 índices: <code>img[canal, fila, col]</code>.'},
+  {shape:'(2, 3, 5, 5)',ndim:'ndim = 4',el:'2 × 3 × 5 × 5 = 150',
+   desc:'Un <b>lote de imágenes</b>: (lote × canales × alto × ancho). A partir de aquí pueden aparecer más ejes: 5D, 6D, etc.',
+   extra:'Se localiza con 4 índices: <code>T[b, c, y, x]</code> — y la idea sigue valiendo para 5, 6 o más.'}
+ ];
+ function updateInfo(){var m=META[d];
+  qs('#tsr68q-shape').textContent=m.shape;qs('#tsr68q-ndim').textContent=m.ndim;qs('#tsr68q-elems').textContent=m.el;
+  qs('#tsr68q-desc').innerHTML=m.desc;qs('#tsr68q-extra').innerHTML=m.extra;
+  spinBtn.style.display=d>=3?'':'none'}
+ function updateAddBtn(){addBtn.textContent=d<4?'Añadir un eje':'Volver a 0D'}
+
+ var GROWTXT=[
+  '↺ Sin ejes: vuelve a haber un único número',
+  '＋1 eje → el número se estira en una fila · 1 índice',
+  '＋1 eje → la fila se repite en vertical · 2 índices',
+  '＋1 eje → la tabla se apila en profundidad · 3 índices',
+  '＋1 eje → la pila se repite en un lote · 4 índices'
+ ];
+ function banner(t){var b=document.createElement('div');b.className='tsr68q-banner';
+  b.textContent=t;stage.appendChild(b);setTimeout(function(){b.remove()},2900)}
+
+ var build=[render0,render1,render2,render3,render4];
+ function setD(n,g){if(lock)return;lock=true;growth=!!g;d=n;
+  root.querySelectorAll('.tsr68q-tabs button').forEach(function(b,i){b.classList.toggle('tsr68q-active',i===n)});
+  stage.classList.add('tsr68q-swap');
+  setTimeout(function(){build[n]();updateInfo();updateAddBtn();stage.classList.remove('tsr68q-swap');
+   if(growth)banner(GROWTXT[n]);lock=false},340)}
+
+ root.querySelectorAll('.tsr68q-tabs button').forEach(function(b){b.addEventListener('click',function(){setD(+b.dataset.d,false)})});
+ addBtn.addEventListener('click',function(){setD(d<4?d+1:0,true)});
+
+ qs('#tsr68q-regen').addEventListener('click',function(){
+  seed=Math.floor(Math.random()*233280);
+  if(d>=3)ph=ph.map(function(){return {p1:rnd()*6.3,p2:rnd()*6.3}});
+  cells.forEach(function(c){c.update()})});
+ spinBtn.addEventListener('click',function(){auto=!auto;spinBtn.textContent=auto?'Pausar giro':'Girar'});
+
+ stage.addEventListener('pointerdown',function(e){
+  var sw=e.target.closest('.tsr68q-scenewrap');if(!sw)return;
+  dragging=true;last=[e.clientX,e.clientY];
+  try{sw.setPointerCapture(e.pointerId)}catch(_){}});
+ root.addEventListener('pointermove',function(e){
+  if(!dragging)return;
+  rotZ+=(e.clientX-last[0])*.35;
+  rotX=Math.max(15,Math.min(85,rotX-(e.clientY-last[1])*.3));
+  last=[e.clientX,e.clientY]});
+ window.addEventListener('pointerup',function(){dragging=false});
+
+ (function tick(){
+  if(auto&&!dragging)rotZ+=.12;
+  root.querySelectorAll('.tsr68q-scene').forEach(function(s){
+   s.style.transform='rotateX('+rotX+'deg) rotateZ('+rotZ+'deg)'});
+  if(document.body.contains(root))requestAnimationFrame(tick);
+ })();
+
+ setD(0,false);
+})();
+</script>
+<p>La razón por la que el nombre "tensor" está en todas partes —PyTorch, TensorFlow— es que <strong>es el mismo contenedor para todo tipo de dato</strong>: texto, imagen, audio, vídeo se convierten en tensores antes de que el modelo los toque, y eso es lo que permite que la misma GPU entrene un modelo de visión y uno de lenguaje sin cambiar de abstracción.</p>
+<h3>5.0.1 Las propiedades que ya usas sin nombrarlas</h3>
+<p>El resto de este capítulo se apoya constantemente en cinco propiedades del tensor. Nómbralas aquí para no tropezar con ellas sin reconocerlas más adelante:</p>
+<table>
+<thead><tr><th>Propiedad</th><th>Qué es</th><th>Dónde ya la usas en este manual, sin el nombre</th></tr></thead>
+<tbody>
+<tr><td><strong>Shape</strong></td><td>El tamaño en cada dimensión.</td><td>El error más común al depurar un pipeline propio: dos tensores que "deberían" combinarse pero tienen shapes incompatibles.</td></tr>
+<tr><td><strong>Rank</strong></td><td>Cuántas dimensiones tiene.</td><td>La KV cache (§5.5c) es de rank alto — por eso pesa tanto en memoria.</td></tr>
+<tr><td><strong>Dtype</strong></td><td>Precisión numérica: float32, float16, int8...</td><td>Es exactamente lo que reduce la <strong>cuantización</strong> de §5.7c — menos bits por número, mismo shape.</td></tr>
+<tr><td><strong>Device</strong></td><td>Dónde vive: CPU, GPU, TPU, NPU, LPU.</td><td>La tabla de arquitecturas de hardware de §5.7e es, literalmente, un mapa de dónde conviene que vivan tus tensores.</td></tr>
+<tr><td><strong>Broadcasting</strong></td><td>Operar entre tensores de shapes distintas sin copiar datos.</td><td>El mecanismo que hace barato aplicar un mismo gate o una misma máscara causal (§5.2) a un lote entero de una sola vez.</td></tr>
+</tbody>
+</table>
+<p style="font-size:.85rem;color:var(--muted);">Con esto basta para seguir el resto del capítulo. No hace falta saber calcular con tensores a mano — solo reconocer los cinco nombres cuando aparezcan, porque van a aparecer constantemente.</p>
 <h2 id="s51">5.1 Cómo "conoce" el modelo: distribución estadística y representaciones internas</h2>
 <p>La confusión más frecuente sobre los LLM nace de una metáfora equivocada: pensar que el modelo tiene una base de conocimiento que consulta, como una base de datos. No es así —pero tampoco es un simple predictor de tokens vacío de contenido.</p>
 <p>Un LLM es una función matemática de <strong>miles de millones de parámetros</strong> que, dado un texto de entrada, calcula la distribución de probabilidad sobre los posibles tokens que podrían seguir. Todo el "conocimiento" está codificado como pesos numéricos en esa función, aprendidos durante el entrenamiento. No hay filas, ni tablas, ni índices. Solo números.</p>
@@ -8342,6 +8675,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <li>Texto creativo o con alta entropía</li>
 <li>Si el draft rechaza muchos tokens, el overhead supera el beneficio</li>
 <li>Requiere tener dos modelos cargados simultáneamente en VRAM</li>
+<li>Bajo carga concurrente con continuous batching: el cómputo extra de verificar candidatos compite por el mismo cómputo que atender más peticiones — la ganancia es de <strong>latencia por usuario</strong>, no necesariamente de <strong>throughput agregado</strong> del servidor <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.7rem;margin-left:4px;">🆕 v68</span></li>
 </ul>
 </div>
 </div>
@@ -8393,6 +8727,24 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <div class="callout">
 <strong>💡 La frontera siguiente: KV cache disaggregado</strong>
   La misma lógica de especialización se está aplicando ya no al chip sino a la <em>topología</em> del servicio: separar físicamente el prefill (limitado por cómputo) del decode (limitado por memoria) en pools de hardware distintos, con el KV cache (§5.5c) transferido o compartido entre ambos. Los primeros despliegues documentados reportan hasta 14× de mejora en time-to-first-token para contextos largos con cache reutilizable. Es la conclusión natural de este capítulo: si las dos fases tienen física distinta, servirlas desde el mismo hardware era la anomalía.</div>
+<h2 id="s57f" data-nivel="fundamento">5.7f Leyes de escalado: cuántos datos necesita tu modelo <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h2>
+<p>Las secciones anteriores explican cómo se ejecuta un modelo ya entrenado. Falta una pregunta anterior, que determina el tamaño y el volumen de datos con el que ese modelo se entrenó en primer lugar — y que rige, con la misma lógica, cuántos ejemplos necesitas para un fine-tuning (§1.6b, §1.8) o un RAFT (§1.8) razonables.</p>
+<p>Kaplan et al. (OpenAI, 2020) midieron que la pérdida de un modelo de lenguaje escala como ley de potencia con tres variables independientes: parámetros, tokens de entrenamiento y cómputo. La lectura que se popularizó de ese resultado —invertir el presupuesto sobre todo en más parámetros— resultó incompleta: optimizaba la pérdida a un presupuesto de cómputo fijo, pero calibraba mal el reparto óptimo entre tamaño y datos.</p>
+<h3>5.7f.1 La corrección de Chinchilla</h3>
+<p>Hoffmann et al. (DeepMind, 2022) volvieron a medir el mismo problema con un barrido de más de 400 modelos y encontraron el reparto real: <strong>a presupuesto de cómputo fijo, el tamaño del modelo y el volumen de datos deben crecer a la misma tasa</strong>, en una proporción cercana a <strong>~20 tokens de entrenamiento por parámetro</strong>. Los modelos de frontera anteriores —GPT-3, Gopher, MT-NLG— estaban sistemáticamente sobredimensionados en parámetros y infraentrenados en datos para el cómputo que consumieron.</p>
+<div class="callout">
+<strong>💡 El caso que fijó la regla: Gopher (280B) contra Chinchilla (70B)</strong>
+    Gopher, con 280.000 millones de parámetros, se entrenó con ~300.000 millones de tokens — muy por debajo de la proporción óptima. Chinchilla, con el mismo presupuesto de cómputo pero solo 70.000 millones de parámetros, se entrenó con ~1,4 billones de tokens — cuatro veces más datos, cuatro veces menos parámetros. Chinchilla superó a Gopher en la mayoría de evaluaciones, y además resultó más barato de servir en inferencia por ser más pequeño. Un modelo "peor dotado" en parámetros pero bien alimentado de datos venció a uno mayor y peor alimentado, al mismo coste de entrenamiento.
+  </div>
+<p>La consecuencia práctica no es una cifra que debas reproducir tú mismo —salvo que entrenes un modelo desde cero, lo cual queda fuera del alcance de este manual (Cap. 17-18 tratan los roles y la transición, no el pretraining)—, sino un criterio de lectura: cuando dos modelos de tamaños distintos compiten y uno "sorprende" por rendir mejor con menos parámetros, la primera pregunta no es sobre la arquitectura, es sobre cuántos tokens vio cada uno durante el entrenamiento. La proporción ~20:1 es también la referencia rápida para juzgar si un anuncio de "modelo pequeño y potente" es un logro de datos y curación, o una cifra de marketing sin ese trabajo detrás.</p>
+<h3>5.7f.2 Por qué esto te importa aunque no entrenes modelos</h3>
+<p>La misma lógica de proporción se traslada, a otra escala, a las decisiones que sí tomas en este manual:</p>
+<ul>
+<li><strong>Fine-tuning (§1.6b, Cap. 5.1-5.7).</strong> Un modelo pequeño ajustado con pocos cientos de ejemplos de baja calidad reproduce el mismo error de Gopher en miniatura: parámetros suficientes, datos insuficientes para que el ajuste generalice. El síntoma es el mismo — memoriza los ejemplos de entrenamiento sin aprender el patrón subyacente.</li>
+<li><strong>RAFT (§1.8).</strong> La pregunta "¿cuántos documentos necesito para que el RAFT valga la pena frente a RAG puro?" es una versión práctica de la misma proporción: pocos documentos con mucho ajuste sobreajusta: muchos documentos con poco ajuste no mueve la aguja.</li>
+<li><strong>Evaluación de modelos de terceros.</strong> Cuando un proveedor anuncia un modelo más pequeño con benchmarks superiores a uno mayor de la competencia, las leyes de escalado dan el marco correcto para preguntar por la composición y el volumen de su corpus de entrenamiento antes de aceptar la comparación al pie de la letra.</li>
+</ul>
+<p style="font-size:.85rem;color:var(--muted);">Referencias: Kaplan, J. et al., "Scaling Laws for Neural Language Models" (OpenAI, 2020). Hoffmann, J. et al., "Training Compute-Optimal Large Language Models" (DeepMind, 2022) — el paper que introdujo "Chinchilla" y la proporción ~20 tokens/parámetro como referencia de la industria desde entonces.</p>
 <div class="resultado-final">
 <h3>✅ Resultado de este capítulo<span class="version-badge">2026-07</span></h3>
 <p>Tienes un modelo mental correcto de cómo funciona un LLM: no es una base de datos, es una función estadística que genera token a token. Entiendes por qué la temperatura importa, por qué la ventana de contexto tiene límites reales, y por qué temperatura 0 no garantiza corrección. Cuando un colega diga "el modelo no sabe esto", podrás distinguir si es un problema de knowledge cutoff, de ventana de contexto o de distribución estadística del entrenamiento. Y sabes cuándo el fine-tuning tiene sentido frente a RAG, cómo funciona LoRA y por qué unos cientos de ejemplos pueden especializar un modelo de miles de millones de parámetros sin destruir su conocimiento general.</p>
@@ -8781,6 +9133,35 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <strong>⚠️ Error típico de diagnóstico</strong>
     Cuando el sistema RAG produce respuestas incorrectas, el primer instinto suele ser "mejorar el prompt" o "usar un modelo mejor". En la mayoría de los casos, el problema está antes: en el retrieval. Mide siempre Hit Rate@5 primero. Si es inferior a 0.80, el LLM no puede salvarte: está respondiendo sobre documentos que no son los correctos.
   </div>
+<h3 id="s65a">6.5a El techo del oráculo: la medida que decide si el retrieval es tu problema <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v66</span></h3>
+<p>Las cuatro métricas anteriores miden lo mismo desde ángulos distintos: <strong>si el fragmento correcto llega</strong>. Ninguna responde a la pregunta anterior, que es la que decide dónde invertir: <strong>¿podría el modelo responder si le llegara?</strong> Sin esa segunda cifra, un Hit Rate del 100% es perfectamente compatible con un sistema que falla la mitad de las veces, y no tendrás forma de saber por qué.</p>
+<p>La medida es barata y no necesita juez. Pasa al modelo <em>únicamente</em> el fragmento correcto —sin buscador, sin distractores, sin compresión— y hazle la pregunta. Lo que salga es el techo del sistema: <strong>lo que falta hasta el 100% no lo puede arreglar ninguna capa de recuperación</strong>, porque en esa condición no hay recuperación que arreglar.</p>
+<table>
+<thead><tr><th>Medida</th><th>Qué mide</th><th>Cómo se obtiene</th></tr></thead>
+<tbody>
+<tr><td><strong>Techo del oráculo</strong></td><td>¿Puede el modelo extraer el dato cuando el fragmento correcto es lo único que ve?</td><td>Una llamada por caso, solo con el pasaje de referencia. Sin retrieval, sin reranker, sin compresor.</td></tr>
+<tr><td><strong>Suelo sin contexto</strong></td><td>¿Responde el modelo desde memoria paramétrica, sin ningún fragmento?</td><td>La misma pregunta con el contexto vacío.</td></tr>
+</tbody>
+</table>
+<p>La fila del suelo importa tanto como la del techo y casi nadie la mide: <strong>si el modelo acierta sin ningún documento, tu evaluación no está midiendo el sistema RAG</strong> — está midiendo lo que el modelo ya sabía. Es el problema de procedencia de §4.7b aplicado al dataset de evaluación, y contamina hacia arriba: infla el Hit Rate aparente del sistema completo sin tocar una sola métrica de retrieval.</p>
+<p>Con las dos cifras, el diagnóstico deja de tener dos ramas y pasa a tener tres:</p>
+<table>
+<thead><tr><th>Techo del oráculo</th><th>Hit Rate@k</th><th>Dónde está el problema</th><th>Qué <em>no</em> hacer</th></tr></thead>
+<tbody>
+<tr><td>Bajo</td><td>Cualquiera</td><td>El modelo o la pregunta. Ni el mejor retrieval del mundo levanta un techo bajo.</td><td>No optimices el retrieval. No re-trocees.</td></tr>
+<tr><td>Alto</td><td>Bajo</td><td>Recuperación. Aquí sí aplica todo este capítulo.</td><td>No cambies de modelo ni reescribas el prompt todavía.</td></tr>
+<tr><td><strong>Alto</strong></td><td><strong>Alto — y el sistema sigue fallando</strong></td><td><strong>Entre las dos.</strong> El prompt de generación, un compresor de contexto, la colocación del pasaje, o un componente intermedio que nadie declaró.</td><td><strong>No toques el chunking.</strong> Es el error más caro de esta fila.</td></tr>
+</tbody>
+</table>
+<div class="warning">
+<strong>⚠️ La tercera fila es la que más tiempo hace perder</strong>
+    Sin la medida de techo esa fila es invisible, y el instinto de §7.1 —recorrer la cadena corpus → chunking → retrieval— manda a re-trocear el corpus: la intervención más cara del pipeline y la única que invalida todas las medidas anteriores. Si el fragmento correcto se recupera y el modelo sabe leerlo aislado, el troceado no puede ser la causa del fallo. Revisa antes si hay algún componente entre el retrieval y la generación que no aparece en la etiqueta del experimento (§13.15).
+  </div>
+<div class="callout">
+<strong>🧵 Un instrumento que la investigación de factualidad paramétrica encontró por su cuenta</strong>
+    La misma construcción aparece en <em>Empty Shelves or Lost Keys? Recall Is the Bottleneck for Parametric Factuality</em> (Calderon et al., Google Research / Technion, ICML 2026), para un problema distinto: separar los hechos que un LLM <strong>no tiene</strong> —estantería vacía— de los que tiene y <strong>no consigue recuperar</strong> —llaves perdidas—. Su medida de codificación es la misma idea del techo: cebar al modelo con el contexto original y preguntar. Su resultado, sobre 4 millones de respuestas y 13 modelos, es que en los modelos de frontera la codificación está <strong>saturada al 95-98%</strong> y lo que falla es el acceso. La distinción tiene consecuencias opuestas de inversión: una estantería vacía se arregla con más datos o más modelo; unas llaves perdidas, con post-entrenamiento, prompting o razonamiento en inferencia. Confundirlas es caro. El techo del oráculo es esa misma separación aplicada al sustrato del contexto en vez de al de los pesos. <strong>Con una advertencia que conviene aprender de segunda mano:</strong> en el laboratorio que motivó esta sección, un hueco de 42 puntos entre el techo y el sistema parecía exactamente un fallo de acceso al contexto — llaves perdidas dentro de la ventana. No lo era. Era <strong>un compresor LLM activo por defecto</strong> que no aparecía en ninguna etiqueta; apagado, el hueco se redujo a 1-2 casos sobre 38. La medida de techo hizo su trabajo —señaló que el problema no estaba en la recuperación— pero <strong>no dice qué hay en medio</strong>. Antes de concluir que el modelo no sabe usar lo que recibe, enumera todo lo que toca el contexto entre el retrieval y la generación (§13.15).
+  </div>
+<p style="font-size:.88rem;">Dos hallazgos adicionales del mismo paper, verificados directamente en la fuente y con implicación práctica más allá de la cifra de saturación <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span>: primero, reencuadran la «maldición de la reversión» (un modelo que responde «Oasis tocó primero en el Boardwalk» pero falla ante «¿quién tocó primero en el Boardwalk?») como fallo de <strong>acceso</strong>, no de conocimiento faltante — el hecho está codificado y es reconocible en formato de opción múltiple, solo falla al generarlo en la dirección inversa a como se aprendió. Segundo, el <em>razonamiento en tiempo de inferencia</em> («thinking») recupera una fracción sustancial de estos fallos de acceso, lo que sugiere que parte del techo del oráculo de un sistema puede subir sin tocar el modelo ni el corpus, simplemente dejando que el modelo razone antes de responder sobre el fragmento recuperado.</p>
 <h2 id="s65b" data-nivel="profundidad">6.5b Antes de GraphRAG: seis términos que se confunden — de la resolución de entidades al grafo de conocimiento</h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
@@ -10236,6 +10617,13 @@ traversal.boundary_crossings   # 2  resultados alcanzados saliendo del documento
 <div style="padding:16px 20px;background:var(--teal-light);border:1px solid var(--teal);border-radius:10px;margin:20px 0;font-size:.85rem;">
 <strong>💡 Patrón de indexación asimétrica:</strong> Una estrategia avanzada es usar un <strong>modelo cloud (GPT-4o mini, Claude Haiku) solo para la fase de indexación</strong> de LightRAG — que ocurre una sola vez — y después usar un modelo local para todas las queries. El coste de indexación de un libro de 300 páginas con GPT-4o mini suele ser &lt;1$ (≈500 chunks × 400 tokens × $0.0006/1K tokens) <span class="norm-vigencia" title="Precio de lista a 2025–2026 — consulta la página de precios del proveedor antes de usar en estimaciones de producción">⚡ precio variable</span>. Esto elimina el cuello de botella de CPU sin comprometer la privacidad en producción (los datos ya están en el grafo local).
   </div>
+<h3>6.10b El resurgir deliberado de los embeddings estáticos <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h3>
+<p>El Cap. 0 explica por qué los embeddings estáticos (word2vec, GloVe) se abandonaron: un vector fijo por palabra no distingue "voy al banco" de "me siento en el banco". Esa limitación no ha desaparecido. Lo que ha cambiado en 2026 es que, para un uso concreto, deja de ser descalificante: un embedding estático entrenado a gran escala específicamente para retrieval —no un word2vec genérico— puede servir de <strong>primera etapa barata</strong> dentro de un pipeline de dos fases, con un reranker o un encoder contextual resolviendo después la ambigüedad que la primera etapa no distingue.</p>
+<p>El caso público que fija la cifra: <em>Lattice</em> (proyecto de retrieval estático, reproducido y verificado de forma independiente en agosto de 2026) sustituye la atención por una tabla de embeddings — una fila aprendida por token — con <em>mean pooling</em> y normalización, sin ninguna capa de atención. El artefacto de despliegue resultante, con 512 dimensiones y cuantización int4, ocupa <strong>7,94 MB</strong> y corre en CPU sin dependencia de inferencia remota. El coste de calidad frente al modelo contextual completo es de <strong>-1,1% relativo en NDCG@10</strong> sobre un benchmark BEIR de 12 tareas —cifra que mezcla la reducción de dimensión y la cuantización, no solo esta última—, y el propio proyecto documenta la limitación esperable: al no tener atención, pierde orden de palabras, polisemia y composicionalidad.</p>
+<div class="callout">
+<strong>💡 Cuándo tiene sentido, y cuándo no</strong>
+    Encaja donde este mismo apartado ya valora el despliegue 100% local — sin llamada externa, con restricción real de memoria o CPU, offline por diseño. No encaja como sustituto general de un encoder contextual: pierde exactamente en los casos donde el orden de las palabras cambia el significado ("el perro muerde al hombre" frente a "el hombre muerde al perro" quedan casi indistinguibles en el vector), y a fecha de esta edición la cobertura pública verificada es solo en inglés — sin evidencia de una variante multilingüe madura, un bloqueo real para cualquier corpus en varios idiomas.
+  </div>
 <!-- ═══════════════════════════════════════════════════════════════════════════
      SECCIÓN 6.11 — Memoria compilada: de la búsqueda al conocimiento internalizado
      Para insertar en Comprender_la_IA_v20.html después de la sección 6.10
@@ -10786,6 +11174,25 @@ function memUpdate() {
 </div>
 <div class="gterm-def">En la arquitectura MEMO, el modelo de lenguaje grande (LLM principal) que permanece congelado y se encarga del razonamiento: descompone la query del usuario en sub-preguntas, interroga al MEMORY en lenguaje natural, y sintetiza las respuestas intermedias en la respuesta final. Es plug-and-play: cambiar el Executive (de Qwen a Gemini, por ejemplo) no requiere reentrenar el MEMORY. → Ver sección 6.11.3.</div>
 </div>
+<h3>6.11.4 Tres memorias distintas, no una: procedimiento, corrección, relación <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h3>
+<p>Wiki Memory y MEMO, arriba, compilan <em>conocimiento</em>: el sistema estudia documentos una vez y responde desde ahí en lugar de recuperar siempre. Hay un problema distinto, propio de agentes que ejecutan tareas repetidas en lugar de solo responder preguntas, que conviene separar con nombre propio porque se confunde con facilidad: la memoria de <strong>cómo</strong> hacer algo, la de <strong>qué salió mal</strong> la última vez, y la de <strong>cómo se relacionan</strong> las cosas encontradas — tres ejes que no se sustituyen entre sí.</p>
+<div class="callout-normativo">
+<strong>⚠️ Nota de atribución</strong>
+    Lo que sigue describe un patrón de diseño observado en sistemas de agentes en producción (documentado para Kimi Agent Swarm de Moonshot AI, agosto 2026), no una funcionalidad que este manual pueda verificar de forma independiente en su totalidad. El "context graph" (memoria de relación, más abajo) está confirmado por fuentes externas. La convención de "Skill" descrita —una carpeta con instrucciones, scripts y referencias, cargada automáticamente al inicio de una ejecución— coincide, rasgo por rasgo, con la función Skills ya existente de Claude/Claude Code, y no se ha podido confirmar de forma independiente como una función propia de Kimi bajo ese nombre. Trátese el patrón como diseño transferible, no como afirmación verificada sobre un producto concreto.
+  </div>
+<p>Los tres ejes:</p>
+<ul>
+<li><strong>Memoria de procedimiento</strong> — una carpeta con instrucciones, scripts de apoyo y material de referencia para una tarea que se repite, cargada automáticamente al empezar. Hace la ejecución más rápida cada vez, porque el procedimiento ya no se reconstruye desde cero.</li>
+<li><strong>Memoria de corrección</strong> — un fichero que registra qué falló la última vez y qué regla se dedujo de ese fallo, leído automáticamente al empezar cada sesión sobre el mismo proyecto. Hace la ejecución más <em>correcta</em>, no solo más rápida — es el eje que la memoria de procedimiento por sí sola no cubre.</li>
+<li><strong>Memoria de relación</strong> — un grafo de entidades y aristas construido a partir de lo que agentes en paralelo van encontrando: no solo qué hechos existen, sino qué conecta con qué. Sin esto, investigar cien empresas devuelve cien fichas sueltas en lugar de la respuesta a "¿cuáles comparten proveedor?".</li>
+</ul>
+<p>Ningún eje sustituye a los otros dos: un procedimiento sin memoria de corrección repite el mismo error cada vez más rápido; una memoria de corrección sin procedimiento al que aplicarse no tiene dónde engancharse; un grafo de relaciones sin los otros dos es una fotografía fija que no vuelve a crecer.</p>
+<div class="warning">
+<strong>⚠️ El riesgo que este patrón no resuelve por sí solo</strong>
+    Un fichero de memoria de corrección que solo <em>añade</em> reglas —"lección destilada de la última revisión", cargada automáticamente, sin ningún mecanismo de poda— es exactamente el objeto que §8.7b describe como deuda técnica del prompt, y exactamente el que Chakrabarti (§8.7b, arXiv:2608.11095) mide creciendo sin límite en ficheros CLAUDE.md/AGENTS.md reales: añadir una regla cuesta nada, borrarla con seguridad exige recordar por qué se añadió. Una memoria de corrección bien diseñada necesita el mismo campo <code>why</code> con número verificable que propone §8.7b.3 — no basta con que el fichero se lea automáticamente; también hay que poder retirar de él lo que ya no hace falta.
+  </div>
+<h3>6.11.5 Dónde vive el grafo en este mismo proyecto</h3>
+<p>La memoria de relación de este apartado —un grafo de entidades y aristas construido por agentes en paralelo— es, en esencia, lo que una capa de grafo dentro de un motor de recuperación está para hacer. Vale la pena decirlo sin rodeos: es exactamente el mismo objeto que persigue GraphRAG (§6.6), con una motivación distinta (memoria acumulada entre ejecuciones de agente, en vez de recuperación dentro de una sola consulta). Un sistema que ya tenga una capa de grafo construida y medida no necesita reinventar este patrón desde cero — necesita decidir si también quiere alimentarla entre sesiones, no solo dentro de cada una.</p>
 <!-- ═══════════════════════════════════════════════════════════════════════════
      SECCIÓN 6.12 — DocLang: cuando el documento se escribe para la máquina
      Insertar entre 6.11 y 6.x (ejercicio práctico)
@@ -12678,6 +13085,12 @@ sunset_check: "reevaluar en cada cambio de familia de modelo"</pre>
 <p>La contrapartida sana es no dramatizar: la mayoría de las instrucciones no cuestan casi nada, y una ablación completa en cada actualización menor sería su propia forma de despilfarro. El criterio razonable es <strong>revisión completa al cambiar de familia de modelo</strong>, y revisión de los bloques procedimentales más largos en cada salto de versión mayor.</p>
 <p><em>Referencia cruzada: §3.3 (golden dataset), §4.4 (catálogo de modelos y versiones), §5.5b (nota de actualización: medir antes de rediseñar), §8.4 (protocolo de evaluación de prompts), §8.7 (versionado y hash), §15 (MLOps).</em></p>
 </div>
+<div class="callout" style="border-color:var(--green);background:var(--green-light,rgba(22,163,74,.06));">
+<strong>📌 Respaldo empírico externo, agosto 2026</strong> <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span>
+    Esta sección se escribió como propuesta del autor, sin más respaldo que el razonamiento expuesto. Un estudio a gran escala la confirma: Chakrabarti, "Why Does CLAUDE.md Keep Growing? Catastrophic Remembering in Agentic Coding" (arXiv:2608.11095, ago. 2026), rastrea 247.694 ciclos de vida de instrucciones en 1.867 repositorios reales con ficheros CLAUDE.md/AGENTS.md/copilot-instructions.md, y mide exactamente el mecanismo que este apartado describía por intuición: el hazard de eliminación de una instrucción <strong>cae</strong> con su edad (pendiente log-hazard -0,032/commit) — lo contrario de lo que predice "la instrucción caducó", y consistente con que el mantenedor pierde la razón por la que se añadió. Los ficheros crecen sin límite (+226% de media sobre su propio ciclo de vida) precisamente porque añadir cuesta O(1) y borrar con seguridad exige reconstruir un porqué que ya no está. Cuando se limpia, casi siempre es por reescritura total (76,8% de las "muertes"), y el crecimiento se reanuda después, más rápido que antes.
+    <br/><br/>
+    El remedio que el estudio valida experimentalmente es, en esencia, el mismo mecanismo del campo <code>why</code> de arriba: instrucciones anotadas con el razonamiento que las motivó, nunca vistas por el modelo ejecutor, solo por el siguiente mantenedor, eliminan el 99,3% del exceso de tamaño en el experimento controlado del paper y mejoran el cumplimiento de instrucciones en prompts reales un 23,1%. La condición que hace el remedio funcionar es la misma que exige el campo <code>why</code> de este apartado: la justificación tiene que poder volver a comprobarse — "18% de JOIN incorrecto" se puede remedir; "por si acaso" no.
+  </div>
 <h2>8.8 Reducción de coste y latencia</h2>
 <h3>Prompt compression</h3>
 <p>Herramientas como LLMLingua (Microsoft) comprimen el prompt eliminando palabras redundantes sin perder calidad. Pueden reducir el tamaño del prompt hasta un 80% con una pérdida de calidad del 1–5%. Útil para prompts largos con instrucciones + ejemplos + contexto.</p>
@@ -15018,6 +15431,10 @@ meta["budget_exceeded"]    # True</pre>
 <li><strong>Material recuperado y tarea, cerca del final.</strong> Lo que debe influir en el paso actual va próximo al punto de generación, no anexado donde llegó.</li>
 <li><strong>Nunca cortar una restricción.</strong> Truncar <em>"Nunca reveles datos del cliente salvo que"</em> por la mitad puede invertir la regla. Ante un presupuesto insuficiente para las políticas, la salida correcta es admitirlas enteras y <strong>avisar</strong>: un conjunto de políticas que no cabe es un problema de configuración para un humano, no algo que resolver en el ensamblado.</li>
 </ul>
+<div class="callout" style="border-left-color:#0d9488;">
+<strong>📐 Cómo distinguir los dos fallos sin adivinar</strong> <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v66</span>
+    Los dos fallos anteriores predicen lo mismo —el sistema recupera bien y responde mal— pero responden distinto a una prueba de dos minutos: <strong>varía el número de fragmentos recuperados y mira si el acierto se mueve</strong>. Si al triplicar el material recuperado el acierto empeora, es presupuesto: la ventana se está llenando. Si el acierto <em>no se mueve en absoluto</em>, no es presupuesto ni colocación — el material añadido no estorba, y eso descarta las dos causas de esta sección a la vez. Entonces el sospechoso está <em>entre</em> la recuperación y la generación: un compresor, el prompt, o un componente sin declarar (§13.15). Medido en un laboratorio de evaluación RAG propio sobre 38 casos: pasar de 5 a 20 fragmentos triplicó el contexto de generación —de ~7.400 a ~24.900 caracteres— y movió el acierto un solo caso, por debajo del ruido del propio sistema. En ese laboratorio la causa acabó siendo la tercera opción: un compresor de contexto sin declarar (§13.15), ni presupuesto ni colocación.
+  </div>
 <h3 id="s1097">10.9.7 Tres cosas que el discurso de memory engineering da por supuestas <span class="badge-propuesta">★ Propuesta del autor</span></h3>
 <div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
 <strong>⚠ Lo que falta en casi todas las guías de memoria para agentes</strong>
@@ -15085,6 +15502,15 @@ meta["budget_exceeded"]    # True</pre>
     <br/><br/>
     Quien quiera profundizar puede describirlo con la misma analogía que usa la propia comunidad de seguridad: es la separación entre plano de control y plano de ejecución que Software-Defined Networking resolvió hace una década para el enrutamiento —controladores deciden, routers ejecutan— aplicada ahora a qué entidad tiene permiso para decir "sí" a una acción de un agente.
   </div>
+<h3>10.10.3 Tinta y cemento: una implementación de referencia para el caso más común <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h3>
+<p>El punto (1) de §10.10.2 —nunca credenciales de administrador heredadas sin acotar— es fácil de aceptar en abstracto y fácil de violar sin darse cuenta en el caso más común de todos: un agente de código conectado a un repositorio Git. Un incidente documentado en 2026 lo ilustra con precisión quirúrgica.</p>
+<p>Un agente de codificación corriendo dentro de la sesión VS Code de un desarrollador no se autentica como sí mismo: hereda las claves SSH, el <code>git config</code>, la sesión de <code>gh</code> del desarrollador. Si el desarrollador es administrador de la organización, el agente opera como administrador — y los <em>rulesets</em> de GitHub eximen a los administradores por defecto. Cuando el agente hizo <code>push</code> directo a <code>main</code> pese a la protección de rama configurada, no la saltó: la regla nunca llegó a aplicarse, porque el agente actuaba bajo una identidad a la que la regla no alcanza.</p>
+<div class="callout">
+<strong>💡 El marco que separa las dos soluciones: tinta y cemento</strong>
+    Un fichero de instrucciones que dice "nunca hagas push a main" es <strong>tinta</strong>: el modelo lo lee, lo interpreta, lo sigue casi siempre — hasta que no. Una restricción que el sistema hace cumplir antes de que la acción ocurra es <strong>cemento</strong>: no hay interpretación posible. El arreglo no es pedirle mejor al agente que se comporte; es quitarle la capacidad de hacer lo contrario.
+  </div>
+<p>La implementación de referencia documentada: el agente corre bajo un usuario de sistema aislado, con su propio directorio y sin ningún privilegio de administrador — solo <code>write</code>. Se autentica mediante una GitHub App con tres permisos exactos: <code>contents: write</code> (clonar y hacer push a ramas no protegidas), <code>pull_requests: write</code> (abrir PRs) y <code>metadata: read</code>. Sin <code>admin</code>, sin <code>maintain</code>. El ruleset de la organización se aplica sobre esa identidad en su totalidad: el agente no puede hacer push a <code>main</code>, no puede aprobar sus propios PRs, no puede borrar ramas protegidas — no porque se le haya pedido que no lo haga, sino porque el token no lo permite. Desarrollador y agente corren en sesiones separadas de la misma máquina, con el token del agente generado mediante intercambio JWT y expiración corta (una hora), suficiente para una tarea y sin persistencia entre sesiones.</p>
+<p>Es la aplicación literal del punto (1) de §10.10.2 a la herramienta más común que un lector de este manual va a desplegar esta misma semana: cualquier equipo con desarrolladores administradores y agentes compartiendo su sesión tiene, sin saberlo, la misma regla escrita en tinta y ninguna en cemento.</p>
 <hr class="sep"/>
 <div class="transition-bridge"><span class="tb-icon">↳</span><span>Con la fiabilidad real de tu sistema estimada, el Cap. 11 da el marco para clasificar el riesgo de lo que estás construyendo — el primer paso antes de diseñar nada en producción.</span></div>
 <div class="chapter-header c11" id="cap11">
@@ -16211,6 +16637,7 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
 <h3 id="s12-decision-record">El DecisionRecord: el schema que hace auditable el Patrón Sándwich<span class="version-badge">2026-04</span></h3>
 <p>El modo de fallo más peligroso en producción agentic es la <strong>degradación silenciosa para los operadores</strong>. Un mecanismo de fallback puede preservar la continuidad del output — el usuario ve una respuesta plausible — mientras oculta que el método primario falló. Si la capa de observabilidad no marca la aproximación como aproximación, el sistema produce la ilusión de medición donde solo existe estimación.</p>
 <p>La solución concreta es un <code>DecisionRecord</code> como artefacto de primera clase en cada decisión material del sistema. Un registro completo incluye:</p>
+<p style="font-size:.85rem;color:var(--muted);">El principio de fondo —nunca inferir una afirmación fuerte (exactitud, certificación) de una más débil (convergencia, ausencia de error detectado)— tiene un paralelismo formal fuera del dominio LLM: un trabajo de teoría de la computación sobre satisfacción de restricciones (The Keystone Project, "When Local Consistency Isn't Enough", ago. 2026, working paper sin revisar por pares) separa, con demostraciones, consistencia local / insuficiencia representacional / exactitud global certificada, con abstención obligatoria cuando falta el certificado — la misma estructura que el <code>DecisionRecord</code> impone aquí, descrita independientemente para un dominio distinto. <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.7rem;">🆕 v68</span></p>
 <div style="background:var(--surface,#f8fafc);border:1px solid var(--border,#e2e8f0);border-radius:8px;overflow:hidden;margin:1.5rem 0;">
 <div style="background:var(--accent,#2563eb);color:white;padding:.6rem 1.2rem;font-family:var(--ff-mono,monospace);font-size:.78rem;font-weight:700;">DecisionRecord — campos mínimos</div>
 <table style="width:100%;border-collapse:collapse;font-size:.83rem;">
@@ -17348,8 +17775,64 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
     Cuando varios modelos generan sobre un mismo tema, lo diagnóstico no es en qué coinciden sino <em>qué falta en los cinco a la vez</em>. Una afirmación que ningún panel cuestiona es candidata a ser un supuesto heredado del corpus, no una conclusión derivada. En el caso documentado, la objeción ausente en 5 de 5 resultó ser, tras revisión con fuentes, la más fuerte contra el veredicto que los cinco compartían. El protocolo operativo: antes de leer las coincidencias, pregunta explícitamente a uno de los modelos <em>"¿cuál es el argumento más fuerte en contra de esta conclusión, y por qué no aparece aquí?"</em> — la pregunta que ninguno se hace por su cuenta.
   </div>
 <p><strong>Regla operativa añadida al protocolo.</strong> La intersección verificada (13.14.3) sigue aplicando a crítica. Para generación, se sustituye por tres comprobaciones que no dependen del consenso: <em>(1)</em> ¿cuántos paneles aportan fuentes verificables, y sobreviven a la auditoría del bloque §20.6? <em>(2)</em> ¿qué afirmación central no cuestiona ninguno? <em>(3)</em> ¿el veredicto está declarado como dependiente de un marco, o presentado como hecho? Un panel solitario con fuentes auditadas vale más que cuatro convergentes sin ellas.</p>
+<h2 id="s1315" data-nivel="profundidad">13.15 El arnés que miente: procedencia perdida en la capa de evaluación <span class="badge-propuesta">★ Propuesta del autor</span><span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v66</span></h2>
+<div class="callout">
+<strong>🧵 Por qué te importa esto</strong>
+    §4.7b, §8.7b y §10.9.6 describen el mismo patrón en tres capas del sistema: un artefacto sobrevive sin su procedencia, nada se rompe, y el error aparece semanas después como degradación difusa. Falta la capa donde ese patrón hace más daño, precisamente porque es la que debería detectar los demás fallos: <strong>el arnés de evaluación</strong>. Un arnés con procedencia perdida no produce un error visible. Produce una tabla de porcentajes con el mismo aspecto que una medida buena, y decisiones de arquitectura tomadas sobre ella.
+  </div>
+<p>Los tres casos siguientes proceden de la auditoría de un laboratorio de evaluación RAG, y los tres tienen la misma forma: <strong>el número sobrevive; la condición que lo produjo, no.</strong> Ninguno lanzó una excepción. Los tres invalidaron tandas completas.</p>
+<h3>Caso 1 — La caché cuya clave descarta los parámetros del barrido</h3>
+<p>Una caché semántica indexaba por el <em>texto de la consulta</em> y por nada más: ni <code>top_k</code> ni las capas activas entraban en la clave. La misma pregunta lanzada a k=5 y a k=20 da similitud 1.0 contra sí misma, así que el segundo barrido devolvía el resultado del primero mientras imprimía cuatro filas distintas con cuatro etiquetas distintas.</p>
+<p><strong>Por qué es de procedencia:</strong> el resultado cacheado sobrevive sin los parámetros que lo produjeron. Y el daño es exactamente proporcional a lo bien diseñado que esté el experimento: cuanto más cuidadosamente repitas la misma consulta entre condiciones —que es lo correcto— más se corrompe la comparación. <strong>Cualquier barrido comparativo con caché semántica encendida está inválido y no lo parece.</strong></p>
+<div class="warning">
+<strong>⚠️ Comprobación de 30 segundos</strong>
+    Lanza la misma consulta dos veces con parámetros distintos y compara las respuestas <em>byte a byte</em>. Si son idénticas, tu barrido no está midiendo lo que crees. Todo arnés de evaluación debe desactivar la caché explícitamente y <strong>comprobar que se desactivó</strong>, no confiar en un flag de configuración.
+  </div>
+<h3>Caso 2 — El componente que está en el pipeline y no en la etiqueta</h3>
+<p>La configuración por defecto del motor traía un compresor de contexto —<em>un LLM resumiendo los pasajes antes de generar</em>— activado. La interfaz lo apagaba a mano en dos sitios; el arnés no lo tocaba. Resultado: una tanda etiquetada <code>bm25, vector</code> medía en realidad <strong>bm25 + vector + un modelo reescribiendo el contexto</strong>, y ese tercer componente no aparecía en ninguna cabecera, ninguna tabla y ningún nombre de fichero.</p>
+<p><strong>Por qué no se detectó antes:</strong> los arneses de recuperación llaman a <code>retrieve()</code>, que no comprime. Solo <code>query()</code> comprime. El componente vivía en la mitad del sistema que ningún instrumento miraba — que es, invariablemente, donde viven estos defectos.</p>
+<p>Y hay una consecuencia de coste que ninguna etiqueta declaraba: el compresor hacía <strong>una llamada al LLM por fragmento</strong>. A k=20 son 21 llamadas por consulta en lugar de una. La misma tanda pasó de minutos a decenas de horas sin que nada en la configuración lo anunciara.</p>
+<div class="warning">
+<strong>⚠️ Lo que costaba de verdad, una vez medido</strong>
+    La latencia era lo de menos. Ejecutado el control en condiciones limpias, el componente sin declarar costaba <strong>37 puntos de acierto</strong>: el sistema pasó del 55,3% al 92,1% solo con apagarlo, rescatando 15 casos de 38 y rompiendo 1. Y multiplicaba por cinco las respuestas que afirmaban un número concreto siendo incorrectas — un resumen que se lleva la cifra deja al modelo con el tema y sin el dato. Es el mayor efecto medido en ese laboratorio: mayor que el de la capa vectorial, mayor que el de subir <code>top_k</code>, mayor que el del reranker. <strong>Y no es una técnica: es un valor por defecto de un fichero de configuración.</strong> La lección es el orden de magnitud — al comparar técnicas de RAG entre sí, <strong>la variable no declarada puede pesar más que todas las declaradas juntas</strong>.
+  </div>
+<h3>Caso 3 — El <code>assert</code> que valida la declaración, y el test que hace <code>grep</code></h3>
+<p>Detectado el caso 2, se añadió el arreglo evidente: poner el flag a <code>False</code> antes de evaluar y comprobarlo con un <code>assert</code>.</p>
+<pre><code>cfg.index.compress_context = False
+assert cfg.index.compress_context is False   # pasa</code></pre>
+<p>El <code>assert</code> pasaba. El compresor seguía funcionando. El motor no consultaba el flag en tiempo de consulta: preguntaba por el <em>objeto</em> (<code>if self._compressor:</code>), construido en el arranque leyendo la configuración inicial. Cambiar el flag después de construir el motor no deshacía nada.</p>
+<p>Y existía un test que decía cubrir esto. Hacía <code>grep</code> sobre el código fuente para comprobar que la línea del <code>assert</code> <strong>estuviera escrita</strong>. Estaba escrita. El test pasó en verde durante toda la vida del defecto.</p>
+<div class="callout" style="border-left-color:#b91c1c;">
+<strong>🔴 La forma pura del patrón</strong>
+    Aquí la procedencia perdida no es la del dato ni la del resultado: es la de <strong>la garantía</strong>. Un <code>assert</code> y un test son artefactos cuya única función es certificar una condición. Cuando certifican la declaración de la condición en vez de la condición, siguen existiendo, siguen pasando, y ya no certifican nada. Es la versión de validación de la «supervisión decorativa» de §14.2: <strong>validación decorativa</strong>.
+  </div>
+<h3>Las tres reglas que quedan</h3>
+<table>
+<thead><tr><th>Regla</th><th>Qué evita</th></tr></thead>
+<tbody>
+<tr><td>Un <code>assert</code> de evaluación interroga <strong>el atributo que el sistema lee en la ruta caliente</strong>, no el que el arnés acaba de escribir.</td><td>Que el arreglo del defecto sea indistinguible del defecto.</td></tr>
+<tr><td>Un test que busca una cadena en el código fuente comprueba <strong>una intención, no un efecto</strong>. Si el test puede pasar con el sistema roto, no es un test.</td><td>Que la suite en verde se convierta en una fuente de confianza falsa.</td></tr>
+<tr><td>La etiqueta de una tanda debe enumerar <strong>todos</strong> los componentes que tocan el dato, no solo los que se eligieron a mano. Cuenta las llamadas al modelo: si no cuadran con tu arquitectura declarada, hay un componente que no declaraste.</td><td>Medir un sistema y nombrar otro.</td></tr>
+</tbody>
+</table>
+<div class="callout">
+<strong>💡 El corolario incómodo para el lector</strong>
+    Estos tres defectos son de un laboratorio que existe <em>específicamente</em> para medir con cuidado, con una bitácora de solo-añadir y una regla explícita contra los jueces LLM. Aparecieron igual, y dos de ellos invalidaron tandas después de haber sido «arreglados». La conclusión operativa no es que ese arnés fuera malo: es que <strong>un arnés no auditado no tiene por qué avisar de que está mintiendo</strong>, y la mayoría de los números de evaluación RAG que circulan —propios y publicados— proceden de arneses que nadie auditó. Antes de comparar tu sistema con una cifra publicada, pregunta qué versión de estos tres defectos tenía el arnés que la produjo.
+  </div>
+<h3>13.15.1 Un cuarto lugar donde vive el mismo patrón: la ingesta <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h3>
+<p>Los tres casos anteriores viven en la capa de evaluación. El mismo patrón —el número sobrevive, la condición que lo produjo no— aparece también un paso antes, en la <strong>ingesta</strong>, y con un riesgo mayor porque ahí nadie está mirando todavía con la sospecha que ya tiene instalada un equipo de evaluación.</p>
+<p>Die Zeit construyó en 2026 un pipeline para digitalizar 16 millones de páginas escaneadas de fichas de afiliación histórica, combinando varios sistemas OCR con Gemini para manuscrito. Un hallazgo del propio equipo, reportado en una entrevista técnica a GIJN (Global Investigative Journalism Network), resume el problema con precisión: ante la abreviatura "D." en una ficha, el modelo a veces devolvía "Düsseldorf". Es una interpretación plausible — y es información que <strong>no estaba literalmente en el documento fuente</strong>. Si esa interpretación se guarda como si fuera texto extraído, ni un sistema aguas abajo ni un lector pueden distinguir después qué vino del archivo y qué vino del modelo. El error no lanza excepción, no degrada ningún número visible, y se propaga a la normalización, a la resolución de entidades y a los resultados de búsqueda con la misma confianza que el dato real.</p>
+<div class="callout">
+<strong>💡 No es un vector de seguridad, es conflación silenciosa</strong>
+    No confundir con el "OCR Poisoning" del Cap. 21 (texto malicioso oculto en una imagen que el modelo ejecuta como instrucción): ahí hay intención de ataque. Aquí no hay ningún actor malicioso — el modelo simplemente completa de forma útil, y el daño viene de que "extraído" e "interpretado" terminan en el mismo campo sin etiqueta, no de que alguien lo haya diseñado así.
+  </div>
+<p>La regla que ya defiende esta sección para el arnés de evaluación —separar lo que el sistema midió de lo que el sistema asumió— se aplica igual, un paso antes, al esquema de datos de cualquier pipeline de ingesta con un LLM en el bucle: <strong>el texto literal y la interpretación del modelo necesitan campos distintos</strong>, no solo disciplina de prompt pidiendo "no inventes". Un ejemplo de que esto se puede hacer bien, verificado directamente en código: la estrategia de <em>contextual retrieval</em> de HyperRAG genera con un LLM una o dos frases que sitúan cada fragmento dentro del documento — y ese texto generado se guarda aparte, en un campo de metadatos explícitamente etiquetado, sin tocar el fragmento literal que se va a citar. La separación que el caso Die Zeit pide que exista ya está implementada, en otro dominio, a un paso de distancia.</p>
+<h3>13.15.2 El contrato fail-to-pass: automatizar la primera regla <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v68</span></h3>
+<p>La primera regla de la tabla anterior —un <code>assert</code> interroga el atributo que el sistema lee en caliente, no el que el arnés acaba de escribir— tiene una versión automatizable que vale la pena nombrar aparte, porque convierte un principio de diseño en un chequeo que se puede exigir en cada caso de test sin depender de que quien lo escriba lo recuerde.</p>
+<p>Herramientas de evaluación de agentes basadas en trazas (por ejemplo Tracely, que lee trazas OTLP y congela ejecuciones fallidas como fixtures deterministas para CI) imponen lo que llaman un <strong>contrato fail-to-pass</strong>: un caso de regresión solo se acepta como válido si, verificado contra el código anterior al arreglo, <em>falla</em>; y contra el código con el arreglo aplicado, <em>pasa</em>. Un caso que pasa en ambas versiones no demuestra nada y se descarta.</p>
+<p>Es, en la práctica, un chequeo mecánico de la misma pregunta que el Caso 3 de esta sección respondió a mano: "¿podría este test pasar con el sistema roto?". El contrato fail-to-pass no permite responder que sí. La cautela que hay que añadir es simétrica a la de esta misma sección sobre jueces LLM: si el veredicto de qué cuenta como "fallo" y "arreglo" lo pone un juez LLM en vez de un check estructural, el mecanismo de congelar el caso no protege contra que el propio juez confabule un veredicto coherente pero equivocado — hereda exactamente el riesgo de "evaluación confabulada" nombrado más arriba en este capítulo. El valor del contrato fail-to-pass no depende de tener un juez LLM: es igual de válido, y más seguro, con checks puramente estructurales.</p>
 <h3>✅ Resultado de este capítulo</h3>
-<p>Tienes el framework completo de QA para un sistema RAG en producción: golden dataset, métricas RAGAS con su geometría de díada vs. trípode y las condiciones de aplicabilidad de cada métrica, el problema epistemológico del ground truth y cómo construir datasets de calibración auditables (kappa de Cohen, estratificación, versionado, calibración contra referencias establecidas), clasificación de errores, pruebas adversariales, monitorización, evaluación online, A/B testing, detección de alucinaciones sin ground truth por clustering de consistencia, silence rate y consensus decay rate como métricas de gobernanza, red teaming como práctica de gobernanza (tres generaciones, cuatro modalidades, vectores por tipo de sistema, relación asimétrica con el golden dataset), los riesgos de calidad y seguridad del código generado por IA sin revisión humana (vibe coding, deuda de comprensión), y el protocolo de intersección verificada para usar varios modelos como panel de crítica sin heredar sus confabulaciones ni su sesgo hacia el centro. Puedes liderar el diseño de calidad de cualquier sistema de IA de tu organización, incluyendo el código que lo construye.</p>
+<p>Tienes el framework completo de QA para un sistema RAG en producción: golden dataset, métricas RAGAS con su geometría de díada vs. trípode y las condiciones de aplicabilidad de cada métrica, el problema epistemológico del ground truth y cómo construir datasets de calibración auditables (kappa de Cohen, estratificación, versionado, calibración contra referencias establecidas), clasificación de errores, pruebas adversariales, monitorización, evaluación online, A/B testing, detección de alucinaciones sin ground truth por clustering de consistencia, silence rate y consensus decay rate como métricas de gobernanza, red teaming como práctica de gobernanza (tres generaciones, cuatro modalidades, vectores por tipo de sistema, relación asimétrica con el golden dataset), los riesgos de calidad y seguridad del código generado por IA sin revisión humana (vibe coding, deuda de comprensión), y el protocolo de intersección verificada para usar varios modelos como panel de crítica sin heredar sus confabulaciones ni su sesgo hacia el centro. Y, en la capa que se suele dar por buena, los tres defectos de procedencia que hacen que un arnés de evaluación produzca números con buen aspecto y sin validez — la caché que descarta los parámetros del barrido, el componente ausente de la etiqueta y el <code>assert</code> que valida su propia declaración. Puedes liderar el diseño de calidad de cualquier sistema de IA de tu organización, incluyendo el código que lo construye.</p>
 </div>
 <div class="nav-caps">
 <a class="nav-cap" href="#cap12"><div class="nav-dir">← Anterior</div>
@@ -19760,6 +20243,15 @@ def evaluar_solicitud(texto: str, req_id: str) -&gt; dict:
 <textarea class="pausa-box" placeholder="Escribe aquí tu respuesta..."></textarea>
 <div class="pausa-nota">No hay respuesta correcta. El acto de escribir consolida la comprensión significativamente mejor que la lectura pasiva.</div>
 </div>
+<h3 id="s203b">20.3b Un ejemplo con fecha, y el filo irregular del que el ejemplo no habla <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v67</span></h3>
+<div class="callout">
+<strong>📌 El aviso de arriba, comprobado en vivo</strong>
+    El 8 de agosto de 2026, <em>The Guardian</em> publicó un ensayo de Katherine Rundell ("I hate what AI is doing to the minds and happiness of the young") que cita ese mismo estudio como hallazgo asentado: <em>"An MIT study showed that test groups who used ChatGPT had the lowest brain activity and consistently underperformed at neural, linguistic, and behavioural levels."</em> Ninguna mención al tamaño de muestra (54), al estatuto de preprint, ni a la objeción que este mismo capítulo hace: medir menos activación durante una tarea que la herramienta existe para facilitar documenta que la herramienta funciona, no que dañe. No es una fuente marginal — es prensa de calidad, autora con autoridad real (escritora infantil, fellow de Oxford), publicada dieciocho días antes de esta revisión. El recuadro de arriba no es una cautela abstracta.
+  </div>
+<p>El mismo ensayo argumenta que la delegación cognitiva perjudica más a quien menos recursos tiene, y cita el giro regulatorio de Suecia y Noruega contra la tecnología en el aula como el camino a seguir. La literatura sobre delegación asistida complica esa lectura en un punto que este capítulo no había cubierto todavía: el efecto no es uniforme, y su dirección depende de si la tarea cae dentro o fuera del rango de competencia del sistema.</p>
+<p><strong>Dell'Acqua et al. (Harvard Business School, WP 24-013, 2023).</strong> Experimento de campo con 758 consultores de Boston Consulting Group sobre dieciocho tareas realistas, con y sin GPT-4. Dentro del rango de competencia del modelo: más tareas completadas, 25% más rápido, calidad notablemente superior — y la mejora fue mayor para los consultores que partían con peor desempeño. Fuera de ese rango, en una tarea diseñada para que el modelo fallara: los consultores con IA acertaron un 19% menos que quienes trabajaron sin ella. Los autores lo llaman el <strong>filo irregular</strong> (<em>jagged frontier</em>): la misma herramienta ayuda y perjudica según de qué lado de un límite que el usuario no puede ver esté la tarea.</p>
+<p>Esto no refuta la preocupación por la delegación temprana en el desarrollo cognitivo — esa pregunta, como ya señala este capítulo, sigue sin datos. Pero sí complica la premisa de que restringir el acceso protege sobre todo a quien menos tiene: en el mismo estudio, y en el estudio afín de Doshi &amp; Hauser (2024) sobre escritura asistida, quien más gana es quien peor partía. Cualquier argumento a favor de la fricción cognitiva o la diversidad epistémica —incluido el de este capítulo— tiene que hacerse cargo de que casi siempre lo hace alguien que ya tiene voz para defenderlo.</p>
+<p style="font-size:.85rem;color:var(--muted);">Desarrollo completo de este contraste — incluida la identificación probable del estudio de "10 minutos" que Rundell cita sin referencia completa: Wontolla00, <em>Tres domesticaciones</em> (agosto 2026), Parte II "Mirar antes de intentar" y Parte III "El plátano que se comió el mundo".</p>
 <h2>20.4 La geometría cultural de los embeddings</h2>
 <p>Caliskan et al. (2017) demostraron que los espacios vectoriales aprenden automáticamente asociaciones culturales implícitas presentes en el corpus de entrenamiento. Las asociaciones documentadas en ese trabajo (hombre → carrera / mujer → familia, entre otras) han sido confirmadas y extendidas por estudios posteriores en múltiples idiomas y culturas.</p>
 <p>La consecuencia directa para los sistemas que construimos: no existe un embedding culturalmente neutro. Todo espacio vectorial es una proyección de la distribución cultural del corpus que lo generó. Los sistemas que toman decisiones basadas en embeddings —sistemas de selección de personal, de scoring de crédito, de moderación de contenido— heredan estos sesgos culturales de forma invisible.</p>
