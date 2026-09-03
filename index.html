@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v88</title>
+<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v91</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1101,7 +1101,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v88 · sep 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v91 · sep 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1109,7 +1109,8 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <a href="#parte3">Módulo 3</a>
 <a href="#parte4">Módulo 4</a>
 <a href="#parte5">Módulo 5</a>
-<a href="#cap22">Multimodalidad</a>
+<a href="#parte6">Módulo 6</a>
+<a href="#cap22">Multimodal</a>
 <a href="#indice-tematico">🔍 Índice</a>
 <a href="#apendice-r">Ref. senior</a><a href="#glosario">Glosario</a>
 <a href="#lab-mod1" style="color:#dc2626;">🔴 Labs</a>
@@ -1118,50 +1119,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <button>🌙</button>
 </div>
 
-<div class="callout" id="rutas-proyecto" style="border-left-color:#0891b2;">
-<strong>🧭 Rutas por proyecto — si sabes qué estás construyendo</strong>
-<p style="margin-top:6px;font-size:.88rem;">Las cuatro tarjetas de arriba son rutas por <em>perfil</em>. Pero la unidad real de trabajo no es el rol, es el proyecto: un ingeniero que monta un RAG y otro que audita un sistema heredado necesitan capítulos distintos. Entra por lo que tengas delante:</p>
-</div>
-<div style="overflow-x:auto;margin:14px 0 24px;">
-<table style="width:100%;border-collapse:collapse;font-size:.86rem;">
-<thead>
-<tr><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);white-space:nowrap;">Estoy…</th><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);">Recorrido</th><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);">Qué debes poder responder al final</th></tr>
-</thead>
-<tbody>
-<tr style="border-bottom:1px solid var(--border);">
-  <td style="padding:9px 12px;font-weight:700;">Construyendo un RAG desde cero</td>
-  <td style="padding:9px 12px;"><a href="#cap1">1</a> → <a href="#cap2">2</a> → <a href="#cap6">6</a> → <a href="#cap7">7</a> → <a href="#cap13">13</a> → <a href="#cap15">15</a> → <a href="#apendice-costes">Apéndice A</a></td>
-  <td style="padding:9px 12px;">Qué estrategia de chunking elegiste y por qué; cuál es tu <em>golden dataset</em>; qué coste mensual tiene el sistema a volumen previsto.</td>
-</tr>
-<tr style="border-bottom:1px solid var(--border);">
-  <td style="padding:9px 12px;font-weight:700;">Arreglando un RAG que responde mal</td>
-  <td style="padding:9px 12px;"><a href="#cap7">7</a> → <a href="#cap6">6.1–6.5</a> → <a href="#cap13">13.3–13.8</a> → <a href="#cap8">8.0b</a></td>
-  <td style="padding:9px 12px;">Si el fallo está en el <em>retrieval</em> o en la generación, con la métrica que lo demuestra — no con una impresión.</td>
-</tr>
-<tr style="border-bottom:1px solid var(--border);">
-  <td style="padding:9px 12px;font-weight:700;">Evaluando si necesito agentes</td>
-  <td style="padding:9px 12px;"><a href="#cap9">9.9</a> (la escalera) → <a href="#cap10">10.1–10.3</a> → <a href="#cap12">12</a> → <a href="#cap10">10.8</a></td>
-  <td style="padding:9px 12px;">Qué escalón de la escalera resuelve tu problema, y cuántos agentes puedes encadenar antes de que la fiabilidad caiga por debajo de tu umbral.</td>
-</tr>
-<tr style="border-bottom:1px solid var(--border);">
-  <td style="padding:9px 12px;font-weight:700;">Auditando un sistema de terceros</td>
-  <td style="padding:9px 12px;"><a href="#cap11">11</a> → <a href="#cap14">14.1–14.2b</a> → <a href="#cap4">4.2</a> → <a href="#cap16">16.2–16.3</a> → <a href="#cap13">13.14</a></td>
-  <td style="padding:9px 12px;">Qué nivel de criticidad tiene, si la supervisión humana deja huella verificable, y qué campos de log faltan para sostenerlo ante el AI&nbsp;Act.</td>
-</tr>
-<tr style="border-bottom:1px solid var(--border);">
-  <td style="padding:9px 12px;font-weight:700;">Llevando a producción algo que ya funciona en piloto</td>
-  <td style="padding:9px 12px;"><a href="#cap11">11</a> → <a href="#cap12">12</a> → <a href="#cap13">13</a> → <a href="#cap15">15</a> → <a href="#cap21">21</a></td>
-  <td style="padding:9px 12px;">Dónde está el <em>circuit breaker</em>, qué dispara el escalado a humano, y cuál es tu ASR medida frente a los ataques del Cap.&nbsp;21.</td>
-</tr>
-<tr>
-  <td style="padding:9px 12px;font-weight:700;">Decidiendo si el proyecto es viable</td>
-  <td style="padding:9px 12px;"><a href="#cap9">9.9</a> → <a href="#cap1">1.7</a> → <a href="#cap11">11.1–11.2</a> → <a href="#apendice-costes">Apéndice A</a></td>
-  <td style="padding:9px 12px;">Si la IA generativa es la herramienta correcta, qué arquitectura, qué nivel de criticidad y qué coste — <em>en ese orden</em>. Si falla la primera pregunta, las otras tres sobran.</td>
-</tr>
-</tbody>
-</table>
-</div>
-
+<!-- RUTAS POR PROYECTO — movidas en v91 a la puerta de modo consulta, junto al índice por tarea (estaban antes del título del manual) -->
 <div id="prog" style="position:sticky;top:45px;z-index:99;height:4px;background:var(--border);">
 <div id="prog-fill" style="height:100%;background:var(--accent);width:0%;transition:width .3s;"></div>
 </div>
@@ -1188,6 +1146,21 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div style="margin-top:36px; text-align:center; font-family:system-ui,sans-serif; font-size:1.15rem; color:#1e293b;">
 <strong>Autor:</strong> David Escudero de Félix
   </div>
+</div>
+<!-- HOOK TÉCNICO — subido a la portada en v91 (antes vivía dentro del Módulo 0, detrás del índice) -->
+<div style="background:linear-gradient(135deg,#0f172a,#1e3a8a);border-radius:12px;padding:28px 32px;margin-bottom:36px;color:white;">
+<div style="font-family:system-ui,sans-serif;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;background:rgba(255,255,255,.2);display:inline-block;padding:3px 10px;border-radius:20px;margin-bottom:14px;">⚡ Por qué existe este manual</div>
+<p style="color:rgba(255,255,255,.9);margin-bottom:18px;font-size:1.02rem;">Esto es lo que ocurrió en un sistema RAG real de una empresa de logística, dos semanas después de su despliegue:</p>
+<div style="background:rgba(0,0,0,.35);border-radius:8px;padding:18px 22px;font-family:monospace;font-size:.88rem;line-height:1.7;color:#e2e8f0;margin-bottom:18px;">
+<span style="color:#94a3b8;">// Consulta del usuario</span><br/>
+      "¿Cuál es el plazo máximo de reclamación para envíos dañados?"<br/><br/>
+<span style="color:#94a3b8;">// Fragmento recuperado por el sistema (similitud coseno: 0.81)</span><br/>
+      "…el cliente dispone de <strong style="color:#fbbf24;">14 días naturales</strong> desde la recepción para notificar…"<br/><br/>
+<span style="color:#94a3b8;">// Respuesta generada</span><br/>
+      "El plazo máximo es de <strong style="color:#f87171;">30 días</strong> desde la recepción del envío."
+    </div>
+<p style="color:rgba(255,255,255,.85);margin-bottom:4px;font-size:.95rem;">El sistema recuperó el fragmento correcto pero el LLM generó una cifra diferente. El problema no estaba en el retrieval: estaba en que el corpus tenía dos documentos con plazos distintos (14 días en la política interna, 30 días en las condiciones generales para clientes premium), y el modelo produjo el <em>sesgo hacia el centro de distribución del corpus</em> entre ambas versiones.</p>
+<p style="color:rgba(255,255,255,.75);margin:14px 0 0;font-size:.88rem;font-family:system-ui,sans-serif;">Cuando termines este manual, sabrás diagnosticar exactamente por qué ocurrió esto, dónde falla el pipeline, y qué cambio de arquitectura lo previene. Esa es la diferencia entre usar IA y entender IA.</p>
 </div>
 <!-- ══ BANNER MVP — visible antes del índice ══ -->
 <div style="background:linear-gradient(135deg,#1e3a5f,#1e40af);border-radius:14px;padding:28px 32px;margin-bottom:36px;color:white;">
@@ -1226,7 +1199,10 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <!-- ÍNDICE (actualizado) -->
 <div class="toc" id="indice">
 <h2>Índice General<span class="version-badge">2025-11</span></h2>
-<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
+<!-- v91: el índice completo (425 entradas) pasa a estar plegado por defecto. No se movió ni se perdió ninguna entrada — deja de ser un peaje de ~460 líneas entre la portada y el primer contenido, y sigue siendo un destino de un clic desde la barra superior. Sin JS: elemento details/summary nativo, los enlaces directos a #indice siguen funcionando. -->
+<details>
+<summary style="cursor:pointer;font-family:var(--ff-mono,monospace);font-size:.82rem;color:var(--accent);padding:6px 0;">▸ Desplegar el índice completo — 425 entradas, todos los capítulos y subsecciones</summary>
+<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;margin-top:12px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
 <strong>Leyenda:</strong>
 <span style="background:#dcfce7;color:#166534;padding:1px 7px;border-radius:4px;margin:0 4px;">✅ Obligatorio</span>
 <span style="background:#dbeafe;color:#1e40af;padding:1px 7px;border-radius:4px;margin:0 4px;">📘 Recomendado</span>
@@ -1480,6 +1456,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s103b">· 10.3b Recursive Language Models: cuando el modelo se llama a sí mismo</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s104">· 10.4 Arquitecturas de agentes en producción</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s104b">· 10.4b Condiciones de parada del loop de agente: las ocho salidas</a></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s104c">· 10.4c Admission control proactivo: negarse a empezar</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s105">· 10.5 El patrón sándwich: la arquitectura de producción segura</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s105b">· 10.5b El mismo principio aplicado a agentes de larga duración: builder ≠ judge</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s105c">· 10.5c Autorización y aislamiento multi-tenant: la guardrail que falta en el Patrón Sándwich básico</a></div>
@@ -1684,6 +1661,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="color:var(--purple);font-weight:700;"><a href="#entregable-mod2" style="color:var(--purple);">📄 Entregable M2 — Diagnóstico y rediseño de sistema RAG fallido</a></div>
 <div class="toc-item" style="color:var(--purple);font-weight:700;"><a href="#entregable-mod3" style="color:var(--purple);">📄 Entregable M3 — Gobernanza para sistema financiero de alto riesgo</a></div>
 </div>
+</details>
 </div>
 <!-- HERO -->
 <div class="hero">
@@ -1697,21 +1675,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </div>
 </div><div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:.85rem;"><strong>v60 — Versionado semántico por sección [vXX-YYYY-MM]</strong><br/>• Badge gris = versión intermedia, naranja = alta caducidad, verde = estable</div><div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:.85rem;"></div>
 <div style="width: 900px; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
-<!-- HOOK TÉCNICO — nuevo en v4 -->
-<div style="background:linear-gradient(135deg,#0f172a,#1e3a8a);border-radius:12px;padding:28px 32px;margin-bottom:36px;color:white;">
-<div style="font-family:system-ui,sans-serif;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;background:rgba(255,255,255,.2);display:inline-block;padding:3px 10px;border-radius:20px;margin-bottom:14px;">⚡ Antes de empezar — qué vas a poder hacer</div>
-<p style="color:rgba(255,255,255,.9);margin-bottom:18px;font-size:1.02rem;">Esto es lo que ocurrió en un sistema RAG real de una empresa de logística, dos semanas después de su despliegue:</p>
-<div style="background:rgba(0,0,0,.35);border-radius:8px;padding:18px 22px;font-family:monospace;font-size:.88rem;line-height:1.7;color:#e2e8f0;margin-bottom:18px;">
-<span style="color:#94a3b8;">// Consulta del usuario</span><br/>
-      "¿Cuál es el plazo máximo de reclamación para envíos dañados?"<br/><br/>
-<span style="color:#94a3b8;">// Fragmento recuperado por el sistema (similitud coseno: 0.81)</span><br/>
-      "…el cliente dispone de <strong style="color:#fbbf24;">14 días naturales</strong> desde la recepción para notificar…"<br/><br/>
-<span style="color:#94a3b8;">// Respuesta generada</span><br/>
-      "El plazo máximo es de <strong style="color:#f87171;">30 días</strong> desde la recepción del envío."
-    </div>
-<p style="color:rgba(255,255,255,.85);margin-bottom:4px;font-size:.95rem;">El sistema recuperó el fragmento correcto pero el LLM generó una cifra diferente. El problema no estaba en el retrieval: estaba en que el corpus tenía dos documentos con plazos distintos (14 días en la política interna, 30 días en las condiciones generales para clientes premium), y el modelo produjo el <em>sesgo hacia el centro de distribución del corpus</em> entre ambas versiones.</p>
-<p style="color:rgba(255,255,255,.75);margin:14px 0 0;font-size:.88rem;font-family:system-ui,sans-serif;">Cuando termines este manual, sabrás diagnosticar exactamente por qué ocurrió esto, dónde falla el pipeline, y qué cambio de arquitectura lo previene. Esa es la diferencia entre usar IA y entender IA.</p>
-</div>
+<!-- HOOK TÉCNICO — movido a la portada en v91 (era el mejor gancho del manual y estaba enterrado bajo el índice) -->
 <!-- PARA QUIÉN -->
 <div class="tiempo-badge">⚡ Lo más importante primero</div>
 <div class="perfil-highlight">
@@ -1888,7 +1852,10 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <p style="margin-top:6px;font-size:.88rem;">Su uso más eficiente es como obra de referencia: entra por el problema que tienes hoy, no por la página 1. Puntos de entrada según lo que busques: una <strong>decisión concreta</strong> (¿RAG o fine-tuning? ¿qué nivel de criticidad?) → <a href="#r-m1">Referencia rápida R.1-R.6</a>; un <strong>término que no conoces</strong> → <a href="#glosario">Glosario extendido</a>; <strong>traducir vocabulario del manual a estándar del sector</strong> → <a href="#tabla-equivalencias">tabla de equivalencias</a>; <strong>estimar costes</strong> → <a href="#apendice-costes">Apéndice A</a>; <strong>ver cómo encajan las piezas en un proyecto real</strong> → <a href="#mthilo-mapa">el hilo de Meridian</a>. Las rutas por perfil de más abajo siguen siendo la mejor opción para una primera lectura ordenada.</p>
 </div>
 <h2>Tu ruta según tu punto de partida<span class="version-badge">2026-08</span></h2>
-<p>Elige la que mejor describe tu situación actual. No son excluyentes. Esta vista es por <strong>módulo completo</strong> — para capítulos exactos dentro de cada módulo, ve la <a href="#prerrequisitos-perfil">tabla de prerrequisitos</a> o la <a href="#ruta-mvp-detalle">Ruta MVP</a> más abajo: las tres vistas describen las mismas rutas a distinto nivel de detalle.</p>
+<p>Tu ruta ya está elegida si usaste las <strong>cuatro tarjetas de la portada</strong>: son la misma ruta, en la versión de diez segundos. Lo que sigue son las otras tres vistas de <em>esas mismas rutas</em>, a más resolución — por módulo completo, por prerrequisitos técnicos, y con sub-secciones exactas. No hace falta leerlas para empezar: se despliegan cuando quieras ajustar el recorrido.</p>
+<!-- v91: las tres vistas redundantes de ruta (por módulo, tabla de prerrequisitos, Ruta MVP detallada) pasan a estar plegadas bajo un solo desplegable. El propio texto reconocía dos veces que "las tres describen las mismas rutas a distinto nivel de zoom": ahora se leen así, en un solo sitio, en vez de como tres bloques consecutivos que el lector cree obligatorios. Ninguna entrada se movió ni se perdió; los anclajes #prerrequisitos-perfil y #ruta-mvp-detalle siguen funcionando. -->
+<details>
+<summary style="cursor:pointer;font-family:var(--ff-mono,monospace);font-size:.82rem;color:var(--accent);padding:6px 0;">▸ Ver las mismas rutas con más detalle — por módulo, por prerrequisitos y con sub-secciones exactas</summary>
 <div class="rutas" style="margin-top:24px;">
 <div class="ruta-card active">
 <div class="ruta-icon">🔧</div>
@@ -1978,7 +1945,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
             <a href="#cap14" style="color:var(--accent);">14</a>
 </td>
 <td style="padding:.65rem 1rem;"><span style="background:#fee2e2;color:#991b1b;padding:.2rem .6rem;border-radius:4px;font-size:.8rem;font-weight:600;">Comprender</span></td>
-<td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">Sin prerrequisito técnico. Capacidad de leer tablas de datos y entender métricas de negocio. <em>Corrección v53:</em> el Módulo 4 (Cap. 17–19) es contenido de transición de carrera para perfiles técnicos, no material de decisión de producto — no es parada obligatoria de este perfil salvo que también estés considerando ese cambio de rol.</td>
+<td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">Sin prerrequisito técnico. Capacidad de leer tablas de datos y entender métricas de negocio. El Módulo 4 (Cap. 17–19) es contenido de transición de carrera para perfiles técnicos, no material de decisión de producto — no es parada obligatoria de este perfil salvo que también estés considerando ese cambio de rol.</td>
 </tr>
 </tbody>
 </table>
@@ -1993,13 +1960,14 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <strong>Perfil Arquitecto / Producción:</strong> Cap. 5–10 (fundamentos técnicos completos) → Cap. 12–13 (producción y QA) → Cap. 15 (MLOps RAG) → Apéndice A → Cap. 16 si el sistema es de alto riesgo<br/><br/>
 <strong>Perfil Gobernanza / Compliance:</strong> Cap. 0 (alucinaciones y límites) → Cap. 11 (niveles de criticidad) → Cap. 14 (supervisión humana) → Cap. 16 (AI Act) → Apéndice B (autoevaluación)<br/><br/>
 <strong>Perfil Dirigente / Sponsor ejecutivo:</strong> la versión aún más corta de la ruta Gobernanza / Compliance, para quien solo tiene una hora: Cap. 11.1 (test rápido de criticidad) → Cap. 14.1–14.2b (supervisión real vs. decorativa; derechos de decisión) → Cap. 16.2 (tu rol y tu responsabilidad ante el AI Act) → Cap. 14.5 (los seis elementos de infraestructura). No requiere ninguna sección técnica: son las cuatro paradas que responden "¿quién decide realmente, y podría demostrarlo?"<br/><br/>
-<strong>Perfil Manager / Producto:</strong> Cap. 0 (qué puede y no puede hacer un LLM) → Cap. 10–11 (agentes: poder, complejidad y niveles de criticidad) → Cap. 14 (cuánta supervisión humana exige tu caso) → Apéndice B (autoevaluación). <em>Corrección v53:</em> este perfil no necesita el Módulo 4 (Cap. 17–19) — es contenido de transición de carrera para profesionales técnicos, no de decisión de producto.<br/><br/>
+<strong>Perfil Manager / Producto:</strong> Cap. 0 (qué puede y no puede hacer un LLM) → Cap. 10–11 (agentes: poder, complejidad y niveles de criticidad) → Cap. 14 (cuánta supervisión humana exige tu caso) → Apéndice B (autoevaluación). Este perfil no necesita el Módulo 4 (Cap. 17–19) — es contenido de transición de carrera para profesionales técnicos, no de decisión de producto.<br/><br/>
 <em>El manual completo desarrolla el criterio que permite saber cuándo las rutas MVP son insuficientes. Las rutas MVP te dan el mapa; el manual completo te da el terreno.</em>
 </div>
 <div class="callout">
 <strong>💡 Cómo usar este manual en autoestudio</strong>
     No lo leas linealmente. Usa este Módulo 0 como punto de retorno cuando te pierdas. Cada capítulo abre con dos líneas que te dicen para qué sirve lo que vas a leer: si esa utilidad no aplica a tu situación actual, salta al siguiente. Cada capítulo cierra con un resultado concreto: si no puedes formularlo, vuelve a leer la sección clave antes de avanzar.
   </div>
+</details>
 <div class="callout" style="border-left:5px solid #0891b2;background:#f0f9ff;">
 <strong>📌 Tres conceptos que aparecen en todo el manual — dónde se definen</strong>
     Tres conceptos cruzan todos los módulos y se mencionan decenas de veces. Para no perderse:<br/><br/>
@@ -2012,17 +1980,59 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <strong>📐 Terminología propia vs. consenso de industria — dónde verlo de un vistazo</strong>
     Este manual marca con ★ Propuesta del autor las secciones que proponen un concepto sin adopción externa verificable (frente al resto, que es terminología estándar citable tal cual). Si necesitas saber, antes de citar algo ante un tercero, si estás usando lenguaje de industria o una propuesta interna de este libro: <a href="#indice-autor">Índice de conceptos del autor</a>, al final del Módulo 5, las lista todas juntas con enlace directo a cada una.
   </div>
-<div class="warning" style="border-left:5px solid #dc2626;background:#fef2f2;">
-<strong>🚨 Advertencia transversal — el riesgo arquitectónico que estructura este manual</strong>
-    Hay una afirmación que aparece formulada de tres formas distintas a lo largo del manual y que conviene tener en mente desde el primer capítulo: <strong>los sistemas multi-agente y las arquitecturas recursivas acumulan errores de forma multiplicativa, no aditiva</strong>. Un agente con 95% de fiabilidad encadenado tres veces produce un sistema con ~85% de fiabilidad — y eso es el caso optimista, asumiendo errores independientes. En la práctica, los errores se correlacionan (un agente equivocado contamina las premisas del siguiente) y la degradación es peor.
-    <br/><br/>
-    Esta dinámica tiene un nombre operativo en el manual — <em>entropía acumulada</em> <span style="background:var(--yellow-light);border:1px solid var(--yellow);padding:1px 6px;border-radius:4px;font-size:.78em;">📐 Concepto del autor</span> <span style="font-size:.82em;color:var(--muted);">(en literatura técnica: <em>error propagation</em> o <em>degradación multiplicativa de fiabilidad en pipelines encadenados</em>)</span> <a href="#cap10" style="font-size:.82em;color:var(--accent);font-family:var(--ff-mono);">[→ definición completa: Cap. 10.3]</a> — y se desarrolla en dos niveles progresivos: (1) la entropía arquitectónica de pipelines lineales con LLMs estándar, definida en el Cap. 10.3; (2) la entropía del pensamiento del Cap. 9.7 cuando se usan modelos de razonamiento como nodos, que se combina con la <a href="#cap10" style="font-size:.82em;color:var(--accent);font-family:var(--ff-mono);">entropía acumulada<span class="badge-propuesta">★ Propuesta del autor</span></a> del Cap. 10.3 en sistemas multi-agente, que se vuelve cualitativamente peor en arquitecturas recursivas (Cap. 10.3b). 
-    <br/><br/>
-<strong>Por qué importa antes de leer el resto del manual:</strong> el mercado de la IA en 2026 está saturado de propuestas que prometen "agentes autónomos" y "razonamiento multi-paso" como si fueran mejoras gratuitas. No lo son. Cada componente añadido a un pipeline tiene un coste de fiabilidad concreto. Cualquier decisión arquitectónica que tomes a lo largo del manual debe ponderarse contra este riesgo. La pregunta por defecto al considerar un agente más, una iteración recursiva más, un paso de razonamiento más, no es "¿qué aporta?" sino "<em>¿qué fiabilidad pierdo y puedo permitírmelo?</em>"
+<!-- v91: la advertencia transversal de entropía acumulada se movió al umbral del Módulo 2, donde el lector ya tiene el vocabulario para usarla. Aquí queda la tesis en dos frases sin jerga: siembra la idea sin exigir saber qué es un agente. -->
+<div class="callout" style="border-left:5px solid #dc2626;">
+<strong>🚨 La tesis incómoda de este manual</strong>
+    Añadir componentes de IA a un sistema casi nunca sale gratis: la fiabilidad se multiplica, no se suma. Encadenar tres piezas que aciertan el 95% de las veces no da un sistema que acierta el 95% — da uno que acierta bastante menos, y esa es la aritmética que decide qué arquitecturas son viables. Lo verás desarrollado con nombre propio y con números en el <a href="#cap10">Cap. 10.3</a>, y anticipado al empezar el Módulo 2.
   </div>
 <!-- CUÁNTO TIEMPO — comprimido en v4 -->
-<h2>Si necesitas hacer esto ahora mismo…</h2>
-<p>Índice por tarea, complementario a las rutas de lectura anteriores. Para el lector que llega con un problema concreto, no a leer en orden.</p>
+<h2 id="modo-consulta">Modo consulta: si llegas con un problema concreto</h2>
+<p>Las dos entradas siguientes sirven al lector que no viene a leer en orden, sino a resolver algo hoy. La primera entra por <em>lo que estás construyendo</em>; la segunda, por <em>lo que necesitas hacer ahora mismo</em>.</p>
+<div class="callout" id="rutas-proyecto" style="border-left-color:#0891b2;">
+<strong>🧭 Rutas por proyecto — si sabes qué estás construyendo</strong>
+<p style="margin-top:6px;font-size:.88rem;">Las cuatro tarjetas de la portada son rutas por <em>perfil</em>. Pero la unidad real de trabajo no es el rol, es el proyecto: un ingeniero que monta un RAG y otro que audita un sistema heredado necesitan capítulos distintos. Entra por lo que tengas delante:</p>
+</div>
+<div style="overflow-x:auto;margin:14px 0 24px;">
+<table style="width:100%;border-collapse:collapse;font-size:.86rem;">
+<thead>
+<tr><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);white-space:nowrap;">Estoy…</th><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);">Recorrido</th><th style="padding:9px 12px;text-align:left;background:var(--accent-light,#eff6ff);">Qué debes poder responder al final</th></tr>
+</thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Construyendo un RAG desde cero</td>
+  <td style="padding:9px 12px;"><a href="#cap1">1</a> → <a href="#cap2">2</a> → <a href="#cap6">6</a> → <a href="#cap7">7</a> → <a href="#cap13">13</a> → <a href="#cap15">15</a> → <a href="#apendice-costes">Apéndice A</a></td>
+  <td style="padding:9px 12px;">Qué estrategia de chunking elegiste y por qué; cuál es tu <em>golden dataset</em>; qué coste mensual tiene el sistema a volumen previsto.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Arreglando un RAG que responde mal</td>
+  <td style="padding:9px 12px;"><a href="#cap7">7</a> → <a href="#cap6">6.1–6.5</a> → <a href="#cap13">13.3–13.8</a> → <a href="#cap8">8.0b</a></td>
+  <td style="padding:9px 12px;">Si el fallo está en el <em>retrieval</em> o en la generación, con la métrica que lo demuestra — no con una impresión.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Evaluando si necesito agentes</td>
+  <td style="padding:9px 12px;"><a href="#cap9">9.9</a> (la escalera) → <a href="#cap10">10.1–10.3</a> → <a href="#cap12">12</a> → <a href="#cap10">10.8</a></td>
+  <td style="padding:9px 12px;">Qué escalón de la escalera resuelve tu problema, y cuántos agentes puedes encadenar antes de que la fiabilidad caiga por debajo de tu umbral.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Auditando un sistema de terceros</td>
+  <td style="padding:9px 12px;"><a href="#cap11">11</a> → <a href="#cap14">14.1–14.2b</a> → <a href="#cap4">4.2</a> → <a href="#cap16">16.2–16.3</a> → <a href="#cap13">13.14</a></td>
+  <td style="padding:9px 12px;">Qué nivel de criticidad tiene, si la supervisión humana deja huella verificable, y qué campos de log faltan para sostenerlo ante el AI&nbsp;Act.</td>
+</tr>
+<tr style="border-bottom:1px solid var(--border);">
+  <td style="padding:9px 12px;font-weight:700;">Llevando a producción algo que ya funciona en piloto</td>
+  <td style="padding:9px 12px;"><a href="#cap11">11</a> → <a href="#cap12">12</a> → <a href="#cap13">13</a> → <a href="#cap15">15</a> → <a href="#cap21">21</a></td>
+  <td style="padding:9px 12px;">Dónde está el <em>circuit breaker</em>, qué dispara el escalado a humano, y cuál es tu ASR medida frente a los ataques del Cap.&nbsp;21.</td>
+</tr>
+<tr>
+  <td style="padding:9px 12px;font-weight:700;">Decidiendo si el proyecto es viable</td>
+  <td style="padding:9px 12px;"><a href="#cap9">9.9</a> → <a href="#cap1">1.7</a> → <a href="#cap11">11.1–11.2</a> → <a href="#apendice-costes">Apéndice A</a></td>
+  <td style="padding:9px 12px;">Si la IA generativa es la herramienta correcta, qué arquitectura, qué nivel de criticidad y qué coste — <em>en ese orden</em>. Si falla la primera pregunta, las otras tres sobran.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Si necesitas hacer esto ahora mismo…</h3>
+<p>Índice por tarea. Para el lector que llega con un problema concreto, no a leer en orden.</p>
 <div style="overflow-x:auto">
 <table class="task-nav-table">
 <thead><tr><th>Necesito…</th><th>Ve a</th></tr></thead>
@@ -2043,9 +2053,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </div>
 <h2>Gestión del tiempo</h2>
 <p>Sesiones de 45–60 minutos, dos o tres veces por semana (≈1,5–3 h/semana). En ruta completa (Módulos 1–4, el núcleo obligatorio de ~21 horas): 2–4 meses. Si añades los Módulos 5 y 6 (referencia, ciberseguridad y multimodal), cuenta 4–8 semanas adicionales según cuánto material opcional cubras — de ahí las 4–5 meses del manual íntegro citadas más arriba. En ruta de perfil, el tiempo depende de la carga de cada una (ver rutas MVP): Manager/Producto (~8 h) ≈ 3–5 semanas; Gobernanza/Compliance (~12 h) ≈ 4–8 semanas; Ingeniero/Datos (~20 h) ≈ 7–13 semanas; Arquitecto/Producción (~30 h) ≈ 10–20 semanas. El error más frecuente es avanzar capítulos sin que ninguno haya aterrizado: es mejor releer una sección que saltar a la siguiente sin poder formular el resultado del capítulo anterior.</p>
-<div class="callout" style="font-size:.88rem;margin:.75rem 0 1.5rem;">
-<strong>📌 Nota terminológica:</strong> El término <strong>entropía acumulada</strong> <span style="background:var(--yellow-light);border:1px solid var(--yellow);padding:1px 5px;border-radius:4px;font-size:.78em;">📐 Concepto del autor</span> se usa en este manual para describir la degradación progresiva de la coherencia semántica en pipelines de IA — equivale a lo que en la literatura técnica se denomina <em>error propagation</em> o <em>degradación multiplicativa de fiabilidad en sistemas encadenados</em>. Se define con precisión en Cap. 10.3 (sistemas multi-agente) y se amplía en el Cap. 9.7 (modelos de razonamiento como nodos) y en el Cap. 10.3b (arquitecturas recursivas). Los dos siguientes párrafos son una vista anticipada — si el concepto aún no es claro, continúa: se construye progresivamente a lo largo del Módulo 2.
-  </div>
+<!-- v91: nota terminológica duplicada retirada. Decía lo mismo que la advertencia transversal (ahora en el umbral del Módulo 2, donde su nota terminológica quedó integrada), y su frase "los dos siguientes párrafos son una vista anticipada" ya no correspondía a nada: los párrafos que describía estaban por encima, no por debajo. -->
 <!-- CÓMO ESTÁ ESCRITO — comprimido en v4 -->
 <h2>Cómo leer los bloques del manual<span class="version-badge">2026-04</span></h2>
 <p>Bloques que encontrarás a lo largo del manual: <strong>🧵 Para qué te sirve esto</strong> (contexto de cada capítulo, léelo siempre); <strong>🧪 Experimento / Ejercicio</strong> (no lo saltes: la comprensión real viene de aquí); <strong>⚠️ Error común</strong> (el malentendido habitual en este punto); <strong>💡 Nota técnica</strong> (profundización opcional para perfiles técnicos); <span style="background:var(--yellow-light);border:1px solid var(--yellow);padding:1px 6px;border-radius:4px;font-size:.88em;">📐 Concepto del autor</span> — propuesta original del autor, <em>no terminología estándar del sector</em>, marcada siempre con la etiqueta amarilla desde la primera aparición; y <span style="background:#fee2e2;border:1px solid #dc2626;padding:1px 6px;border-radius:4px;font-size:.88em;">🔴 Laboratorio de errores</span> — casos reales de sistemas que fallan, con diagnosis detallada (nuevo en esta edición).</p>
@@ -9881,6 +9889,17 @@ def text_to_sql(pregunta: str) -&gt; str:
 </div>
 </div>
 <div class="part-header" id="parte2"><h2>Módulo 2 · Fundamentos propios de la IA</h2></div>
+<!-- v91: advertencia transversal movida aquí desde el Módulo 0. Su contenido exige saber qué es un agente y un pipeline de razonamiento — conocimiento que el lector tiene al llegar aquí y no tenía en la página 1. En el Módulo 0 queda la misma tesis en dos frases sin jerga. -->
+<div class="warning" style="border-left:5px solid #dc2626;background:#fef2f2;">
+<strong>🚨 Advertencia transversal — el riesgo arquitectónico que estructura este manual</strong>
+    Hay una afirmación que aparece formulada de tres formas distintas a lo largo del manual y que conviene tener en mente desde aquí hasta el final: <strong>los sistemas multi-agente y las arquitecturas recursivas acumulan errores de forma multiplicativa, no aditiva</strong>. Un agente con 95% de fiabilidad encadenado tres veces produce un sistema con ~85% de fiabilidad — y eso es el caso optimista, asumiendo errores independientes. En la práctica, los errores se correlacionan (un agente equivocado contamina las premisas del siguiente) y la degradación es peor.
+    <br/><br/>
+    Esta dinámica tiene un nombre operativo en el manual — <em>entropía acumulada</em> <span style="background:var(--yellow-light);border:1px solid var(--yellow);padding:1px 6px;border-radius:4px;font-size:.78em;">📐 Concepto del autor</span> <span style="font-size:.82em;color:var(--muted);">(en literatura técnica: <em>error propagation</em> o <em>degradación multiplicativa de fiabilidad en pipelines encadenados</em>)</span> <a href="#cap10" style="font-size:.82em;color:var(--accent);font-family:var(--ff-mono);">[→ definición completa: Cap. 10.3]</a> — y se desarrolla en dos niveles progresivos: (1) la entropía arquitectónica de pipelines lineales con LLMs estándar, definida en el Cap. 10.3; (2) la entropía del pensamiento del Cap. 9.7 cuando se usan modelos de razonamiento como nodos, que se combina con la <a href="#cap10" style="font-size:.82em;color:var(--accent);font-family:var(--ff-mono);">entropía acumulada<span class="badge-propuesta">★ Propuesta del autor</span></a> del Cap. 10.3 en sistemas multi-agente, que se vuelve cualitativamente peor en arquitecturas recursivas (Cap. 10.3b).
+    <br/><br/>
+<strong>Por qué importa desde aquí:</strong> el mercado de la IA en 2026 está saturado de propuestas que prometen "agentes autónomos" y "razonamiento multi-paso" como si fueran mejoras gratuitas. No lo son. Cada componente añadido a un pipeline tiene un coste de fiabilidad concreto. Cualquier decisión arquitectónica que tomes a partir de este módulo debe ponderarse contra este riesgo. La pregunta por defecto al considerar un agente más, una iteración recursiva más, un paso de razonamiento más, no es "¿qué aporta?" sino "<em>¿qué fiabilidad pierdo y puedo permitírmelo?</em>"
+    <br/><br/>
+<span style="font-size:.86rem;color:var(--muted);"><strong>Nota terminológica:</strong> <em>entropía acumulada</em> es terminología propia de este manual; en literatura técnica se denomina <em>error propagation</em> o degradación multiplicativa de fiabilidad en sistemas encadenados. Se define con precisión en el Cap. 10.3 y se amplía en el Cap. 9.7 (modelos de razonamiento como nodos) y en el Cap. 10.3b (arquitecturas recursivas).</span>
+  </div>
 <div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(99,102,241,.3);background:var(--card,#fff)">
 <div style="background:rgba(99,102,241,.06);padding:8px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(99,102,241,.15)">
 <span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700">✍️ AUTOEVALUACIÓN OPCIONAL</span>
@@ -19875,6 +19894,7 @@ pEl.oninput=render; nEl.oninput=render; cEl.oninput=render; render();
 <tr><td><strong>8. Evento externo</strong></td><td>Webhook o poll sobre el referente real de la tarea, fuera del propio loop.</td><td>El PR se fusionó, el ticket se cerró o el pedido se canceló: el trabajo dejó de importar, aunque el loop interno siga "sano".</td></tr>
 </tbody>
 </table>
+<p>La salida 3 (tope de presupuesto) no es cautela excesiva. Bai et al. (2026, arXiv:2604.22750) miden trayectorias de codificación agéntica reales (SWE-bench Verified, 500 tareas, 8 LLMs de frontera, 4 ejecuciones por combinación) y encuentran hasta <strong>30 veces de varianza en tokens consumidos entre dos ejecuciones de la misma tarea con el mismo modelo</strong> — y que gastar más tokens no implica mayor probabilidad de éxito. Peor: cuando piden a los propios modelos que estimen su consumo futuro antes de empezar, la correlación entre estimación y consumo real es de apenas r≈0,39, con subestimación sistemática. Un agente no tiene forma fiable de saber, por sí mismo, cuánto va a costar completar la tarea — por eso el tope de presupuesto no puede ser una salida opcional, tiene que vivir en el harness igual que las otras siete.</p>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">No confundir la salida 7 con el <a href="#cap12">circuit breaker del Cap. 12.4</a>: miden cosas distintas, a granularidades distintas. El circuit breaker observa la tasa de error en una ventana temporal <em>a nivel de servicio</em> (todas las peticiones) y degrada a una respuesta de fallback; el umbral de errores consecutivos cuenta fallos dentro de <em>una sola ejecución</em> y detiene solo esa ejecución. Son complementarios, no intercambiables: el primero protege el servicio, el segundo protege la tarea individual.</p>
 <pre><span class="pseudo-badge">⚠ Pseudocódigo — no ejecutable sin adaptar</span><br/>class AgentLoopGuard:
     def __init__(self, max_steps=8, budget_eur=2.0, deadline_s=1800,
@@ -19915,6 +19935,35 @@ pEl.oninput=render; nEl.oninput=render; cEl.oninput=render; render();
 <div class="callout">
 <strong>💡 La regla práctica</strong>
     Diseña las ocho salidas antes de escribir el prompt, no después de un incidente. Un agente que solo sabe parar cuando "termina" no tiene un criterio de parada: tiene una esperanza. Las ocho no son igual de frecuentes — en la mayoría de sistemas, tope de turnos, tope de presupuesto e interrupción humana cubren el 90% de los casos reales — pero las cinco restantes (objetivo cumplido, reloj de pared, sin progreso, umbral de errores, evento externo) son las que faltan cuando un agente se queda colgado de un modo que nadie previó.
+  </div>
+<h2 id="s104c" data-nivel="profundidad">10.4c Admission control proactivo: negarse a empezar</h2>
+<p>Las ocho salidas de §10.4b son todas <strong>reactivas</strong>: vigilan una ejecución que ya está en marcha y la cortan cuando algo va mal. Eso basta cuando el peor caso de un incumplimiento es una respuesta tardía o parcial. No basta cuando el agente compite por un plazo duro en un bucle de control físico o casi-síncrono — un robot con VLA (§22.10), un sistema de percepción con ciclo de refresco fijo, cualquier caso donde "detectar el retraso y cortar" llega después de que el retraso ya causó daño. Ahí hace falta una salida más, que no vigila la ejecución sino la <strong>admisión</strong>: decidir <em>antes de empezar el turno</em> si va a caber en el tiempo que queda, y negarse a arrancarlo si no.</p>
+<p>El nombre viene de redes de telecomunicaciones: <em>call admission control</em> en redes celulares/ATM solo acepta una llamada nueva si la red puede garantizar su calidad de servicio sin degradar las llamadas ya en curso — la decisión se toma en el momento de admisión, no corrigiendo después. El mismo principio aplicado a un agente: estimar el coste del siguiente paso con una media móvil exponencial (EMA) del coste de los pasos anteriores del mismo tipo, y rechazar el paso si <code>tiempo_transcurrido + coste_estimado &gt; plazo</code>.</p>
+<pre><span class="pseudo-badge">⚠ Pseudocódigo — no ejecutable sin adaptar</span><br/>class AdmissionController:
+    def __init__(self, deadline_s, ema_alpha=0.3):
+        self.deadline = time.time() + deadline_s
+        self.ema_alpha = ema_alpha
+        self.ema_cost_s = None          # sin historial todavía
+
+    def puede_admitir(self, tipo_paso):
+        margen = self.deadline - time.time()
+        if self.ema_cost_s is None:     # primer paso: sin estimación, admite con cautela
+            return margen &gt; 0
+        return margen &gt;= self.ema_cost_s
+
+    def registrar_coste(self, coste_s):
+        if self.ema_cost_s is None:
+            self.ema_cost_s = coste_s
+        else:                            # EMA: pesa el historial reciente más que el antiguo
+            self.ema_cost_s = self.ema_alpha * coste_s + (1 - self.ema_alpha) * self.ema_cost_s</pre>
+<div class="callout">
+<strong>💡 Complementario a las ocho salidas, no un sustituto</strong>
+    <code>AdmissionController</code> resuelve un problema distinto al de <code>AgentLoopGuard</code> (§10.4b): uno decide si <em>empezar</em> el siguiente paso, el otro decide si <em>cortar</em> el que ya está en marcha. Un sistema con plazos duros necesita los dos — la admisión proactiva reduce cuántas veces se dispara la salida reactiva por reloj de pared, pero no la sustituye, porque un paso ya admitido puede seguir saliéndose de presupuesto por una estimación de coste equivocada.
+  </div>
+<p>Por qué <code>puede_admitir()</code> compara contra una EMA y un umbral binario, en vez de intentar predecir el coste exacto del paso: BAGEN (2026, arXiv:2606.00198) entrena modelos específicamente para esto y encuentra una asimetría marcada entre dos preguntas que suenan parecidas. <em>"¿Esta trayectoria todavía puede terminar dentro del presupuesto que queda?"</em> (predicción de viabilidad, binaria) alcanza ~90% de acierto tras ajuste fino. <em>"¿Cuántos tokens exactos van a faltar?"</em> (estimación de intervalo, numérica) se queda en apenas ~47% de cobertura incluso con el mismo entrenamiento — y ni la habilidad general del agente para completar la tarea predice esta capacidad (r=0,35 de correlación entre ambas). <code>AdmissionController</code> solo intenta responder la primera pregunta, la más fácil y la que ya tiene evidencia de que funciona; ningún método conocido responde la segunda con fiabilidad suficiente para justificar el coste de intentarlo.</p>
+<div class="warning" style="font-size:.85rem;">
+<strong>⚠️ Qué no se afirma aquí</strong>
+    El patrón (EMA de coste + rechazo de admisión, con la analogía de control de admisión de telecom) aparece documentado en implementaciones públicas de inferencia de borde para robótica con plazos de ciclo del orden de decenas de milisegundos. No se citan aquí cifras concretas de ningún proyecto externo (deadline exacto, tasa de acierto del kernel, etc.) porque no se verificaron de primera mano contra su código fuente en esta edición — el patrón en sí es independiente de esa fuente y se sostiene por su propia lógica de control de admisión.
   </div>
 <h2 id="s105">10.5 El patrón sándwich: la arquitectura de producción segura</h2>
 <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
@@ -28229,7 +28278,7 @@ updateAttackConfig();
 <p>La solución estándar es el <strong>action chunking</strong>: el modelo predice un bloque de varias decenas de pasos de acción futura en una sola pasada (en lugar de un paso), y el controlador de bajo nivel los ejecuta a la frecuencia de control del hardware mientras el modelo de razonamiento ya está calculando el siguiente bloque. Esto desacopla la frecuencia de inferencia del modelo grande (lenta, cara) de la frecuencia de control del actuador (rápida, barata), de forma análoga a cómo este manual separa la capa LLM de la capa de retrieval en una arquitectura RAG: cada componente trabaja a su propia cadencia.</p>
 <div class="warning">
 <strong>⚠️ El error que no es alucinación textual, es alucinación motora</strong>
-    En un sistema de texto, una alucinación produce una frase incorrecta — corregible en el siguiente turno. En un VLA, una predicción de acción incorrecta puede mover un brazo robótico contra un obstáculo o una persona antes de que exista oportunidad de corrección. Esto es la entropía acumulada del 10.3 trasladada al dominio físico, pero con una asimetría de coste: el "siguiente turno" no borra el daño. Cualquier despliegue de Physical AI en un entorno con personas requiere capas de seguridad física (límites de fuerza, paradas de emergencia, supervisión humana) que son independientes — y anteriores — a la calidad del modelo.
+    En un sistema de texto, una alucinación produce una frase incorrecta — corregible en el siguiente turno. En un VLA, una predicción de acción incorrecta puede mover un brazo robótico contra un obstáculo o una persona antes de que exista oportunidad de corrección. Esto es la entropía acumulada del 10.3 trasladada al dominio físico, pero con una asimetría de coste: el "siguiente turno" no borra el daño. Cualquier despliegue de Physical AI en un entorno con personas requiere capas de seguridad física (límites de fuerza, paradas de emergencia, supervisión humana) que son independientes — y anteriores — a la calidad del modelo. Por la misma asimetría, las ocho salidas reactivas del §10.4b no bastan aquí: un ciclo de control con plazo duro necesita además la admisión proactiva del §10.4c, que rechaza un paso antes de arrancarlo en vez de cortarlo después de haber empezado.
   </div>
 <h3 id="s22103">22.10.3 Por qué este manual lo trata como extensión y no como capítulo propio</h3>
 <p>Physical AI no introduce un paradigma de aprendizaje distinto: usa el mismo transformer, el mismo preentrenamiento contrastivo tipo CLIP del 22.2.1 y, en muchos casos, el mismo backbone de lenguaje que ya conoces. Lo que cambia es la cabeza de salida y los datos de entrenamiento (vídeo egocéntrico, trayectorias de teleoperación, simulación física). Para quien trabaja en sistemas de software (el público principal de este manual), Physical AI es relevante sobre todo como contexto de hacia dónde se extiende la misma pila tecnológica — no como una competencia nueva que haya que adquirir, salvo que el trabajo concreto sea robótica.</p>
@@ -30521,6 +30570,7 @@ document.addEventListener('DOMContentLoaded', renderLabRefs);
     {c:"arquitectura", k:["lattice deduction transformer", "ldt", "simbolico dentro del modelo"], label:"Caso frontera: cuando lo simbólico vive dentro del modelo — el Lattice Deduction Transformer", desc:"arXiv:2605.08605 — arquitectura donde la estructura simbólica es el formato del estado interno del modelo.", where:"Cap. 9 (sec. 9.10.5)", href:"#s9105ldt"},
     {c:"agentes", k:["agente minimo viable", "cuando si necesitas un agente", "no anadir complejidad"], label:"El principio del agente mínimo viable", desc:"Antes de añadir un agente: ¿puede resolverse con un LLM call o un pipeline RAG estándar sin él?", where:"Cap. 10 (sec. 10.2)", href:"#cap102"},
     {c:"agentes", k:["condiciones de parada", "max_steps", "loop de agente", "ocho salidas"], label:"Condiciones de parada del loop de agente: las ocho salidas", desc:"Un agente en producción necesita varias condiciones de parada, no una sola — catálogo de las ocho.", where:"Cap. 10 (sec. 10.4b)", href:"#s104b"},
+    {c:"agentes", k:["admission control", "control de admisión", "ema", "media móvil exponencial", "negarse a empezar", "plazo duro", "deadline"], label:"Admission control proactivo: negarse a empezar", desc:"Rechazar un paso antes de arrancarlo si no va a caber en el plazo, en vez de solo cortar la ejecución después — analogía con control de admisión de llamadas en telecom.", where:"Cap. 10 (sec. 10.4c)", href:"#s104c"},
     {c:"agentes", k:["rbac", "aislamiento multi-tenant", "autorizacion de agente"], label:"Autorización y aislamiento multi-tenant: la guardrail que falta en el Patrón Sándwich básico", desc:"Por qué delegar la autorización al LLM ('no muestres datos de otro tenant') es el error más común.", where:"Cap. 10 (sec. 10.5c)", href:"#s105c"},
     {c:"agentes", k:["memoria persistente en agentes", "contexto efimero", "continuidad entre sesiones"], label:"Memoria persistente en agentes: del contexto efímero a la continuidad real", desc:"Cómo la memoria persistente cambia el bucle de ejecución del agente, y qué pasa cuando se implementa mal.", where:"Cap. 10 (sec. 10.9)", href:"#s10mem"},
     {c:"agentes", k:["grafo de contexto", "que ve el agente del grafo", "pajar elegante"], label:"Del grafo de conocimiento al grafo de contexto: qué debe ver el agente", desc:"Entregar el grafo completo a un agente no resuelve el problema de contexto — solo lo traslada.", where:"Cap. 10 (sec. 10.9.5)", href:"#s1095cg"},
