@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v61** (agosto 2026)
+Manual de formación técnica y conceptual · versión actual: **v109** (septiembre 2026)
 
 ---
 
@@ -76,7 +76,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 - **Apéndice B** · Autoevaluación por módulo
 - **Apéndice C** · Referencias técnicas comentadas
 - **Apéndice D** · Notas de campo — facturación de razonamiento, identidad de agente, fallback silencioso
-- **Glosario extendido** · 110+ términos, con buscador
+- **Glosario extendido** · 111 términos en orden alfabético, con buscador
 - **Índice de conceptos del autor** · todas las secciones ★ en un solo lugar, con su equivalencia estándar
 - **Tabla de equivalencias** · conceptos del autor ↔ terminología del sector
 - **Laboratorios** · 5 módulos de casos prácticos con fallos reales (chunking, prompt injection, sándwich roto, benchmarks engañosos…)
@@ -112,7 +112,8 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
-| **v61** | Unificación del sistema de caducidad bajo un único sello de fecha (62 secciones fechadas, 18 marcadas como perecederas); retirada del número de versión de los sellos, que duplicaba la fecha; deduplicación de las notas de frontera (11 → 4) y reescritura sin referencia temporal; nueva fila en la leyenda que define el sello y el significado de su ausencia |
+| **v109** | Revisión post-auditoría: limpieza de andamiaje editorial (notas de versión y rótulos de maquetación fuera del texto), glosario reordenado y reparado, §10.9–10.10 devueltas al Cap. 10, entrada duplicada de §12.6 retirada, referencias cruzadas corregidas, Cap. 21 ampliado (inyección indirecta, tríada letal, seguridad de agentes y MCP, patrones defensivos, mapa OWASP) y su tabla AI Act/RGPD/CNIL corregida. Detalle en [CHANGELOG.md](CHANGELOG.md) |
+| v61 | Unificación del sistema de caducidad bajo un único sello de fecha (62 secciones fechadas, 18 marcadas como perecederas); retirada del número de versión de los sellos, que duplicaba la fecha; deduplicación de las notas de frontera (11 → 4) y reescritura sin referencia temporal; nueva fila en la leyenda que define el sello y el significado de su ausencia |
 | v60 | Versionado por sección con formato `[vNN-AAAA-MM]` y CSS propio |
 | v59 | Notas de frontera en Wiki Memory, DocLang, ARC-AGI-3 y Grey Alignment; diagnóstico RAGAS con umbrales accionables (`faithfulness`, `context_recall`) y acciones correctivas |
 | v58 | Dos niveles de autoridad para ★ (badge lila + aviso bajo el título: *no citar como estándar*); retirada de las 90 etiquetas 🆕 vNN; retirada de la cifra «60–90 % de reducción de alucinaciones» por carecer de fuente, sustituida por el procedimiento de línea base propia; §20.6 tercer patrón: el conteo sin método |
@@ -121,7 +122,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 | v52 | §5.7e Arquitecturas de hardware |
 | v51 | Notas de campo y trazabilidad del fallback silencioso |
 
-*Historial completo anterior a v51 en el propio manual.*
+*Historial editorial detallado en [CHANGELOG.md](CHANGELOG.md).*
 
 ---
 
@@ -141,7 +142,7 @@ Tres principios atraviesan todo el documento:
 
 - **Formato:** HTML de un solo archivo, ~2,2 MB
 - **Idioma:** español
-- **Extensión:** ~175.000 palabras (≈ 390 páginas a 450 palabras/página) · 23 capítulos · 5 apéndices · 5 laboratorios · 7 simuladores · glosario de 110+ términos
+- **Extensión:** ~175.000 palabras (≈ 390 páginas a 450 palabras/página) · 23 capítulos · 5 apéndices · 5 laboratorios · 7 simuladores · glosario de 111 términos
 - **Estructura interna:** 240 secciones de nivel 2, 341 de nivel 3, 213 tablas, 25 bloques de código
 - **Licencia y uso:** material de formación de autor. Los conceptos ★ son propuestas originales: quien los adopte asume la responsabilidad de validarlos en su contexto (véase §13.12 sobre adopción de métricas de autor)
 - **Autor:** Wontolla00 — Senior Data & BI Project Manager · R&D en observabilidad y gobernanza de LLM (proyecto Empreinte)
