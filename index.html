@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v98</title>
+<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v108</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -25,6 +25,14 @@
   --yellow:       #ca8a04;  --yellow-light: #fefce8;
   --pink:         #db2777;  --pink-light:   #fce7f3;
   --slate:        #475569;
+  /* ── Tokens secundarios (bloque "El arquitecto pregunta") ──────────────────
+     Añadidos en v99. En uso desde la v53 sin estar definidos, lo que invalidaba
+     fondo y bordes de .qa-box en modo claro. ────────────────────────────────*/
+  --surface2:     #f5f3ff;
+  --border2:      #ddd6fe;
+  --accent2:      #4f46e5;
+  --mono:         'IBM Plex Mono','Space Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ff-mono:      'IBM Plex Mono','Space Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 
 /* ── Dark mode ──────────────────────────────────────────────────────────────── */
@@ -42,6 +50,9 @@ body.dark {
   --red-light:    #450a0a;
   --yellow-light: #422006;
   --pink-light:   #500724;
+  --surface2:     #1a1a2e;
+  --border2:      #3a3a60;
+  --accent2:      #a5b4fc;
 }
 
 /* ── Reset ──────────────────────────────────────────────────────────────────── */
@@ -321,7 +332,7 @@ table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: .87re
 th { background: #334155; color: #f1f5f9; padding: 9px 12px; text-align: left; border: 1px solid #475569; font-weight: 600; } /* dark bg + white text = 12:1 ✅ */
 td { padding: 8px 12px; border: 1px solid var(--border); vertical-align: top; background: var(--card-bg); color: var(--text); } /* explicit color breaks inheritance from white-text parents */
 tr:nth-child(even) td { background: var(--bg); color: var(--text); }
-td:first-child { font-weight: 600; color: var(--accent); }
+tr td:first-child { font-weight: 600; color: var(--accent); }  /* v100: 'tr' anadido para empatar en especificidad con tr:nth-child(even) td y ganar por orden; queda por debajo de body.dark td:first-child, que sigue mandando en modo oscuro */
 body.dark td:first-child { color: #93c5fd; }
 
 /* ── Tags / badges ──────────────────────────────────────────────────────────── */
@@ -1101,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v98 · sep 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v108 · sep 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1264,6 +1275,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s23">· 2.3 La similitud coseno: tu nuevo "EQUALS"</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s24">· 2.4 Cómo se generan los embeddings</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s24b">· 2.4b Elegir un modelo de embedding: la decisión que más impacta</a><span style="background:#fef9c3;color:#854d0e;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">⚡ 2026-08 · caduca rápido</span></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s24c">· 2.4c Dimensiones truncables: embeddings Matryoshka</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s25">· 2.5 Por qué fracasó la Web Semántica, y qué cambió con los LLM</a><span class="badge-propuesta">★ Propuesta del autor</span></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s251">· 2.5.1 Las cuatro razones del fracaso</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s252">· 2.5.2 Lo que sí sigue vigente</a></div>
@@ -1351,6 +1363,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57f">· 5.7f Leyes de escalado: cuántos datos necesita tu modelo</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s57f1">· 5.7f.1 La corrección de Chinchilla</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s57f2">· 5.7f.2 Por qué esto te importa aunque no entrenes modelos</a></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s57g">· 5.7g Cómo se sirve un modelo MoE: routing, expert parallelism y desequilibrio de carga</a><span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">📘 Recomendado</span></div>
 <div class="toc-item"><a href="#cap6">Cap. 6 — Búsqueda vectorial avanzada</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 70 min</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s61">· 6.1 El punto ciego de la búsqueda semántica</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s62">· 6.2 La búsqueda híbrida: BM25 + vectorial</a></div>
@@ -9028,6 +9041,14 @@ window.addEventListener('resize', () =&gt; {
 <tr style="background:var(--yellow-light);"><td colspan="3"><small>⚠️ <strong>Esta tabla tiene fecha de caducidad.</strong> El ecosistema de modelos de embedding evoluciona rápido. Antes de elegir, consulta siempre el <a href="https://huggingface.co/spaces/mteb/leaderboard" target="_blank">leaderboard MTEB</a> actualizado y filtra por tu tarea (retrieval) e idioma. Los modelos aquí listados son referencia válida a fecha de esta edición (2026), no necesariamente los mejores en el momento en que leas esto.</small></td></tr>
 </tbody>
 </table>
+<h2 id="s24c" data-nivel="profundidad">2.4c Dimensiones truncables: embeddings Matryoshka</h2>
+<p>La tabla anterior asume una dimensión fija por modelo. Desde 2022 existe una técnica de entrenamiento — <span class="gt">Matryoshka Representation Learning<span class="tt">Kusupati et al., NeurIPS 2022. Entrena el embedding para que sus primeros N valores sean, por sí solos, un vector válido y utilizable — no un fragmento roto — a varias escalas anidadas a la vez.</span></span> (MRL, <a href="https://arxiv.org/abs/2205.13147" target="_blank" rel="noopener">arXiv:2205.13147</a>) — que cambia esa asunción: el vector se entrena para que sus primeros N valores (64, 128, 256…) sean, por sí solos, un embedding válido, no un fragmento roto. Los prefijos anidan como muñecas rusas — de ahí el nombre —, y truncar el vector después del entrenamiento no requiere reentrenar nada.</p>
+<p>La ganancia es operativa, no cosmética: un índice vectorial con millones de chunks paga su coste de almacenamiento y su velocidad de búsqueda por vecinos cercanos (ANN) en función directa de la dimensión del vector. Pasar de 1024 a 256 dimensiones reduce el almacenamiento a una cuarta parte y acelera la búsqueda, a cambio de una pérdida de recall que el propio objetivo de entrenamiento mantiene pequeña — MRL penaliza a la vez el vector completo y cada uno de sus prefijos truncados, así que ningún prefijo queda sin optimizar.</p>
+<div class="callout">
+<strong>Dónde ya está en producción</strong>
+    OpenAI lo expone directamente: <code>text-embedding-3-small</code> y <code>text-embedding-3-large</code> aceptan un parámetro <code>dimensions</code> que trunca el vector en la propia llamada a la API, documentado en su guía de embeddings como aplicación de esta técnica. <code>nomic-embed-text-v1.5</code> — el modelo local ya citado en la tabla de arriba — también se entrenó con MRL y soporta el mismo truncado (768/512/256/128/64), según su ficha de modelo en Hugging Face.
+  </div>
+<p>Criterio práctico: si el cuello de botella es almacenamiento o latencia de búsqueda sobre un corpus grande, probar el truncado es un experimento de minutos, no un reentrenamiento — antes de saltar a cambiar de modelo. Truncar a mano un embedding que <strong>no</strong> se entrenó con MRL sí degrada de forma brusca: la técnica funciona porque el entrenamiento la anticipó, no es una propiedad general de cualquier vector de alta dimensión.</p>
 <h2 id="s25">2.5 Por qué fracasó la Web Semántica, y qué cambió con los LLM</h2>
 <p>En 2001, Tim Berners-Lee, James Hendler y Ora Lassila publicaron en <em>Scientific American</em> el artículo que definió la Web Semántica. La idea era exacta y ambiciosa: si los datos de la web llevaran su significado explícito, en un formalismo que las máquinas pudieran procesar, los agentes automáticos podrían razonar sobre ellos. Se construyó la pila completa — RDF para las afirmaciones, OWL para las ontologías, SPARQL para consultarlas, razonadores para inferir lo no dicho. Fue una de las iniciativas de estandarización mejor diseñadas de la historia de la web.</p>
 <p>No se adoptó. No de forma general. Dos décadas y media después, la parte que sobrevive es real pero acotada: <code>schema.org</code> incrustado para que un buscador renderice resultados enriquecidos, Wikidata, algunos grafos de conocimiento corporativos, y los dominios donde la ontología <em>es</em> el producto (biomedicina, aeronáutica, catalogación bibliotecaria). La visión general — una web de datos autodescriptivos sobre la que agentes autónomos razonan — no ocurrió.</p>
@@ -10036,7 +10057,7 @@ function score(){
 <tbody>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Núcleo — lee esto</td><td style="padding:8px 12px;"><a href="#s50">5.0 Qué es un tensor</a> · <a href="#s51">5.1 Distribución estadística</a> · <a href="#s52">5.2 Atención</a> · <a href="#s53">5.3 Generación token a token</a> · <a href="#cap54">5.4 Temperatura y muestreo</a> · <a href="#s55">5.5 Ventana de contexto</a> · <a href="#s56">5.6 Knowledge cutoff</a> · <a href="#s57">5.7 Fine-tuning</a></td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Contexto largo en profundidad</td><td style="padding:8px 12px;"><a href="#cap55b">5.5b Lost in the middle</a> · <a href="#s55c">5.5c Atención híbrida</a> · <a href="#s55d">5.5d RoPE y YaRN</a> · <a href="#s55e">5.5e Erosión de contexto ★</a></td></tr>
-<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Inferencia y tamaño de modelo</td><td style="padding:8px 12px;"><a href="#s57b">5.7b MoE</a> · <a href="#s57c">5.7c Cuantización y destilación</a> · <a href="#s57d">5.7d FlashAttention e inf. especulativa</a></td></tr>
+<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Inferencia y tamaño de modelo</td><td style="padding:8px 12px;"><a href="#s57b">5.7b MoE</a> · <a href="#s57c">5.7c Cuantización y destilación</a> · <a href="#s57d">5.7d FlashAttention, inf. especulativa y continuous batching</a> · <a href="#s57g">5.7g Cómo se sirve un MoE (expert parallelism)</a></td></tr>
 <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;white-space:nowrap;font-weight:700;vertical-align:top;">Referencia avanzada (plegada)</td><td style="padding:8px 12px;"><a href="#s52b">5.2b Taxonomía de mecanismos de atención</a></td></tr>
 </tbody>
 </table>
@@ -11556,7 +11577,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Documentos largos / 100K+ tokens</td><td style="padding:9px 12px">SWA, Sink Tokens, RoPE+YaRN, Ring Attention</td><td style="padding:9px 12px"><a href="#s55c">5.5c</a>, <a href="#s55d">5.5d</a></td></tr>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Fine-tuning / RAFT</td><td style="padding:9px 12px">Self-Attention + Cross-Attention (cómo el modelo atiende al documento)</td><td style="padding:9px 12px"><a href="#s18raft">1.8</a>, <a href="#s57b">5.7b</a></td></tr>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Sistemas multimodales</td><td style="padding:9px 12px">Cross-Modal Attention, Co-Attention, Cross-Attention decoder→encoder</td><td style="padding:9px 12px"><a href="#cap22">Cap. 22</a></td></tr>
-<tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Despliegue / optimización de coste</td><td style="padding:9px 12px">GQA, MQA, MLA, FlashAttention, PagedAttention (vLLM)</td><td style="padding:9px 12px"><a href="#s55c">5.5c</a>, <a href="#s57d">5.7d</a></td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Despliegue / optimización de coste</td><td style="padding:9px 12px">GQA, MQA, MLA, FlashAttention, PagedAttention (vLLM), continuous batching, expert parallelism (MoE)</td><td style="padding:9px 12px"><a href="#s55c">5.5c</a>, <a href="#s57d">5.7d</a>, <a href="#s57g">5.7g</a></td></tr>
 <tr><td style="padding:9px 12px">Elección de modelo base</td><td style="padding:9px 12px">Tabla 5.2b.4 (qué usa cada modelo)</td><td style="padding:9px 12px">Esta sección</td></tr>
 </tbody></table>
 </div>
@@ -12957,6 +12978,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <strong>★ Nota del autor — sobre benchmarks de MoE</strong><br/>
   La mayoría de benchmarks públicos comparan modelos MoE y densos por parámetros totales, no activos. Esto sobreestima el "tamaño" efectivo del MoE y puede llevar a conclusiones erróneas sobre eficiencia. Cuando evalúes un modelo MoE para producción, el número que importa para el presupuesto de cómputo es siempre los <strong>parámetros activos por token</strong>, no los totales.
 </div>
+<p style="font-size:.85rem;color:var(--muted);font-style:italic;">Esta sección cubre por qué el MoE importa al <em>elegir</em> un modelo. Para cómo el servidor lo <em>ejecuta</em> en producción — routing, dispatch/combine, expert parallelism, desequilibrio de carga — ver §5.7g.</p>
 <!-- Glosario -->
 <div class="gterm" id="gt-moe">
 <div class="gterm-header">
@@ -13191,6 +13213,10 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
   </div>
 <p>Aplicado a generar un token: cada peso se usa exactamente una vez por paso —una multiplicación y una suma, 2 operaciones— y a BF16 ocupa 2 bytes. La intensidad aritmética de decode es ≈1 operación/byte: unas 300 veces por debajo del punto de equilibrio de la H100. De ahí sale directamente el techo de velocidad, sin necesitar ningún perfilado: <code>tamaño del modelo en bytes ÷ ancho de banda = tiempo por token</code>. Un modelo de 70B a BF16 ocupa 140 GB; a 3,35 TB/s eso son ≈42 ms/token, es decir, un techo de <strong>≈24 tokens/s</strong> — antes de cualquier optimización de software, y el mismo cálculo con el que la §5.7c predice que cuantizar a 8 bits (70 GB en vez de 140) duplica ese techo a ≈48 tok/s. La cuantización no acelera el cómputo: reduce los bytes que hay que leer, que es exactamente la variable que decide este número.</p>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">La tabla de arquitecturas de hardware de §5.7e da el ancho de banda de cada familia de chip; este techo se recalcula sin más que sustituir esa cifra. El modelo asume una sola secuencia (batch=1) y BF16 sin caché KV significativa — en contexto largo, la caché KV compite por el mismo ancho de banda y el techo real es más bajo que el que da esta fórmula.</p>
+<div class="callout concept">
+<strong>Un tercer diagnóstico que el ratio no captura: overhead-bound</strong>
+<p>Memory-bound y compute-bound son las dos lecturas del punto de equilibrio, pero hay una GPU que no encaja en ninguna: la que tiene tanto el ancho de banda como el cómputo lejos de su techo, y aun así va lenta. Lanzar cada operación a la GPU tiene un coste fijo de despacho de la CPU, independiente del tamaño del trabajo — con muchas operaciones pequeñas (un modelo con capas diminutas, un pipeline que encadena muchas llamadas separadas en vez de una fusionada, ver bloque siguiente), ese coste fijo repetido puede superar el tiempo real de cómputo. El síntoma se reconoce porque no se parece a los otros dos: la GPU aparece ociosa mientras la CPU va al límite despachando trabajo, en vez de "ocupada pero esperando datos" (memory-bound) u "ocupada calculando" (compute-bound). El arreglo tampoco es ni más ancho de banda ni más FLOPs: es menos operaciones más grandes, o capturar la secuencia completa para repetirla como una sola unidad en vez de despacharla paso a paso.</p>
+</div>
 <h3>FlashAttention — la atención estándar, más rápida</h3>
 <p>FlashAttention no cambia el resultado matemático de la atención — calcula exactamente lo mismo que MHA estándar. Lo que cambia es <strong>cómo lo calcula</strong>: en lugar de materializar la matriz de atención completa en la memoria del GPU (costosa en VRAM), divide el cálculo en bloques que caben en la memoria rápida del chip (SRAM). El resultado: misma calidad, 2–4× más rápido, 5–20× menos memoria en la matriz de atención intermedia (no en la VRAM total del modelo — con batch pequeño en inferencia, esa matriz es una fracción menor del total, así que el ahorro agregado es más modesto que la cifra sugiere).</p>
 <div style="margin:16px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:.8rem;font-family:system-ui,sans-serif;">
@@ -13310,6 +13336,43 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <h4>📐 Concepto: el precio de la sorpresa</h4>
 <p>La inferencia especulativa tiene una propiedad que casi ninguna divulgación menciona. El procedimiento es <strong>sin pérdida</strong>: la verificación preserva exactamente la distribución del modelo grande — no hace la salida "más media". Pero su aceleración depende de la <strong>tasa de aceptación</strong> del modelo borrador, y esa tasa es más alta cuanto más predecible es el texto. Consecuencia: el texto estadísticamente predecible se genera más rápido y más barato, token a token, que el texto distribucionalmente inusual. Por primera vez, la capa de servicio lleva un señal de precio explícito sobre la sorpresa. No sesga al modelo; sesga la <em>economía</em> alrededor del modelo — presupuestos de latencia, elección de variantes, valores por defecto. Es, además, medible: las tasas de aceptación se loguean en producción, lo que la convierte en un indicador empírico donde antes solo había argumento.</p>
 </div>
+<h3>Continuous batching — compartir una GPU entre muchas peticiones sin desperdiciar ciclos</h3>
+<p>La sección anterior explica por qué decode es memory-bound incluso para una sola petición: el cuello de botella es mover pesos y caché KV, no calcular. Pero un servidor real casi nunca atiende una sola petición a la vez — y ahí aparece un segundo desperdicio, distinto del anterior, que ocurre incluso con el mismo hardware, el mismo modelo y la misma cuantización: si las peticiones concurrentes no comparten el mismo paso de cómputo, la mayor parte de la capacidad de la GPU se queda esperando a la más lenta.</p>
+<p><strong>Batching estático</strong> — el patrón anterior a 2022, el que sigue asumiendo buena parte de la documentación introductoria — agrupa un número fijo de peticiones, ejecuta el prefill de todas juntas y decodifica paso a paso hasta que la <em>última</em> termina; solo entonces arranca el siguiente lote. El problema es que las peticiones casi nunca tardan lo mismo: si cuatro entran juntas y una termina a los 20 pasos mientras otra necesita 200, esa plaza queda vacía —la GPU sigue "ejecutando" el paso, pero no produce nada útil— durante 180 pasos. Y una petición nueva que llega a mitad de camino no puede entrar: tiene que esperar a que el lote entero termine.</p>
+<div class="callout concept">
+<strong>Continuous batching (scheduling a nivel de iteración)</strong>
+<p>La alternativa, introducida por el sistema <strong>Orca</strong> bajo el nombre <em>iteration-level scheduling</em> (Yu et al., OSDI 2022, verificado contra el paper primario), cambia la unidad de programación: en vez de "un lote de peticiones que empiezan y terminan juntas", el servidor mantiene un número fijo de <em>plazas</em> que nunca se dejan vacías a propósito. Después de <strong>cada paso de decode</strong> — no después de que termine el lote entero — el planificador revisa: ¿alguna petición terminó? Se retira y se envía su resultado. ¿Hay alguna esperando en la cola? Ocupa la plaza que acaba de quedar libre, con su propio prefill, sin esperar a que las demás también terminen. El resultado de cada petición individual es matemáticamente idéntico a si se hubiera ejecutado sola — esto no toca el modelo ni la calidad de la salida, solo cómo el servidor reparte el trabajo entre peticiones.</p>
+</div>
+<div style="margin:16px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:.8rem;font-family:system-ui,sans-serif;">
+<div style="padding:12px 16px;background:var(--green-light);border:1px solid var(--green);border-radius:8px;">
+<div style="font-weight:700;color:var(--green);margin-bottom:6px;">✅ Lo que continuous batching mejora</div>
+<ul style="padding-left:14px;line-height:1.9;color:var(--text);">
+<li>Throughput agregado del servidor — más tokens/segundo con el mismo hardware</li>
+<li>Tiempo de espera de peticiones cortas que llegan detrás de una larga</li>
+<li>Utilización real de la GPU durante decode — la fase que más la desaprovecha (ver arriba)</li>
+</ul>
+</div>
+<div style="padding:12px 16px;background:var(--yellow-light);border:1px solid var(--yellow);border-radius:8px;">
+<div style="font-weight:700;color:var(--yellow);margin-bottom:6px;">⚠ Lo que NO cambia</div>
+<ul style="padding-left:14px;line-height:1.9;color:var(--text);">
+<li>El resultado de cada petición — idéntico al de una ejecución aislada</li>
+<li>El techo de tokens/s por petición que impone el ancho de banda (arriba) — reparte capacidad entre peticiones, no la multiplica por encima de ese techo</li>
+<li>No es una decisión que tomes construyendo un sistema RAG — vive en el servidor de inferencia (vLLM, SGLang, TensorRT-LLM), mismo alcance que el resto de esta sección</li>
+</ul>
+</div>
+</div>
+<div class="callout concept">
+<strong>Cifras verificadas contra fuente primaria, no de una infografía</strong>
+<p>Orca (Yu et al., OSDI 2022) mide <strong>36,9× de mejora de throughput</strong> frente a NVIDIA FasterTransformer, al mismo nivel de latencia, sobre un modelo GPT-3 de 175B — verificado contra el <a href="https://www.usenix.org/system/files/osdi22-yu.pdf" target="_blank" rel="noopener">paper primario (USENIX OSDI'22)</a>. El anuncio original de vLLM (junio 2023, verificado contra <a href="https://vllm.ai/blog/2023-06-20-vllm" target="_blank" rel="noopener">el blog primario</a>, no una cita de segunda mano) combina continuous batching con PagedAttention (§5.5c) y reporta <strong>hasta 24×</strong> más throughput que HuggingFace Transformers sin optimizar, y <strong>hasta 3,5×</strong> frente a HuggingFace TGI — que en 2023 ya tenía su propia forma de batching dinámico. La comparación contra TGI importa más que la de 24×: aísla lo que aporta específicamente PagedAttention + continuous batching juntos, frente a un servidor que ya intentaba resolver el mismo problema por otra vía.</p>
+</div>
+<p style="font-size:.85rem;color:var(--muted);font-style:italic;">Continuous batching y PagedAttention (§5.5c) resuelven desperdicios distintos y se combinan: PagedAttention evita fragmentar la memoria de la caché KV entre peticiones; continuous batching evita que la GPU calcule pasos vacíos para plazas que ya terminaron. Ninguna de las dos está activa en HyperRAG hoy — corre sobre Ollama en modo de un solo usuario, sin motor de serving multi-tenant detrás (mismo límite de alcance ya declarado para la inferencia especulativa de arriba y para el prefix caching de §15.4c).</p>
+<div class="gterm" id="gt-continuous-batching">
+<div class="gterm-header">
+<span class="gterm-nombre">Continuous Batching</span>
+<span class="gterm-cat cat-arquitectura">Arquitectura</span>
+</div>
+<div class="gterm-def">Scheduling a nivel de iteración (introducido por Orca, Yu et al. OSDI 2022) donde el servidor de inferencia sustituye una petición terminada por una nueva de la cola en cada paso de decode, en vez de esperar a que todo el lote termine (batching estático). No cambia el resultado de cada petición ni el techo de tokens/s por petición — mejora el throughput agregado del servidor al mantener la GPU siempre ocupada con trabajo útil. Se combina con PagedAttention (§5.5c); juntas explican buena parte de la ventaja de throughput de vLLM/SGLang sobre servidores sin ninguna de las dos. → Ver sección 5.7d.</div>
+</div>
 <h2 id="s57e" data-nivel="profundidad">5.7e Arquitecturas de hardware: por qué el chip importa tanto como el modelo <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <p>La sección anterior explicó por qué el decode está limitado por ancho de banda de memoria. Esa misma tensión — mover datos versus calcular — es la que define, chip a chip, la evolución completa del hardware de IA: de la flexibilidad de propósito general (CPU) a la especialización extrema (LPU), cada generación sacrifica algo de generalidad a cambio de mover menos datos. Las matemáticas nunca fueron lo difícil; alimentar las unidades de cálculo lo suficientemente rápido, sí.</p>
 <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
@@ -13344,6 +13407,78 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <li><strong>Evaluación de modelos de terceros.</strong> Cuando un proveedor anuncia un modelo más pequeño con benchmarks superiores a uno mayor de la competencia, las leyes de escalado dan el marco correcto para preguntar por la composición y el volumen de su corpus de entrenamiento antes de aceptar la comparación al pie de la letra.</li>
 </ul>
 <p style="font-size:.85rem;color:var(--muted);">Referencias: Kaplan, J. et al., "Scaling Laws for Neural Language Models" (OpenAI, 2020). Hoffmann, J. et al., "Training Compute-Optimal Large Language Models" (DeepMind, 2022) — el paper que introdujo "Chinchilla" y la proporción ~20 tokens/parámetro como referencia de la industria desde entonces.</p>
+<h2 id="s57g" data-nivel="profundidad">5.7g Cómo se sirve un modelo MoE: routing, expert parallelism y desequilibrio de carga <span class="version-badge caducidad-alta">2026-09 · caduca rápido</span></h2>
+<div class="callout">
+<strong>🧵 Continúa 5.7b desde infraestructura, no desde selección de modelo</strong>
+  §5.7b explica por qué el recuento de parámetros activos importa para <em>elegir</em> un modelo MoE. Esta sección explica qué tiene que hacer literalmente el servidor para <em>ejecutarlo</em>: cómo el router reparte tokens entre expertos, cómo esas decisiones se convierten en matrices que la GPU puede procesar, y qué pasa cuando los expertos viven en GPUs distintas. Como el resto de §5.7d/e, esto vive en la capa del servidor de inferencia (vLLM, SGLang) — no es una decisión que tomes construyendo un sistema RAG, pero te permite leer sus fichas técnicas con criterio.
+</div>
+<h3>1 · Del router a las matrices: dispatch y combine</h3>
+<p>Un router puntúa cada experto disponible para un token y selecciona los K de mayor puntuación (§5.7b). Eso produce una decisión por token, no una matriz — y una GPU no ejecuta eficientemente una operación diminuta a la vez. El runtime tiene que agrupar esas decisiones antes de poder usarlas.</p>
+<p>Con top-2 y 4 expertos, dos tokens producen cuatro asignaciones (token, experto, peso de enrutado), no dos. El runtime agrupa esas asignaciones por experto — E1 recibe las filas de los tokens que lo seleccionaron, E2 las suyas — y cada experto procesa su propia matriz, con el identificador de token original guardado junto a cada fila. Este paso de agrupar se llama <strong>dispatch</strong>. Cuando cada experto termina, sus resultados vuelven a su token de origen y se suman ponderados por el peso de enrutado de cada uno — ese paso es <strong>combine</strong>. Ambos ocurren dentro de una GPU; con expert parallelism (bloque 3) añaden tráfico de red entre GPUs.</p>
+<div class="callout concept">
+<strong>Grouped GEMM: por qué decode sufre más que prefill aquí también</strong>
+<p><strong>Grouped GEMM</strong> ejecuta varias matrices de expertos, con distinto número de filas cada una, en un solo lanzamiento de kernel — reduce el overhead de lanzamiento sin cambiar qué se calcula. Pero no crea trabajo donde no lo hay: en <strong>prefill</strong> (§5.7d), cada experto suele recibir muchas filas de golpe, lo que aprovecha bien la GPU. En <strong>decode</strong>, con poca concurrencia, un experto puede recibir una o dos filas por paso — el mismo problema de memory-bound que §5.7d ya diagnosticó, ahora también con el coste de reordenar filas (permutación) compitiendo con el de multiplicarlas. Algunos motores rellenan las matrices a un tamaño fijo para simplificar el scheduling, a cambio de gastar cómputo en filas de relleno sin token real.</p>
+</div>
+<h3>2 · Tres números que no son intercambiables</h3>
+<p>§5.7b ya distinguió parámetros totales de parámetros activos. El despliegue necesita un tercero: <strong>parámetros residentes</strong> — los pesos que el servidor debe tener cargados, sean o no los que ejecuta un token concreto. Un token activa una pequeña porción de expertos; el siguiente token puede elegir una porción distinta. El servidor no puede adivinar cuál, así que tiene que mantener <em>todos</em> los expertos seleccionables cargados, más atención, embeddings y la caché KV que crece con cada sesión.</p>
+<div class="warning" style="border-color:var(--orange);background:var(--orange-light);">
+<strong>⚠ No sustituyas activos por totales al estimar memoria</strong>
+  Qwen3-30B-A3B (30,5B parámetros totales, 3,3B activados, 8 de 128 expertos por token, 48 capas — verificado contra la ficha real de Hugging Face) necesita, a 2 bytes/parámetro, <strong>≈61 GB decimales (56,8 GiB binarios)</strong> solo en pesos — el cálculo es <code>parámetros totales × bytes/parámetro</code>, nunca con la cifra de activados. Los 3,3B activados describen cuánto cómputo ejecuta un token; no describen cuánta memoria reserva el despliegue. A eso hay que sumar activaciones temporales, buffers de comunicación y la caché KV — ninguno entra en esa cifra de 61 GB.
+</div>
+<h3>3 · Tres capas de paralelismo: tensor, expertos y datos</h3>
+<p>Ningún término de esta tabla apareció todavía en el manual fuera del contexto MoE — son la base de cualquier despliegue distribuido, denso o disperso:</p>
+<table style="width:100%;border-collapse:collapse;font-size:.85rem;">
+<thead><tr style="border-bottom:2px solid var(--border);"><th style="padding:8px 12px;text-align:left;">Capa</th><th style="padding:8px 12px;text-align:left;">Qué divide</th><th style="padding:8px 12px;text-align:left;">Qué viaja por red</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;font-weight:700;">Tensor parallel (TP)</td><td style="padding:8px 12px;">Una operación de matriz, en fragmentos, entre varias GPUs</td><td style="padding:8px 12px;">Resultados parciales que hay que combinar para cerrar la capa</td></tr>
+<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;font-weight:700;">Expert parallel (EP)</td><td style="padding:8px 12px;">Expertos completos, cada uno fijo en su GPU</td><td style="padding:8px 12px;">Activaciones de token hacia el experto que las seleccionó (dispatch/combine, bloque 1)</td></tr>
+<tr><td style="padding:8px 12px;font-weight:700;">Data parallel (DP)</td><td style="padding:8px 12px;">Peticiones distintas, en réplicas completas del modelo</td><td style="padding:8px 12px;">Nada durante la inferencia — las réplicas no se coordinan entre sí</td></tr>
+</tbody>
+</table>
+<p>Las tres se combinan en el mismo despliegue, no son alternativas excluyentes. La guía real de despliegue de expert parallelism de vLLM (<a href="https://docs.vllm.ai/en/latest/serving/expert_parallel_deployment/" target="_blank" rel="noopener">verificado contra la documentación primaria</a>) lo hace explícito: sin activar EP, las capas MoE usan TP de tamaño <code>TP×DP</code>, igual que un modelo denso; con EP activado, esas mismas capas pasan a expert parallelism con ese mismo tamaño de grupo. Con TP=2 y DP=4 (8 GPUs en total), la atención corre en 4 grupos de 2 GPUs cada uno, mientras que las capas de expertos forman un solo grupo EP de las 8 — atención y expertos pueden usar agrupaciones de rango distintas dentro del mismo despliegue.</p>
+<h3>4 · Topología: no todos los enlaces cuestan lo mismo</h3>
+<p>Un enlace NVLink/NVSwitch dentro de un mismo servidor mueve datos mucho más barato que InfiniBand o Ethernet entre servidores. El <strong>placement</strong> — qué GPU almacena cada experto — decide cuántas veces el enrutado cruza el enlace lento, sin cambiar qué decide el router.</p>
+<p>Conviene no confundir placement (decisión de despliegue, cambiable) con una restricción de <strong>enrutado</strong> entrenada en el propio modelo. DeepSeek-V3 es el ejemplo verificable: su informe técnico (<a href="https://arxiv.org/pdf/2412.19437" target="_blank" rel="noopener">arXiv 2412.19437</a>) describe <em>node-limited routing</em> — 256 expertos agrupados en 8 grupos de 32, un grupo por nodo, y cada token limitado a un máximo de 4 de esos 8 nodos. Los tokens que van al mismo nodo se deduplican en el tráfico de InfiniBand y se reparten después por NVLink dentro del nodo. Esa restricción se decidió en el entrenamiento — imponer una regla parecida después, sobre un modelo que no se entrenó con ella, puede cambiar qué expertos selecciona y degradar la calidad, no es un ajuste de despliegue gratis.</p>
+<h3>5 · Desequilibrio de carga: por qué la media no basta</h3>
+<p>Si un experto recibe la mitad de las asignaciones de un paso, su GPU procesa una matriz mucho mayor que las demás — y la capa no termina hasta que la más lenta termina. Un histograma agregado por día puede parecer balanceado y esconder pasos individuales muy desiguales; hace falta medir asignaciones y tiempo por paso de servicio, el mismo principio que §10.4b (condiciones de parada de agente) ya aplica a otro problema: la media no sustituye a la medición por paso.</p>
+<p>Dos problemas distintos, con arreglos distintos: <strong>desequilibrio de experto</strong> (dentro de una réplica, unos expertos reciben más carga que otros — se corrige con placement o con réplicas físicas adicionales de un experto caliente) y <strong>desequilibrio de petición</strong> (entre réplicas, unas reciben más tráfico que otras — se corrige a nivel de balanceador, no de router). Replicar un experto cuesta memoria de GPU — la misma memoria que le falta a la caché KV — así que solo compensa cuando el desequilibrio es persistente, no un pico pasajero que termina antes de que la réplica esté lista.</p>
+<h3>6 · El límite de corrección: qué cambia el resultado y qué no</h3>
+<p>No todas las optimizaciones de esta sección son intercambiables entre sí — y confundirlas es el error más caro de los seis bloques.</p>
+<div style="margin:16px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:.8rem;font-family:system-ui,sans-serif;">
+<div style="padding:12px 16px;background:var(--green-light);border:1px solid var(--green);border-radius:8px;">
+<div style="font-weight:700;color:var(--green);margin-bottom:6px;">✅ Preservan la selección lógica de expertos</div>
+<ul style="padding-left:14px;line-height:1.9;color:var(--text);">
+<li>Grouped GEMM, placement, solapamiento de comunicación, fusión de kernels</li>
+<li>Pueden introducir pequeñas diferencias de punto flotante, nunca cambian qué expertos se seleccionaron</li>
+</ul>
+</div>
+<div style="padding:12px 16px;background:var(--yellow-light);border:1px solid var(--yellow);border-radius:8px;">
+<div style="font-weight:700;color:var(--yellow);margin-bottom:6px;">⚠ Cambian el resultado — exigen prueba de calidad</div>
+<ul style="padding-left:14px;line-height:1.9;color:var(--text);">
+<li><strong>Cuantización</strong> (§5.7c): cambia los valores numéricos de los pesos o de lo transmitido</li>
+<li><strong>Reducir top-k</strong>: elimina contribuciones de expertos completos del resultado, no solo acelera la ejecución</li>
+</ul>
+</div>
+</div>
+<div class="callout concept">
+<strong>Reducir top-k, con cifras verificadas: el error no está donde parece</strong>
+<p>Bajar de K=8 a K=4 expertos no solo cambia cuáles participan: también cambia la escala combinada de sus contribuciones si el resto del cálculo sigue normalizando como si hubiera 8. El paper "Training-Free Halving of Activated Experts" (<a href="https://arxiv.org/abs/2609.04575" target="_blank" rel="noopener">arXiv 2609.04575</a>, verificado contra el abstract primario) separa las dos causas: activa K1 expertos pero normaliza contra la masa de probabilidad de un conjunto de referencia K2 mayor. Cifras citadas textualmente: en Qwen3.6-35B-A3B, reducir de 8 a 4 expertos pierde <strong>4,65 puntos de MMLU</strong> con la renormalización estándar, pero solo <strong>0,35 puntos</strong> con su corrección — con el cómputo de expertos enrutados a la mitad en ambos casos. En Qwen3.5-397B-A17B (11× mayor), reducir de 10 a 5 expertos pierde solo 0,55 puntos con un conjunto de referencia adecuado. Son resultados de checkpoints y evaluaciones concretas, no una regla general para cualquier modelo — pero sí evidencia de que "menos expertos" y "peor normalizado" son dos decisiones distintas que este manual no debe fundir en una sola.</p>
+</div>
+<p style="font-size:.85rem;color:var(--muted);font-style:italic;">Los límites de capacidad por experto (tokens descartados si un experto se satura) existen en algunos runtimes de entrenamiento y en algunos motores de inferencia concretos — no es un comportamiento universal de MoE en producción. Verifica la implementación real antes de asumir que existe. Ninguna de las técnicas de esta sección — dispatch/combine, expert parallelism, placement — está activa en HyperRAG hoy: corre sobre Ollama, un solo proceso, sin motor de serving multi-GPU detrás, mismo límite de alcance que §5.7d/§15.4c.</p>
+<div class="gterm" id="gt-expert-parallelism">
+<div class="gterm-header">
+<span class="gterm-nombre">Expert Parallelism (EP)</span>
+<span class="gterm-cat cat-arquitectura">Arquitectura</span>
+</div>
+<div class="gterm-def">Estrategia de paralelismo (junto a tensor parallel y data parallel) que asigna expertos completos de un modelo MoE a GPUs distintas en vez de fragmentar operaciones o replicar el modelo. Las activaciones de cada token viajan hacia la GPU que tiene su experto seleccionado (dispatch) y el resultado vuelve a la GPU de origen (combine) — los pesos del experto no se mueven. vLLM deriva el tamaño del grupo EP de TP×DP cuando se activa. → Ver sección 5.7g.</div>
+</div>
+<div class="gterm" id="gt-dispatch-combine">
+<div class="gterm-header">
+<span class="gterm-nombre">Dispatch / Combine</span>
+<span class="gterm-cat cat-arquitectura">Arquitectura</span>
+</div>
+<div class="gterm-def">Los dos pasos que convierten decisiones de enrutado token-a-experto en cómputo real. Dispatch agrupa las asignaciones (token, experto, peso) por experto en matrices contiguas; combine devuelve cada resultado a su token de origen y suma las contribuciones ponderadas por el peso de enrutado. Ambos ocurren dentro de una GPU; con expert parallelism, dispatch y combine cruzan red entre GPUs. → Ver sección 5.7g.</div>
+</div>
 <div class="resultado-final">
 <h3>✅ Resultado de este capítulo<span class="version-badge">2026-07</span></h3>
 <p>Tienes un modelo mental correcto de cómo funciona un LLM: no es una base de datos, es una función estadística que genera token a token. Entiendes por qué la temperatura importa, por qué la ventana de contexto tiene límites reales, y por qué temperatura 0 no garantiza corrección. Cuando un colega diga "el modelo no sabe esto", podrás distinguir si es un problema de knowledge cutoff, de ventana de contexto o de distribución estadística del entrenamiento. Y sabes cuándo el fine-tuning tiene sentido frente a RAG, cómo funciona LoRA y por qué unos cientos de ejemplos pueden especializar un modelo de miles de millones de parámetros sin destruir su conocimiento general.</p>
@@ -17510,6 +17645,7 @@ Mensaje: {{mensaje}}
 <li>Evita el riesgo de sobreajuste a un corpus pequeño o sesgado</li>
 </ul>
 <p>El fine-tuning pasa a ser pertinente cuando el few-shot no supera el 85% de precisión en el golden dataset y se dispone de más de 1.000 ejemplos labellisés de calidad — típicamente entre 9 y 12 meses tras el lanzamiento de un sistema en producción.</p>
+<p style="font-size:.85rem;color:var(--muted);font-style:italic;">Corrección (sep. 2026): estas cifras (85%, 1.000 ejemplos, 9-12 meses) son un orden de magnitud ilustrativo, no un umbral validado empíricamente — el punto de cruce real depende de la criticidad de la tarea, el coste de cada tipo de error, la calidad del corpus y la capacidad del modelo base. Mismo aviso que este manual ya aplica a la tabla de mitigación de alucinaciones (§0.4.2): una cifra redonda sin fuente ni metodología es una heurística de partida, no una métrica empírica.</p>
 <h2 id="s84d" data-nivel="profundidad">8.4d Confidencialidad de los artefactos de producción: qué proteger y por qué</h2>
 <p>La ingeniería de prompts cubre habitualmente el diseño y la iteración de los prompts. Pero no aborda una cuestión crítica para los sistemas en producción: <strong>¿qué artefactos del sistema IA deben ser tratados como secretos operativos?</strong> Esta pregunta no es teórica — tiene implicaciones directas sobre la seguridad del sistema.</p>
 <div class="callout concept">
@@ -23446,12 +23582,13 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
 <p>Dos hallazgos de esa literatura importan directamente para el diseño de supervisión:</p>
 <ul>
 <li><strong>El sesgo crece con la fiabilidad percibida del sistema, no decrece.</strong> Cuanto mejores son las recomendaciones en promedio, menor es la vigilancia sobre cada recomendación individual — exactamente cuando los errores residuales son más costosos porque nadie los espera (Parasuraman &amp; Manzey, 2010, <em>Human Factors</em>).</li>
-<li><strong>La responsabilidad declarada no lo corrige; la responsabilidad verificada, sí.</strong> En los experimentos de Skitka et al. (1999), decir a los operadores "tú eres el responsable final" no redujo los errores de omisión. Lo que los redujo fue hacer a los operadores individualmente <em>auditables</em> por su proceso de verificación, no solo por el resultado.</li>
+<li><strong>La responsabilidad por el resultado no es lo mismo que la responsabilidad por el proceso — y es la segunda la que reduce el sesgo.</strong> Skitka, Mosier y Burdick (2000) sí encontraron que hacer a los operadores responsables reducía los errores de omisión y de comisión — pero la manipulación no fue decirles "tú eres el responsable final": fue exigirles <em>justificar</em> su estrategia y su resultado, lo que en la práctica los obligaba a verificar en vez de solo firmar. La lección correcta no es que declarar responsabilidad no sirva de nada — es que solo funciona cuando la declaración viene con una exigencia real sobre el proceso, no como una etiqueta sin consecuencia sobre cómo se decide.</li>
 </ul>
 <p>La consecuencia de diseño: la supervisión decorativa no se arregla con exhortación ("presta más atención") ni con asignación formal ("el manager X asume"). Se arregla con arquitectura: fricción calibrada, tasas de rechazo esperadas y trazabilidad del acto de verificación — no solo de su firma. Eso es lo que formaliza la sección siguiente.</p>
 </div>
 <h2 id="s142b" data-nivel="profundidad">14.2b Derechos de decisión: la capa que la supervisión no resuelve <span class="badge-propuesta">★ Propuesta del autor</span></h2>
 <div class="aviso-propuesta"><strong>Marco propio de este manual, no terminología del sector.</strong> Esta sección propone un concepto que no tiene adopción externa ni literatura de referencia. Es útil como herramienta de pensamiento aquí dentro; no la cites como estándar en una licitación, una auditoría o una entrevista sin traducirla antes al término equivalente.<span class="ap-que">Antes de usarla fuera: comprueba en el Índice de conceptos del autor cuál es su equivalencia estándar.</span></div>
+<p style="font-size:.86rem;color:var(--muted);margin-top:-8px;">Nota de convergencia, no de prioridad: un hilo de práctica de gobernanza de datos/IA en LinkedIn (sep. 2026) propone de forma independiente que la gobernanza deje de tratar "controles" y trate en su lugar "decision rights" sobre modelos, casos de uso, riesgo y acciones automatizadas. No es la misma descomposición que la matriz de abajo (Delegar / Supervisar / Retomar / Responder, aplicada por decisión asistida) ni cita esta sección — pero apunta al mismo hueco organizacional. No cambia la valoración de arriba: sigue sin ser terminología de sector con literatura de referencia, solo una señal de que el problema se está notando en otros sitios.</p>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
   Las secciones 14.1 y 14.2 resuelven <em>cómo</em> supervisar (paradigmas, interfaces, métricas de aceptación ciega) y la 14.5 resuelve <em>qué infraestructura</em> tener. Entre ambas queda un hueco que ninguna arquitectura técnica cierra: <strong>quién en la organización tiene autoridad para delegar qué análisis a qué sistema, y quién retoma la mano cuándo</strong>. Esto no es diseño de supervisión: es diseño de autoridad. Y cuando no se hace explícitamente, ocurre implícitamente — con el peor resultado posible.
@@ -24399,6 +24536,10 @@ jobs:
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
     El AI Act ya está en vigor. Si tu organización opera en la UE o procesa datos de ciudadanos europeos, hay obligaciones que ya aplican y otras con plazos que se acercan. Este capítulo te da el mapa de lo que aplica a ti, cuándo, y qué acciones concretas tienes que tomar.
+  </div>
+<div class="nota" style="margin-bottom:16px;">
+<strong>🏛 Por qué existe esta regulación</strong>
+    Es tentador leer el AI Act como fricción pura: papeleo que frena a quien construye rápido. La historia económica sugiere lo contrario. Entre 1790 y 1840, la Revolución Industrial atravesó lo que el historiador Robert Allen llamó la "Engels' Pause": la productividad se disparó durante décadas mientras los salarios reales se estancaron, porque las nuevas tecnologías se desplegaron sin las instituciones que repartieran sus beneficios. Casi medio siglo pasó antes de que ese desfase se corrigiera. Daron Acemoglu y Simon Johnson —Nobel de Economía 2024, compartido con James Robinson— argumentan en <em>Power and Progress</em> (2023) que ese patrón no es un accidente de una época: una tecnología genera beneficios ampliamente compartidos solo cuando existen instituciones —normas, contrapesos, capacidad de negociación— que dirigen su uso, no por una tendencia automática del progreso técnico. El AI Act es, en esa lectura, un intento de instalar esas instituciones a tiempo, no después de una Engels' Pause propia. Cumplir y construir bien no son dos trabajos distintos.
   </div>
 <div style="background:linear-gradient(135deg,#422006,#713f12);border-radius:10px;padding:18px 22px;margin-bottom:24px;color:white;font-size:.88rem;">
 <div style="font-family:system-ui,sans-serif;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:8px;">🧭 Caso ancla de este capítulo</div>
@@ -29198,6 +29339,14 @@ updateAttackConfig();
 </div>
 <!-- M -->
 <div id="g-m" style="scroll-margin-top:80px;"></div>
+<div class="gterm" id="gt-matryoshka-embeddings">
+<div class="gterm-header">
+<span class="gterm-nombre">Matryoshka Representation Learning</span>
+<span class="gterm-en">MRL, embeddings truncables</span>
+<span class="gterm-cat cat-arquitectura">Arquitectura</span>
+</div>
+<div class="gterm-def">Técnica de entrenamiento (Kusupati et al., NeurIPS 2022, arXiv:2205.13147) que hace que los primeros N valores de un embedding sean, por sí solos, un vector válido y utilizable a varias dimensiones anidadas (64/128/256…), sin necesidad de reentrenar para truncarlo. Reduce almacenamiento y acelera la búsqueda por vecinos cercanos a cambio de una pequeña pérdida de recall. En producción: <code>text-embedding-3-small/large</code> de OpenAI (parámetro <code>dimensions</code>) y <code>nomic-embed-text-v1.5</code>. Solo funciona en modelos entrenados para ello — truncar a mano un embedding sin MRL degrada de forma brusca. → Ver Cap. 2, sección 2.4c.</div>
+</div>
 <div class="gterm">
 <div class="gterm-header">
 <span class="gterm-nombre">Mecanismo de atención</span>
@@ -30530,6 +30679,7 @@ document.addEventListener('DOMContentLoaded', renderLabRefs);
     {c:"fundamentos", k:["transformer","attention","atención","self-attention"], label:"Transformer y mecanismo de atención", desc:"Arquitectura base de los LLM: self-attention, positional encoding, capas FFN.", where:"Cap. 0 y Cap. 5", href:"#cap0"},
     {c:"fundamentos", k:["token","tokenización","tokenizer","bpe","byte pair"], label:"Tokenización y vocabulario", desc:"Cómo el texto se divide en tokens, BPE, SentencePiece, vocabulario.", where:"Cap. 0", href:"#cap0"},
     {c:"fundamentos", k:["embedding","vector","representación","latent"], label:"Embeddings y espacios vectoriales", desc:"Representación semántica densa del texto como vectores de alta dimensión.", where:"Cap. 2", href:"#cap2"},
+    {c:"fundamentos", k:["matryoshka","mrl","embeddings truncables","dimensiones truncables"], label:"Dimensiones truncables: embeddings Matryoshka", desc:"Truncar un embedding a menos dimensiones sin reentrenar, para ahorrar almacenamiento y acelerar la búsqueda ANN.", where:"Cap. 2 (sec. 2.4c)", href:"#s24c"},
     {c:"fundamentos", k:["llm","language model","modelo de lenguaje"], label:"Modelos de lenguaje (LLM)", desc:"Fundamentos, probabilidades, generación token a token, temperatura.", where:"Cap. 0 y Cap. 5", href:"#cap5"},
     {c:"fundamentos", k:["temperatura","top-p","sampling","greedy"], label:"Parámetros de decodificación", desc:"Temperatura, top-k, top-p, beam search y su efecto en la creatividad/determinismo.", where:"Cap. 5", href:"#cap5"},
     {c:"fundamentos", k:["contexto","context window","ventana de contexto","tokens de contexto"], label:"Ventana de contexto", desc:"Límite de tokens procesables, KV-cache, YaRN para extensión de contexto.", where:"Cap. 5", href:"#cap5"},
@@ -30547,6 +30697,10 @@ document.addEventListener('DOMContentLoaded', renderLabRefs);
     {c:"arquitectura", k:["gqa","grouped query attention","multi-query"], label:"GQA / MQA — atención agrupada", desc:"Reducción del KV-cache, mayor eficiencia en inferencia, calidad comparable.", where:"Cap. 5 (sec. 5.5c)", href:"#s55c"},
     {c:"arquitectura", k:["flash attention","flash-attention","inferencia especulativa"], label:"FlashAttention e inferencia especulativa", desc:"Optimizaciones de memoria y latencia de atención en hardware real.", where:"Cap. 5 (sec. 5.7d)", href:"#s57d"},
     {c:"arquitectura", k:["intensidad aritmética", "arithmetic intensity", "roofline", "punto de equilibrio", "operaciones por byte", "memory-bound", "compute-bound"], label:"El techo cuantitativo: intensidad aritmética y el punto de equilibrio", desc:"El cálculo que predice el techo de tokens/s de un modelo antes de perfilar nada — y la trampa densa/sparsity al leer una ficha técnica de GPU.", where:"Cap. 5 (sec. 5.7d)", href:"#s57d"},
+    {c:"arquitectura", k:["continuous batching","batching estatico","scheduling a nivel de iteracion","orca","throughput servidor"], label:"Continuous batching: compartir una GPU entre muchas peticiones", desc:"Por qué el batching estático desperdicia plazas de GPU y cómo el scheduling a nivel de iteración (Orca) lo resuelve — cifras verificadas de Orca y vLLM.", where:"Cap. 5 (sec. 5.7d)", href:"#s57d"},
+    {c:"arquitectura", k:["overhead-bound","gpu ociosa","coste de lanzamiento de kernel","kernel launch overhead"], label:"Overhead-bound: el tercer diagnóstico que el punto de equilibrio no captura", desc:"Cuándo una GPU va lenta sin estar ni memory-bound ni compute-bound — demasiadas operaciones pequeñas, coste de despacho de la CPU.", where:"Cap. 5 (sec. 5.7d)", href:"#s57d"},
+    {c:"arquitectura", k:["expert parallelism","dispatch combine","grouped gemm","moe en produccion","como se sirve un moe"], label:"Cómo se sirve un modelo MoE: routing, dispatch/combine y expert parallelism", desc:"Del router a las matrices, tensor/expert/data parallel, topología NVLink/InfiniBand, y qué optimizaciones cambian el resultado y cuáles no.", where:"Cap. 5 (sec. 5.7g)", href:"#s57g"},
+    {c:"arquitectura", k:["desequilibrio de carga moe","load imbalance","expertos calientes","replicacion de expertos"], label:"Desequilibrio de carga en MoE: por qué la media no basta", desc:"Desequilibrio de experto vs. de petición, tail latency, y el coste de memoria de replicar un experto caliente.", where:"Cap. 5 (sec. 5.7g.5)", href:"#s57g"},
     {c:"arquitectura", k:["vectorstore","vector store","pgvector","chroma","weaviate","qdrant"], label:"Bases de datos vectoriales", desc:"Pgvector, Chroma, Weaviate, Qdrant, Pinecone. Indexación HNSW, IVF.", where:"Cap. 6", href:"#cap6"},
     {c:"arquitectura", k:["agente","agent","agentic","multi-agent","orquestador"], label:"Agentes y sistemas multi-agente", desc:"Qué son los agentes, entropía acumulada, cuando NO usar agentes.", where:"Cap. 10", href:"#cap10"},
     {c:"arquitectura", k:["mlops","ci/cd ia","pipeline mlops","drift"], label:"MLOps para sistemas RAG", desc:"Versionado de modelos, drift detection, pipelines de re-entrenamiento.", where:"Cap. 15", href:"#cap15"},
