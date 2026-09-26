@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloques propuestos para v57 — Comprender la IA</title>
+<style>
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65;max-width:900px;
+       margin:0 auto;padding:2.5rem 1.5rem;color:#1f2937;background:#fff}
+  h3{margin:2rem 0 .6rem;font-size:1.15rem}
+  h4{margin:0 0 .7rem;font-size:1.02rem}
+  p{margin:.75rem 0}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+  th,td{border:1px solid #e5e7eb;padding:.6rem .7rem;text-align:left;vertical-align:top}
+  th{background:#f9fafb;font-weight:600}
+  .callout{background:#f9fafb;border:1px solid #e5e7eb;border-left:4px solid #6366f1;
+           padding:1rem 1.3rem;margin:1.4rem 0;border-radius:0 6px 6px 0}
+  .callout.concept{border-left-color:#7c3aed;background:#faf9ff}
+  ul{margin:.75rem 0 .75rem 1.2rem}
+  li{margin:.35rem 0}
+  .nota{background:#fffbeb;border-left:4px solid #d97706;padding:.9rem 1.2rem;
+        margin:0 0 2rem;font-size:.9rem;border-radius:0 6px 6px 0}
+</style>
+</head>
+<body>
+<div class="nota"><strong>Vista previa.</strong> Los estilos de esta página son provisionales, solo para leer los bloques fuera del manual. Al insertarlos en <em>Comprender_la_IA_2026_v57.html</em> heredan la maquetación real de la casa.</div>
+<!--
+  ══════════════════════════════════════════════════════════════════════════
+  BLOQUES PROPUESTOS PARA v57 — Comprender la IA
+  ══════════════════════════════════════════════════════════════════════════
+
+  Cuatro bloques listos para insertar. Cada uno indica su punto de inserción
+  exacto y usa las convenciones de la casa: <div class="callout concept">,
+  <h4> con emoji, badge 🆕 v57 y badge ★ autor donde corresponde.
+
+  Procedencia: los cuatro salen de un ejercicio documentado (agosto 2026) en
+  el que cinco modelos de proveedores distintos generaron dashboards sobre el
+  mismo tema técnico-filosófico, y uno de ellos fue auditado referencia por
+  referencia contra las fuentes primarias.
+
+  ÍNDICE
+    A — §20.6 · El patrón de la cita invertida            (caja 📐, v57 ★ autor)
+    B — §13.14.6 · Generación multi-modelo: cuando la
+        convergencia no es señal                          (subsección + tabla)
+    C — §20.x · Refuerzo del bloque anti-antropomorfización (caja 🧠)
+    D — §20.6 · Condiciones de falsación                    (caja 🔬)
+  ══════════════════════════════════════════════════════════════════════════
+-->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BLOQUE A
+     INSERTAR EN: §20.6, inmediatamente DESPUÉS de la caja
+     "📐 El patrón de la cita fabricada: cifra redonda + institución + año"
+     y ANTES del <h3>A nivel de equipo: la disensión estructurada</h3>
+     ══════════════════════════════════════════════════════════════════════ -->
+
+  <div class="callout concept">
+  <h4>📐 El patrón de la cita invertida: real, verificable y aun así falsa <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v57</span> <span style="background:#fef9c3;color:#854d0e;font-size:.65rem;padding:1px 5px;border-radius:3px;margin-left:5px;font-weight:600;">★ autor</span></h4>
+
+  <p>El patrón anterior se detecta buscando. Este no. Es el modo de fallo que queda cuando el modelo <em>sí</em> ha usado fuentes reales, y es hoy el más frecuente en investigación asistida por IA de nivel profesional — precisamente porque supera todos los filtros de superficie: el paper existe, la URL resuelve, el título es correcto, el formato de la cita es impecable. Lo que falla es la relación entre la fuente y la afirmación que sostiene.</p>
+
+  <p><strong>Caso auditado (agosto de 2026).</strong> Un documento generado con asistencia de IA sobre un tema técnico especializado, con dieciocho referencias y aspecto de trabajo académico. Se auditaron las ocho que cargaban las afirmaciones centrales. Cuatro fallaron, y ninguno de los cuatro fallos era detectable sin abrir la fuente:</p>
+
+  <table>
+    <thead><tr><th>Modo de fallo</th><th>Qué se observó</th><th>Por qué no lo detecta una revisión normal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Tesis invertida</strong></td>
+        <td>Un artículo multi-autor de referencia citado <em>dos veces</em>, en la afirmación más contestada del documento, para sostener exactamente lo contrario de lo que el artículo defiende: el paper adopta explícitamente una hipótesis de trabajo, y se le atribuía la posición opuesta.</td>
+        <td>La cita es real, el paper es prestigioso y trata del tema. Solo se detecta leyendo la fuente y comparando su tesis con el uso que se le da.</td>
+      </tr>
+      <tr>
+        <td><strong>Autoría fabricada sobre obra real</strong></td>
+        <td>Un preprint existente, con DOI y fecha correctos, atribuido a un par de autores que no existe. El autor real es otra persona. Ese preprint contenía la demostración formal sobre la que descansaba la conclusión del documento.</td>
+        <td>Buscar el título lo encuentra. Hay que mirar el campo de autoría, que es justo lo que nadie comprueba cuando el título encaja.</td>
+      </tr>
+      <tr>
+        <td><strong>Deriva de fecha</strong></td>
+        <td>Una obra de 2023 fechada en 2025. Trivial en apariencia — salvo que la conclusión del autor citado era considerablemente más matizada que el veredicto tajante junto al que aparecía, y la fecha errónea lo presentaba como respaldo contemporáneo.</td>
+        <td>El error de año se lee como erratum tipográfico y no dispara ninguna alarma.</td>
+      </tr>
+      <tr>
+        <td><strong>Fuente real, casilla equivocada</strong></td>
+        <td>Un paper correctamente citado, colocado en la columna de una tabla comparativa a la que no corresponde: sostenía la ventaja de una arquitectura cuando el trabajo es agnóstico respecto de ella.</td>
+        <td>Verificar la cita da positivo. El fallo está en la estructura del argumento, no en la referencia.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>La heurística de verificación cambia de coste.</strong> Contra la cita fabricada bastaba una búsqueda: autor + título + venue. Contra la cita invertida no hay atajo — hay que abrir la fuente y responder tres preguntas que ninguna búsqueda contesta: <em>(1) ¿quién la firma realmente?</em> <em>(2) ¿qué defiende, en sus propias palabras, en el punto por el que se la cita?</em> <em>(3) ¿la afirmación que sostiene aquí es la suya, o su contraria?</em></p>
+
+  <p>Como no es escalable a dieciocho referencias, la regla operativa es de <strong>triaje por carga</strong>: identifica las tres o cuatro citas que sostienen las afirmaciones sin las cuales el documento se cae, y audita solo esas a fondo. Las demás pueden quedarse en verificación de existencia. En el caso auditado, las cuatro citas defectuosas estaban <em>todas</em> entre las que cargaban peso — que es lo esperable, porque son los puntos donde el modelo más necesita respaldo y menos lo encuentra.</p>
+
+  <p><strong>Regla de escritura simétrica.</strong> En documentos propios asistidos por IA, ninguna afirmación central debe apoyarse en una fuente que no hayas abierto. El criterio no es "¿existe la cita?" sino <em>"¿he leído el párrafo concreto que la sostiene?"</em>. Y una señal de alerta específica: si el documento cita una obra <em>panorámica</em> (un survey, un informe multi-autor, un marco general) en apoyo de una posición fuerte y específica, comprueba esa cita antes que ninguna. Los trabajos panorámicos suelen ser deliberadamente neutrales entre posiciones, lo que los convierte en el respaldo aparente perfecto para cualquiera de ellas.</p>
+  </div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BLOQUE B
+     INSERTAR EN: §13.14, como nueva subsección tras
+     "13.14.5 La divergencia es dato, no ruido" y ANTES de
+     "✅ Resultado de este capítulo"
+     ══════════════════════════════════════════════════════════════════════ -->
+
+  <h3>13.14.6 Generación multi-modelo: cuando la convergencia no es señal <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v57</span> <span style="background:#fef9c3;color:#854d0e;font-size:.65rem;padding:1px 5px;border-radius:3px;margin-left:5px;font-weight:600;">★ autor</span></h3>
+
+  <p>Las cinco subsecciones anteriores tratan el caso en que varios modelos <em>critican</em> un artefacto existente. Ahí la regla de 20.6 se sostiene: si tres sistemas con entrenamientos distintos señalan el mismo defecto de un material que ninguno escribió, la convergencia es señal. Este apartado documenta el caso simétrico —varios modelos <strong>generan</strong> sobre el mismo tema— y muestra que ahí la regla se invierte.</p>
+
+  <p><strong>El caso.</strong> Cinco modelos de cinco proveedores distintos, mismo encargo: un panel comparativo sobre un tema técnico especializado con dimensión conceptual disputada. Cinco entregables independientes, sin contacto entre ellos. Lo que produjeron:</p>
+
+  <table>
+    <thead><tr><th>Observación</th><th>Panel (n=5)</th><th>Lectura</th></tr></thead>
+    <tbody>
+      <tr><td>Llegan al mismo veredicto sobre la cuestión central</td><td>5 / 5</td><td>Convergencia total — que es exactamente lo que la regla de 20.6 leería como diagnóstico establecido.</td></tr>
+      <tr><td>Aportan alguna referencia verificable</td><td>1 / 5</td><td>Cuatro paneles con aspecto de análisis documentado y cero fuentes. La forma de la evidencia sin la evidencia.</td></tr>
+      <tr><td>Plantean la objeción más fuerte que existe contra su propio veredicto</td><td>0 / 5</td><td><strong>El dato importante.</strong> No es que discrepen en la objeción: es que ninguno la menciona.</td></tr>
+      <tr><td>Presentan valores cualitativos con formato numérico (escalas 0–5, decimales)</td><td>4 / 5</td><td>Precisión fabricada, con <em>disclaimer</em> encima. El descargo no impide que la tabla se lea como medición.</td></tr>
+      <tr><td>Declaran el marco teórico del que depende su veredicto</td><td>1 / 5</td><td>Cuatro presentan como hecho lo que es una conclusión interna a una teoría disputada.</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Por qué la regla se invierte.</strong> En crítica, cada modelo se enfrenta a un objeto que no produjo; sus entrenamientos distintos actúan como perspectivas parcialmente independientes. En generación, los cinco recorren el mismo camino: corpus de entrenamiento con enorme solapamiento, las mismas fuentes secundarias bien posicionadas, el mismo encuadre dominante del tema. <strong>La convergencia mide priors compartidos, no verdad.</strong> Y como el solapamiento es mayor cuanto más nicho es el tema —menos fuentes disponibles, más peso de cada una—, la convergencia es <em>más</em> fuerte y <em>menos</em> informativa justo donde más se querría un contraste.</p>
+
+  <div class="callout">
+    <strong>⚠️ La omisión compartida es el hallazgo, no la coincidencia</strong>
+    Cuando varios modelos generan sobre un mismo tema, lo diagnóstico no es en qué coinciden sino <em>qué falta en los cinco a la vez</em>. Una afirmación que ningún panel cuestiona es candidata a ser un supuesto heredado del corpus, no una conclusión derivada. En el caso documentado, la objeción ausente en 5 de 5 resultó ser, tras revisión con fuentes, la más fuerte contra el veredicto que los cinco compartían. El protocolo operativo: antes de leer las coincidencias, pregunta explícitamente a uno de los modelos <em>"¿cuál es el argumento más fuerte en contra de esta conclusión, y por qué no aparece aquí?"</em> — la pregunta que ninguno se hace por su cuenta.
+  </div>
+
+  <p><strong>Regla operativa añadida al protocolo.</strong> La intersección verificada (13.14.3) sigue aplicando a crítica. Para generación, se sustituye por tres comprobaciones que no dependen del consenso: <em>(1)</em> ¿cuántos paneles aportan fuentes verificables, y sobreviven a la auditoría del bloque §20.6? <em>(2)</em> ¿qué afirmación central no cuestiona ninguno? <em>(3)</em> ¿el veredicto está declarado como dependiente de un marco, o presentado como hecho? Un panel solitario con fuentes auditadas vale más que cuatro convergentes sin ellas.</p>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BLOQUE C
+     INSERTAR EN: la sección del antipatrón de vocabulario clínico
+     ("psicosis / delirio / el modelo cree que…", 🆕 v35),
+     inmediatamente DESPUÉS del párrafo que termina en
+     "…tampoco debe tratarlo como paciente con estados mentales."
+     ══════════════════════════════════════════════════════════════════════ -->
+
+  <div class="callout concept">
+  <h4>🧠 La versión fuerte del argumento: conceder la estructura interna y sostener igual la distinción <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v57</span></h4>
+
+  <p>La formulación anterior —"un LLM no tiene estados internos; tiene una distribución de probabilidad sobre tokens"— es correcta como corrección de vocabulario y frágil como argumento. Un interlocutor puede responder que un cerebro tampoco tiene creencias, sino gradientes electroquímicos, y que describir el nivel de implementación no refuta el nivel superior. La objeción es buena y conviene no exponerse a ella, porque además la evidencia empírica se ha movido.</p>
+
+  <p><strong>Lo que se sabe a mediados de 2026.</strong> El equipo de interpretabilidad de Anthropic publicó el 6 de julio de 2026 evidencia de que los modelos de lenguaje mantienen un subespacio representacional privilegiado —lo llaman <em>J-space</em>— (<a href="https://transformer-circuits.pub/2026/workspace/" target="_blank" rel="noopener"><em>Verbalizable Representations Form a Global Workspace in Language Models</em>, Transformer Circuits Thread</a>) con propiedades funcionales de espacio de trabajo global: contiene representaciones que el modelo puede reportar, modular, usar en razonamiento interno y generalizar, y está separado del procesamiento automático. Con el J-space suprimido el modelo sigue hablando con fluidez y haciendo inferencia automática, pero pierde capacidad de razonamiento interno complejo. Es decir: <strong>sí hay estructura interna privilegiada, y es medible</strong>.</p>
+
+  <p><strong>Por qué esto no cambia el antipatrón, y lo refuerza.</strong> La distinción que hay que sostener no es "tiene estados internos / no los tiene", sino la que la filosofía de la mente lleva décadas separando: <em>consciencia de acceso</em> —que información esté disponible para reporte, control y razonamiento— frente a <em>consciencia fenoménica</em> —que haya algo que se sienta como ser ese sistema. El resultado del J-space es evidencia de la primera. No es evidencia de la segunda, y sus propios autores no lo presentan como tal.</p>
+
+  <p>La formulación defendible, entonces, es más precisa que la negación: el error de <em>"el modelo cree que…"</em> o <em>"el modelo delira"</em> no consiste en atribuir estados internos —los tiene, y ahora sabemos bastante sobre su estructura— sino en atribuirles <strong>carácter fenoménico</strong>. "Creer" y "psicosis" son términos que presuponen un sujeto para el que hay algo que se siente; lo que hay documentado es un mecanismo de acceso. La posición se vuelve mucho más difícil de atacar cuando concede todo lo que la evidencia sostiene y traza la línea en el punto exacto donde la evidencia se acaba.</p>
+
+  <p><strong>La regla del apartado anterior no se toca, pero gana un matiz.</strong> Sigue siendo cierto que ninguna etiqueta del vocabulario de sujeto añade información operativa sobre tu sistema. La diferencia es que ahora hay una asimetría que conviene conocer: la consciencia de acceso <em>sí</em> tiene métodos de estudio publicados y revisables —los de interpretabilidad—, mientras que la fenoménica no tiene ninguno. De modo que si alguien defiende el vocabulario clínico apelando a "lo que pasa dentro del modelo", la respuesta ya no es que dentro no pasa nada: es que lo que pasa dentro se estudia con herramientas que existen, y ninguna de ellas mide lo que ese vocabulario presupone.</p>
+  </div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BLOQUE D
+     INSERTAR EN: §20.6, dentro de "A nivel individual: el protocolo de
+     lectura crítica", tras el bloque A
+     ══════════════════════════════════════════════════════════════════════ -->
+
+  <div class="callout concept">
+  <h4>🔬 Condiciones de falsación: la pregunta que ordena cualquier afirmación fuerte sobre IA <span style="background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">🆕 v57</span></h4>
+
+  <p>Este manual aplica en §13.9 una disciplina concreta: si ninguna métrica puede detectar un fallo, la etiqueta que lo nombra no añadió información. La versión general de esa regla sirve para las afirmaciones fuertes que circulan sobre IA —"los LLM nunca podrán X", "esto ya es Y", "el escalado resuelve Z"— y se formula en una pregunta: <strong>¿qué tendría que observarse para que esta afirmación fuera falsa?</strong></p>
+
+  <p>Una afirmación sin respuesta a esa pregunta no es fuerte; es inmune, que es distinto. Pero el rendimiento real de la pregunta no está en descartar lo infalsable, sino en un segundo paso que casi nunca se da: <strong>separar el "todavía no" del "así no, nunca"</strong>.</p>
+
+  <ul>
+    <li><strong>Condición de ingeniería.</strong> Se puede enunciar qué habría que construir, y alguien lo construirá. Ejemplo: "los modelos actuales no revisan sus estados intermedios antes de emitir" — es una arquitectura, tiene coste de inferencia, y es cuestión de tiempo.</li>
+    <li><strong>Condición de principio.</strong> No la puede satisfacer ningún sistema de esa clase, por construcción. Ejemplo: cualquier criterio que exija propiedades del sustrato físico es inalcanzable para <em>cualquier</em> programa, en <em>cualquier</em> hardware, porque la independencia del sustrato es precisamente lo que el criterio niega.</li>
+    <li><strong>Condición no verificable.</strong> Se puede enunciar pero no comprobar con los métodos disponibles — ni en sistemas artificiales ni en el sistema de referencia con el que se los compara.</li>
+  </ul>
+
+  <p>Las tres suenan igual cuando se presentan en la misma tabla, y esa confusión es el fallo argumental más común en los documentos de estrategia sobre IA: un límite de ingeniería con calendario, uno de principio y uno inverificable, listados como si fueran la misma clase de obstáculo. La consecuencia práctica es directa — solo el primero admite hoja de ruta, y solo el tercero justifica suspender el juicio.</p>
+
+  <p><strong>Aplicación al leer un informe.</strong> Ante cualquier veredicto tajante sobre lo que la IA puede o no puede hacer, localiza tres cosas antes de aceptarlo: <em>(1)</em> el marco del que depende —¿es una conclusión interna a una teoría concreta o un hecho independiente?—, <em>(2)</em> las condiciones que lo revertirían, y <em>(3)</em> a cuál de las tres clases pertenece cada una. Un informe que no permite reconstruir las tres no está informando sobre el mundo; está informando sobre el marco de quien lo escribió.</p>
+  </div>
+
+</body>
+</html>
