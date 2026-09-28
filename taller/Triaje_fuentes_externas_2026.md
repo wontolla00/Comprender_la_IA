@@ -1984,3 +1984,38 @@ confirmación externa de que el diseño de HyperRAG no es una rareza, sino más 
 estándar que el post describe — no como corrección ni como contenido a incorporar en ningún lado.**
 `[Manual: Ninguno]` `[Empreinte: Ninguno]` `[HyperRAG: Ninguno en código]` `[Auditra: no tocado en
 esta pasada — pendiente anotado aparte en memoria]`
+
+
+### Aclaración de alcance 2026-09-28 (e) — Auditra entra en el análisis, no se modifica
+
+El usuario aclaró: "no tocar Auditra" significa no modificar ni commitear nada en ese repo — no
+significa excluirlo del análisis. Corrección de alcance para todo triaje futuro: Auditra se evalúa
+igual que los otros cuatro frentes, solo con lectura, nunca escritura. Las dos entradas de hoy
+llevaban `[Auditra: no tocado en esta pasada]` como placeholder sin análisis real; quedan
+completadas aquí, con el código real de Auditra revisado (solo lectura, nada modificado ni
+commiteado en `11_Auditra/`).
+
+**Sobre "Exploring the Cryptographic Limits of Transformer Networks" (entrada (c) de hoy).**
+Auditra es un control plane que audita y decide ALLOW/REVIEW/BLOCK sobre acciones de agentes de
+IA — su único filtro de contenido sensible hoy es `auditra_mvp/backend/content_classifier.py`:
+reglas deterministas de PII (tarjeta+Luhn, IBAN, SSN, claves de API, palabras clave) sobre
+`target`/`description` de una `Action`. Verificado por lectura directa: cero detección de
+entropía o contenido codificado/cifrado — ni siquiera la heurística que ya tiene HyperRAG
+(`content_screen.py`), y sin ningún tratamiento de colusión entre agentes (`grep` sobre
+`docs/` para "multi-agente"/"colusión"/"esteganografía": cero resultados). Conexión real y más
+directa que en HyperRAG: el motivo del paper (colusión secreta entre agentes de IA) es
+precisamente el tipo de amenaza contra la que un *control plane* de agentes como Auditra existiría
+para defender — a diferencia de HyperRAG, que es de un solo agente sin canal de coordinación,
+Auditra sí gobierna (o podría llegar a gobernar) múltiples agentes cuyas acciones pasan por el
+mismo punto de decisión. No hay ningún mecanismo hoy que detectaría contenido cifrado/codificado
+en el `target`/`description` de una acción, más allá de las reglas de PII. Vale como candidato de
+roadmap para consideración futura de David (no como incorporación decidida ni como corrección —
+`content_classifier.py` se documenta a sí mismo como "no exhaustivo", explícitamente fuera de esa
+garantía por diseño). No se creó ningún archivo en `11_Auditra/`, por instrucción explícita.
+`[Auditra: Ninguno aplicado — candidato de roadmap señalado aquí (control plane de agentes sin
+detección de contenido codificado/cifrado ni tratamiento de colusión multi-agente), decisión de
+incorporarlo a `docs/roadmap/` queda para David]`
+
+**Sobre "RAG vs Agentic RAG vs Graph RAG" (entrada (d) de hoy).** Sin conexión — Auditra no es un
+sistema de retrieval, es un control plane de gobernanza de acciones de agentes; la comparación de
+arquitecturas RAG no aplica a su dominio. `[Auditra: Ninguno — fuera de alcance del proyecto]`
