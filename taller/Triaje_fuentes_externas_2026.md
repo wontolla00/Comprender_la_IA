@@ -2089,3 +2089,83 @@ de revisión más detenida si a David le interesa, no aplicado]`
 **Veredicto: Observar — dos candidatos genuinos señalados (MLOps clásico ausente del manual; huecos
 de MCP/evals en HyperRAG), una pregunta abierta sin resolver en Auditra (prompt injection), y
 confirmación sin hallazgo en Empreinte y en el núcleo RAG de HyperRAG. Nada aplicado.**
+
+
+### 2026-09-28 (g) — Procedural Graphs: Self-Evolving Execution Structures for LLM Agents (Lu, Chen, Wu, Arık; Google/Georgia Tech/Peking Univ.; arXiv:2609.09153)
+
+**Fuente.** Paper real, verificado por WebSearch + lectura directa del HTML en arXiv (no solo el resumen
+del post de LinkedIn, que omite tres cosas: la evolución es **por lotes offline**, no en línea por
+consulta; hay **validation gating** (solo se aceptan ediciones que mejoren un held-out) y **memoria de
+rechazo** (no se repropone lo ya descartado); y hay cifras reales — 7 benchmarks (HotpotQA, MultiChallenge,
+GDPval, ALFWorld, τ-bench, BFCL, EnterpriseArena), 4 familias de LLM, primer o co-primer puesto en 21/24
+combinaciones modelo-benchmark, 19 victorias/2 empates/3 derrotas frente al mejor baseline (p=4.3×10⁻⁴).
+Un Grafo Procedimental organiza el conocimiento en tripletas (procedimiento, relación, procedimiento) —
+responde "qué hacer" en vez de "qué es" (la pregunta de un grafo de conocimiento clásico) — y evoluciona
+comparando trayectorias exitosas y fallidas mediante un LLM refinador que propone ediciones estructurales.
+
+**Comprender la IA — sin grafo procedimental, pero el paper es contraevidencia externa directa a una
+norma ya escrita en el manual.** Verificado en el HTML real (v112): "grafo procedimental"/"procedural
+graph" y "self-evolving"/"auto-evolutiv" aparecen 0 veces — no hay hueco de vocabulario. Pero el §10.9.x
+("Memoria de política") contiene una afirmación normativa explícita: **"La memoria de política nunca se
+auto-promueve"** — la regla exacta que el paper contradice desde fuera, con cifras: un LLM refinador SÍ
+propone y aplica ediciones estructurales automáticas sobre un análogo de política/procedimiento, ganando
+en 21 de 24 configuraciones. La diferencia no es trivial ni anula la norma del manual — el paper aplica
+gating (solo se acepta si mejora un held-out) y memoria de rechazo, es decir, auto-evolución *controlada*,
+no auto-promoción sin puerta — pero es precisamente el tipo de matiz que el manual podría citar como
+contraejemplo con salvaguardas, en vez de dejar la norma sin matizar. Candidato genuino de cita/nota al
+pie en §10.9.x, no incorporación decidida — no se tocó el HTML. `[Manual: candidato señalado — el paper
+es contraevidencia externa con cifras a la norma "la memoria de política nunca se auto-promueve"
+(§10.9.x), con salvaguardas (gating + memoria de rechazo) que la distinguen de una auto-promoción sin
+control; decisión de citarlo queda para David]`
+
+**HyperRAG — mismo principio de diseño ya explícito en código, en la dirección contraria a la del paper.**
+Verificado en `hyperrag/config.py::MemoryConfig`: `policy_memory` — "Tenant+agent scoped, versioned,
+exact-match retrieval ONLY (never similarity), and **NEVER auto-promoted** -- authored explicitly via
+`MemoryManager.author_policy`, not by the extraction LLM." Es la misma frase que el manual, en código: el
+diseño de HyperRAG decidió explícitamente lo opuesto a lo que el paper propone (edición automática de la
+estructura procedimental vía LLM refinador). Además, `GraphLayer` (`hyperrag/layers/graph_layer.py`) es
+un grafo de **entity relations** — "qué es", vía networkx — no un grafo procedimental ("qué hacer"); no
+hay solapamiento de código, son estructuras distintas para preguntas distintas, tal como el paper mismo
+distingue. No se propone ningún cambio: la decisión de no auto-evolucionar `policy_memory` ya está
+razonada y documentada en el propio `config.py` (evitar que una política de seguridad mute sin
+supervisión humana) — el paper no aporta un caso de uso donde HyperRAG necesite eso, y su propio
+`_self_critique()` (Self-RAG-inspirado, un reintento acotado) ya es la única forma de "auto-corrección"
+que el diseño admite. `[HyperRAG: Ninguno — contraste documentado, no cambio; el diseño ya tomó
+conscientemente la decisión opuesta a la del paper para `policy_memory`]`
+
+**Auditra — la tensión es más aguda aquí que en HyperRAG, y pesa a favor de NO adoptar nada del paper.**
+Verificado por lectura directa de `auditra_mvp/backend/engine.py`: el motor de decisión ALLOW/REVIEW/BLOCK
+es enteramente reglas estáticas autoría humana + un umbral de score fijo (`SCORE_REVIEW_THRESHOLD`,
+`SCORE_BLOCK_THRESHOLD`), con fallo cerrado explícito ("falla CERRADO -- BLOCK, con el motivo a la vista
+-- en vez de ALLOW o de un 500"). `grep` sobre el backend: cero archivos con "trajector", "self-evolv" o
+"procedur" fuera de nombres de test no relacionados. Auditra es, por diseño y por necesidad regulatoria
+(cadena de auditoría firmada — `audit_chain.py`, `anchoring.py`, `signing.py`), el tipo de sistema donde
+una política que se reescribe sola —aunque sea con gating— es precisamente lo que un control plane de
+cumplimiento no puede permitirse sin trazabilidad humana explícita: el paper es interesante como
+antipatrón a evitar en este dominio, no como mejora a considerar. No se creó ni modificó nada en
+`11_Auditra/`. `[Auditra: Ninguno aplicado — el paper confirma por contraste que el diseño estático y
+auditable actual es la elección correcta para un control plane de cumplimiento, no señala ningún hueco
+a cubrir]`
+
+**Empreinte — sin conexión.** No es un motor de ejecución de agentes ni gestiona estructuras
+procedimentales; el dominio de Empreinte (coste, calidad, drift de LLMs) no se cruza con el del paper.
+`[Empreinte: Ninguno]`
+
+**Corpus literario — resonancia temática señalada, sin acción.** El mecanismo del paper (memoria de
+rechazo: lo que falló no se repropone, pero tampoco se borra — queda como restricción aprendida) roza
+temáticamente el Principio V de Agota ("revisión sin destruir") y el VIII ("nada definitivo") ya
+trabajados en `Agota_y_OKF_nota_puente.md` — pero es una resonancia conceptual distante (un mecanismo de
+ingeniería de agentes, no de procedencia de contenido), no una conexión concreta con un personaje o
+escena de Ciudad Lisa. Se deja anotada, no se fuerza ninguna adición al taller. `[Corpus: Ninguno —
+resonancia señalada, no forzada]`
+
+**Veredicto: Observar — sin cambios de código en ningún frente. El hallazgo real no es un hueco sino un
+contraste: dos sistemas propios (HyperRAG y Auditra) ya tomaron, de forma independiente y documentada, la
+decisión de NO auto-evolucionar estructuras de política/procedimiento sin supervisión humana — el paper
+es la primera evidencia externa con cifras que pone esa decisión a prueba, con salvaguardas (gating +
+memoria de rechazo) que matizan pero no invalidan el argumento de auditabilidad. Único candidato con
+acción pendiente: citar el paper como contraejemplo con matices en el §10.9.x del manual — decisión de
+David.**
+`[Manual: candidato señalado — cita/nota al pie en §10.9.x]` `[HyperRAG: Ninguno — contraste documentado]`
+`[Empreinte: Ninguno]` `[Auditra: Ninguno aplicado — confirma diseño estático como correcto]`
+`[Corpus: Ninguno — resonancia señalada, no forzada]`
