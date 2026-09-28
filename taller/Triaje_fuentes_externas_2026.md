@@ -1857,3 +1857,12 @@ formato de salida del SLM especificado explícitamente en el *system prompt* (an
 incluida la verificación (`234 passed, 2 skipped`, test de regresión nuevo) en
 `Empreinte/taller/Jev_Engineering_y_clasificadores_Empreinte_nota_puente.md`, Adendas 2 y 3.
 `[Empreinte: Aplicado — corrección de código real en 3 archivos + 1 test de regresión nuevo]`
+
+**Cierre definitivo 2026-09-28 (misma tarde).** La investigación continuó más allá de la
+corrección inicial: verificación con Ollama real reveló que el modelo también inventaba
+categorías fuera de la lista cerrada (~9-12%), y que reforzar la instrucción en texto no lo
+arreglaba. Solución final: salida estructurada (JSON Schema con `enum` cerrado, constrained
+decoding) — verificada con Ollama real sobre 56 prompts: 0% categorías inventadas, 100%
+confianza reconocible. Resumen ejecutivo completo de toda la cadena (9 adendas) en
+`Empreinte/taller/Cierre_Empreinte_Jev_Confianza_Estructurada_2026-09-28.md`. Suite final:
+`238 passed, 2 skipped`, 15 commits locales.
