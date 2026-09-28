@@ -1788,3 +1788,58 @@ solo valida externamente la misma filosofía de diseño]` `[HyperRAG:
 Ninguno — sin conexión verificada con el enrutado/umbrales actuales]`
 `[Auditra: tratado aparte, no es alcance de este log —
 ver `11_Auditra/docs/roadmap/jev-clasificacion-decision-calibrada.md`]`
+
+### 2026-09-28 — Jev Engineering: The 10-Step Guide (TypeSafe AI, guía técnica/promocional)
+
+**Fuente.** Guía técnica de TypeSafe AI (probablemente propia, sin firma periodística
+independiente) sobre el mismo Jev tratado en la entrada del 2026-09-22 (Xataka), pero contenido
+distinto: más técnico, con pricing, ejemplos de código y un patrón de arquitectura de 10 pasos
+("Jev Engineering") para instalar a Jev entre un LLM generador y el código que ejecuta. Misma
+cautela epistémica que la entrada anterior — mismo proveedor, mismas cifras sin paper reproducible
+ni evaluación independiente; esta guía no añade ni resta verificación sobre TypeSafe.
+
+**Relevancia — a diferencia de la entrada anterior, esta vez la revisión sí generó hallazgo
+verificado, pero en el propio corpus, no en Jev.** La tesis del post ("las llamadas que solo
+eligen, puntúan o responden sí/no no deberían pagar precio de generación") empujó a revisar el
+código real de HyperRAG y Empreinte con esa pregunta encima. Resultado en los dos casos: el patrón
+ya está implementado, con cifras de cobertura y latencia propias, documentadas en el propio código
+desde antes del post — ver `HyperRAG/taller/Jev_Engineering_y_clasificadores_HyperRAG_nota_puente.md`
+y `Empreinte/taller/Jev_Engineering_y_clasificadores_Empreinte_nota_puente.md` para el detalle
+verificado línea por línea.
+
+**Vale la pena para Cap. 10 (ejemplo de arquitectura agente-sin-texto): reemplazar o complementar
+el ejemplo comercial de Jev por evidencia del propio corpus.** La entrada del 2026-09-22 ya
+marcaba Cap. 10 como candidato para un ejemplo de Jev. Ahora hay una alternativa mejor: el
+clasificador de dos niveles de HyperRAG (`_classify_query`, regex + SLM local) y el clasificador
+híbrido de Empreinte (`question_type_classifier_hybrid.py`, regex 85% + SLM local 10-15%) ilustran
+el mismo principio con cifras verificadas del propio proyecto, sin depender de benchmarks de
+parte interesada. No cambia ningún argumento ya hecho, mejora la evidencia que lo ilustra.
+
+**Veredicto: Aplicado en Empreinte y HyperRAG (notas puente creadas); pendiente de decisión en el
+manual.** `[Manual: candidato reforzado — el ejemplo de Cap. 10 puede citar HyperRAG/Empreinte en
+vez de (o además de) Jev; sigue sin ser urgente, es mejora de evidencia, no corrección; decisión
+de incorporarlo a una versión concreta queda para David]` `[Empreinte: Aplicado —
+ver nota puente en `Empreinte/taller/`; el post no aporta técnica nueva, dos mecanismos ya
+resuelven el patrón "Choice"/"Score" localmente]` `[HyperRAG: Aplicado — ver nota puente en
+`HyperRAG/taller/`; actualiza el veredicto "Ninguno" de la entrada anterior, ahora con tres
+conexiones verificadas]` `[Auditra: no tocado en esta pasada — pendiente anotado aparte en
+memoria, para retomar más tarde]`
+
+### 2026-09-28 (b) — Les modèles de décision structurée, Jev (Julien Perez, EPITA, nota técnica académica)
+
+**Fuente.** A diferencia de las dos entradas anteriores sobre Jev (Xataka, periodístico; guía
+TypeSafe, promocional), esta es una nota técnica de un profesor asociado de EPITA: formaliza
+matemáticamente la diferencia generación/decisión (factorización en cadena vs. pase paralelo) y
+sitúa Jev como combinación de dos líneas anteriores a los LLM generativos (encoders BERT + ranking/
+IR, softmax sobre candidatos). Cita Laya, implementación independiente de código abierto —
+verificada antes de citar: repositorio real (`github.com/NandhaKishorM/laya`, ModernBERT-large),
+no una referencia inventada. Mismas cifras de Jev/TypeSafe sin verificación independiente, misma
+cautela que las dos entradas anteriores.
+
+**Veredicto: Aplicado en el manual (único hallazgo con hueco de contenido real).** `[Manual:
+Aplicado — nueva subsección §12.4b "Cardinalidad variable" (v111→v112), citando Laya (verificable)
+en vez de solo Jev (proveedor); ver `Registro_manual_v111_a_v112.md`]` `[Empreinte: Ninguno nuevo —
+ya cubierto por la nota puente del 28/09 (REGEX+SLM, cardinalidad fija)]` `[HyperRAG: Ninguno
+nuevo en código — el hallazgo de esta fuente (cardinalidad variable) es precisamente lo que ya hace
+el reranker CrossEncoder, ahora citado en el manual con fundamento teórico propio]` `[Auditra: no
+tocado en esta pasada — pendiente anotado aparte en memoria]`

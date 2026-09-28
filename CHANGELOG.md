@@ -2,6 +2,35 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v112 — 28 septiembre 2026 · Cardinalidad variable en clasificación (§12.4b)
+
+Origen: nota técnica académica ("Les modèles de décision structurée, Jev", Julien Perez, EPITA,
+26 sept. 2026) — no material de proveedor ni periodístico, a diferencia de dos fuentes anteriores
+sobre el mismo producto ya registradas en `taller/Triaje_fuentes_externas_2026.md`. Detalle técnico
+completo, incluida la verificación de balance de etiquetas, en `taller/Registro_manual_v111_a_v112.md`.
+
+- Nueva subsección §12.4b "Cardinalidad variable: cuando el número de opciones no está fijado en
+  el entrenamiento" — la fila que faltaba en la tabla existente entre "clasificador especializado"
+  (categorías fijas) y "LLM generativo" (contexto abierto): puntuación de candidatos cuyo número
+  varía por llamada, sin reentrenar (proyección d→1 por candidato en vez de d→n fijo).
+- Cita Laya (`github.com/NandhaKishorM/laya`, ModernBERT-large, código abierto), verificado antes
+  de citar, en vez de depender solo de las cifras de rendimiento de Jev/TypeSafe (sin verificación
+  independiente, misma cautela que el resto del manual — §20.6).
+- Grounding en el propio corpus: el reranker CrossEncoder de HyperRAG ya resuelve este problema en
+  producción, sin haberlo nombrado así hasta ahora.
+- Entrada nueva en el índice temático interactivo (categoría "arquitectura").
+- Corrección incidental: `Fase_0_Onboarding.html` apuntaba a un nombre de archivo versionado
+  (`Comprender_la_IA_2026_v108.html`) que no existe en este repositorio — corregido a `index.html`
+  en los dos enlaces, consistente con la convención de este repo (el archivo vivo se llama
+  `index.html`; solo `archivo/` usa nombres versionados).
+
+## v110–v111 — septiembre 2026 · sin registro detallado
+
+Estas dos versiones existieron en la copia de trabajo local antes de esta sesión de sincronización,
+con snapshots conservados en `archivo/`, pero sin una entrada de changelog que documente qué
+cambió en ninguna — hueco anterior a esta sesión, señalado aquí en vez de completado con
+contenido inventado.
+
 ## v109 — septiembre 2026 · Revisión post-auditoría
 
 Correcciones derivadas de la auditoría externa por dimensiones (rigor, coherencia pedagógica, aplicabilidad, lenguaje, navegabilidad, cobertura, adecuación al perfil).
