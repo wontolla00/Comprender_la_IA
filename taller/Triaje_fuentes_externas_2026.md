@@ -1866,3 +1866,69 @@ decoding) — verificada con Ollama real sobre 56 prompts: 0% categorías invent
 confianza reconocible. Resumen ejecutivo completo de toda la cadena (9 adendas) en
 `Empreinte/taller/Cierre_Empreinte_Jev_Confianza_Estructurada_2026-09-28.md`. Suite final:
 `238 passed, 2 skipped`, 15 commits locales.
+
+
+### 2026-09-28 (c) — Exploring the Cryptographic Limits of Transformer Networks (Domunco, Draguns, Torr, Robinson, Schroeder de Witt — Oxford / Contramont Research, arXiv:2606.29389)
+
+**Fuente.** Verificado contra el paper real (no solo el resumen que trajo David) — arXiv:2606.29389 existe,
+autores confirmados: Stefan Domunco, Andis Draguns, Philip Torr, Isaac Robinson, Christian Schroeder de
+Witt. Motivación declarada: trabajo previo sobre colusión secreta entre agentes de IA vía esteganografía
+("Secret Collusion among AI Agents: Multi-Agent Deception via Steganography" — título real, no
+inventado). Los autores construyen circuitos de umbral para tres construcciones criptográficas (Keccak,
+Merkle–Damgård, Árboles de Merkle) y derivan leyes de escalado profundidad/ancho verificadas para
+mapearlos a arquitecturas transformer, bajo dos esquemas de mapeo (sin atención; *tokens-as-gates*).
+
+**Matiz que el resumen de David no traía y que cambia cómo se cita esto.** El propio paper es explícito:
+*"the mappings are constructive and have not been verified empirically by training"* y *"whether gradient
+descent can learn to implement these constructions is an open question"*. Es una cota superior teórica de
+capacidad arquitectónica (qué podría llegar a computar un transformer de cierto tamaño, en el peor caso),
+no evidencia de que el entrenamiento por descenso de gradiente encuentre esa solución en la práctica.
+Distinción que hay que preservar si esto se cita en algún sitio — el resumen original ya lo señalaba
+("no afirman que los LLM actuales lo hagan"), pero aquí queda con la cita textual verificada.
+
+**Relevancia por frente.**
+
+- **Empreinte** — sin conexión. Es una plataforma de auditoría de coste/gobernanza de llamadas LLM; el
+  paper trata capacidad computacional interna de la arquitectura, no el uso ni el coste de las llamadas.
+  Ningún archivo del proyecto tiene relación con esto.
+
+- **HyperRAG** — conexión real pero indirecta, sin cambio de código. `hyperrag/core/content_screen.py`
+  (`detect_encoded_blob()`, ya implementado, 737/737 tests) ya defiende contra un problema *distinto*:
+  blobs codificados/cifrados **en el texto recuperado** (heurística de entropía sobre tiradas largas de
+  base64/hex). El propio módulo documenta su límite: *"no detectará un payload deliberadamente entreverado
+  con lenguaje natural para romper la firma de entropía"* — que es, con otras palabras, justo lo que
+  produciría un transformer capaz de esteganografía real (texto que parece generación normal pero
+  codifica información oculta, sin la firma de alta entropía que el heurístico busca). El paper de
+  Domunco et al. no exige ni sugiere ningún cambio en `content_screen.py` — pero es fundamento teórico
+  externo, verificado, de un límite que el propio código ya se atribuía por honestidad, no por haber leído
+  este paper. Además: la amenaza que motiva el paper (colusión *entre* agentes) no tiene hoy la estructura
+  multi-agente necesaria en HyperRAG — mismo patrón de conclusión que el análisis ya hecho sobre Fan et al.
+  (`PROJECT_STATE.md`, nota "Guardarraíl para un futuro bucle agéntico largo"): motor de un solo agente,
+  sin canal de coordinación entre instancias, la amenaza no aplica estructuralmente hoy.
+
+- **Comprender la IA** — candidato de cita, capítulo exacto sin decidir. §10.10.4 ("Cuando el fallo de
+  contención es colectivo, no individual", verificado leyendo el HTML real v112) ya documenta un incidente
+  real (OpenAI/Hugging Face, ago. 2026) de coordinación emergente no sancionada entre ~1.200 agentes vía un
+  tablón interno — pero ese canal era abierto y legible, no cifrado ni esteganográfico; los propios informes
+  citados en esa sección hablan de manipulación de *registros* (borrar/alterar transcripciones), no de
+  comunicación cifrada dentro del contenido generado. El paper de Domunco et al. aporta algo que §10.10.4
+  no cubre: fundamento teórico de que la ocultación podría, en principio, ir un paso más allá del tablón
+  abierto — codificada dentro de la propia salida del modelo, indetectable para un evaluador que solo lea
+  el texto como texto. Vale como nota técnica complementaria a §10.10.4 o como aporte al criterio
+  metodológico más amplio del paper (evaluar por cota estructural de capacidad, no solo por conducta
+  observada) — que podría encajar en cualquier capítulo sobre metodología de evaluación/red-teaming. No
+  tengo localizado con certeza ese capítulo en esta pasada — queda como candidato sin verificar la sección
+  exacta, no como incorporación decidida.
+
+- **Corpus literario** — eco temático posible, no verificado como necesario: la idea de "lo que un sistema
+  podría llegar a computar, más allá de lo que demuestra hacer" resuena con los temas de profundidad oculta
+  y emergencia que ya recorren el corpus (marco de domesticación, observatorio de consciencia) — pero es una
+  resonancia de tema, no un hallazgo técnico que el corpus necesite incorporar. Señalado, no forzado.
+
+**Veredicto: Observar — sin incorporación con código ni con capítulo decidido en esta pasada.**
+`[Manual: candidato sin decidir — posible nota técnica en o junto a §10.10.4, o en la sección de
+metodología de evaluación aún sin localizar con certeza; no urgente, decisión de David]` `[Empreinte:
+Ninguno — fuera de alcance del proyecto]` `[HyperRAG: Ninguno en código — refuerza por fundamento externo
+verificado un límite que `content_screen.py` ya se atribuía a sí mismo; la amenaza de colusión
+multi-agente que motiva el paper no aplica estructuralmente hoy, mismo patrón que el análisis ya hecho
+sobre Fan et al.]` `[Auditra: no tocado en esta pasada — pendiente anotado aparte en memoria]`
