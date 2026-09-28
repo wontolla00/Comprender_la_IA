@@ -1843,3 +1843,17 @@ ya cubierto por la nota puente del 28/09 (REGEX+SLM, cardinalidad fija)]` `[Hype
 nuevo en código — el hallazgo de esta fuente (cardinalidad variable) es precisamente lo que ya hace
 el reranker CrossEncoder, ahora citado en el manual con fundamento teórico propio]` `[Auditra: no
 tocado en esta pasada — pendiente anotado aparte en memoria]`
+
+**Seguimiento 2026-09-28 — cierre del frente Empreinte.** El "Ninguno nuevo" de arriba dejó de
+ser exacto: la pregunta abierta de esta fuente sobre robustez al fraseo se convirtió en un
+experimento real (`Empreinte/tests/test_question_type_robustness_to_phrasing.py`, ejecutado con
+n=3, ampliado a n=15, pendiente de reejecución final por el usuario) y ese experimento sacó a la
+luz, de forma incidental, un defecto de código real: la confianza de tipo de pregunta que
+`question_type_classifier_hybrid.py` calcula por SLM se descartaba en los dos únicos sitios de
+producción que la consumían (`phase2_slm_reclassifier.py`, `prompt_clustering.py`), sustituida por
+una constante `0.8` sin relación con ningún valor calculado. Corregido: confianza real propagada,
+formato de salida del SLM especificado explícitamente en el *system prompt* (antes ambiguo), y
+`SubjectCluster.to_dict()` ahora exporta el campo (antes ni se serializaba). Detalle completo,
+incluida la verificación (`234 passed, 2 skipped`, test de regresión nuevo) en
+`Empreinte/taller/Jev_Engineering_y_clasificadores_Empreinte_nota_puente.md`, Adendas 2 y 3.
+`[Empreinte: Aplicado — corrección de código real en 3 archivos + 1 test de regresión nuevo]`
