@@ -2286,3 +2286,17 @@ inmediatamente después del callout, en el registro que el manual ya usa para ma
 No se ha tocado el HTML. Queda a la espera de que David apruebe, edite o descarte este texto concreto
 — ya no es una idea abstracta, es la redacción exacta que se insertaría.
 `[Manual: propuesta redactada y lista para aprobación en §10.9.4, no insertada]`
+
+
+### 2026-09-28 (l) — Inserción aprobada: cita Procedural Graphs en §10.9.4, manual → v113
+
+David aprobó el texto redactado en (k) tal cual, sin ediciones. Insertado en el manual real
+(`06_Comprender_la_IA/Comprender_la_IA_2026_v113.html`) siguiendo el protocolo ya establecido
+(archivado del v112 original con md5sum verificado, balance estructural de tags antes/después,
+renombrado y actualización de título/badge). Detalle completo, con las cifras de verificación:
+`Registro_manual_v112_a_v113.md`, este mismo directorio.
+
+Los otros tres candidatos profundizados hoy — Auditra/prompt injection (h), HyperRAG/MCP+evals (i),
+Manual/MLOps clásico (j) — no generaron cambio en el manual ni en ningún otro repo; quedan cerrados
+tal como se documentó en cada entrada.
+`[Manual: v112 → v113 — nota insertada en §10.9.4]`
