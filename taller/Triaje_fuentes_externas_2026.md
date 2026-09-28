@@ -1932,3 +1932,55 @@ Ninguno — fuera de alcance del proyecto]` `[HyperRAG: Ninguno en código — r
 verificado un límite que `content_screen.py` ya se atribuía a sí mismo; la amenaza de colusión
 multi-agente que motiva el paper no aplica estructuralmente hoy, mismo patrón que el análisis ya hecho
 sobre Fan et al.]` `[Auditra: no tocado en esta pasada — pendiente anotado aparte en memoria]`
+
+
+### 2026-09-28 (d) — RAG vs Agentic RAG vs Graph RAG: Which One Do You Need? (Anurag Karuparti, infografía/post de LinkedIn, promocional)
+
+**Fuente.** Post de LinkedIn con infografía, sin cifras propias ni cita a paper alguno — comparación
+didáctica de tres patrones de RAG como si fueran tres arquitecturas mutuamente excluyentes entre las
+que hay que elegir una para todo el sistema, cada una con su lista de "casos de uso" ilustrativa, no
+verificada. Mismo registro que las guías promocionales de Jev (TypeSafe) tratadas el 22 y 28/09: útil
+como disparador de revisión, no como fuente de datos a citar.
+
+**Comprender la IA — sin incorporación, contenido ya cubierto y con más matiz.** Verificado en el manual
+real (v112, no de memoria): "Agentic RAG" aparece 4 veces, "GraphRAG"/"Graph RAG" 80 veces. El patrón
+exacto que el post describe (agente que evalúa si el retrieval es suficiente y repite con una
+sub-pregunta si no) ya está en el manual como "Combinación 3: RAG agéntico" — con el diagrama textual
+del propio loop pregunta→retrieval→evaluación→retrieval 2→síntesis, en el contexto de una taxonomía más
+amplia de combinaciones (no aislado como una de tres opciones a elegir, sino como una entre varias
+piezas componibles). El post no aporta nada que el manual no tenga ya, con más profundidad.
+`[Manual: Ninguno]`
+
+**HyperRAG — sin cambio de código, pero comparación real que vale la pena dejar escrita.** El post
+enmarca RAG / Agentic RAG / Graph RAG como tres arquitecturas entre las que se elige una según el caso
+de uso. HyperRAG no elige: implementa las tres piezas del post como capas del mismo motor (BM25,
+Vector, Wiki, Graph vía `GraphLayer`/networkx, Tree, Reranker) más MEMO, y decide **por consulta, no
+por sistema**, qué subconjunto usar — verificado en `engine.py::_MATURITY_LAYER_MAP`:
+
+| Categoría (clasificador L2) | Capas usadas |
+|---|---|
+| explanation | bm25, vector, wiki, reranker |
+| root_cause | vector, graph, reranker |
+| hidden_node | graph, tree, reranker |
+| prediction | vector, graph, tree, reranker |
+
+Además, el "evalúa y repite" del bloque Agentic RAG del post ya existe como `_self_critique()`
+(inspirado en Self-RAG, opt-in, capado a un reintento exacto por diseño — no un bucle abierto). El
+post no equivoca nada, pero su pregunta decisoria ("¿uso RAG, Agentic RAG o Graph RAG?") asume una
+granularidad de sistema completo que HyperRAG ya resolvió a granularidad de consulta individual — dato
+útil como contraste documentado, no como corrección de nada que el post afirme mal.
+`[HyperRAG: Ninguno en código — conexión de contraste documentada aquí, sin cambio: la arquitectura
+real ya compone las tres piezas del post con enrutado adaptativo por consulta, en vez de elegir una
+para todo el sistema]`
+
+**Empreinte — sin conexión.** No es un sistema de retrieval; la comparación no aplica.
+`[Empreinte: Ninguno]`
+
+**Corpus literario — sin conexión, no se fuerza.** `[Corpus: Ninguno]`
+
+**Veredicto: Descartar como fuente de contenido nuevo — el manual ya cubre Agentic RAG y GraphRAG con
+más profundidad, y HyperRAG ya implementa las tres piezas de forma adaptativa por consulta. Vale como
+confirmación externa de que el diseño de HyperRAG no es una rareza, sino más granular que la práctica
+estándar que el post describe — no como corrección ni como contenido a incorporar en ningún lado.**
+`[Manual: Ninguno]` `[Empreinte: Ninguno]` `[HyperRAG: Ninguno en código]` `[Auditra: no tocado en
+esta pasada — pendiente anotado aparte en memoria]`
