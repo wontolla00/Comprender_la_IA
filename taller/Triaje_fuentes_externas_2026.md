@@ -2169,3 +2169,120 @@ David.**
 `[Manual: candidato señalado — cita/nota al pie en §10.9.x]` `[HyperRAG: Ninguno — contraste documentado]`
 `[Empreinte: Ninguno]` `[Auditra: Ninguno aplicado — confirma diseño estático como correcto]`
 `[Corpus: Ninguno — resonancia señalada, no forzada]`
+
+
+### Profundización 2026-09-28 (h) — Auditra y "prompt injection": pregunta cerrada
+
+Retomando el candidato abierto en la entrada (f) de hoy ("defensa contra prompt injection no
+verificada ni confirmada ni descartada"): búsqueda ampliada (solo lectura) sobre
+`auditra_mvp/backend/*.py` y `connectors/`. Los únicos hits reales de "injection"/"sanitiz" fuera de
+nombres de test son en `notifications.py`: escapado de HTML/Slack y bloqueo de saltos de línea en
+`target`/`description` para evitar **inyección de cabeceras en las notificaciones que Auditra
+envía** (email/Slack) — es sanitización de salida, no defensa de una capa de razonamiento LLM.
+`test_notification_injection.py` prueba exactamente eso, no prompt injection en el sentido del
+paper de colusión entre agentes tratado en la entrada (g).
+
+Dato que cierra la pregunta: `grep` de "openai|anthropic|litellm|llm_client|chat.completions" sobre
+todo `auditra_mvp/backend/*.py` da **cero resultados**. Auditra no tiene ninguna llamada a un LLM en
+su propia cadena de decisión — `engine.py` (reglas estáticas + umbral de score) y
+`content_classifier.py` (regex/palabras clave) son deterministas de principio a fin. No hay ninguna
+capa de razonamiento propia de Auditra que un contenido malicioso pudiera manipular vía prompt
+injection, porque no hay prompt que inyectar.
+
+Esto no es un hueco — es el diseño correcto para su función: Auditra no necesita defenderse de
+prompt injection porque audita el **resultado** (la acción que un agente externo, con su propio LLM,
+decide ejecutar), no el razonamiento que llevó a esa decisión. Un agente gobernado que fuera
+manipulado por prompt injection para pedir una acción dañina seguiría topando con las mismas reglas
+ALLOW/REVIEW/BLOCK que cualquier otra acción — el control plane es agnóstico al motivo por el que se
+pidió la acción, la evalúa por lo que es. Pregunta cerrada, sin acción pendiente.
+`[Auditra: pregunta cerrada — sin capa LLM propia en la cadena de decisión, prompt injection no es
+una superficie de ataque aplicable; el diseño de auditar la acción resultante, no el razonamiento que
+la produjo, ya cubre el caso por construcción]`
+
+
+### Profundización 2026-09-28 (i) — HyperRAG: MCP (dimensionado) y evals (corrección de la entrada f)
+
+**MCP — dimensionado real, no solo el grep de "cero archivos con mcp".** `HyperRAG` es una clase
+Python limpia (`hyperrag/engine.py::HyperRAG`, hereda `MemoryOpsMixin`/`LifecycleMixin`/
+`EvaluationMixin`) con métodos ya estables (`query`, `query_adaptive`, `query_with_layers`,
+`query_memo`, `query_tension`). Hoy solo tiene dos consumidores: `hyperrag_ui/app.py` (Streamlit) y
+`check_engine.py` (debug). No hay servidor HTTP de ningún tipo. Exponerlo como servidor MCP sería un
+wrapper delgado — un `server.py` nuevo con el paquete `mcp`, unas pocas `@tool` mapeando 1:1 a los
+métodos ya existentes de `HyperRAG` — del orden de 100-200 líneas, sin tocar `engine.py`. No es un
+proyecto grande; es una decisión de exposición de producto (¿quieres que una sesión de Claude como
+esta pueda consultar tu base HyperRAG directamente, en vez de por la UI?), no una carencia técnica.
+`[HyperRAG: candidato dimensionado — wrapper MCP pequeño y de bajo riesgo si David lo quiere, ningún
+cambio en el motor; decisión de producto, no correctiva]`
+
+**Evals — corrección de la entrada (f) de hoy: la afirmación fue incorrecta, verificado ahora en
+profundidad.** La entrada (f) dijo "no hay un harness de evals... separado de la suite de tests",
+basado solo en un `grep` sobre `hyperrag/core/`. Al buscar en todo el repo (no solo `core/`) aparece
+un arnés de evals maduro y ya en uso, en `eval/`: `answer_eval.py`/`anchor_eval.py`/
+`question_eval.py`/`ab_query_position.py`/`frontera_eval.py`/`paralelo_eval.py`, cada uno con su
+propio *golden set* versionado (`answer_eval_set.json`, `anchor_eval_set.json`,
+`question_eval_set.json`, `retrieval_eval_set.json`), más `scripts/eval_harness.py` (juez LLM 1-10,
+formato Q/Respuesta esperada/Fuente, per-domain, reutilizado por los `Blockfy_eval*.py`), más un
+arnés de fiabilidad de cuatro dimensiones (`eval/reliability_eval.py`, adaptado explícitamente del
+paper "Towards a Science of AI Agent Reliability" (Rabanser/Kapoor et al., arXiv 2602.16666), con
+ejecuciones trackeadas en `eval/reliability_runs/` desde el 1 de septiembre). Es justo lo que el post
+de hoy (f) describía como "golden set + re-ejecución" — solo que ya existe.
+
+Lo único que sí falta, verificado en `.github/workflows/tests.yml`: CI solo corre `pytest`, nunca los
+evals de `eval/`. Pero `reliability_eval.py` documenta esto como decisión deliberada, no descuido —
+Consistencia/Robustez exigen repetir la misma tarea K≥5 veces con inyección de fallos controlada,
+algo que no tiene sentido en cada push. No hay hallazgo de descuido aquí; la entrada (f) estaba
+verificada de forma incompleta y queda corregida.
+`[HyperRAG: corrección — el harness de evals con golden set SÍ existe (eval/, maduro, con arnés de
+fiabilidad de 4 dimensiones), la entrada (f) de hoy fue verificada de forma incompleta; lo único
+ausente (evals en CI) es una decisión ya razonada en el propio código, no un hueco]`
+
+
+### Profundización 2026-09-28 (j) — Manual: los 4 conceptos de MLOps clásico, veredicto cerrado
+
+Retomando el candidato "sin decidir" de la entrada (f) de hoy (feature stores, point-in-time joins,
+train/serving skew, batch vs. online inference). Verificado el contenido real de Cap. 1 ("Tu pipeline
+ETL, pero semántico", v112): 1.1-1.8 están enteramente centrados en el pipeline RAG y su comparación
+con fine-tuning/RAFT/contexto largo — los cuatro conceptos ausentes son de servido de ML clásico
+tabular (fraude, recomendación, forecasting no generativo), no tienen encaje natural ahí ni en Cap. 3
+(evaluación probabilística, golden dataset), que trata calidad/confianza de sistemas generativos, no
+infraestructura de features.
+
+Hay un precedente directo de cómo se resolvió el mismo tipo de decisión de alcance: la entrada del
+20/08 ("72 Techniques to Optimize LLMs in Production") excluyó 41 de 44 técnicas ausentes
+(paralelismo, kernels, scheduling de GPU) por ser "ingeniería interna de motores de inferencia fuera
+de alcance por diseño" — y esa exclusión se documentó **solo en el Log**, sin añadir ninguna nota de
+alcance dentro del propio manual (verificado: no hay una sección de "esto no cubrimos" en el HTML).
+Aplicando el mismo criterio aquí: los 4 conceptos de MLOps clásico quedan fuera del subtítulo
+declarado ("Arquitectura, Límites y Gobernanza de los **Sistemas Generativos**") por el mismo tipo de
+frontera técnica (aquí de dominio de datos — tabular vs. generativo — no de capa de motor), y siguiendo
+el precedente no hace falta ninguna nota de exclusión en el HTML — basta con dejarlo razonado aquí, en
+el Log. Diferencia real con el caso de agosto: ahí el post traía las 3 técnicas sí incorporables
+(semantic caching, multi-LoRA serving, model routing/cascading) ya explícitas; aquí no hay ningún
+subconjunto de los 4 que sí encaje — los cuatro son igualmente ajenos al dominio generativo.
+`[Manual: descartado — 4 conceptos de MLOps clásico fuera de alcance por dominio (tabular, no
+generativo), mismo criterio que "72 Techniques" (20/08); no se edita el HTML, consistente con el
+precedente de no añadir notas de exclusión en el propio texto]`
+
+
+### Profundización 2026-09-28 (k) — Manual: propuesta de cita redactada para §10.9.4 (Procedural Graphs)
+
+Retomando el candidato de la entrada (g) de hoy. Ubicación exacta verificada: la frase normativa
+"La memoria de política nunca se auto-promueve" cierra el callout "→ Orden de implementación
+recomendado" en **§10.9.4** (justo antes de §10.9.5). Es la última línea de un bloque muy compacto —
+no hay espacio ahí para matizarla sin romper el ritmo del callout. Propuesta: un párrafo aparte,
+inmediatamente después del callout, en el registro que el manual ya usa para matices con cita externa
+(cf. §2.5, notas fechadas). Texto listo para pegar si David aprueba, no insertado:
+
+> **Matiz (2026-09).** Esta regla no es universal por definición, solo la elección de diseño más
+> segura por defecto. "Procedural Graphs: Self-Evolving Execution Structures for LLM Agents" (Lu,
+> Chen, Wu, Arık; arXiv:2609.09153) demuestra con cifras (21 de 24 configuraciones modelo-benchmark
+> ganadas o empatadas) que una estructura análoga de conocimiento — no una política de seguridad, sino
+> conocimiento de "qué hacer" — sí puede auto-evolucionar de forma controlada, si la edición pasa por
+> una puerta de validación (solo se acepta si mejora un conjunto held-out) y una memoria de rechazo
+> (lo descartado no se repropone). La distinción que de verdad sostiene la regla de este manual no es
+> "nunca automatizar la memoria de política", sino "nunca automatizarla sin una puerta verificable" —
+> y esa puerta, cuando existe y se audita, cambia el cálculo.
+
+No se ha tocado el HTML. Queda a la espera de que David apruebe, edite o descarte este texto concreto
+— ya no es una idea abstracta, es la redacción exacta que se insertaría.
+`[Manual: propuesta redactada y lista para aprobación en §10.9.4, no insertada]`
