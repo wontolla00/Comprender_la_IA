@@ -2019,3 +2019,73 @@ incorporarlo a `docs/roadmap/` queda para David]`
 **Sobre "RAG vs Agentic RAG vs Graph RAG" (entrada (d) de hoy).** Sin conexión — Auditra no es un
 sistema de retrieval, es un control plane de gobernanza de acciones de agentes; la comparación de
 arquitecturas RAG no aplica a su dominio. `[Auditra: Ninguno — fuera de alcance del proyecto]`
+
+
+### 2026-09-28 (f) — Top 15 AI Engineering Concepts Data Engineers Should Know in 2026 (Ashish Joshi, infografía/post de LinkedIn, glosario didáctico)
+
+**Fuente.** Post glosario, sin cifras ni cita a fuente alguna — 15 conceptos de ingeniería de IA
+resumidos en una frase cada uno (embeddings, índices vectoriales, chunking, RAG, hybrid search,
+reranking, feature stores, point-in-time joins, training/serving skew, inferencia batch/online,
+prompt caching, MCP, evals, guardrails, observabilidad). Mismo registro que los posts anteriores:
+útil como checklist de cobertura, no como fuente de datos.
+
+**Comprender la IA — barrido término a término contra el manual real (v112), no de memoria.**
+11 de los 15 conceptos ya están cubiertos, varios en profundidad (RAG: 1372 menciones; embeddings:
+174-382; chunking: 112; MCP: 47, incluye "Model Context Protocol" citado dos veces; hybrid
+search/búsqueda híbrida: 45; reranking/rerank: 78; observabilidad: 59; prompt caching: 13;
+guardrails: 7; índice vectorial: 11 — bajo el término en español, no "Vector Index"). **4 conceptos
+en cero, verificado en español e inglés: feature stores, point-in-time joins, training/serving
+skew, inferencia batch vs. online** (como distinción genérica de arquitectura de servido, no como
+caso particular de RAG/LLM). El manual declara "MLOps" en su alcance (26 menciones) y su propio
+README dice explícitamente que el Cap. 1 ("Tu pipeline ETL, pero semántico") es puente para
+"Perfiles en transición (BI/datos → IA)" — la audiencia exacta a la que se dirige este post. Pero
+el subtítulo del manual acota el terreno a "Arquitectura, Límites y Gobernanza de los **Sistemas
+Generativos**", y los cuatro ausentes son conceptos de ML clásico/tabular (anteriores a los LLM,
+relevantes para fraude, recomendación, forecasting con modelos no generativos) — el mismo tipo de
+frontera de alcance que ya se trazó a propósito con la ingeniería interna de motores de inferencia
+en la entrada del 20/08 ("72 Techniques"), aunque ahí la exclusión era explícita y aquí no hay
+ninguna declaración que la confirme o la niegue. Queda como candidato sin decidir, no como hallazgo
+de descuido — depende de si David quiere que el puente BI→IA del Cap. 1 llegue hasta ahí o se quede
+en lo semántico. `[Manual: candidato sin decidir — 4 conceptos de MLOps clásico ausentes
+(feature stores, point-in-time joins, train/serving skew, batch vs. online inference), posible
+extensión del Cap. 1 si David quiere llevar el puente BI→IA más lejos; no urgente]`
+
+**HyperRAG — confirma lo ya implementado, dos huecos leves señalados sin verificación exhaustiva.**
+De los conceptos con conexión directa a un motor RAG (embeddings, índices vectoriales, chunking,
+RAG, hybrid search, reranking, prompt caching), los siete están implementados y ya verificados en
+sesiones anteriores de este mismo proyecto (BM25Layer + VectorLayer + chunking en el ingestor +
+FusionEngine con RRF + CrossEncoder reranker + `_rag_cache_*` como caché semántica) — el post no
+aporta nada nuevo ahí, solo confirma que la cobertura es completa. Dos huecos verificados por
+`grep`, sin profundizar más allá de esa comprobación puntual: **cero archivos con "mcp" en
+`hyperrag/core/`** — el motor no expone ni consume Model Context Protocol, a diferencia de la
+sesión de Claude que lo usa para operar sobre el propio repo; y no hay un harness de "evals" en el
+sentido del post (golden set + re-ejecución automática en cada cambio de prompt/modelo) separado de
+la suite de tests (737 tests, pero eso es corrección de código, no medición de calidad de
+respuestas). Ninguno de los dos es una corrección urgente — MCP es una decisión de exposición de
+producto que David no ha pedido, y evals con golden set es un proyecto de por sí, no un fallo.
+`[HyperRAG: Ninguno aplicado — dos candidatos señalados (exposición MCP, harness de evals con
+golden set), ninguno verificado en profundidad, decisión de David]`
+
+**Empreinte — la bala "LLM Observability" del post describe casi literalmente su dominio, y ya lo
+cubre.** Verificado por `grep` sobre los `.py` del proyecto: "drift" aparece en 13 archivos,
+incluidos `alert_engine.py` y `erosion.py` (nombre que ya apunta a seguimiento de degradación en el
+tiempo) — el post no señala ningún hueco real aquí, solo confirma que Empreinte ya hace lo que
+describe como buena práctica de observabilidad LLM (traces, coste, calidad, drift).
+`[Empreinte: Ninguno — ya cubierto]`
+
+**Auditra — la bala "Guardrails" (validación de entrada/salida, PII/injection, esquema, factualidad)
+describe su dominio, cobertura parcial verificada.** `content_classifier.py` (ya revisado en la
+entrada anterior de hoy) cubre PII por reglas deterministas. Búsqueda rápida de "injection" en el
+backend: un único archivo, `test_notification_injection.py` — nombre que sugiere inyección vía
+notificaciones/email, no necesariamente defensa contra *prompt injection* en la entrada de un
+agente gobernado. No profundicé más allá de esa búsqueda puntual — no verificado si existe o no un
+mecanismo de defensa contra prompt injection en otro sitio del código; queda como pregunta abierta,
+no como hallazgo confirmado en ningún sentido. `[Auditra: sin veredicto cerrado — PII cubierto,
+defensa contra prompt injection no verificada ni confirmada ni descartada en esta pasada; candidato
+de revisión más detenida si a David le interesa, no aplicado]`
+
+**Corpus literario — sin conexión.** `[Corpus: Ninguno]`
+
+**Veredicto: Observar — dos candidatos genuinos señalados (MLOps clásico ausente del manual; huecos
+de MCP/evals en HyperRAG), una pregunta abierta sin resolver en Auditra (prompt injection), y
+confirmación sin hallazgo en Empreinte y en el núcleo RAG de HyperRAG. Nada aplicado.**
