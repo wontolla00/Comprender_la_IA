@@ -2,6 +2,22 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v114 — 30 septiembre 2026 · Contrato de embedding (§2.4) y corrección de memoria MoE (§5.7b)
+
+Origen: veille del 30/09 (handbook de embeddings de techNmak y guía de MoE en inferencia). Las otras
+piezas del lote (LoRA, KV cache, 15 conceptos, Jev 10 pasos, U-Net) ya estaban cubiertas o triadas.
+Detalle en `taller/Registro_manual_v113_a_v114.md`. v113 (nota de matiz en §10.9.4) está en
+`taller/Registro_manual_v112_a_v113.md`.
+
+- **§2.4** gana un recuadro "Un vector solo significa algo junto con quien lo produjo": prefijos de
+  consulta/documento (E5, Nomic; BGE-M3 no los necesita), pooling, normalización y métrica (coseno =
+  producto punto solo con norma unitaria) y preprocesado. Prefijos y pooling verificados contra las
+  fichas de Hugging Face de `multilingual-e5-large` y `nomic-embed-text-v1.5`.
+- **§5.7b**: corregida una contradicción interna. El recuadro "La trampa del titular" decía que
+  DeepSeek-V3 (671B) "cabe en hardware accesible" a 4 bits; son ≈335 GB solo en pesos. Ahora
+  distingue cómputo (activos) de memoria (residentes) y remite a §5.7g, coherente con la viñeta
+  "Memoria total elevada" de la propia sección.
+
 ## v112 — 28 septiembre 2026 · Cardinalidad variable en clasificación (§12.4b)
 
 Origen: nota técnica académica ("Les modèles de décision structurée, Jev", Julien Perez, EPITA,

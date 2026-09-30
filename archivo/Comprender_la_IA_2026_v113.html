@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v114</title>
+<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v113</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v114 · sep 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v113 · sep 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9025,10 +9025,6 @@ window.addEventListener('resize', () =&gt; {
 <h2 id="s24">2.4 Cómo se generan los embeddings</h2>
 <p>Un modelo de embedding es una red neuronal entrenada con un objetivo específico: colocar textos similares cerca en el espacio vectorial. El entrenamiento típico usa pares de textos (pregunta + respuesta correcta, frase original + paráfrasis, título + abstract) y ajusta los pesos de la red para que los pares estén cerca y los no-pares estén lejos.</p>
 <p>Lo que necesitas saber operativamente: el modelo de embedding es un servicio que recibe texto y devuelve un vector. Puedes llamarlo vía API (OpenAI, Cohere, Google) o ejecutarlo localmente (sentence-transformers, BGE, nomic-embed). La elección depende de tus restricciones de coste, latencia y privacidad de datos.</p>
-<div class="warning">
-<strong>⚠ Un vector solo significa algo junto con quien lo produjo</strong>
-    Un índice vectorial es válido únicamente si la indexación y la consulta comparten cuatro cosas. (1) <strong>Prefijos:</strong> los modelos entrenados de forma asimétrica los exigen —<code>multilingual-e5-large</code> espera <code>query: </code> en la consulta y <code>passage: </code> en el documento; <code>nomic-embed-text</code> espera <code>search_query: </code> y <code>search_document: </code>—, y omitirlos degrada el retrieval sin lanzar ningún error (BGE-M3, en cambio, no los necesita: por eso no se pueden copiar de un modelo a otro). (2) <strong>Pooling:</strong> cada modelo define cómo convierte los vectores de sus tokens en uno solo (E5 y Nomic usan media). (3) <strong>Normalización y métrica:</strong> coseno y producto punto solo coinciden si los vectores tienen norma unitaria. (4) <strong>Preprocesado:</strong> cambiar el limpiado del texto o el pooling invalida un índice existente aunque los vectores conserven la misma forma. Mantener la misma dimensión al cambiar de modelo tampoco conserva el sistema de coordenadas: los vectores de dos modelos no son comparables entre sí. Esto amplía la regla de §4.2 y del Cap. 15: el modelo, su versión y su configuración de uso forman parte del esquema del índice.
-  </div>
 <h2 id="s24b">2.4b Elegir un modelo de embedding: la decisión que más impacta <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <div class="warning">
 <strong>⚡ Sección de alta caducidad</strong>
@@ -12953,7 +12949,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 </div>
 <div class="warning" style="border-color:var(--orange);background:var(--orange-light);">
 <strong>⚠ La trampa del titular</strong>
-  "DeepSeek-V3 tiene 671B parámetros" suena a que es imposible de usar localmente. La realidad es doble: el cómputo por token corresponde a ~37B activos, pero los 671B deben estar residentes en memoria. A 4 bits (0,5 bytes por parámetro) son ≈335&nbsp;GB solo en pesos —mínimo, sin KV cache ni buffers—, territorio de servidor multi-GPU y no de estación de trabajo. Activos estiman cómputo; residentes determinan memoria (§5.7g). Cuando leas un benchmark que compara modelos MoE con modelos densos "del mismo tamaño", verifica siempre si están comparando parámetros totales o activos — son métricas diferentes.
+  "DeepSeek-V3 tiene 671B parámetros" suena a que es imposible de usar localmente. La realidad: activa ~37B por token. Con cuantización 4-bit, cabe en hardware accesible. Cuando leas un benchmark que compara modelos MoE con modelos densos "del mismo tamaño", verifica siempre si están comparando parámetros totales o activos — son métricas diferentes.
 </div>
 <h3 id="s57b3">5.7b.3 Implicaciones para tus decisiones</h3>
 <div style="margin:20px 0;display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:.82rem;font-family:system-ui,sans-serif;">

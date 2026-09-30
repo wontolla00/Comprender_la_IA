@@ -2300,3 +2300,16 @@ Los otros tres candidatos profundizados hoy — Auditra/prompt injection (h), Hy
 Manual/MLOps clásico (j) — no generaron cambio en el manual ni en ningún otro repo; quedan cerrados
 tal como se documentó en cada entrada.
 `[Manual: v112 → v113 — nota insertada en §10.9.4]`
+
+
+### 2026-09-30 — Lote de siete piezas (embeddings techNmak, MoE inference, LoRA, KV cache, 15 conceptos, Jev 10 pasos, U-Net)
+
+Cruce con el manual: solo el handbook de embeddings y la guía de MoE aportaban algo.
+- **Embeddings (techNmak, Handbook 08):** hueco real en §2.4 (prefijos, pooling, normalización,
+  métrica). Aplicado en v114. Aritmética del handbook comprobada; cifras no citadas en el manual.
+- **MoE inference:** ya integrado en §5.7g (v anteriores). Aporte residual: corrección de §5.7b
+  (memoria de un MoE de 671B a 4 bits). Aplicado en v114.
+- **LoRA (familia), KV cache, 15 conceptos, Jev 10 pasos:** cubiertos; sin cambio.
+- **U-Net a mano:** sin encaje técnico en el manual.
+
+`[Manual: v113 → v114 — §2.4 (contrato de embedding), §5.7b (corrección memoria MoE)]`
