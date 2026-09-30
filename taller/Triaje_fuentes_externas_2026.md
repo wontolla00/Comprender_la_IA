@@ -2348,3 +2348,25 @@ Cruce con el manual y con el resto de la obra.
   interesante, no necesario. El RAG epigenético usa solo TF-IDF, así que el problema de prefijos no aplica.
   KV cache y MoE no aportan imagen literaria; el resto, sin conexión.
 - **Manual:** sin cambio adicional (véase la entrada del 30/09, v114).
+
+
+### 2026-09-30 (d) — Post de LinkedIn: «Cómo funciona Muse» (arquitectura del asistente de Meta, según el propio asistente)
+
+Cruce con el manual y con el resto de la obra.
+- **Verificado:** Muse existe; el comunicado de Meta (abril de 2026) presenta Muse Spark como modelo y confirma
+  subagentes en paralelo. No confirma máquina Linux, terminal, navegador, tareas programadas, memoria en
+  ficheros ni conectores. El esquema sale de la autodescripción del asistente; las frases «debe estar en su
+  system prompt» y «será la misma de todos» son conjeturas del autor del post.
+- **Manual:** casi todo cubierto (§10.1, §10.4b, §10.7, §10.9, skills, hooks). Faltaba una cautela de método
+  sobre la autoridad de la autodescripción. Aplicado en v116 (§10.4).
+- **Auditra:** sin cambio. «Confirmar antes de publicar/enviar/comprar» es su `REVIEW` y las credenciales en
+  un cofre ya las tiene; los subagentes quedan atribuidos (`subagent_id`). Refuerza el posicionamiento: puerta
+  externa y determinista frente a límites definidos por el propio asistente (inferencia sobre el post).
+- **Empreinte:** posible límite, sin aplicar. `agent_discovery` ve hosts en logs de red y el diseño cubre red,
+  IAM y catálogo; un asistente con conectores OAuth actúa desde la nube del proveedor y no pasa por el proxy.
+  Inferencia mía, el post no habla de empresas; el diseño no menciona el caso. Pendiente de decisión de David.
+- **HyperRAG:** sin cambio (memoria en ficheros con selección por LLM, ya descrita en §10.9).
+- **Corpus:** eco estructural con la domesticación del usuario (memoria de preferencias, personas y
+  compromisos); sin medición detrás y sin texto propuesto.
+
+`[Manual: v115 → v116 — §10.4 (autoridad de la autodescripción de un asistente)]`

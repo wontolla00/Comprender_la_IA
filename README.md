@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v115** (septiembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v116** (septiembre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v116** | §10.4 gana un recuadro sobre la autoridad de los esquemas de arquitectura de asistentes comerciales obtenidos preguntándole al propio asistente: hipótesis, no documentación; separar lo confirmado por el proveedor de lo autodeclarado. |
 | **v115** | §20.1 y §20.3b ganan dos evidencias sobre decisiones asistidas por IA: el *trendslop* (siete modelos convergen en las mismas estrategias de moda, HBR marzo 2026) y el experimento de IMD (más confianza y peor previsión con ChatGPT que discutiendo con colegas, HBR julio 2025). |
 | **v114** | §2.4 gana el "contrato de embedding" (prefijos de consulta/documento, pooling, normalización y métrica, preprocesado), verificado contra fichas de Hugging Face. §5.7b corrige una contradicción: un MoE de 671B no "cabe en hardware accesible" a 4 bits (≈335 GB de pesos); activos estiman cómputo, residentes determinan memoria. v113: matiz en §10.9.4 sobre memoria de política auto-evolutiva. Detalle en [CHANGELOG.md](CHANGELOG.md) |
 | **v112** | §12.4b gana la fila que faltaba entre "clasificador especializado" (categorías fijas) y "LLM generativo" (contexto abierto): puntuación de candidatos a cardinalidad variable, a raíz de una nota técnica académica sobre Jev (Perez, EPITA) — citando Laya (código abierto, verificado) en vez de solo el producto comercial. Grounding en el reranker de HyperRAG, ya en producción sin haberlo nombrado así. v110–v111: cambios no documentados en este changelog (hueco anterior a esta sesión). Detalle en [CHANGELOG.md](CHANGELOG.md) |

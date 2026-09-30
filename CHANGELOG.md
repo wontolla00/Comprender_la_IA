@@ -2,6 +2,17 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v116 — 30 septiembre 2026 · Quién describe la arquitectura de un asistente comercial (§10.4)
+
+Origen: un post de LinkedIn del 30/09 con el esquema de arquitectura de Muse (Meta), obtenido
+preguntándole al propio asistente. Detalle en `taller/Registro_manual_v115_a_v116.md`.
+
+- **§10.4** gana, al final de la sección y antes de §10.4b, un recuadro que trata los esquemas de
+  arquitectura extraídos de la autodescripción de un asistente como hipótesis y no como documentación:
+  separar lo confirmado por el proveedor de lo declarado por el asistente, y diseñar la gobernanza contra
+  lo observable (llamadas, permisos, registros; §10.6 y §12.6). Enlaza con LLM07 (§21.8) y §10.5c. El caso de
+  Muse se cita con su fecha: el comunicado de Meta (abril de 2026) solo confirma subagentes en paralelo.
+
 ## v115 — 30 septiembre 2026 · Trendslop (§20.1) e IMD sobre confianza y previsión (§20.3b)
 
 Origen: dos piezas de veille del 30/09 (un post sobre Asimov y los problemas de la IA, y un artículo en

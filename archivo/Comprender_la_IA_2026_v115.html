@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v116</title>
+<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v115</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v116 · sep 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v115 · sep 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -20032,12 +20032,6 @@ pEl.oninput=render; nEl.oninput=render; cEl.oninput=render; render();
 <strong>⚠️ El anti-patrón más costoso: agente que actúa directamente</strong>
     El mayor riesgo en arquitecturas de agentes es permitir que el LLM ejecute acciones irreversibles sin validación intermedia: enviar emails, modificar bases de datos, ejecutar transacciones, desplegar código. Si el LLM malinterpreta la instrucción o alucina un parámetro, la acción ya ocurrió. Insertar siempre una capa de confirmación humana o una validación determinista antes de cualquier acción con efectos en sistemas externos.
   </div>
-<div class="callout concept">
-<strong>🔎 Quién describe la arquitectura de un asistente comercial, y con qué autoridad</strong>
-<p>Circulan esquemas de la arquitectura de asistentes personales comerciales —un bucle de agente, una máquina con terminal y navegador, conectores a correo y calendario, trabajo en segundo plano, memoria en ficheros, salvaguardas antes de publicar, enviar o comprar— obtenidos preguntándole al propio asistente. Conviene tratarlos como hipótesis, no como documentación. Lo que un modelo dice de su arquitectura es texto generado: puede reproducir su prompt de sistema (el riesgo LLM07 de <a href="#s218">§21.8</a>, y la razón de que <a href="#s105c">§10.5c</a> pida no poner nada sensible en él) o puede ser una reconstrucción plausible a partir de lo que otros textos cuentan de asistentes parecidos. Desde fuera no se distingue una cosa de otra.</p>
-<p>Un caso de septiembre de 2026: se difundió un esquema así de Muse, el asistente de Meta. El comunicado oficial de Muse Spark (abril de 2026) confirma el lanzamiento de varios subagentes en paralelo y no menciona la máquina Linux, el navegador, las tareas programadas, la memoria en ficheros ni los conectores del esquema. Que no los mencione no prueba que no existan; indica que el esquema no se apoya en esa fuente.</p>
-<p>Dos reglas prácticas. Primera: separar en cada esquema lo confirmado por el proveedor de lo declarado por el propio asistente, y citar cada parte con su origen. Segunda: para gobernanza, diseñar contra lo que se puede observar —llamadas, permisos y registros (<a href="#s106">§10.6</a>, <a href="#s126">§12.6</a>)— y no contra el organigrama que el asistente cuenta de sí mismo.</p>
-</div>
 <h2 id="s104b" data-nivel="profundidad">10.4b Condiciones de parada del loop de agente: las ocho salidas</h2>
 <p>El <a href="#lab-mod2">Caso 2-2 del laboratorio de errores</a> de este módulo diagnostica un patrón muy frecuente: un agente que entra en bucle porque su única condición de parada es "busca hasta tener una respuesta completa" — un criterio que el propio LLM puede justificar indefinidamente. La corrección apuntada allí (<code>max_steps</code> explícito, timeout con respuesta parcial) es necesaria pero incompleta: un agente en producción no tiene una sola salida, tiene que tener varias, cada una vigilando una forma distinta de fallo. Un loop con una sola condición de parada se cuelga; un loop con varias es un sistema.</p>
 <p>Las ocho salidas siguientes son un catálogo práctico, no una jerarquía: cada una vigila un tipo de fallo que las demás no cubren, y todas deben vivir en el harness — el código que envuelve al LLM — nunca en el prompt. Es la misma disciplina que articula el patrón sándwich de la sección siguiente: el LLM propone, el código decide cuándo parar.</p>
