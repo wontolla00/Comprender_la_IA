@@ -2336,3 +2336,15 @@ Cruce con el manual y con el resto de la obra.
   Herbie/sicofancia en *El síndrome del zorro amable* queda como decisión abierta de David.
 
 `[Manual: v114 → v115 — §20.1 (trendslop), §20.3b (IMD)]`
+
+
+### 2026-09-30 (c) — Lote de siete piezas del 30/09 cruzado con Auditra y el corpus
+
+- **Auditra:** solo la guía Jev de 10 pasos aporta algo, ya cubierta por la nota del 22/09 salvo un hueco:
+  el evento no registra la confianza declarada por el agente. Candidato `agent_confidence` (solo registro,
+  sin efecto en la decisión) anotado en `docs/ESTADO.md`, sin código. Embeddings, MoE, LoRA, KV cache,
+  15 conceptos y U-Net: sin conexión honesta (Auditra no ejecuta modelos ni usa embeddings).
+- **Corpus:** solo un eco temático entre el handbook de embeddings y el Principio II de Agota (procedencia);
+  interesante, no necesario. El RAG epigenético usa solo TF-IDF, así que el problema de prefijos no aplica.
+  KV cache y MoE no aportan imagen literaria; el resto, sin conexión.
+- **Manual:** sin cambio adicional (véase la entrada del 30/09, v114).
