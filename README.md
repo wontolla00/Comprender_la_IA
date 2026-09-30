@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v114** (septiembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v115** (septiembre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v115** | §20.1 y §20.3b ganan dos evidencias sobre decisiones asistidas por IA: el *trendslop* (siete modelos convergen en las mismas estrategias de moda, HBR marzo 2026) y el experimento de IMD (más confianza y peor previsión con ChatGPT que discutiendo con colegas, HBR julio 2025). |
 | **v114** | §2.4 gana el "contrato de embedding" (prefijos de consulta/documento, pooling, normalización y métrica, preprocesado), verificado contra fichas de Hugging Face. §5.7b corrige una contradicción: un MoE de 671B no "cabe en hardware accesible" a 4 bits (≈335 GB de pesos); activos estiman cómputo, residentes determinan memoria. v113: matiz en §10.9.4 sobre memoria de política auto-evolutiva. Detalle en [CHANGELOG.md](CHANGELOG.md) |
 | **v112** | §12.4b gana la fila que faltaba entre "clasificador especializado" (categorías fijas) y "LLM generativo" (contexto abierto): puntuación de candidatos a cardinalidad variable, a raíz de una nota técnica académica sobre Jev (Perez, EPITA) — citando Laya (código abierto, verificado) en vez de solo el producto comercial. Grounding en el reranker de HyperRAG, ya en producción sin haberlo nombrado así. v110–v111: cambios no documentados en este changelog (hueco anterior a esta sesión). Detalle en [CHANGELOG.md](CHANGELOG.md) |
 | **v109** | Revisión post-auditoría: limpieza de andamiaje editorial (notas de versión y rótulos de maquetación fuera del texto), glosario reordenado y reparado, §10.9–10.10 devueltas al Cap. 10, entrada duplicada de §12.6 retirada, referencias cruzadas corregidas, Cap. 21 ampliado (inyección indirecta, tríada letal, seguridad de agentes y MCP, patrones defensivos, mapa OWASP) y su tabla AI Act/RGPD/CNIL corregida. Detalle en [CHANGELOG.md](CHANGELOG.md) |

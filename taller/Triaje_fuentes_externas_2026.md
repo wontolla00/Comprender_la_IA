@@ -2313,3 +2313,26 @@ Cruce con el manual: solo el handbook de embeddings y la guía de MoE aportaban 
 - **U-Net a mano:** sin encaje técnico en el manual.
 
 `[Manual: v113 → v114 — §2.4 (contrato de embedding), §5.7b (corrección memoria MoE)]`
+
+
+### 2026-09-30 (b) — Dos piezas: «Isaac Asimov y los problemas de la IA hoy» (Chema Alonso, post) y «Les angles morts de l'IA peuvent-ils être éclairés par la littérature ?» (artículo, prospectiva)
+
+Cruce con el manual y con el resto de la obra.
+- **Manual:** el post de Alonso (sicofancia, *reward hacking*, caja negra, bucles, jailbreak) ya estaba
+  cubierto; sin cambio. Del artículo francés faltaban dos evidencias: el experimento de IMD (jul. 2025) y el
+  *trendslop* (HBR, mar. 2026). Aplicado en v115 (§20.3b y §20.1).
+- **Verificado:** encuesta OCDE/WEF (167 expertos, 55 países, «more remix than revelation»); *trendslop*
+  (autores y afiliaciones; detalle vía Fortune); experimento de IMD (HBR). GPT-6 Astra existe (system card).
+- **No verificado:** Shell/Wack y el artículo de 2013, cifras de Capgemini, Red Team/RADAR, el «hackeo de
+  Hugging Face», el *paper* de Alonso (aún sin publicar). Medio del artículo francés no identificado.
+- **Auditra:** los bucles de agente ya están cubiertos (`max_per_hour`, suspensión automática); el jailbreak
+  no aplica (sin LLM propio). Hueco verificado en `engine.py`: cada importe se compara por separado con los
+  umbrales y no hay suma por ventana. Candidato anotado en `docs/ESTADO.md`, sin código.
+- **Empreinte:** sin cambio. La técnica de Susan Calvin equivale al análisis de consistencia ya existente.
+  Hueco menor: ninguno de los seis detectores de alertas mira coste o volumen.
+- **HyperRAG:** sin cambio. Fortune indica que pedir pros y contras no eliminó el sesgo; Tension Hold no está
+  medido frente a *trendslop* y no se afirma que lo mitigue.
+- **Corpus:** dos notas puente en `03_El_Restaurador_de_Huellas/taller/` (Asimov; ficción prospectiva).
+  Herbie/sicofancia en *El síndrome del zorro amable* queda como decisión abierta de David.
+
+`[Manual: v114 → v115 — §20.1 (trendslop), §20.3b (IMD)]`

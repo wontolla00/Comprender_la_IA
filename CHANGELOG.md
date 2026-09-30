@@ -2,6 +2,19 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v115 — 30 septiembre 2026 · Trendslop (§20.1) e IMD sobre confianza y previsión (§20.3b)
+
+Origen: dos piezas de veille del 30/09 (un post sobre Asimov y los problemas de la IA, y un artículo en
+francés sobre prospectiva y literatura). Detalle en `taller/Registro_manual_v114_a_v115.md`.
+
+- **§20.1** gana un párrafo con la medición reciente del *trendslop* (Romasanta, Thomas y Levina, HBR,
+  marzo 2026): siete modelos convergen en las mismas estrategias de moda incluso al reformular o pedir
+  pros y contras. El detalle procede de la cobertura de Fortune; el texto declara que no se contrastó
+  con el artículo completo.
+- **§20.3b** gana un párrafo con el experimento de IMD (Parra-Moyano, Reinmoeller y Schmedders, HBR,
+  julio 2025): cerca de 300 directivos, previsión del precio de Nvidia; quien consultó a ChatGPT quedó más
+  confiado y acertó menos que quien discutió con colegas. Contrastado con el artículo de HBR.
+
 ## v114 — 30 septiembre 2026 · Contrato de embedding (§2.4) y corrección de memoria MoE (§5.7b)
 
 Origen: veille del 30/09 (handbook de embeddings de techNmak y guía de MoE en inferencia). Las otras
