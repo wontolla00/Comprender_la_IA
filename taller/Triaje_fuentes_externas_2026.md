@@ -2370,3 +2370,174 @@ Cruce con el manual y con el resto de la obra.
   compromisos); sin medición detrás y sin texto propuesto.
 
 `[Manual: v115 → v116 — §10.4 (autoridad de la autodescripción de un asistente)]`
+
+
+### 2026-10-02 (a) — «Top 9 Places To Use Jev» (Naman Pandey, infografía + post de LinkedIn)
+
+**Fuente.** Divulgación comercial sobre el mismo Jev/TypeSafe de las entradas del 22/09 y 28/09. Nueve usos:
+tool-call gating, LLM evals, reranking, control en tiempo real, model routing, guardrails, confidence gate
+(actuar >0,9 / confirmar 0,5–0,9 / humano <0,5), inbox triage («1.500 correos = 3 céntimos») y bulk
+labeling. Sin datos verificables ni comparación con un LLM grande: sirve como mapa de usos, no como evidencia.
+
+**Relevancia.** Auditra, alta: el tool-call gating (deny/ask/allow) valida el diseño ALLOW/REVIEW/BLOCK; la
+diferencia de fondo es que Auditra decide con política determinista y Jev con clasificador probabilístico
+(argumento a favor de Auditra). El confidence gate tiene TRES bandas, no dos: el esquema de registro de
+decisiones debería guardar también la banda resultante (refuerza `agent_confidence`, ya anotado en
+`docs/ESTADO.md`). Riesgo: la confianza autodeclarada por el agente es manipulable; criterio que se mantiene:
+solo registrada, nunca influye en la decisión. Empreinte, media: el ahorro de enrutar debería medirse con
+coste de inferencia y no solo con precio de API; el LLM-como-juez tiene sesgo conocido que el post omite.
+
+**Veredicto: Observar; sin incorporación.** `[Manual: ninguno — no aporta nada que no esté; por la calidad de
+la fuente no se cita]` `[Empreinte: caso a medir (ahorro de enrutado con coste de inferencia), sin decidir]`
+`[HyperRAG: ninguno — el reranking ya lo hace el CrossEncoder en producción]` `[Auditra: nota de las tres
+bandas para el esquema de registro; pendiente ya abierto (`agent_confidence`)]`
+
+### 2026-10-02 (b) — «Derecho, Datos y Algoritmos #24 – Septiembre 2026» (Carlos Fernández Hernández, LA LEY / Karnov; boletín mensual, 01/10/2026) + lectura de originales
+
+**Fuente.** Recopilación mensual «no exhaustiva» y SECUNDARIA; casi todo es posterior al corte de conocimiento
+de Claude (junio 2026) y no hay enlaces en el texto. Hay erratas visibles (Meta repetida entre los firmantes
+del Accord). Regla: no citar el boletín; ir a los primarios.
+
+**Contenido (inventario para no releer).** UE/IA: la Comisión usa por primera vez sus facultades de ejecución
+del Reglamento de IA (información a desarrolladores de modelos avanzados sobre ciberseguridad, seguridad y
+derechos de autor; multas hasta el 3 %). EE. UU.: orden ejecutiva del 29/09 («era de la superinteligencia») y
+«White House Accord on Super Intelligence» (Google, Anthropic, Meta, OpenAI, X, NVIDIA; cuatro niveles de
+control, dirigidos a desarrolladores de modelos); «Stop Rogue AI Act» (Gottheimer/Lawler); alerta NSA/CISA/FBI
+sobre destilación a escala industrial vía proxies de mercado gris. España: Atlas de la IA y plan IA360.
+ONU: primer informe del Panel Científico (incidente OpenAI–Hugging Face). OCDE: «Agentic AI in organisations».
+BCG: «The Authorization Gap». AEPD: primera brecha ejecutada por un agente de IA (14/09) y advertencia sobre
+cribado de CV (23/09). CEPD: directrices sobre multas (consulta hasta 13/11). RD 723/2026 (información sobre
+sistemas algorítmicos de decisión en el trabajo). Reglamento de Ciberresiliencia: notificaciones 24 h/72 h
+desde 11/09/2026. ENS Anexo II en OSCAL.
+
+**Lectura de originales (resúmenes; NO el texto íntegro del proyecto de ley, ni el PDF de BCG, ni el informe
+completo de la ONU).**
+- Stop Rogue AI Act (H.R. 10362 según CASRAI, sin verificar en el texto; presentado 14–15/09/2026): el boletín
+  decía «logs inmutables»; el texto habla de registros a prueba de manipulaciones (tamper-evident),
+  estandarizados y PORTABLES, y de verificación de identidad «independiente y criptográficamente verificable».
+  NIST dispone de un año desde la promulgación; el FAR, 18 meses.
+- BCG: cifras (35 % en producción, 44 % planificando) de BCG + MIT SMR sin datos de muestra; autorización
+  «vinculada al propósito y a la conducta». Literatura consultora: útil como marco.
+- ONU: el incidente fue de agentes de entrenamiento en ciberseguridad de OpenAI (mayo–julio 2026, según el
+  Panel) que saltaron restricciones de red, engañaron a un evaluador e intentaron ocultarlo. Las «tres
+  condiciones» (objetivo desalineado, capacidad, entorno permisivo) son una cita de Bengio, no un marco del
+  informe: atribuirlas a Bengio. El Panel no estima probabilidad ni plazo de una pérdida de control grave.
+- AEPD 14/09: la información procede de la notificación de la organización y requiere análisis posterior; el
+  modelo usado no implica que el modelo o su proveedor hayan sido comprometidos. Al citar: «presuntamente
+  ejecutado», sin nombrar el modelo.
+
+**Veredicto: Observar; leer primarios completos antes de integrar nada.** `[Manual: candidatos tras leer los
+primarios — gobernanza de agentes (OCDE), autorización por propósito y conducta (BCG) para §14.2b, tres
+condiciones de Bengio junto a §13.11–13.13, intervención humana efectiva (AEPD) como caso de sesgo de
+automatización, RD 723/2026]` `[Empreinte: media-baja — proxies con conmutación automática implican modelo
+declarado ≠ servido; encaja con el aviso de modelos mixtos de `erosion.py`; auditar modelo/ruta declarados
+frente a observados, sin decidir]` `[HyperRAG: normas posteriores al corte como preguntas de evaluación
+temporal (2026/2099: vigor a 20 días, aplicable desde 26/03/2027; CRA: 11/09/2026 y 11/12/2027); antes,
+comprobar el contenido real de C3]` `[Auditra: muy alta — detalle en la nota privada de Auditra]`
+
+**Auditra.** Los huecos y preguntas que esta fuente plantea para Auditra están en la nota privada del propio proyecto (repositorio privado), no aquí.
+
+### 2026-10-02 (c) — Post sobre OpenBao (autor no identificado, español)
+
+**Fuente.** Presenta OpenBao como alternativa open source a AWS Secrets Manager y Azure Key Vault: fork de
+HashiCorp Vault, hoy proyecto sandbox de OpenSSF (anuncio de 17/06/2025, verificado). Licencia concreta sin
+verificar. Descripción correcta pero promocional.
+
+**Relevancia.** Auditra, media y solo si un piloto lo pide: ya tiene cofre propio, credenciales efímeras y
+claves de firma fuera de la BD. OpenBao externo sería opción para clientes con Vault/OpenBao: custodia de
+claves y credenciales dinámicas. Contra: añade una
+dependencia al despliegue self-hosted.
+
+**Veredicto: Observar.** `[Manual: a lo sumo ejemplo de credenciales de agentes]` `[Empreinte: ninguno]`
+`[HyperRAG: ninguno]` `[Auditra: candidato, sin demanda de piloto no se abre integración]`
+
+### 2026-10-02 (d) — «Top 3 hot topics right now in Data Governance» (consultor, autor no identificado, inglés)
+
+**Fuente.** Opinión profesional sin datos: (1) unir gobernanza de datos e IA; (2) gobernanza semántica
+(glosario, métricas, ontologías); (3) propiedad («¿quién aprueba estos datos como listos para IA?»).
+
+**Veredicto: Observar.** `[Manual: media-alta — la gobernanza semántica es el terreno del pendiente abierto
+sobre Databricks Genie Ontology (investigación separada, no hecha); refuerza §14.2b]` `[Auditra: media —
+«quién aprueba» ↔ proponente/aprobador; tercera fuente sobre decision rights, sin poder afirmar que sea
+independiente de las dos anteriores]` `[HyperRAG: definiciones de negocio como condición del conjunto de
+evaluación; sin acción]` `[Empreinte: ninguno]`
+
+### 2026-10-02 (e) — Dream-RSI: Recursive Self-Improvement through Evolving Worlds (arXiv 2609.14858v1, 14/09/2026; Zheng, Wu, Zhang y 17 coautores; Google / DeepMind / UMD / UVA) + post en español
+
+**Fuente primaria leída** (cuerpo, referencias y encabezados de apéndices; NO los prompts del apéndice B ni el
+código del apéndice C). Veinte autores; código en github.com/zhengkid/Dream-RSI (publicación no comprobada).
+Todos los experimentos usan modelos de Google (Gemini-3.1 Pro y 3.7-Flash): sin replicación independiente.
+
+**Mecanismo.** Discovery Tree → Replay Simulator → mejora de la política «soñando» sobre el historial. Solo
+evoluciona el CÓDIGO de la política de exploración; el agente de descubrimiento, el evaluador y los pesos son
+fijos. Puntuación de replay V = mejor puntuación − β1·(nº de intentos) + β2·(intentos por ronda). La garantía
+es en muestra, sobre el historial fijo; el replay no puede evaluar políticas que necesiten explorar nodos
+nunca registrados (observación propia).
+
+**Resultados, con correcciones.** Frente a exploración fija (comparación controlada) las mejoras son
+moderadas (≈1,7× menos llamadas en Lasso). Las cifras mayores (162× en Lasso, >50× en matemáticas) son frente
+a SimpleTES, otro sistema con GPT-OSS-120B y 51.200 generaciones: no es comparación controlada. Las cifras del
+post (2,43× menos generaciones, 2,09× de mejora) son exactas y de KernelBench (VGG16/LayerNorm 2,43×/1,79×
+menos generaciones; ConvDiv/ConvMax 2,09×/1,44× más rendimiento). Hallazgo propio, verificable en la tabla:
+en Lasso con 3.1-Pro, Dream-RSI es PEOR que la exploración fija en 5 de 6 conjuntos y mejor solo en RCV1,
+que por escala domina la media; en Autocorrelation es ligeramente peor que exploración fija y que SimpleTES.
+Sin barras de error ni número de semillas en el texto leído. El artículo NO tiene sección de limitaciones ni
+discusión de seguridad, y no cuenta el coste del agente de desarrollo ni del propio replay (la métrica es
+nº de llamadas al agente de descubrimiento). Análisis sobre una sola tarea (ConvDiv): la historia como guía
+textual rinde peor que no usarla; como simulador supera a la guía textual.
+
+**Veredicto: Observar; fuente primaria útil.** `[Manual: media-alta — ejemplo de autoevolución acotada del
+nivel meta (historia como simulador frente a memoria textual); cuidado con «RSI» como etiqueta; mapa de
+trabajos relacionados citado: AlphaEvolve, Darwin Gödel Machine, Meta-Harness, ACE, Reasoning Bank. Citar solo
+tras decidir; la entrada (g) del 28/09 (Procedural Graphs) es el vecino natural en §10.9.4]` `[Auditra: baja-
+media y especulativa — un agente que reescribe el código de política de otro es un cambio de configuración
+que debería registrarse y aprobarse; comprobar si cada agente tiene versión registrada]` `[HyperRAG: baja-
+media — evaluar sin ejecutar de nuevo sobre resultados cacheados, con el mismo límite]` `[Empreinte: baja —
+el coste se mide en llamadas, no en tokens, energía ni euros]`
+
+### 2026-10-02 (f) — Dos posts sobre Jev: Laya (NandhaKishorM/laya) y la guía «Jev in the Agent Loop» (NO1ennn, @N01ennn)
+
+**Fuente.** (1) Post corto que presenta Laya como alternativa de código abierto a Jev. (2) Guía larga de un
+autor individual (no TypeSafe) con once puntos de decisión, código y economía; las cifras de TypeSafe se
+declaran del proveedor y los modelos citados son posteriores al corte (no verificados).
+
+**Corrección de novedad.** Laya NO es nueva en el corpus: ya está citada y verificada en el manual (v112,
+§12.4b «Cardinalidad variable») y en la entrada 2026-09-28 (b). La guía solapa con «Jev Engineering: 10 pasos»
+(2026-09-28) y con la entrada (c) del 30/09 (`agent_confidence`). La inyección de prompts ya está cerrada para
+Auditra (2026-09-28 h: sin capa LLM propia). HyperRAG y Empreinte ya tienen clasificadores locales (regex + SLM;
+CrossEncoder como reranker): un reranker local no es novedad.
+
+**Lo que sí es nuevo.**
+- Laya: lo de AUTOALOJADO. Jev es API cerrada y el estado del agente sale del perímetro; un clasificador local
+  encajaría con Auditra solo como señal registrada, nunca decisoria (hoy `content_classifier.py` es
+  determinista y solo puede subir la clasificación). Antes, fijar hash y procedencia de pesos. Datos del repo
+  leídos por resúmenes automáticos de GitHub (la API no fue accesible): Apache 2.0, choice/score/noul, RLCD,
+  router de checkpoints, cuaderno de fine-tuning. Cifras NO fiables: dos lecturas discrepan (≈33 vs 38,4 ms),
+  una citó 29,2k estrellas/941 commits sin poder comprobarlo, y el README se compara con Jev con benchmark
+  propio (83,8 % vs 67,8 %). La debilidad con >20 opciones (Banking77 0,425 vs 0,870) concuerda con el
+  hallazgo de §12.4b, pero sigue sin confirmar. Verificar clonando el repo antes de citar cifras.
+- Empreinte: un modelo abierto permite medir la calibración (ECE) uno mismo, imposible con API cerrada; el
+  router de checkpoints es un caso de identidad compuesta (servido ≠ declarado) para `comparable()`/E0–E4.
+- Guía: (1) regla dura «irreversible / dinero / visible fuera → humano sin importar la confianza» (refuerza el
+  motor determinista; `external` ya existe como filtro de política, la reversibilidad no se ha comprobado);
+  (2) detección de bucle (misma acción fallida repetida); (3) «confiado ≠ hecho»: separar decisión de
+  comprobación (cuadra con el límite documentado de Auditra); (4) «si la ruta de escalada nunca se dispara, es
+  un sistema sin supervisar»: tasa de aprobación sin cambios y tiempo de decisión en REVIEW como evidencia de
+  intervención humana efectiva (AEPD); (5) los umbrales de la guía (0,85; 0,4; 0,7/
+  0,3) son marcadores a calibrar, como 0,9/0,5: registrar la versión del umbral.
+- Aritmética de la Parte IV, recalculada: la guía compara Opus puro 25Y+5Z = 4,15 con enrutado 3X+20Y+8Z =
+  6,19 (ratio 0,67) pero omite 5X en Opus puro; incluido, Opus puro = 7,40 y el ratio pasa a 1,19 (enrutado
+  ~16 % más barato). La idea de que cambiar de modelo pierde la caché KV es plausible; este ejemplo no la
+  demuestra. No citar.
+
+**Veredicto: Observar; sin incorporación.** `[Manual: comprobar si §12.4c (Model routing y cascading) recoge
+el coste de recarga de caché al cambiar de modelo; la partición decisión / generación / código es marco
+didáctico citable como idea, no como evidencia]` `[Empreinte: calculadora de enrutado con términos de caché
+explícitos y métrica «coste por tarea completada»; Laya como caso de calibración medible, sin decidir]`
+`[HyperRAG: ninguno — el bloqueo real es el conjunto de respuesta más difícil]` `[Auditra: comprobaciones en el código hechas; resultado en la nota privada de Auditra]`
+
+### Profundización 2026-10-02 (g) — Auditra: comprobación en el código (solo lectura)
+
+Hechas las comprobaciones en el código de Auditra que planteaban las entradas (b) y (f). Por tratarse de un
+repositorio público, el resultado detallado vive en la nota privada de Auditra y no se reproduce aquí.
+`[Manual: ninguno]` `[Empreinte: ninguno]` `[HyperRAG: ninguno]`
