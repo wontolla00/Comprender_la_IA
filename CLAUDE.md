@@ -14,5 +14,5 @@ Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edi
 - El HTML es grande: edita por secciones con búsquedas exactas; no reescribas el archivo entero ni reconstruyas contenido desde una lectura truncada. Comprueba después que el HTML sigue abriendo y que el índice/enlaces internos siguen válidos.
 - Nunca publiques (push) sin que el autor lo pida; comprueba antes que no hay material privado en el commit.
 
-## Aviso de carpetas
-Existe también `../06_Comprender_la_IA` (sin `_git`) con una copia **más antigua** (v113, 28/09). La referencia es esta carpeta. Pregunta al autor antes de tocar la otra.
+## Carpeta archivada
+La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_archivo/`. La referencia es esta carpeta. Solo esa copia conserva `taller/_insert_124b_cardinalidad.html`.
