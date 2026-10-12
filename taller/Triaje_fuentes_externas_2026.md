@@ -43,6 +43,11 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-FO-1 · Bucles y grafos de agentes: tres comprobaciones en §8.8b y §10.4b (entrada `2026-10-12 (e)`, baja):** (1) test de «aristas falsas»
   (¿separa §8.8b secuencia de dependencia real?); (2) verificador con contexto fresco, distinto del agente que hizo el trabajo (0 apariciones);
   (3) tasa de aprovechamiento (salidas conservadas / generadas, 0 apariciones). Comprobar primero; si ya están, cerrar sin cambio de versión.
+- [ ] **CI-MC-1 · Metacognición y asistencia por IA: matiz en el bloque de sesgo de automatización (entrada `2026-10-12 (f)`, baja-media):** el manual tiene 0
+  menciones de Dunning-Kruger o metacognición y unas 10 de sesgo de automatización. Candidato: una frase de matiz citando arXiv:2609.31095 como
+  estudio EXPLORATORIO (sin preregistro ni asignación aleatoria): con IA se puntúa más y la confianza sube (0,66→0,78), pero la estimación de la
+  propia nota deja de seguir a la nota real (r .07 frente a .40) y la discriminación entre respuestas correctas e incorrectas baja entre tareas, no
+  dentro de cada una (no establecido). NO citar las cifras del resumen divulgativo (63,1 %, «igualó a la IA»). Esperar réplica o revisión por pares si se quiere citar como establecido.
 - [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
   intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.
 
@@ -2687,3 +2692,22 @@ largo. HyperRAG y corpus literario: nada. Auditra: sin tarea pública (el análi
 
 **Veredicto: Observar.** `[Manual: CI-FO-1, tres comprobaciones, baja; sin cambio de versión salvo que falte algo]`
 `[Empreinte: EM-FO-1, «salidas conservadas» como denominador de «coste por tarea completada»]` `[HyperRAG: nada]` `[Auditra: ver nota privada]`
+
+### 2026-10-12 (f) — «Confident, Not Wiser: The Dunning-Kruger Effect in Human-AI Interaction» (Fernandes, Rausch, Kloft, Buschek, Welsch; arXiv:2609.31095, preprint, 25/09/2026; PDF leído, más infografía y post divulgativo)
+
+**Fuente.** Estudio observacional exploratorio, no preregistrado, con los dos grupos reclutados por separado (sin asignación aleatoria): N = 366
+(187 sin IA, 179 con IA), 40 ítems de razonamiento en cuatro bloques, IA = GPT-5.6 Luna con esfuerzo de razonamiento bajo, también evaluada sola
+(100 ejecuciones). Verificado contra el PDF: con IA +7,22 puntos [5,99; 8,46]; frente a la IA sola +0,65 [−0,27; 1,57], «no establece sinergia ni
+equivalencia»; confianza media por respuesta 0,66→0,78; diferencia de confianza correctas−incorrectas 0,12→0,04; dentro de un bloque el AUROC
+es .590 sin IA y .568 con IA, no establecido (p = .091), y ~80 % de los pares del cálculo agrupado cruzan bloques; correlación estimación-nota real
+.40 frente a .07; contraste Dunning-Kruger entre cuartiles 8,87 sin IA y 13,58 con IA, que con controles de regresión a la media queda en 6,49 y 8,87
+con diferencia entre grupos inconclusa. Los autores advierten de que no se identifican efectos causales. El resumen divulgativo desfigura tres
+puntos: el 63,1 % es «la estimación del dúo igualaba a la mejor de las dos» (participantes sin IA, hipotético), no «creían que superaría al experto»;
+«el dúo igualó a la IA sola» no está establecido; y el lenguaje causal («destruye») no lo permite el diseño.
+
+**Relevancia.** Manual, media (hueco real: 0 menciones de Dunning-Kruger o metacognición). Corpus literario, alta: cruza con «Mirar antes de
+intentar» (segunda condición); ya hecho como nota-puente en `10_epigenetica/` (sin tocar texto vigente). Empreinte: el estudio fija el esfuerzo de
+razonamiento y criba 17 modelos candidatos, ejemplo de control del confusor de EM-IT-1; sin tarea nueva. HyperRAG: nada. Auditra: ver nota privada.
+
+**Veredicto: Integrar, con cautela.** `[Manual: CI-MC-1, baja-media]` `[Corpus: nota-puente hecha, propuesta de inserción sin aplicar, decide el autor]`
+`[Empreinte: sin tarea]` `[HyperRAG: nada]` `[Auditra: ver nota privada]`
