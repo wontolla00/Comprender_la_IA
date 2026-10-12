@@ -31,6 +31,10 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-BN-3 · Antes de citar cifras:** leer el paper de bitnet.cpp (2,37-6,17x x86, 1,37-5,07x ARM, 82 % energía) y
   el informe técnico de 2B4T. Las cifras del post NO están verificadas; «memoria 16-32x menor» es incorrecto
   (1,58 bits vs FP16 ≈ 10x).
+- [ ] **CI-DM-1 · Dos casos fechados (entrada `2026-10-12 (c)`, baja):** (i) Anthropic, 03/06/2026: precisión offline de ~95 % a ~65 % en un mes
+  por documentación sin actualizar (§13.7/§15, evaluación continua); (ii) OpenAI, 29/01/2026: evals con SQL «dorada»,
+  comparando SQL y datos (§13.2/Text-to-SQL). Ambos verificados en primario; citar «skills», no «documentación», para
+  Anthropic. No citar Spider 2.0/BIRD ni las cifras del artículo (sin verificar). Cambio de versión.
 - [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
   intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.
 
@@ -2597,3 +2601,32 @@ Corpus literario, ninguna.
 
 **Veredicto: Descartar como contenido nuevo.** `[Manual: ninguno]` `[Empreinte: ninguno]`
 `[HyperRAG: sin acción nueva; confirmar el estado de la Fase 1 antes de medir `graph`]` `[Auditra: ninguno]`
+
+### 2026-10-12 (c) — «Votre agent IA ne se recette pas. Il se mesure.» (Laurent Letourmy, Head of Data Devoteam Snowflake Partner, con Vincent Vikor; LinkedIn, 02/10/2026)
+
+**Fuente.** Tesis: un agente analítico no se «recibe» (recette), se mide de forma permanente, con un conjunto de preguntas
+de respuesta conocida certificada por el negocio, repitiendo cada pregunta varias veces; el coste real es el tiempo del
+negocio para certificar, y la documentación obsoleta es el cerebro obsoleto del agente. Verificado en primario:
+Anthropic (blog, 03/06/2026): sin «skills» el agente no pasaba del 21 % en sus evals y con ellas supera el 95 % en
+agregado; la precisión offline derivó de ~95 % a ~65 % en un mes; la capa semántica es «mandatory default path»; evals
+generadas por Claude con validación humana, tamaño del conjunto no indicado (el artículo dice «documentación» donde el
+blog dice «skills»; el 95 % de la frase introductoria del blog es cuota de automatización, no precisión). OpenAI
+(29/01/2026): evals con pares pregunta-respuesta; respuesta esperada = SQL «dorada»; se compara SQL y datos resultantes,
+sin comparar cadenas; «como tests unitarios». NO verificado: Spider 2.0 y BIRD (clasificaciones del 26/09), y las cifras
+de sus propios tests (4 de 5 repeticiones parcialmente correctas, «marché adressable» 1 de cada 10, ingeniero 1 de cada 14;
+n desconocido). Fuente comercial.
+
+**Relevancia.** HyperRAG, media: sus medidas son «una pasada a T=0 y un modelo» y `HR4_conjunto_dificil.md` admite que un
+discordante por sentido es compatible con ruido; repetir da el número y comprueba si T=0 en ollama es determinista.
+Empreinte, baja-media: `erosion.py` solo marca el modelo mixto (`model_mix`, `n_mixed_episodes`) como confusor; el caso de
+Anthropic atribuye la deriva a documentación sin actualizar, no al modelo; no hay campo de versión del contexto o la
+documentación. Auditra, nota de diseño: el agente da la misma seguridad acierte o falle, así que el umbral
+ALLOW/REVIEW/BLOCK debe apoyarse en una tasa medida por clase de pregunta y no en la confianza declarada (conecta con el
+pendiente Jev del 28/09); campos candidatos: quién certificó la respuesta esperada y fecha de la última medida. Manual,
+baja: ya cubierto (§3.3, §13.2, §13.8, §13.12, §6.5b y el laboratorio Text-to-SQL); ni el blog de Anthropic ni el de
+OpenAI están citados; candidatos a dos casos fechados. Genie Ontology sigue pendiente aparte. Corpus literario, ninguna.
+
+**Veredicto: Integrar, en pequeño.** `[Manual: dos casos fechados y verificados (deriva 95→65 %; evals que comparan SQL y datos), cambio de versión, baja]`
+`[Empreinte: valorar campo de versión del contexto/documentación como confusor en erosion.py]`
+`[HyperRAG: repetir oráculo y DIR/PARA N veces; lo ejecuta el autor]` `[Auditra: línea en la nota privada, no en este repo]`
+
