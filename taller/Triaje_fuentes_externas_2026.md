@@ -48,6 +48,14 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   estudio EXPLORATORIO (sin preregistro ni asignación aleatoria): con IA se puntúa más y la confianza sube (0,66→0,78), pero la estimación de la
   propia nota deja de seguir a la nota real (r .07 frente a .40) y la discriminación entre respuestas correctas e incorrectas baja entre tareas, no
   dentro de cada una (no establecido). NO citar las cifras del resumen divulgativo (63,1 %, «igualó a la IA»). Esperar réplica o revisión por pares si se quiere citar como establecido.
+- [ ] **CI-BP-1 · Retropropagación: ejemplo numérico interactivo como referencia visual (entrada `2026-10-12 (g)`, baja; decisión del autor: SÍ incluirlo):** hoy el manual
+  solo nombra backpropagation de pasada (la caja «Entrenamiento» del widget de neurona, ~línea 2588 de `index.html`, y una frase en el capítulo 5); «regla de la cadena» 0 apariciones.
+  Base: `How_Backpropagation_Works.html` (autocontenido, ~10 KB, sin CDN). ANTES de portarlo: (1) corregir erratas (`L/∂w₁` sin ∂ ×2, `∂L/ŷ` → `∂L/∂ŷ`, `∂/∂h₁` → `∂ŷ/∂h₁`);
+  (2) `drawConnections()` está vacío: no hay aristas ni pesos dibujados y «blue path» no apunta a nada; (3) con el deslizador el paso 4 queda incoherente (texto fijo 0,7/2,1/−0,49 y caja
+  «Success!»; con η = 0,5 sale ŷ = −5, L = 12,5, «reducción» −2400 % en verde) → recalcular todo desde η o limitar el rango, y aprovechar el caso para mostrar que un paso grande
+  puede empeorar la pérdida; (4) tabla con `toFixed(1)` pierde precisión; (5) traducir (lang="es" con texto inglés). Convención del manual: widget como `<iframe srcdoc>` (hay 14);
+  es cambio de versión (v116 → v117: copia a `archivo/`, CHANGELOG, `taller/Registro_manual_*`). Atribución: ejemplo de la infografía de Tech with Mak; citar como «adaptado de»
+  o rehacer con cifras propias. Cifras verificadas por recálculo (L 0,5 → 0,12005; gradientes 3, −1, 1, 2).
 - [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
   intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.
 
@@ -2711,3 +2719,13 @@ razonamiento y criba 17 modelos candidatos, ejemplo de control del confusor de E
 
 **Veredicto: Integrar, con cautela.** `[Manual: CI-MC-1, baja-media]` `[Corpus: nota-puente hecha, propuesta de inserción sin aplicar, decide el autor]`
 `[Empreinte: sin tarea]` `[HyperRAG: nada]` `[Auditra: ver nota privada]`
+
+### 2026-10-12 (g) — «How Backpropagation Works» (Tech with Mak; infografía, post y versión interactiva HTML)
+
+**Fuente.** Ejemplo numérico mínimo: x = 1, y = 0, dos unidades ReLU (w₁ = 1, w₂ = 2), salida lineal (v₁ = 3, v₂ = −1), sin sesgos, pérdida ½(ŷ−y)². Recalculado a mano: ŷ = 1, L = 0,5; gradientes w₁ = 3, w₂ = −1, v₁ = 1, v₂ = 2; con η = 0,1 los pesos pasan a 0,7 / 2,1 / 2,9 / −1,2; nueva ŷ = −0,49, L = 0,12005 (−76 %). Todo coincide. Las salvedades del post (gradientes antes de actualizar, pendiente de ReLU = 1, un paso no garantiza bajar la pérdida) son correctas. Sin afirmaciones empíricas que verificar.
+
+**Versión HTML.** Útil como referencia visual, pero con defectos antes de portarla (ver CI-BP-1): erratas de notación, red sin aristas, paso 4 incoherente con el deslizador, sin traducir.
+
+**Relevancia.** Manual, hueco pequeño pero real (backprop nombrado de pasada; 0 «regla de la cadena»). Empreinte, HyperRAG, Auditra y corpus: nada.
+
+**Veredicto: Integrar** (cambio respecto a la primera lectura, «Descartar»: el autor decide incluirlo como referencia visual). `[Manual: CI-BP-1, baja]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]` `[Corpus: nada]`

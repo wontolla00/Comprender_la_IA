@@ -23,3 +23,4 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Cómputo en inferencia (12/10/2026)**: CI-IT-1 en la misma cabecera del Triaje (entrada `2026-10-12 (d)`). Media.
 - **Bucles y grafos de agentes (12/10/2026)**: CI-FO-1 en la misma cabecera del Triaje (entrada `2026-10-12 (e)`). Baja; comprobar §8.8b y §10.4b antes de tocar.
 - **Metacognición y asistencia por IA (12/10/2026)**: CI-MC-1 en la misma cabecera del Triaje (entrada `2026-10-12 (f)`). Baja-media; estudio exploratorio, no citar como establecido.
+- **Retropropagación, ejemplo interactivo (12/10/2026)**: CI-BP-1 en la misma cabecera del Triaje (entrada `2026-10-12 (g)`). Baja; el autor quiere incluirlo; corregir el HTML antes de portarlo.
