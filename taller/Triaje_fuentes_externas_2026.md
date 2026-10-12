@@ -35,6 +35,11 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   por documentación sin actualizar (§13.7/§15, evaluación continua); (ii) OpenAI, 29/01/2026: evals con SQL «dorada»,
   comparando SQL y datos (§13.2/Text-to-SQL). Ambos verificados en primario; citar «skills», no «documentación», para
   Anthropic. No citar Spider 2.0/BIRD ni las cifras del artículo (sin verificar). Cambio de versión.
+- [ ] **CI-IT-1 · Subsección «cómputo en inferencia: generar y elegir» (entrada `2026-10-12 (d)`, media):** marco paralelo vs. secuencial;
+  voto mayoritario (reduce varianza, no sesgo), best-of-N (sobreoptimización frente al modelo de recompensa), autorrefinamiento
+  (neto negativo sin crítica externa), árbol de pensamiento/beam/MCTS (coste y por qué DeepSeek lo dejó); regla «verificador
+  primero». Encaja con §13.12 y con los §5.x de pensamiento extendido. ANTES: leer los primarios (Snell, Gao, Huang, Sprague,
+  Yao, DeepSeek-R1, escalado inverso de Anthropic); solo está verificado arXiv:2511.00751. Cambio de versión.
 - [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
   intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.
 
@@ -2629,4 +2634,33 @@ OpenAI están citados; candidatos a dos casos fechados. Genie Ontology sigue pen
 **Veredicto: Integrar, en pequeño.** `[Manual: dos casos fechados y verificados (deriva 95→65 %; evals que comparan SQL y datos), cambio de versión, baja]`
 `[Empreinte: valorar campo de versión del contexto/documentación como confusor en erosion.py]`
 `[HyperRAG: repetir oráculo y DIR/PARA N veces; lo ejecuta el autor]` `[Auditra: línea en la nota privada, no en este repo]`
+
+### 2026-10-12 (d) — «How Production LLMs Reason Better at Inference Time (as researched by Google, OpenAI, and Anthropic)» (Avi Chawla, Daily Dose of DS; docx recibido)
+
+**Fuente.** Ocho técnicas de cómputo en inferencia (cadena de pensamiento, voto mayoritario, best-of-N, pensamiento extendido,
+autorrefinamiento, árbol de pensamiento, beam search, MCTS) bajo una tesis: todas generan candidatos y eligen, y la calidad
+del selector decide; con verificador exacto el beneficio se sostiene al subir el presupuesto, con modelo de recompensa
+aprendido se degrada. Regla: «construye primero la señal de verificación, escala la búsqueda después». Distinción paralelo
+(coste en tokens, poca latencia) frente a secuencial (latencia directa). Verificado en primario SOLO la cifra de Gemini 2.5
+(arXiv:2511.00751 «Self-Consistency Is Losing Its Edge»: +0,4 HotpotQA con 20 muestras, +1,6 MATH-500, coste casi lineal
+con las muestras). El resto (Snell et al., Gao et al., Huang et al., Sprague et al., Yao et al., DeepSeek-R1, escalado inverso
+de Anthropic) son estudios conocidos pero NO releídos: leer los primarios antes de citar. Matiz: «cómputo en inferencia supera
+a un modelo 14x mayor» vale, según recuerdo del trabajo de Google, para problemas fáciles e intermedios, no para los difíciles;
+el texto lo omite. Misma casa editorial que dos entradas del 2026-08-20.
+
+**Relevancia.** Manual, media (hueco real): voto mayoritario 2 apariciones, árbol de pensamiento 1, autocorrección 1,
+modelos de recompensa por proceso 4, pensamiento extendido 9, Goodhart 1; sin best-of-N, escalado inverso, MCTS, RULER ni
+«test-time compute». Falta el marco generar-y-elegir; encaja con §13.12 (ground truth auditable). Empreinte, baja-media:
+respalda la cláusula Goodhart (EM-4) con la curva de best-of-N y la inversión beam search/best-of-N; la evidencia de que el
+autorrefinamiento sin crítica externa es neto negativo apoya declarar los límites del juez LLM; el presupuesto de
+razonamiento (`budget_tokens`, `reasoning_effort`) es candidato a confusor junto a la versión del contexto (EM-DM-1); el coste
+casi lineal con las muestras alimenta «coste por tarea completada». HyperRAG, refuerzo: respalda la regla de no juez LLM y
+la observación del 11/08 (quitar el reranker, un selector aprendido, +7,9 puntos; análogo, no equivalente); el voto no
+arreglaría `4%`/`1667` (sesgo de recuperación, no varianza). Auditra, refuerzo débil: decidir con comprobaciones
+deterministas, en la línea de la nota del artículo de Letourmy. Tres Domesticaciones: la curva de sobreoptimización frente
+a un proxy es una medición empírica del mecanismo del marco; sin comprobar si ya lo cita.
+
+**Veredicto: Integrar.** `[Manual: subsección «cómputo en inferencia como generar y elegir», cambio de versión, prioridad media; antes leer los primarios]`
+`[Empreinte: ampliar EM-DM-1 con la configuración de razonamiento; comprobar si el README cita los trabajos de Goodhart]`
+`[HyperRAG: sin tarea nueva]` `[Auditra: sin tarea nueva]` `[Tres Domesticaciones: comprobar si cita el trabajo de sobreoptimización de recompensas]`
 
