@@ -21,3 +21,4 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **BitNet (12/10/2026)**: CI-BN-1..3 en la cabecera «Pendientes abiertos» de `taller/Triaje_fuentes_externas_2026.md`. Nada tocado en `index.html`.
 - **Medición de agentes (12/10/2026)**: CI-DM-1 en la misma cabecera del Triaje (entrada `2026-10-12 (c)`).
 - **Cómputo en inferencia (12/10/2026)**: CI-IT-1 en la misma cabecera del Triaje (entrada `2026-10-12 (d)`). Media.
+- **Bucles y grafos de agentes (12/10/2026)**: CI-FO-1 en la misma cabecera del Triaje (entrada `2026-10-12 (e)`). Baja; comprobar §8.8b y §10.4b antes de tocar.

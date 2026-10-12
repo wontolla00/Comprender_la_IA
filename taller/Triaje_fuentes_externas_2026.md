@@ -40,6 +40,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   (neto negativo sin crítica externa), árbol de pensamiento/beam/MCTS (coste y por qué DeepSeek lo dejó); regla «verificador
   primero». Encaja con §13.12 y con los §5.x de pensamiento extendido. ANTES: leer los primarios (Snell, Gao, Huang, Sprague,
   Yao, DeepSeek-R1, escalado inverso de Anthropic); solo está verificado arXiv:2511.00751. Cambio de versión.
+- [ ] **CI-FO-1 · Bucles y grafos de agentes: tres comprobaciones en §8.8b y §10.4b (entrada `2026-10-12 (e)`, baja):** (1) test de «aristas falsas»
+  (¿separa §8.8b secuencia de dependencia real?); (2) verificador con contexto fresco, distinto del agente que hizo el trabajo (0 apariciones);
+  (3) tasa de aprovechamiento (salidas conservadas / generadas, 0 apariciones). Comprobar primero; si ya están, cerrar sin cambio de versión.
 - [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
   intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.
 
@@ -2664,3 +2667,23 @@ a un proxy es una medición empírica del mecanismo del marco; sin comprobar si 
 `[Empreinte: ampliar EM-DM-1 con la configuración de razonamiento; comprobar si el README cita los trabajos de Goodhart]`
 `[HyperRAG: sin tarea nueva]` `[Auditra: sin tarea nueva]` `[Tres Domesticaciones: comprobar si cita el trabajo de sobreoptimización de recompensas]`
 
+### 2026-10-12 (e) — «Agents, Loops, Graphs. Everything You Need to Know in One Place» (guía sin autor; docx recibido)
+
+**Fuente.** Guía práctica sobre tres piezas con Claude: agente (herramientas, memoria, bucle), bucle (repetir hasta que el trabajo
+supere un listón) y grafo de trabajadores en paralelo (fan-out). Verificado en primario SOLO que los «dynamic workflows» existen en la
+documentación de Claude Code («un script que ejecuta muchos subagentes y contrasta sus resultados») y que la misma página avisa de que
+varias sesiones a la vez multiplican el consumo de tokens. El bloque YAML `workflow/nodes/depends_on` NO aparece en esa página (Claude
+escribe el script): tratarlo como ilustrativo. No trae cifras ni estudios; «todos los estudios serios concluyen que los modelos pasan
+por alto la mayoría de sus errores» no tiene fuente. Contradicción interna: su bucle hace que el mismo modelo se puntúe de 1 a 10 con
+«sé duro», pese a decir que el chequeo debe poder fallar y que el agente que hace el trabajo nunca lo revisa (el mismo problema que el
+autorrefinamiento sin crítica externa de (d)). El umbral 8/10 y «por debajo del 50 % de aprovechamiento sale más caro que hacerlo tú» son
+cifras arbitrarias.
+
+**Relevancia.** Manual, cobertura alta: §8.8b (orquestación en grafo), §10.4b (ocho condiciones de parada), §10.6 (trazabilidad
+multiagente), decaimiento de consenso, «juez LLM» ~18 veces; sin «contexto fresco» para el verificador ni tasa de aprovechamiento.
+Empreinte, la parte más aprovechable: la tasa de aprovechamiento (salidas conservadas / generadas) es casi el pendiente de «coste por
+tarea completada», con el denominador en lo que se conserva y no en lo que se genera, y cada vuelta del bucle reenvía un contexto más
+largo. HyperRAG y corpus literario: nada. Auditra: sin tarea pública (el análisis y lo implementado viven en su nota privada).
+
+**Veredicto: Observar.** `[Manual: CI-FO-1, tres comprobaciones, baja; sin cambio de versión salvo que falte algo]`
+`[Empreinte: EM-FO-1, «salidas conservadas» como denominador de «coste por tarea completada»]` `[HyperRAG: nada]` `[Auditra: ver nota privada]`
