@@ -2731,3 +2731,21 @@ razonamiento y criba 17 modelos candidatos, ejemplo de control del confusor de E
 **Veredicto: Integrar** (cambio respecto a la primera lectura, «Descartar»: el autor decide incluirlo como referencia visual). `[Manual: CI-BP-1, baja]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]` `[Corpus: nada]`
 
 **Aplicado el 12/10/2026 (v117):** simulador corregido y en español en §0.1.3, con párrafo de enlace. Detalle en `taller/Registro_manual_v116_a_v117.md`.
+
+### 2026-10-12 (h) — «How LLMs Actually Generate Text» (Brij Kishore Pandey; infografía interactiva HTML)
+
+**Veredicto: Descartar.** El manual ya cubre cada paso (§0.2.6, §5.3, §5.4, §5.5c, §5.7d) y tiene un simulador de muestreo que sí
+redistribuye probabilidades. Errores de la infografía: «genera 4 tokens en ~1 forward pass» (el borrador los genera uno a uno), d_model 4096
+«en GPT-4» con «×96 capas en GPT-4» (cifras de Llama 3 8B mezcladas con las de GPT-3), atención sin normalizar ni máscara causal, ID de «grav»
+distinto entre pasos, controles de muestreo inertes. `[Manual: nada]` `[Empreinte, HyperRAG, Auditra, corpus: nada]`
+
+### 2026-10-12 (i) — «How LLM Inference Works, Clearly Explained» (Avi Chawla, Daily Dose of DS; docx)
+
+**Veredicto: Descartar.** Cubierto en §5.7d y §5.5c. Errores: DeepSeek-V4 «abril de 2025» (fue abril de 2026; 27 % y 10 % verificados en el
+blog de Hugging Face, no así 9,62 y 83,9 GiB), `softmax(scaled)` con variable inexistente, pseudocódigo con posiciones sumadas pese a RoPE,
+vocabulario «unos 50.000», 1 MB por token solo sin GQA, y cifras sin fuente. `[Manual: nada]` `[Empreinte, HyperRAG, Auditra, corpus: nada]`
+
+### 2026-10-12 (j) — Simulador HTML «KV Cache & Prefill vs Decode»
+
+**Veredicto: Integrar, corregido; HECHO en v118 (§5.7d).** Defectos del original y verificaciones en `taller/Registro_manual_v117_a_v118.md`.
+`[Manual: hecho]` `[Empreinte: nada]` `[HyperRAG: el simulador sirve para estimar caché y TTFT de un modelo local; sin tarea]` `[Auditra: nada]` `[Corpus: nada]`

@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v117** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v118** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v118** | §5.7d gana un simulador interactivo de caché KV y de las fases prefill y decode: arquitecturas reales de Llama (con GQA), pesos y caché frente a la memoria de la GPU, TTFT e ITL calculados con un modelo de techo (roofline) y el punto en que decode deja de estar limitado por la memoria. |
 | **v117** | §0.1.3 gana un ejemplo interactivo de retropropagación (cuatro pasos: pasada hacia delante, gradientes por la regla de la cadena, actualización con tasa de aprendizaje ajustable y nueva predicción), con un párrafo de enlace que define retropropagación y descenso del gradiente. Ejemplo adaptado de una infografía de Tech with Mak, con las cifras recalculadas. |
 | **v116** | §10.4 gana un recuadro sobre la autoridad de los esquemas de arquitectura de asistentes comerciales obtenidos preguntándole al propio asistente: hipótesis, no documentación; separar lo confirmado por el proveedor de lo autodeclarado. |
 | **v115** | §20.1 y §20.3b ganan dos evidencias sobre decisiones asistidas por IA: el *trendslop* (siete modelos convergen en las mismas estrategias de moda, HBR marzo 2026) y el experimento de IMD (más confianza y peor previsión con ChatGPT que discutiendo con colegas, HBR julio 2025). |

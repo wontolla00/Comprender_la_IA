@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v117</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v118</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v117 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v118 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -13479,6 +13479,391 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
   </div>
 <p>Aplicado a generar un token: cada peso se usa exactamente una vez por paso —una multiplicación y una suma, 2 operaciones— y a BF16 ocupa 2 bytes. La intensidad aritmética de decode es ≈1 operación/byte: unas 300 veces por debajo del punto de equilibrio de la H100. De ahí sale directamente el techo de velocidad, sin necesitar ningún perfilado: <code>tamaño del modelo en bytes ÷ ancho de banda = tiempo por token</code>. Un modelo de 70B a BF16 ocupa 140 GB; a 3,35 TB/s eso son ≈42 ms/token, es decir, un techo de <strong>≈24 tokens/s</strong> — antes de cualquier optimización de software, y el mismo cálculo con el que la §5.7c predice que cuantizar a 8 bits (70 GB en vez de 140) duplica ese techo a ≈48 tok/s. La cuantización no acelera el cómputo: reduce los bytes que hay que leer, que es exactamente la variable que decide este número.</p>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">La tabla de arquitecturas de hardware de §5.7e da el ancho de banda de cada familia de chip; este techo se recalcula sin más que sustituir esa cifra. El modelo asume una sola secuencia (batch=1) y BF16 sin caché KV significativa — en contexto largo, la caché KV compite por el mismo ancho de banda y el techo real es más bajo que el que da esta fórmula.</p>
+<p>El simulador siguiente aplica ese mismo techo sin las dos simplificaciones de arriba: suma la caché KV (con GQA, que es lo que más la reduce) y deja subir el batch. Elige un modelo, una GPU y una precisión, y mira dos cosas: cuándo deja de caber la caché (§5.5c) y cuándo decode deja de estar limitado por la memoria. Usa los TFLOPS densos de la ficha (989 en la H100) y unas eficiencias ajustables que son supuestos, no mediciones, así que los tiempos son órdenes de magnitud y no una predicción de tu servidor.</p>
+<div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(99,102,241,.25);background:var(--card,#fff)">
+<div style="background:rgba(99,102,241,.06);padding:8px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(99,102,241,.15)">
+<span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700">🎮 INTERACTIVO</span>
+<span style="font-size:.8rem;color:var(--muted)">Caché KV, TTFT e ITL: memoria y tiempos según modelo, GPU, precisión, contexto y batch</span>
+</div>
+<iframe loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Simulador de caché KV y de las fases prefill y decode&lt;/title&gt;
+&lt;style&gt;
+:root{--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--accent:#4f46e5;--accent-l:#eef2ff;
+--pre:#0369a1;--pre-l:#e0f2fe;--dec:#b45309;--dec-l:#fef3c7;--ok:#15803d;--ok-l:#dcfce7;--bad:#b91c1c;--bad-l:#fee2e2;--border:#e2e8f0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:14px;font-size:14.5px}
+h2{font-size:1.05rem;margin-bottom:6px}
+h3{font-size:.92rem;margin:12px 0 6px;color:var(--accent)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 16px}
+.field label{display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:3px}
+.field label output{font-family:'Cascadia Mono',Consolas,monospace;color:var(--accent);font-weight:700}
+.field input[type=range]{width:100%}
+select,input[type=number]{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text);font:inherit}
+.tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.tabs button{flex:1 1 200px;padding:9px 12px;border:2px solid var(--border);background:var(--card);border-radius:8px;cursor:pointer;font:inherit;font-weight:600;color:var(--text)}
+.tabs button[aria-selected=&quot;true&quot;]{background:var(--accent);border-color:var(--accent);color:#fff}
+.formula{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin:8px 0;font-family:'Cascadia Mono',Consolas,monospace;font-size:.82rem;overflow-x:auto}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:10px 0}
+.metric{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
+.metric .l{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.metric .v{font-size:1.2rem;font-weight:800;font-family:'Cascadia Mono',Consolas,monospace}
+.metric .u{font-size:.72rem;color:var(--muted)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--dec)}
+.info{background:var(--accent-l);border-left:4px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.84rem}
+.info.bad{background:var(--bad-l);border-color:var(--bad)}
+.info.ok{background:var(--ok-l);border-color:var(--ok)}
+.info.pre{background:var(--pre-l);border-color:var(--pre)}
+.info.dec{background:var(--dec-l);border-color:var(--dec)}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:10px 0}
+.phase{border:2px solid;border-radius:10px;padding:12px}
+.phase.pre{border-color:var(--pre);background:var(--pre-l)}
+.phase.dec{border-color:var(--dec);background:var(--dec-l)}
+.phase h3{margin:0 0 6px}
+.phase.pre h3{color:var(--pre)}.phase.dec h3{color:var(--dec)}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#fff;border:1px solid currentColor;margin-left:6px}
+.stat{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.08);font-size:.84rem}
+.stat:last-child{border-bottom:none}
+.stat .v{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700;text-align:right}
+svg{display:block;width:100%;height:auto}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.stream{display:flex;gap:4px;flex-wrap:wrap;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;min-height:46px;align-items:center;margin:8px 0}
+.chip{padding:3px 9px;border-radius:4px;font:600 .78rem 'Cascadia Mono',Consolas,monospace}
+.chip.pre{background:var(--pre-l);color:var(--pre);border:1px solid var(--pre)}
+.chip.dec{background:var(--dec-l);color:var(--dec);border:1px solid var(--dec)}
+button.act{padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font:inherit;font-weight:600;background:var(--accent);color:#fff}
+button.sec{background:#e2e8f0;color:var(--text)}
+.foot{font-size:.74rem;color:var(--muted);margin-top:6px}
+[hidden]{display:none!important}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;section class=&quot;panel&quot;&gt;
+  &lt;h2&gt;Modelo, datos y hardware&lt;/h2&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;preset&quot;&gt;Modelo (arquitectura publicada)&lt;/label&gt;
+      &lt;select id=&quot;preset&quot;&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;L&quot;&gt;Capas &lt;output id=&quot;oL&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;L&quot; min=&quot;8&quot; max=&quot;128&quot; step=&quot;1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;H&quot;&gt;Cabezas de atención &lt;output id=&quot;oH&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;H&quot; min=&quot;8&quot; max=&quot;128&quot; step=&quot;8&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;KV&quot;&gt;Cabezas K/V (GQA) &lt;output id=&quot;oKV&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;select id=&quot;KV&quot;&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;hd&quot;&gt;Dimensión por cabeza &lt;output id=&quot;ohd&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;select id=&quot;hd&quot;&gt;&lt;option&gt;64&lt;/option&gt;&lt;option&gt;96&lt;/option&gt;&lt;option&gt;128&lt;/option&gt;&lt;option&gt;256&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;params&quot;&gt;Parámetros (miles de millones)&lt;/label&gt;
+      &lt;input type=&quot;number&quot; id=&quot;params&quot; min=&quot;0.1&quot; max=&quot;2000&quot; step=&quot;0.1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;wB&quot;&gt;Precisión de los pesos&lt;/label&gt;
+      &lt;select id=&quot;wB&quot;&gt;&lt;option value=&quot;2&quot;&gt;FP16 / BF16 (2 B)&lt;/option&gt;&lt;option value=&quot;1&quot;&gt;INT8 / FP8 (1 B)&lt;/option&gt;&lt;option value=&quot;0.5&quot;&gt;INT4 (0,5 B)&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;kvB&quot;&gt;Precisión de la caché KV&lt;/label&gt;
+      &lt;select id=&quot;kvB&quot;&gt;&lt;option value=&quot;2&quot;&gt;FP16 / BF16 (2 B)&lt;/option&gt;&lt;option value=&quot;1&quot;&gt;INT8 / FP8 (1 B)&lt;/option&gt;&lt;option value=&quot;0.5&quot;&gt;INT4 (0,5 B)&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;gpu&quot;&gt;GPU&lt;/label&gt;&lt;select id=&quot;gpu&quot;&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;ngpu&quot;&gt;Número de GPU (paralelismo ideal)&lt;/label&gt;
+      &lt;select id=&quot;ngpu&quot;&gt;&lt;option&gt;1&lt;/option&gt;&lt;option&gt;2&lt;/option&gt;&lt;option&gt;4&lt;/option&gt;&lt;option&gt;8&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;batch&quot;&gt;Secuencias en paralelo (batch) &lt;output id=&quot;obatch&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;batch&quot; min=&quot;1&quot; max=&quot;64&quot; step=&quot;1&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;info&quot; id=&quot;archNote&quot;&gt;&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;div class=&quot;tabs&quot; role=&quot;tablist&quot;&gt;
+  &lt;button role=&quot;tab&quot; id=&quot;t1&quot; aria-selected=&quot;true&quot; aria-controls=&quot;p1&quot;&gt;1 · Caché KV&lt;/button&gt;
+  &lt;button role=&quot;tab&quot; id=&quot;t2&quot; aria-selected=&quot;false&quot; aria-controls=&quot;p2&quot;&gt;2 · Prefill y decode&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;section class=&quot;panel&quot; id=&quot;p1&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;t1&quot;&gt;
+  &lt;h2&gt;Cuánta memoria ocupa la caché KV&lt;/h2&gt;
+  &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;seq&quot;&gt;Longitud de la secuencia (tokens) &lt;output id=&quot;oseq&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+    &lt;input type=&quot;range&quot; id=&quot;seq&quot; min=&quot;256&quot; max=&quot;131072&quot; step=&quot;256&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;formula&quot; id=&quot;kvFormula&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;metrics&quot; id=&quot;kvMetrics&quot;&gt;&lt;/div&gt;
+  &lt;div id=&quot;kvAlert&quot;&gt;&lt;/div&gt;
+  &lt;h3&gt;Crecimiento con la longitud (línea discontinua: memoria libre tras los pesos)&lt;/h3&gt;
+  &lt;div id=&quot;growth&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;info&quot;&gt;La caché crece de forma &lt;strong&gt;lineal&lt;/strong&gt; con la longitud y con el número de secuencias, y es proporcional a las cabezas &lt;strong&gt;K/V&lt;/strong&gt;, no a las de atención. Por eso GQA (pocas cabezas K/V compartidas) es la palanca más eficaz: compara Llama-2-7B con Llama-3-8B.&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;panel&quot; id=&quot;p2&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;t2&quot; hidden&gt;
+  &lt;h2&gt;Prefill frente a decode&lt;/h2&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;prompt&quot;&gt;Tokens del prompt &lt;output id=&quot;oprompt&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;prompt&quot; min=&quot;16&quot; max=&quot;32768&quot; step=&quot;16&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;gen&quot;&gt;Tokens a generar &lt;output id=&quot;ogen&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;gen&quot; min=&quot;16&quot; max=&quot;4096&quot; step=&quot;16&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;effC&quot;&gt;Eficiencia de cómputo alcanzada &lt;output id=&quot;oeffC&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;effC&quot; min=&quot;20&quot; max=&quot;100&quot; step=&quot;5&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;&lt;label for=&quot;effB&quot;&gt;Eficiencia de ancho de banda alcanzada &lt;output id=&quot;oeffB&quot;&gt;&lt;/output&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;effB&quot; min=&quot;20&quot; max=&quot;100&quot; step=&quot;5&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;foot&quot;&gt;Las eficiencias son supuestos ajustables, no mediciones: ninguna GPU llega al pico de su ficha.&lt;/div&gt;
+  &lt;div id=&quot;fitAlert&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;phases&quot;&gt;
+    &lt;div class=&quot;phase pre&quot;&gt;&lt;h3&gt;Prefill &lt;span class=&quot;badge&quot; id=&quot;preBadge&quot;&gt;&lt;/span&gt;&lt;/h3&gt;&lt;div id=&quot;preStats&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;phase dec&quot;&gt;&lt;h3&gt;Decode &lt;span class=&quot;badge&quot; id=&quot;decBadge&quot;&gt;&lt;/span&gt;&lt;/h3&gt;&lt;div id=&quot;decStats&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;metrics&quot; id=&quot;totMetrics&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;info pre&quot;&gt;&lt;strong&gt;Prefill:&lt;/strong&gt; procesa los tokens del prompt a la vez, así que cada peso leído de memoria se reutiliza en miles de operaciones (alta intensidad aritmética) y suele estar limitado por el cómputo. Lo que nota el usuario es el &lt;strong&gt;TTFT&lt;/strong&gt;.&lt;/div&gt;
+  &lt;div class=&quot;info dec&quot;&gt;&lt;strong&gt;Decode:&lt;/strong&gt; genera un token por paso y por secuencia, y cada paso vuelve a leer todos los pesos y la caché para hacer pocas operaciones, así que está limitado por la memoria. Lo que nota el usuario es el &lt;strong&gt;ITL&lt;/strong&gt;. Con batch 1, el coste por token es muy superior al de prefill, y más batch lo reparte porque los pesos se leen una sola vez por paso.&lt;/div&gt;
+  &lt;h3&gt;Cómo cambian TTFT e ITL&lt;/h3&gt;
+  &lt;div class=&quot;charts&quot;&gt;&lt;div id=&quot;chTTFT&quot;&gt;&lt;/div&gt;&lt;div id=&quot;chITL&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;h3&gt;Simulación (no está a escala temporal)&lt;/h3&gt;
+  &lt;div style=&quot;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px&quot;&gt;
+    &lt;button class=&quot;act&quot; id=&quot;sim&quot;&gt;▶ Ejecutar&lt;/button&gt;&lt;button class=&quot;act sec&quot; id=&quot;simReset&quot;&gt;↺ Reiniciar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;foot&quot; id=&quot;simInfo&quot;&gt;Fase: — · Reloj simulado: 0 ms&lt;/div&gt;
+  &lt;div class=&quot;stream&quot; id=&quot;stream&quot;&gt;&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;p class=&quot;foot&quot;&gt;Modelo de primer orden (roofline): tiempo = máximo entre cómputo y lectura de memoria; ignora los sobrecostes de los kernels, la comunicación entre GPU, la paginación de la caché y FlashAttention. Arquitecturas: &lt;code&gt;config.json&lt;/code&gt; oficiales de Llama-2-7B, Llama-3-8B y Llama-3-70B. Hardware: fichas de NVIDIA (A100 80 GB 2.039 GB/s y 312 TFLOPS BF16 densos; H100 SXM 3.350 GB/s y 989 TFLOPS densos, la mitad de los 1.979 con sparsity; RTX 4090 1.008 GB/s y 165,2 TFLOPS FP16 densos). GB = 10⁹ bytes; KiB = 1.024 bytes.&lt;/p&gt;
+
+&lt;script&gt;
+const MODELS = {
+  llama2_7b:  {name:'Llama-2-7B (MHA)',  L:32, H:32, KV:32, hd:128, params:6.74,  ctx:4096},
+  llama3_8b:  {name:'Llama-3-8B (GQA)',  L:32, H:32, KV:8,  hd:128, params:8.03,  ctx:8192},
+  llama3_70b: {name:'Llama-3-70B (GQA)', L:80, H:64, KV:8,  hd:128, params:70.55, ctx:8192},
+  custom:     {name:'Personalizado',     L:32, H:32, KV:8,  hd:128, params:8,     ctx:0}
+};
+const GPUS = {
+  a100:    {name:'A100 80 GB',     mem:80, bw:2039, tf:312},
+  h100:    {name:'H100 SXM 80 GB', mem:80, bw:3350, tf:989},
+  rtx4090: {name:'RTX 4090 24 GB', mem:24, bw:1008, tf:165.2}
+};
+const S = {preset:'llama3_8b', L:32, H:32, KV:8, hd:128, params:8.03, wB:2, kvB:2, gpu:'a100', ngpu:1, batch:1,
+           seq:8192, prompt:2048, gen:256, effC:50, effB:80};
+const $ = id =&gt; document.getElementById(id);
+
+function f(n, d){
+  d = d === undefined ? 1 : d;
+  const r = Number(n.toFixed(d));
+  return (Object.is(r, -0) ? 0 : r).toLocaleString('es-ES', {minimumFractionDigits:0, maximumFractionDigits:d});
+}
+function gb(bytes){ return bytes / 1e9; }
+function ms(sec){ return sec &lt; 1 ? f(sec * 1000, sec &lt; 0.01 ? 2 : 1) + ' ms' : f(sec, 2) + ' s'; }
+
+// ---------- Cálculo ----------
+const kvPerToken = () =&gt; 2 * S.L * S.KV * S.hd * S.kvB;                  // bytes por token y secuencia
+const weightsBytes = () =&gt; S.params * 1e9 * S.wB;
+const capBytes = () =&gt; GPUS[S.gpu].mem * 1e9 * S.ngpu;
+function hw(){
+  const g = GPUS[S.gpu];
+  return {flops: g.tf * 1e12 * S.ngpu * S.effC / 100, bw: g.bw * 1e9 * S.ngpu * S.effB / 100};
+}
+function prefill(prompt){
+  const {flops, bw} = hw(), P = S.params * 1e9, dm = S.H * S.hd;
+  const fl = (2 * P * prompt + 2 * S.L * dm * prompt * prompt) * S.batch;  // lineal + atención causal
+  const by = weightsBytes() + kvPerToken() * prompt * S.batch;
+  const tC = fl / flops, tM = by / bw;
+  return {fl, by, tC, tM, t: Math.max(tC, tM), bound: tC &gt;= tM ? 'cómputo' : 'memoria', ai: fl / by};
+}
+function decodeStep(ctx){
+  const {flops, bw} = hw(), P = S.params * 1e9, dm = S.H * S.hd;
+  const fl = (2 * P + 4 * S.L * dm * ctx) * S.batch;
+  const by = weightsBytes() + kvPerToken() * ctx * S.batch;
+  const tC = fl / flops, tM = by / bw;
+  return {fl, by, tC, tM, t: Math.max(tC, tM), bound: tC &gt;= tM ? 'cómputo' : 'memoria', ai: fl / by};
+}
+
+// ---------- Controles ----------
+function divisors(n){ const r = []; for (let i = 1; i &lt;= n; i++) if (n % i === 0) r.push(i); return r; }
+function buildKV(){
+  const ds = divisors(S.H);
+  if (!ds.includes(S.KV)) S.KV = ds.filter(d =&gt; d &lt;= S.KV).pop() || 1;
+  $('KV').innerHTML = ds.map(d =&gt; '&lt;option value=&quot;' + d + '&quot;' + (d === S.KV ? ' selected' : '') + '&gt;' + d + (d === S.H ? ' (MHA)' : '') + '&lt;/option&gt;').join('');
+}
+function setPreset(key){
+  S.preset = key; const m = MODELS[key];
+  S.L = m.L; S.H = m.H; S.KV = m.KV; S.hd = m.hd; S.params = m.params;
+  syncInputs();
+}
+function markCustom(){
+  S.preset = 'custom'; $('preset').value = 'custom';
+}
+function syncInputs(){
+  $('preset').value = S.preset;
+  $('L').value = S.L; $('H').value = S.H; $('hd').value = S.hd; $('params').value = S.params;
+  $('wB').value = S.wB; $('kvB').value = S.kvB; $('gpu').value = S.gpu; $('ngpu').value = S.ngpu;
+  $('batch').value = S.batch; $('seq').value = S.seq; $('prompt').value = S.prompt; $('gen').value = S.gen;
+  $('effC').value = S.effC; $('effB').value = S.effB;
+  buildKV();
+  render();
+}
+function readOutputs(){
+  $('oL').textContent = S.L; $('oH').textContent = S.H; $('oKV').textContent = S.KV; $('ohd').textContent = S.hd;
+  $('obatch').textContent = S.batch; $('oseq').textContent = S.seq.toLocaleString('es-ES');
+  $('oprompt').textContent = S.prompt.toLocaleString('es-ES'); $('ogen').textContent = S.gen.toLocaleString('es-ES');
+  $('oeffC').textContent = S.effC + ' %'; $('oeffB').textContent = S.effB + ' %';
+}
+
+// ---------- Gráficos ----------
+function bars(title, unit, labels, values, colors, extraLine){
+  const W = 360, H = 190, pl = 44, pr = 8, pt = 22, pb = 30;
+  const cw = W - pl - pr, ch = H - pt - pb;
+  const max = Math.max(...values, extraLine || 0) * 1.12 || 1;
+  let s = '&lt;svg viewBox=&quot;0 0 ' + W + ' ' + H + '&quot; role=&quot;img&quot; aria-label=&quot;' + title + '&quot;&gt;';
+  s += '&lt;text x=&quot;' + pl + '&quot; y=&quot;13&quot; font-size=&quot;11&quot; font-weight=&quot;700&quot; fill=&quot;#1e293b&quot;&gt;' + title + '&lt;/text&gt;';
+  for (let i = 0; i &lt;= 4; i++){
+    const y = pt + ch - ch * i / 4;
+    s += '&lt;line x1=&quot;' + pl + '&quot; x2=&quot;' + (W - pr) + '&quot; y1=&quot;' + y + '&quot; y2=&quot;' + y + '&quot; stroke=&quot;#e2e8f0&quot;/&gt;';
+    s += '&lt;text x=&quot;' + (pl - 4) + '&quot; y=&quot;' + (y + 3) + '&quot; font-size=&quot;9&quot; fill=&quot;#64748b&quot; text-anchor=&quot;end&quot;&gt;' + f(max * i / 4, max &lt; 10 ? 1 : 0) + '&lt;/text&gt;';
+  }
+  const gap = cw / values.length, bw = gap * 0.68;
+  values.forEach((v, i) =&gt; {
+    const h = v / max * ch, x = pl + i * gap + (gap - bw) / 2, y = pt + ch - h;
+    s += '&lt;rect x=&quot;' + x + '&quot; y=&quot;' + y + '&quot; width=&quot;' + bw + '&quot; height=&quot;' + h + '&quot; rx=&quot;2&quot; fill=&quot;' + colors[i] + '&quot;/&gt;';
+    s += '&lt;text x=&quot;' + (x + bw / 2) + '&quot; y=&quot;' + (y - 3) + '&quot; font-size=&quot;8.5&quot; fill=&quot;#1e293b&quot; text-anchor=&quot;middle&quot;&gt;' + f(v, v &lt; 10 ? 1 : 0) + '&lt;/text&gt;';
+    s += '&lt;text x=&quot;' + (x + bw / 2) + '&quot; y=&quot;' + (pt + ch + 12) + '&quot; font-size=&quot;9&quot; fill=&quot;#64748b&quot; text-anchor=&quot;middle&quot;&gt;' + labels[i] + '&lt;/text&gt;';
+  });
+  if (extraLine){
+    const y = pt + ch - extraLine / max * ch;
+    s += '&lt;line x1=&quot;' + pl + '&quot; x2=&quot;' + (W - pr) + '&quot; y1=&quot;' + y + '&quot; y2=&quot;' + y + '&quot; stroke=&quot;#b45309&quot; stroke-width=&quot;2&quot; stroke-dasharray=&quot;5,3&quot;/&gt;';
+  }
+  s += '&lt;text x=&quot;' + (pl + cw / 2) + '&quot; y=&quot;' + (H - 3) + '&quot; font-size=&quot;9&quot; fill=&quot;#64748b&quot; text-anchor=&quot;middle&quot;&gt;' + unit + '&lt;/text&gt;&lt;/svg&gt;';
+  return s;
+}
+const lenLabel = n =&gt; n &gt;= 1024 ? (n / 1024) + 'K' : String(n);
+
+// ---------- Pestaña 1 ----------
+function renderKV(){
+  const per = kvPerToken(), tot = per * S.seq * S.batch, W = weightsBytes(), cap = capBytes();
+  const free = cap - W, used = (W + tot) / cap * 100;
+  const maxTok = free &gt; 0 ? Math.floor(free / (per * S.batch)) : 0;
+  const maxBatch = free &gt; 0 ? Math.floor(free / (per * S.seq)) : 0;
+  const mha = 2 * S.L * S.H * S.hd * S.kvB;
+  $('kvFormula').innerHTML = 'Caché KV = 2 × capas × &lt;b&gt;cabezas K/V&lt;/b&gt; × dim. por cabeza × tokens × bytes × secuencias&lt;br&gt;= 2 × ' + S.L + ' × &lt;b&gt;' + S.KV + '&lt;/b&gt; × ' + S.hd + ' × ' + S.seq.toLocaleString('es-ES') + ' × ' + S.kvB + ' × ' + S.batch + ' = &lt;b&gt;' + f(gb(tot), 2) + ' GB&lt;/b&gt;';
+  const statusTxt = W &gt; cap ? 'Los pesos no caben' : (W + tot &gt; cap ? 'Excede la memoria' : (used &gt; 85 ? 'Ajustado' : 'Cabe'));
+  const statusCls = W + tot &gt; cap ? 'bad' : (used &gt; 85 ? 'warn' : 'ok');
+  const m = (l, v, u, c) =&gt; '&lt;div class=&quot;metric&quot;&gt;&lt;div class=&quot;l&quot;&gt;' + l + '&lt;/div&gt;&lt;div class=&quot;v ' + (c || '') + '&quot;&gt;' + v + '&lt;/div&gt;&lt;div class=&quot;u&quot;&gt;' + u + '&lt;/div&gt;&lt;/div&gt;';
+  $('kvMetrics').innerHTML =
+    m('Por token', f(per / 1024, 1), 'KiB (una secuencia)') +
+    m('Caché total', f(gb(tot), 2), 'GB') +
+    m('Pesos', f(gb(W), 1), 'GB') +
+    m('Memoria total', f(gb(cap), 0), 'GB (' + S.ngpu + ' × ' + GPUS[S.gpu].name + ')') +
+    m('Ocupación', f(used, 0) + ' %', 'pesos + caché', statusCls) +
+    m('Estado', statusTxt, '', statusCls) +
+    m('Tokens máx.', f(maxTok, 0), 'con ' + S.batch + ' secuencia(s)') +
+    m('Secuencias máx.', f(maxBatch, 0), 'a ' + S.seq.toLocaleString('es-ES') + ' tokens');
+  const ctx = MODELS[S.preset].ctx;
+  let alert = '';
+  if (S.H !== S.KV) alert += '&lt;div class=&quot;info ok&quot;&gt;Con GQA la caché es &lt;strong&gt;' + f(S.H / S.KV, 1) + '×&lt;/strong&gt; menor que si cada cabeza de atención tuviera su propia K/V (' + f(gb(mha * S.seq * S.batch), 2) + ' GB en este caso).&lt;/div&gt;';
+  if (ctx &amp;&amp; S.seq &gt; ctx) alert += '&lt;div class=&quot;info bad&quot;&gt;' + MODELS[S.preset].name + ' se entrenó con contexto de ' + ctx.toLocaleString('es-ES') + ' tokens. Más allá se necesitaría extender el contexto (RoPE/YaRN); el simulador calcula la memoria igualmente.&lt;/div&gt;';
+  $('kvAlert').innerHTML = alert;
+  const pts = [1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072];
+  const vals = pts.map(n =&gt; gb(per * n * S.batch));
+  const colors = vals.map(v =&gt; free &gt; 0 &amp;&amp; v &gt; gb(free) ? '#b91c1c' : '#4f46e5');
+  $('growth').innerHTML = bars('Caché KV (GB) según la longitud', 'Longitud (tokens); rojo = no cabe', pts.map(lenLabel), vals, colors, free &gt; 0 ? gb(free) : 0);
+}
+
+// ---------- Pestaña 2 ----------
+function renderPhases(){
+  const p = prefill(S.prompt), dStart = decodeStep(S.prompt), ctx = S.prompt + S.gen / 2, d = decodeStep(ctx);
+  const ttft = p.t, itl = d.t, total = ttft + (S.gen - 1) * itl;
+  const need = weightsBytes() + kvPerToken() * (S.prompt + S.gen) * S.batch, cap = capBytes();
+  $('fitAlert').innerHTML = need &gt; cap
+    ? '&lt;div class=&quot;info bad&quot;&gt;&lt;strong&gt;No cabe:&lt;/strong&gt; hacen falta ' + f(gb(need), 0) + ' GB entre pesos y caché y hay ' + f(gb(cap), 0) + ' GB. Añade GPU, cuantiza o reduce contexto o batch; los tiempos de abajo describen un sistema que no existiría tal cual.&lt;/div&gt;' : '';
+  const cls = b =&gt; b === 'cómputo' ? 'color:var(--pre)' : 'color:var(--dec)';
+  $('preBadge').textContent = 'limitado por ' + p.bound; $('preBadge').style.cssText = cls(p.bound);
+  $('decBadge').textContent = 'limitado por ' + d.bound; $('decBadge').style.cssText = cls(d.bound);
+  const ridge = hw().flops / hw().bw;
+  const st = (k, v) =&gt; '&lt;div class=&quot;stat&quot;&gt;&lt;span&gt;' + k + '&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;' + v + '&lt;/span&gt;&lt;/div&gt;';
+  $('preStats').innerHTML =
+    st('Tokens procesados a la vez', (S.prompt * S.batch).toLocaleString('es-ES')) +
+    st('Operaciones', f(p.fl / 1e12, 1) + ' TFLOP') +
+    st('Tiempo de cómputo', ms(p.tC)) + st('Tiempo de lectura de memoria', ms(p.tM)) +
+    st('Intensidad aritmética', f(p.ai, 0) + ' FLOP/byte') +
+    st('&lt;b&gt;TTFT&lt;/b&gt; (tiempo hasta el primer token)', '&lt;b&gt;' + ms(ttft) + '&lt;/b&gt;') +
+    st('Tiempo por token del prompt', ms(ttft / S.prompt));
+  $('decStats').innerHTML =
+    st('Tokens por paso', S.batch + ' (uno por secuencia)') +
+    st('Bytes leídos por paso', f(gb(d.by), 1) + ' GB') +
+    st('Tiempo de cómputo', ms(d.tC)) + st('Tiempo de lectura de memoria', ms(d.tM)) +
+    st('Intensidad aritmética', f(d.ai, 1) + ' FLOP/byte') +
+    st('Punto de equilibrio del hardware', f(ridge, 0) + ' FLOP/byte') +
+    st('&lt;b&gt;ITL&lt;/b&gt; (tiempo entre tokens)', '&lt;b&gt;' + ms(itl) + '&lt;/b&gt;') +
+    st('Velocidad por secuencia', f(1 / itl, 1) + ' tok/s') +
+    st('Velocidad agregada', f(S.batch / itl, 1) + ' tok/s');
+  const m = (l, v, u) =&gt; '&lt;div class=&quot;metric&quot;&gt;&lt;div class=&quot;l&quot;&gt;' + l + '&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;' + v + '&lt;/div&gt;&lt;div class=&quot;u&quot;&gt;' + u + '&lt;/div&gt;&lt;/div&gt;';
+  const dom = ttft &gt; (S.gen - 1) * itl ? 'Prefill' : 'Decode';
+  $('totMetrics').innerHTML =
+    m('Tiempo total', ms(total), 'TTFT + (generados − 1) × ITL') +
+    m('Fase que más tarda', dom, 'ttft ' + ms(ttft) + ' · decode ' + ms((S.gen - 1) * itl)) +
+    m('Coste por token', f(itl / (ttft / S.prompt), 0) + '×', 'un token generado frente a uno de prompt');
+  const pl = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768];
+  const tt = pl.map(n =&gt; prefill(n).t * 1000);
+  const it = pl.map(n =&gt; decodeStep(n).t * 1000);
+  $('chTTFT').innerHTML = bars('TTFT (ms) según el prompt', 'Longitud del prompt (tokens)', pl.map(lenLabel), tt, tt.map(() =&gt; '#0369a1'));
+  $('chITL').innerHTML = bars('ITL (ms) según el contexto', 'Contexto acumulado (tokens)', pl.map(lenLabel), it, it.map(() =&gt; '#b45309'));
+}
+
+// ---------- Simulación ----------
+let timer = null;
+const WORDS = ['La', ' gravedad', ' es', ' una', ' fuerza', ' que', ' atrae', ' los', ' cuerpos', ' con', ' masa', ' entre', ' sí', '.'];
+function simReset(){
+  if (timer){ clearInterval(timer); timer = null; }
+  $('sim').textContent = '▶ Ejecutar'; $('stream').innerHTML = '';
+  $('simInfo').textContent = 'Fase: — · Reloj simulado: 0 ms';
+}
+$('sim').addEventListener('click', () =&gt; {
+  if (timer){ clearInterval(timer); timer = null; $('sim').textContent = '▶ Ejecutar'; return; }
+  simReset();
+  const p = prefill(S.prompt), d = decodeStep(S.prompt + S.gen / 2);
+  let clock = 0, i = -1; const shown = Math.min(S.gen, 28);
+  $('sim').textContent = '⏸ Pausar';
+  timer = setInterval(() =&gt; {
+    if (i === -1){
+      clock = p.t * 1000;
+      $('stream').innerHTML = '&lt;span class=&quot;chip pre&quot;&gt;prompt: ' + S.prompt.toLocaleString('es-ES') + ' tokens, todos a la vez&lt;/span&gt;';
+      $('simInfo').textContent = 'Fase: prefill · Reloj simulado: ' + f(clock, 1) + ' ms (TTFT)';
+    } else {
+      clock += d.t * 1000;
+      const c = document.createElement('span'); c.className = 'chip dec'; c.textContent = WORDS[i % WORDS.length];
+      $('stream').appendChild(c);
+      $('simInfo').textContent = 'Fase: decode · token ' + (i + 1) + '/' + S.gen + ' · Reloj simulado: ' + f(clock, 1) + ' ms';
+    }
+    i++;
+    if (i &gt;= shown){
+      clearInterval(timer); timer = null; $('sim').textContent = '▶ Ejecutar';
+      if (S.gen &gt; shown) $('simInfo').textContent += ' · se muestran ' + shown + ' de ' + S.gen + ' tokens';
+    }
+  }, 220);
+});
+$('simReset').addEventListener('click', simReset);
+
+// ---------- Enlaces ----------
+function render(){ readOutputs(); renderKV(); renderPhases(); $('archNote').innerHTML = archNote(); }
+function archNote(){
+  const per = kvPerToken() / 1024;
+  return 'Caché por token con esta configuración: &lt;strong&gt;' + f(per, 1) + ' KiB&lt;/strong&gt; (' + S.KV + ' cabezas K/V de ' + S.hd + ' dimensiones, ' + S.L + ' capas, ' + S.kvB + ' B por valor).';
+}
+$('preset').innerHTML = Object.entries(MODELS).map(([k, m]) =&gt; '&lt;option value=&quot;' + k + '&quot;&gt;' + m.name + '&lt;/option&gt;').join('');
+$('gpu').innerHTML = Object.entries(GPUS).map(([k, g]) =&gt; '&lt;option value=&quot;' + k + '&quot;&gt;' + g.name + '&lt;/option&gt;').join('');
+$('preset').addEventListener('change', e =&gt; setPreset(e.target.value));
+$('L').addEventListener('input', e =&gt; { S.L = +e.target.value; markCustom(); render(); });
+$('H').addEventListener('input', e =&gt; { S.H = +e.target.value; markCustom(); buildKV(); render(); });
+$('KV').addEventListener('change', e =&gt; { S.KV = +e.target.value; markCustom(); render(); });
+$('hd').addEventListener('change', e =&gt; { S.hd = +e.target.value; markCustom(); render(); });
+$('params').addEventListener('input', e =&gt; { const v = parseFloat(e.target.value); if (v &gt; 0){ S.params = v; markCustom(); render(); } });
+[['wB', 'wB'], ['kvB', 'kvB']].forEach(([id, k]) =&gt; $(id).addEventListener('change', e =&gt; { S[k] = +e.target.value; render(); }));
+$('gpu').addEventListener('change', e =&gt; { S.gpu = e.target.value; render(); });
+$('ngpu').addEventListener('change', e =&gt; { S.ngpu = +e.target.value; render(); });
+['batch', 'seq', 'prompt', 'gen', 'effC', 'effB'].forEach(id =&gt; $(id).addEventListener('input', e =&gt; { S[id] = +e.target.value; render(); }));
+
+function selectTab(n){
+  $('t1').setAttribute('aria-selected', n === 1); $('t2').setAttribute('aria-selected', n === 2);
+  $('p1').hidden = n !== 1; $('p2').hidden = n !== 2;
+}
+$('t1').addEventListener('click', () =&gt; selectTab(1));
+$('t2').addEventListener('click', () =&gt; selectTab(2));
+
+syncInputs();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;" style="width:100%;height:1250px;border:none;display:block;" title="Simulador de caché KV y de prefill y decode"></iframe>
+</div>
 <div class="callout concept">
 <strong>Un tercer diagnóstico que el ratio no captura: overhead-bound</strong>
 <p>Memory-bound y compute-bound son las dos lecturas del punto de equilibrio, pero hay una GPU que no encaja en ninguna: la que tiene tanto el ancho de banda como el cómputo lejos de su techo, y aun así va lenta. Lanzar cada operación a la GPU tiene un coste fijo de despacho de la CPU, independiente del tamaño del trabajo — con muchas operaciones pequeñas (un modelo con capas diminutas, un pipeline que encadena muchas llamadas separadas en vez de una fusionada, ver bloque siguiente), ese coste fijo repetido puede superar el tiempo real de cómputo. El síntoma se reconoce porque no se parece a los otros dos: la GPU aparece ociosa mientras la CPU va al límite despachando trabajo, en vez de "ocupada pero esperando datos" (memory-bound) u "ocupada calculando" (compute-bound). El arreglo tampoco es ni más ancho de banda ni más FLOPs: es menos operaciones más grandes, o capturar la secuencia completa para repetirla como una sola unidad en vez de despacharla paso a paso.</p>

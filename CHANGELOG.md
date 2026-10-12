@@ -2,6 +2,19 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v118 — 12 octubre 2026 · Simulador de caché KV y de prefill/decode (§5.7d)
+
+Origen: tres piezas de veille del 12/10 (infografía «How LLMs Actually Generate Text», docx «How LLM Inference Works, Clearly
+Explained» y un simulador HTML sobre KV cache y prefill/decode). Las dos primeras se descartaron como contenido; el simulador
+se rehízo y se incorporó. Detalle en `taller/Registro_manual_v117_a_v118.md`.
+
+- **§5.7d** gana, tras el apartado «El techo cuantitativo» y antes del recuadro de overhead-bound, un párrafo de enlace y un
+  simulador con dos pestañas: caché KV (por token, total, frente a la memoria libre tras los pesos, con cabezas K/V para ver el
+  efecto de GQA) y prefill frente a decode (TTFT, ITL, intensidad aritmética frente al punto de equilibrio, cuello de botella
+  calculado, gráficos de TTFT e ITL, simulación). Presets con las arquitecturas publicadas de Llama-2-7B, Llama-3-8B y Llama-3-70B;
+  hardware con las fichas de NVIDIA (H100 con los TFLOPS densos, coherente con el aviso de sparsity del propio apartado).
+  Fuente editable: `taller/widget_kv_prefill_decode.html`. Sin `id` nuevo ni entrada de índice.
+
 ## v117 — 12 octubre 2026 · Ejemplo interactivo de retropropagación (§0.1.3)
 
 Origen: infografía, post y versión HTML «How Backpropagation Works» (Tech with Mak), recibidos el 12/10/2026;

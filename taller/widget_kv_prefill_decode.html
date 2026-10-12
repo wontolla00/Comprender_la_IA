@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de caché KV y de las fases prefill y decode</title>
+<style>
+:root{--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--accent:#4f46e5;--accent-l:#eef2ff;
+--pre:#0369a1;--pre-l:#e0f2fe;--dec:#b45309;--dec-l:#fef3c7;--ok:#15803d;--ok-l:#dcfce7;--bad:#b91c1c;--bad-l:#fee2e2;--border:#e2e8f0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:14px;font-size:14.5px}
+h2{font-size:1.05rem;margin-bottom:6px}
+h3{font-size:.92rem;margin:12px 0 6px;color:var(--accent)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 16px}
+.field label{display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:3px}
+.field label output{font-family:'Cascadia Mono',Consolas,monospace;color:var(--accent);font-weight:700}
+.field input[type=range]{width:100%}
+select,input[type=number]{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text);font:inherit}
+.tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.tabs button{flex:1 1 200px;padding:9px 12px;border:2px solid var(--border);background:var(--card);border-radius:8px;cursor:pointer;font:inherit;font-weight:600;color:var(--text)}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.formula{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin:8px 0;font-family:'Cascadia Mono',Consolas,monospace;font-size:.82rem;overflow-x:auto}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:10px 0}
+.metric{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
+.metric .l{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.metric .v{font-size:1.2rem;font-weight:800;font-family:'Cascadia Mono',Consolas,monospace}
+.metric .u{font-size:.72rem;color:var(--muted)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--dec)}
+.info{background:var(--accent-l);border-left:4px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.84rem}
+.info.bad{background:var(--bad-l);border-color:var(--bad)}
+.info.ok{background:var(--ok-l);border-color:var(--ok)}
+.info.pre{background:var(--pre-l);border-color:var(--pre)}
+.info.dec{background:var(--dec-l);border-color:var(--dec)}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:10px 0}
+.phase{border:2px solid;border-radius:10px;padding:12px}
+.phase.pre{border-color:var(--pre);background:var(--pre-l)}
+.phase.dec{border-color:var(--dec);background:var(--dec-l)}
+.phase h3{margin:0 0 6px}
+.phase.pre h3{color:var(--pre)}.phase.dec h3{color:var(--dec)}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#fff;border:1px solid currentColor;margin-left:6px}
+.stat{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.08);font-size:.84rem}
+.stat:last-child{border-bottom:none}
+.stat .v{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700;text-align:right}
+svg{display:block;width:100%;height:auto}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.stream{display:flex;gap:4px;flex-wrap:wrap;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;min-height:46px;align-items:center;margin:8px 0}
+.chip{padding:3px 9px;border-radius:4px;font:600 .78rem 'Cascadia Mono',Consolas,monospace}
+.chip.pre{background:var(--pre-l);color:var(--pre);border:1px solid var(--pre)}
+.chip.dec{background:var(--dec-l);color:var(--dec);border:1px solid var(--dec)}
+button.act{padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font:inherit;font-weight:600;background:var(--accent);color:#fff}
+button.sec{background:#e2e8f0;color:var(--text)}
+.foot{font-size:.74rem;color:var(--muted);margin-top:6px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<section class="panel">
+  <h2>Modelo, datos y hardware</h2>
+  <div class="grid">
+    <div class="field"><label for="preset">Modelo (arquitectura publicada)</label>
+      <select id="preset"></select></div>
+    <div class="field"><label for="L">Capas <output id="oL"></output></label>
+      <input type="range" id="L" min="8" max="128" step="1"></div>
+    <div class="field"><label for="H">Cabezas de atención <output id="oH"></output></label>
+      <input type="range" id="H" min="8" max="128" step="8"></div>
+    <div class="field"><label for="KV">Cabezas K/V (GQA) <output id="oKV"></output></label>
+      <select id="KV"></select></div>
+    <div class="field"><label for="hd">Dimensión por cabeza <output id="ohd"></output></label>
+      <select id="hd"><option>64</option><option>96</option><option>128</option><option>256</option></select></div>
+    <div class="field"><label for="params">Parámetros (miles de millones)</label>
+      <input type="number" id="params" min="0.1" max="2000" step="0.1"></div>
+    <div class="field"><label for="wB">Precisión de los pesos</label>
+      <select id="wB"><option value="2">FP16 / BF16 (2 B)</option><option value="1">INT8 / FP8 (1 B)</option><option value="0.5">INT4 (0,5 B)</option></select></div>
+    <div class="field"><label for="kvB">Precisión de la caché KV</label>
+      <select id="kvB"><option value="2">FP16 / BF16 (2 B)</option><option value="1">INT8 / FP8 (1 B)</option><option value="0.5">INT4 (0,5 B)</option></select></div>
+    <div class="field"><label for="gpu">GPU</label><select id="gpu"></select></div>
+    <div class="field"><label for="ngpu">Número de GPU (paralelismo ideal)</label>
+      <select id="ngpu"><option>1</option><option>2</option><option>4</option><option>8</option></select></div>
+    <div class="field"><label for="batch">Secuencias en paralelo (batch) <output id="obatch"></output></label>
+      <input type="range" id="batch" min="1" max="64" step="1"></div>
+  </div>
+  <div class="info" id="archNote"></div>
+</section>
+
+<div class="tabs" role="tablist">
+  <button role="tab" id="t1" aria-selected="true" aria-controls="p1">1 · Caché KV</button>
+  <button role="tab" id="t2" aria-selected="false" aria-controls="p2">2 · Prefill y decode</button>
+</div>
+
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+  <h2>Cuánta memoria ocupa la caché KV</h2>
+  <div class="field"><label for="seq">Longitud de la secuencia (tokens) <output id="oseq"></output></label>
+    <input type="range" id="seq" min="256" max="131072" step="256"></div>
+  <div class="formula" id="kvFormula"></div>
+  <div class="metrics" id="kvMetrics"></div>
+  <div id="kvAlert"></div>
+  <h3>Crecimiento con la longitud (línea discontinua: memoria libre tras los pesos)</h3>
+  <div id="growth"></div>
+  <div class="info">La caché crece de forma <strong>lineal</strong> con la longitud y con el número de secuencias, y es proporcional a las cabezas <strong>K/V</strong>, no a las de atención. Por eso GQA (pocas cabezas K/V compartidas) es la palanca más eficaz: compara Llama-2-7B con Llama-3-8B.</div>
+</section>
+
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <h2>Prefill frente a decode</h2>
+  <div class="grid">
+    <div class="field"><label for="prompt">Tokens del prompt <output id="oprompt"></output></label>
+      <input type="range" id="prompt" min="16" max="32768" step="16"></div>
+    <div class="field"><label for="gen">Tokens a generar <output id="ogen"></output></label>
+      <input type="range" id="gen" min="16" max="4096" step="16"></div>
+    <div class="field"><label for="effC">Eficiencia de cómputo alcanzada <output id="oeffC"></output></label>
+      <input type="range" id="effC" min="20" max="100" step="5"></div>
+    <div class="field"><label for="effB">Eficiencia de ancho de banda alcanzada <output id="oeffB"></output></label>
+      <input type="range" id="effB" min="20" max="100" step="5"></div>
+  </div>
+  <div class="foot">Las eficiencias son supuestos ajustables, no mediciones: ninguna GPU llega al pico de su ficha.</div>
+  <div id="fitAlert"></div>
+  <div class="phases">
+    <div class="phase pre"><h3>Prefill <span class="badge" id="preBadge"></span></h3><div id="preStats"></div></div>
+    <div class="phase dec"><h3>Decode <span class="badge" id="decBadge"></span></h3><div id="decStats"></div></div>
+  </div>
+  <div class="metrics" id="totMetrics"></div>
+  <div class="info pre"><strong>Prefill:</strong> procesa los tokens del prompt a la vez, así que cada peso leído de memoria se reutiliza en miles de operaciones (alta intensidad aritmética) y suele estar limitado por el cómputo. Lo que nota el usuario es el <strong>TTFT</strong>.</div>
+  <div class="info dec"><strong>Decode:</strong> genera un token por paso y por secuencia, y cada paso vuelve a leer todos los pesos y la caché para hacer pocas operaciones, así que está limitado por la memoria. Lo que nota el usuario es el <strong>ITL</strong>. Con batch 1, el coste por token es muy superior al de prefill, y más batch lo reparte porque los pesos se leen una sola vez por paso.</div>
+  <h3>Cómo cambian TTFT e ITL</h3>
+  <div class="charts"><div id="chTTFT"></div><div id="chITL"></div></div>
+  <h3>Simulación (no está a escala temporal)</h3>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+    <button class="act" id="sim">▶ Ejecutar</button><button class="act sec" id="simReset">↺ Reiniciar</button>
+  </div>
+  <div class="foot" id="simInfo">Fase: — · Reloj simulado: 0 ms</div>
+  <div class="stream" id="stream"></div>
+</section>
+
+<p class="foot">Modelo de primer orden (roofline): tiempo = máximo entre cómputo y lectura de memoria; ignora los sobrecostes de los kernels, la comunicación entre GPU, la paginación de la caché y FlashAttention. Arquitecturas: <code>config.json</code> oficiales de Llama-2-7B, Llama-3-8B y Llama-3-70B. Hardware: fichas de NVIDIA (A100 80 GB 2.039 GB/s y 312 TFLOPS BF16 densos; H100 SXM 3.350 GB/s y 989 TFLOPS densos, la mitad de los 1.979 con sparsity; RTX 4090 1.008 GB/s y 165,2 TFLOPS FP16 densos). GB = 10⁹ bytes; KiB = 1.024 bytes.</p>
+
+<script>
+const MODELS = {
+  llama2_7b:  {name:'Llama-2-7B (MHA)',  L:32, H:32, KV:32, hd:128, params:6.74,  ctx:4096},
+  llama3_8b:  {name:'Llama-3-8B (GQA)',  L:32, H:32, KV:8,  hd:128, params:8.03,  ctx:8192},
+  llama3_70b: {name:'Llama-3-70B (GQA)', L:80, H:64, KV:8,  hd:128, params:70.55, ctx:8192},
+  custom:     {name:'Personalizado',     L:32, H:32, KV:8,  hd:128, params:8,     ctx:0}
+};
+const GPUS = {
+  a100:    {name:'A100 80 GB',     mem:80, bw:2039, tf:312},
+  h100:    {name:'H100 SXM 80 GB', mem:80, bw:3350, tf:989},
+  rtx4090: {name:'RTX 4090 24 GB', mem:24, bw:1008, tf:165.2}
+};
+const S = {preset:'llama3_8b', L:32, H:32, KV:8, hd:128, params:8.03, wB:2, kvB:2, gpu:'a100', ngpu:1, batch:1,
+           seq:8192, prompt:2048, gen:256, effC:50, effB:80};
+const $ = id => document.getElementById(id);
+
+function f(n, d){
+  d = d === undefined ? 1 : d;
+  const r = Number(n.toFixed(d));
+  return (Object.is(r, -0) ? 0 : r).toLocaleString('es-ES', {minimumFractionDigits:0, maximumFractionDigits:d});
+}
+function gb(bytes){ return bytes / 1e9; }
+function ms(sec){ return sec < 1 ? f(sec * 1000, sec < 0.01 ? 2 : 1) + ' ms' : f(sec, 2) + ' s'; }
+
+// ---------- Cálculo ----------
+const kvPerToken = () => 2 * S.L * S.KV * S.hd * S.kvB;                  // bytes por token y secuencia
+const weightsBytes = () => S.params * 1e9 * S.wB;
+const capBytes = () => GPUS[S.gpu].mem * 1e9 * S.ngpu;
+function hw(){
+  const g = GPUS[S.gpu];
+  return {flops: g.tf * 1e12 * S.ngpu * S.effC / 100, bw: g.bw * 1e9 * S.ngpu * S.effB / 100};
+}
+function prefill(prompt){
+  const {flops, bw} = hw(), P = S.params * 1e9, dm = S.H * S.hd;
+  const fl = (2 * P * prompt + 2 * S.L * dm * prompt * prompt) * S.batch;  // lineal + atención causal
+  const by = weightsBytes() + kvPerToken() * prompt * S.batch;
+  const tC = fl / flops, tM = by / bw;
+  return {fl, by, tC, tM, t: Math.max(tC, tM), bound: tC >= tM ? 'cómputo' : 'memoria', ai: fl / by};
+}
+function decodeStep(ctx){
+  const {flops, bw} = hw(), P = S.params * 1e9, dm = S.H * S.hd;
+  const fl = (2 * P + 4 * S.L * dm * ctx) * S.batch;
+  const by = weightsBytes() + kvPerToken() * ctx * S.batch;
+  const tC = fl / flops, tM = by / bw;
+  return {fl, by, tC, tM, t: Math.max(tC, tM), bound: tC >= tM ? 'cómputo' : 'memoria', ai: fl / by};
+}
+
+// ---------- Controles ----------
+function divisors(n){ const r = []; for (let i = 1; i <= n; i++) if (n % i === 0) r.push(i); return r; }
+function buildKV(){
+  const ds = divisors(S.H);
+  if (!ds.includes(S.KV)) S.KV = ds.filter(d => d <= S.KV).pop() || 1;
+  $('KV').innerHTML = ds.map(d => '<option value="' + d + '"' + (d === S.KV ? ' selected' : '') + '>' + d + (d === S.H ? ' (MHA)' : '') + '</option>').join('');
+}
+function setPreset(key){
+  S.preset = key; const m = MODELS[key];
+  S.L = m.L; S.H = m.H; S.KV = m.KV; S.hd = m.hd; S.params = m.params;
+  syncInputs();
+}
+function markCustom(){
+  S.preset = 'custom'; $('preset').value = 'custom';
+}
+function syncInputs(){
+  $('preset').value = S.preset;
+  $('L').value = S.L; $('H').value = S.H; $('hd').value = S.hd; $('params').value = S.params;
+  $('wB').value = S.wB; $('kvB').value = S.kvB; $('gpu').value = S.gpu; $('ngpu').value = S.ngpu;
+  $('batch').value = S.batch; $('seq').value = S.seq; $('prompt').value = S.prompt; $('gen').value = S.gen;
+  $('effC').value = S.effC; $('effB').value = S.effB;
+  buildKV();
+  render();
+}
+function readOutputs(){
+  $('oL').textContent = S.L; $('oH').textContent = S.H; $('oKV').textContent = S.KV; $('ohd').textContent = S.hd;
+  $('obatch').textContent = S.batch; $('oseq').textContent = S.seq.toLocaleString('es-ES');
+  $('oprompt').textContent = S.prompt.toLocaleString('es-ES'); $('ogen').textContent = S.gen.toLocaleString('es-ES');
+  $('oeffC').textContent = S.effC + ' %'; $('oeffB').textContent = S.effB + ' %';
+}
+
+// ---------- Gráficos ----------
+function bars(title, unit, labels, values, colors, extraLine){
+  const W = 360, H = 190, pl = 44, pr = 8, pt = 22, pb = 30;
+  const cw = W - pl - pr, ch = H - pt - pb;
+  const max = Math.max(...values, extraLine || 0) * 1.12 || 1;
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + title + '">';
+  s += '<text x="' + pl + '" y="13" font-size="11" font-weight="700" fill="#1e293b">' + title + '</text>';
+  for (let i = 0; i <= 4; i++){
+    const y = pt + ch - ch * i / 4;
+    s += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y + '" y2="' + y + '" stroke="#e2e8f0"/>';
+    s += '<text x="' + (pl - 4) + '" y="' + (y + 3) + '" font-size="9" fill="#64748b" text-anchor="end">' + f(max * i / 4, max < 10 ? 1 : 0) + '</text>';
+  }
+  const gap = cw / values.length, bw = gap * 0.68;
+  values.forEach((v, i) => {
+    const h = v / max * ch, x = pl + i * gap + (gap - bw) / 2, y = pt + ch - h;
+    s += '<rect x="' + x + '" y="' + y + '" width="' + bw + '" height="' + h + '" rx="2" fill="' + colors[i] + '"/>';
+    s += '<text x="' + (x + bw / 2) + '" y="' + (y - 3) + '" font-size="8.5" fill="#1e293b" text-anchor="middle">' + f(v, v < 10 ? 1 : 0) + '</text>';
+    s += '<text x="' + (x + bw / 2) + '" y="' + (pt + ch + 12) + '" font-size="9" fill="#64748b" text-anchor="middle">' + labels[i] + '</text>';
+  });
+  if (extraLine){
+    const y = pt + ch - extraLine / max * ch;
+    s += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y + '" y2="' + y + '" stroke="#b45309" stroke-width="2" stroke-dasharray="5,3"/>';
+  }
+  s += '<text x="' + (pl + cw / 2) + '" y="' + (H - 3) + '" font-size="9" fill="#64748b" text-anchor="middle">' + unit + '</text></svg>';
+  return s;
+}
+const lenLabel = n => n >= 1024 ? (n / 1024) + 'K' : String(n);
+
+// ---------- Pestaña 1 ----------
+function renderKV(){
+  const per = kvPerToken(), tot = per * S.seq * S.batch, W = weightsBytes(), cap = capBytes();
+  const free = cap - W, used = (W + tot) / cap * 100;
+  const maxTok = free > 0 ? Math.floor(free / (per * S.batch)) : 0;
+  const maxBatch = free > 0 ? Math.floor(free / (per * S.seq)) : 0;
+  const mha = 2 * S.L * S.H * S.hd * S.kvB;
+  $('kvFormula').innerHTML = 'Caché KV = 2 × capas × <b>cabezas K/V</b> × dim. por cabeza × tokens × bytes × secuencias<br>= 2 × ' + S.L + ' × <b>' + S.KV + '</b> × ' + S.hd + ' × ' + S.seq.toLocaleString('es-ES') + ' × ' + S.kvB + ' × ' + S.batch + ' = <b>' + f(gb(tot), 2) + ' GB</b>';
+  const statusTxt = W > cap ? 'Los pesos no caben' : (W + tot > cap ? 'Excede la memoria' : (used > 85 ? 'Ajustado' : 'Cabe'));
+  const statusCls = W + tot > cap ? 'bad' : (used > 85 ? 'warn' : 'ok');
+  const m = (l, v, u, c) => '<div class="metric"><div class="l">' + l + '</div><div class="v ' + (c || '') + '">' + v + '</div><div class="u">' + u + '</div></div>';
+  $('kvMetrics').innerHTML =
+    m('Por token', f(per / 1024, 1), 'KiB (una secuencia)') +
+    m('Caché total', f(gb(tot), 2), 'GB') +
+    m('Pesos', f(gb(W), 1), 'GB') +
+    m('Memoria total', f(gb(cap), 0), 'GB (' + S.ngpu + ' × ' + GPUS[S.gpu].name + ')') +
+    m('Ocupación', f(used, 0) + ' %', 'pesos + caché', statusCls) +
+    m('Estado', statusTxt, '', statusCls) +
+    m('Tokens máx.', f(maxTok, 0), 'con ' + S.batch + ' secuencia(s)') +
+    m('Secuencias máx.', f(maxBatch, 0), 'a ' + S.seq.toLocaleString('es-ES') + ' tokens');
+  const ctx = MODELS[S.preset].ctx;
+  let alert = '';
+  if (S.H !== S.KV) alert += '<div class="info ok">Con GQA la caché es <strong>' + f(S.H / S.KV, 1) + '×</strong> menor que si cada cabeza de atención tuviera su propia K/V (' + f(gb(mha * S.seq * S.batch), 2) + ' GB en este caso).</div>';
+  if (ctx && S.seq > ctx) alert += '<div class="info bad">' + MODELS[S.preset].name + ' se entrenó con contexto de ' + ctx.toLocaleString('es-ES') + ' tokens. Más allá se necesitaría extender el contexto (RoPE/YaRN); el simulador calcula la memoria igualmente.</div>';
+  $('kvAlert').innerHTML = alert;
+  const pts = [1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072];
+  const vals = pts.map(n => gb(per * n * S.batch));
+  const colors = vals.map(v => free > 0 && v > gb(free) ? '#b91c1c' : '#4f46e5');
+  $('growth').innerHTML = bars('Caché KV (GB) según la longitud', 'Longitud (tokens); rojo = no cabe', pts.map(lenLabel), vals, colors, free > 0 ? gb(free) : 0);
+}
+
+// ---------- Pestaña 2 ----------
+function renderPhases(){
+  const p = prefill(S.prompt), dStart = decodeStep(S.prompt), ctx = S.prompt + S.gen / 2, d = decodeStep(ctx);
+  const ttft = p.t, itl = d.t, total = ttft + (S.gen - 1) * itl;
+  const need = weightsBytes() + kvPerToken() * (S.prompt + S.gen) * S.batch, cap = capBytes();
+  $('fitAlert').innerHTML = need > cap
+    ? '<div class="info bad"><strong>No cabe:</strong> hacen falta ' + f(gb(need), 0) + ' GB entre pesos y caché y hay ' + f(gb(cap), 0) + ' GB. Añade GPU, cuantiza o reduce contexto o batch; los tiempos de abajo describen un sistema que no existiría tal cual.</div>' : '';
+  const cls = b => b === 'cómputo' ? 'color:var(--pre)' : 'color:var(--dec)';
+  $('preBadge').textContent = 'limitado por ' + p.bound; $('preBadge').style.cssText = cls(p.bound);
+  $('decBadge').textContent = 'limitado por ' + d.bound; $('decBadge').style.cssText = cls(d.bound);
+  const ridge = hw().flops / hw().bw;
+  const st = (k, v) => '<div class="stat"><span>' + k + '</span><span class="v">' + v + '</span></div>';
+  $('preStats').innerHTML =
+    st('Tokens procesados a la vez', (S.prompt * S.batch).toLocaleString('es-ES')) +
+    st('Operaciones', f(p.fl / 1e12, 1) + ' TFLOP') +
+    st('Tiempo de cómputo', ms(p.tC)) + st('Tiempo de lectura de memoria', ms(p.tM)) +
+    st('Intensidad aritmética', f(p.ai, 0) + ' FLOP/byte') +
+    st('<b>TTFT</b> (tiempo hasta el primer token)', '<b>' + ms(ttft) + '</b>') +
+    st('Tiempo por token del prompt', ms(ttft / S.prompt));
+  $('decStats').innerHTML =
+    st('Tokens por paso', S.batch + ' (uno por secuencia)') +
+    st('Bytes leídos por paso', f(gb(d.by), 1) + ' GB') +
+    st('Tiempo de cómputo', ms(d.tC)) + st('Tiempo de lectura de memoria', ms(d.tM)) +
+    st('Intensidad aritmética', f(d.ai, 1) + ' FLOP/byte') +
+    st('Punto de equilibrio del hardware', f(ridge, 0) + ' FLOP/byte') +
+    st('<b>ITL</b> (tiempo entre tokens)', '<b>' + ms(itl) + '</b>') +
+    st('Velocidad por secuencia', f(1 / itl, 1) + ' tok/s') +
+    st('Velocidad agregada', f(S.batch / itl, 1) + ' tok/s');
+  const m = (l, v, u) => '<div class="metric"><div class="l">' + l + '</div><div class="v">' + v + '</div><div class="u">' + u + '</div></div>';
+  const dom = ttft > (S.gen - 1) * itl ? 'Prefill' : 'Decode';
+  $('totMetrics').innerHTML =
+    m('Tiempo total', ms(total), 'TTFT + (generados − 1) × ITL') +
+    m('Fase que más tarda', dom, 'ttft ' + ms(ttft) + ' · decode ' + ms((S.gen - 1) * itl)) +
+    m('Coste por token', f(itl / (ttft / S.prompt), 0) + '×', 'un token generado frente a uno de prompt');
+  const pl = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768];
+  const tt = pl.map(n => prefill(n).t * 1000);
+  const it = pl.map(n => decodeStep(n).t * 1000);
+  $('chTTFT').innerHTML = bars('TTFT (ms) según el prompt', 'Longitud del prompt (tokens)', pl.map(lenLabel), tt, tt.map(() => '#0369a1'));
+  $('chITL').innerHTML = bars('ITL (ms) según el contexto', 'Contexto acumulado (tokens)', pl.map(lenLabel), it, it.map(() => '#b45309'));
+}
+
+// ---------- Simulación ----------
+let timer = null;
+const WORDS = ['La', ' gravedad', ' es', ' una', ' fuerza', ' que', ' atrae', ' los', ' cuerpos', ' con', ' masa', ' entre', ' sí', '.'];
+function simReset(){
+  if (timer){ clearInterval(timer); timer = null; }
+  $('sim').textContent = '▶ Ejecutar'; $('stream').innerHTML = '';
+  $('simInfo').textContent = 'Fase: — · Reloj simulado: 0 ms';
+}
+$('sim').addEventListener('click', () => {
+  if (timer){ clearInterval(timer); timer = null; $('sim').textContent = '▶ Ejecutar'; return; }
+  simReset();
+  const p = prefill(S.prompt), d = decodeStep(S.prompt + S.gen / 2);
+  let clock = 0, i = -1; const shown = Math.min(S.gen, 28);
+  $('sim').textContent = '⏸ Pausar';
+  timer = setInterval(() => {
+    if (i === -1){
+      clock = p.t * 1000;
+      $('stream').innerHTML = '<span class="chip pre">prompt: ' + S.prompt.toLocaleString('es-ES') + ' tokens, todos a la vez</span>';
+      $('simInfo').textContent = 'Fase: prefill · Reloj simulado: ' + f(clock, 1) + ' ms (TTFT)';
+    } else {
+      clock += d.t * 1000;
+      const c = document.createElement('span'); c.className = 'chip dec'; c.textContent = WORDS[i % WORDS.length];
+      $('stream').appendChild(c);
+      $('simInfo').textContent = 'Fase: decode · token ' + (i + 1) + '/' + S.gen + ' · Reloj simulado: ' + f(clock, 1) + ' ms';
+    }
+    i++;
+    if (i >= shown){
+      clearInterval(timer); timer = null; $('sim').textContent = '▶ Ejecutar';
+      if (S.gen > shown) $('simInfo').textContent += ' · se muestran ' + shown + ' de ' + S.gen + ' tokens';
+    }
+  }, 220);
+});
+$('simReset').addEventListener('click', simReset);
+
+// ---------- Enlaces ----------
+function render(){ readOutputs(); renderKV(); renderPhases(); $('archNote').innerHTML = archNote(); }
+function archNote(){
+  const per = kvPerToken() / 1024;
+  return 'Caché por token con esta configuración: <strong>' + f(per, 1) + ' KiB</strong> (' + S.KV + ' cabezas K/V de ' + S.hd + ' dimensiones, ' + S.L + ' capas, ' + S.kvB + ' B por valor).';
+}
+$('preset').innerHTML = Object.entries(MODELS).map(([k, m]) => '<option value="' + k + '">' + m.name + '</option>').join('');
+$('gpu').innerHTML = Object.entries(GPUS).map(([k, g]) => '<option value="' + k + '">' + g.name + '</option>').join('');
+$('preset').addEventListener('change', e => setPreset(e.target.value));
+$('L').addEventListener('input', e => { S.L = +e.target.value; markCustom(); render(); });
+$('H').addEventListener('input', e => { S.H = +e.target.value; markCustom(); buildKV(); render(); });
+$('KV').addEventListener('change', e => { S.KV = +e.target.value; markCustom(); render(); });
+$('hd').addEventListener('change', e => { S.hd = +e.target.value; markCustom(); render(); });
+$('params').addEventListener('input', e => { const v = parseFloat(e.target.value); if (v > 0){ S.params = v; markCustom(); render(); } });
+[['wB', 'wB'], ['kvB', 'kvB']].forEach(([id, k]) => $(id).addEventListener('change', e => { S[k] = +e.target.value; render(); }));
+$('gpu').addEventListener('change', e => { S.gpu = e.target.value; render(); });
+$('ngpu').addEventListener('change', e => { S.ngpu = +e.target.value; render(); });
+['batch', 'seq', 'prompt', 'gen', 'effC', 'effB'].forEach(id => $(id).addEventListener('input', e => { S[id] = +e.target.value; render(); }));
+
+function selectTab(n){
+  $('t1').setAttribute('aria-selected', n === 1); $('t2').setAttribute('aria-selected', n === 2);
+  $('p1').hidden = n !== 1; $('p2').hidden = n !== 2;
+}
+$('t1').addEventListener('click', () => selectTab(1));
+$('t2').addEventListener('click', () => selectTab(2));
+
+syncInputs();
+</script>
+</body>
+</html>
