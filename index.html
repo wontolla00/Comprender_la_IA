@@ -2880,12 +2880,12 @@ td.name{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700}
   &lt;button class=&quot;p&quot; id=&quot;next&quot;&gt;Siguiente →&lt;/button&gt;
   &lt;button class=&quot;s&quot; id=&quot;reset&quot;&gt;↺ Reiniciar&lt;/button&gt;
 &lt;/div&gt;
-&lt;p class=&quot;src&quot;&gt;Ejemplo numérico adaptado de la infografía «How Backpropagation Works» (Tech with Mak). Una sola muestra, sin sesgos; en la práctica se promedia sobre lotes de ejemplos.&lt;/p&gt;
+&lt;p class=&quot;src&quot;&gt;Ejemplo numérico propio, elegido para que se vea qué ocurre con distintas tasas de aprendizaje. Una sola muestra, sin sesgos; en la práctica se promedia sobre lotes de ejemplos.&lt;/p&gt;
 
 &lt;script&gt;
 // ---------- Modelo: una entrada, dos unidades ReLU, salida lineal ----------
-const X = 1, Y = 0;
-const P0 = {w1: 1, w2: 2, v1: 3, v2: -1};
+const X = 1, Y = 2;
+const P0 = {w1: 1, w2: 3, v1: -2, v2: 1};
 const relu = z =&gt; Math.max(0, z);
 const drelu = z =&gt; z &gt; 0 ? 1 : 0;           // en z = 0 se toma 0 por convención
 function forward(p){
@@ -2911,6 +2911,7 @@ function f(n, d){
   if (Object.is(r, -0)) r = 0;
   return String(r).replace('.', ',').replace('-', '−');
 }
+function par(n){ return n &lt; 0 ? '(' + f(n) + ')' : f(n); }
 function newParams(){
   const p = {};
   for (const k in P0) p[k] = P0[k] - eta * G[k];
@@ -2991,7 +2992,7 @@ function stepHTML(n){
       '&lt;p class=&quot;lead&quot;&gt;Entrada x = ' + f(X) + ', objetivo y = ' + f(Y) + '. Dos unidades ReLU y una salida lineal, sin sesgos.&lt;/p&gt;' +
       network({p: P0, F: F0, mode: 'fwd'}) +
       '&lt;div class=&quot;math&quot;&gt;h&lt;sub&gt;i&lt;/sub&gt; = ReLU(w&lt;sub&gt;i&lt;/sub&gt;·x) → h₁ = ReLU(' + f(P0.w1) + '·' + f(X) + ') = &lt;b&gt;' + f(F0.h1) + '&lt;/b&gt;, h₂ = ReLU(' + f(P0.w2) + '·' + f(X) + ') = &lt;b&gt;' + f(F0.h2) + '&lt;/b&gt;&lt;/div&gt;' +
-      '&lt;div class=&quot;math&quot;&gt;ŷ = v₁h₁ + v₂h₂ = ' + f(P0.v1) + '·' + f(F0.h1) + ' + (' + f(P0.v2) + ')·' + f(F0.h2) + ' = &lt;b&gt;' + f(F0.yh) + '&lt;/b&gt;&lt;/div&gt;' +
+      '&lt;div class=&quot;math&quot;&gt;ŷ = v₁h₁ + v₂h₂ = ' + f(P0.v1) + '·' + f(F0.h1) + ' + ' + par(P0.v2) + '·' + f(F0.h2) + ' = &lt;b&gt;' + f(F0.yh) + '&lt;/b&gt;&lt;/div&gt;' +
       '&lt;div class=&quot;math&quot;&gt;L = ½(ŷ − y)² = ½(' + f(F0.yh) + ' − ' + f(Y) + ')² = &lt;b&gt;' + f(F0.L, 5) + '&lt;/b&gt;&lt;/div&gt;' +
       '&lt;div class=&quot;info&quot;&gt;&lt;strong&gt;Pasada hacia delante completa.&lt;/strong&gt; La red predice ŷ = ' + f(F0.yh) + ' pero el objetivo es y = ' + f(Y) + ': la pérdida es ' + f(F0.L, 5) + '. Falta saber cómo mover cada peso para reducirla.&lt;/div&gt;';
   }
@@ -3044,7 +3045,7 @@ function stepHTML(n){
     '&lt;/div&gt;' +
     network({p: q, F: F1, mode: 'new'}) +
     '&lt;div class=&quot;math&quot;&gt;h₁ = ReLU(' + f(q.w1) + '·' + f(X) + ') = &lt;b&gt;' + f(F1.h1) + '&lt;/b&gt;; h₂ = ReLU(' + f(q.w2) + '·' + f(X) + ') = &lt;b&gt;' + f(F1.h2) + '&lt;/b&gt;&lt;/div&gt;' +
-    '&lt;div class=&quot;math&quot;&gt;ŷ = ' + f(q.v1) + '·' + f(F1.h1) + ' + (' + f(q.v2) + ')·' + f(F1.h2) + ' = &lt;b&gt;' + f(F1.yh) + '&lt;/b&gt;; L = ½(' + f(F1.yh) + ' − ' + f(Y) + ')² = &lt;b&gt;' + f(F1.L, 5) + '&lt;/b&gt;&lt;/div&gt;' +
+    '&lt;div class=&quot;math&quot;&gt;ŷ = ' + f(q.v1) + '·' + f(F1.h1) + ' + ' + par(q.v2) + '·' + f(F1.h2) + ' = &lt;b&gt;' + f(F1.yh) + '&lt;/b&gt;; L = ½(' + f(F1.yh) + ' − ' + f(Y) + ')² = &lt;b&gt;' + f(F1.L, 5) + '&lt;/b&gt;&lt;/div&gt;' +
     msg +
     '&lt;div class=&quot;info&quot;&gt;Las redes reales son enormes, pero el cálculo es el mismo: la pasada hacia delante produce la pérdida, la diferenciación en modo inverso propaga sensibilidades hacia atrás y el optimizador usa los gradientes para cambiar los parámetros.&lt;/div&gt;';
 }

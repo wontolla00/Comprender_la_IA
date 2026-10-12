@@ -54,7 +54,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   (2) `drawConnections()` está vacío: no hay aristas ni pesos dibujados y «blue path» no apunta a nada; (3) con el deslizador el paso 4 queda incoherente (texto fijo 0,7/2,1/−0,49 y caja
   «Success!»; con η = 0,5 sale ŷ = −5, L = 12,5, «reducción» −2400 % en verde) → recalcular todo desde η o limitar el rango, y aprovechar el caso para mostrar que un paso grande
   puede empeorar la pérdida; (4) tabla con `toFixed(1)` pierde precisión; (5) traducir (lang="es" con texto inglés). Convención del manual: widget como `<iframe srcdoc>` (hay 14);
-  es cambio de versión (v116 → v117: copia a `archivo/`, CHANGELOG, `taller/Registro_manual_*`). Atribución: ejemplo de la infografía de Tech with Mak; citar como «adaptado de»
+  es cambio de versión (v116 → v117: copia a `archivo/`, CHANGELOG, `taller/Registro_manual_*`). Atribución: resuelta el 12/10/2026, el autor prefirió cifras propias (ya no se cita a Tech with Mak en el manual); antes: ejemplo de la infografía de Tech with Mak; citar como «adaptado de»
   o rehacer con cifras propias. Cifras verificadas por recálculo (L 0,5 → 0,12005; gradientes 3, −1, 1, 2).
 - [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
   intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.

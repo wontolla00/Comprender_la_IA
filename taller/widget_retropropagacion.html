@@ -58,12 +58,12 @@ td.name{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700}
   <button class="p" id="next">Siguiente →</button>
   <button class="s" id="reset">↺ Reiniciar</button>
 </div>
-<p class="src">Ejemplo numérico adaptado de la infografía «How Backpropagation Works» (Tech with Mak). Una sola muestra, sin sesgos; en la práctica se promedia sobre lotes de ejemplos.</p>
+<p class="src">Ejemplo numérico propio, elegido para que se vea qué ocurre con distintas tasas de aprendizaje. Una sola muestra, sin sesgos; en la práctica se promedia sobre lotes de ejemplos.</p>
 
 <script>
 // ---------- Modelo: una entrada, dos unidades ReLU, salida lineal ----------
-const X = 1, Y = 0;
-const P0 = {w1: 1, w2: 2, v1: 3, v2: -1};
+const X = 1, Y = 2;
+const P0 = {w1: 1, w2: 3, v1: -2, v2: 1};
 const relu = z => Math.max(0, z);
 const drelu = z => z > 0 ? 1 : 0;           // en z = 0 se toma 0 por convención
 function forward(p){
@@ -89,6 +89,7 @@ function f(n, d){
   if (Object.is(r, -0)) r = 0;
   return String(r).replace('.', ',').replace('-', '−');
 }
+function par(n){ return n < 0 ? '(' + f(n) + ')' : f(n); }
 function newParams(){
   const p = {};
   for (const k in P0) p[k] = P0[k] - eta * G[k];
@@ -169,7 +170,7 @@ function stepHTML(n){
       '<p class="lead">Entrada x = ' + f(X) + ', objetivo y = ' + f(Y) + '. Dos unidades ReLU y una salida lineal, sin sesgos.</p>' +
       network({p: P0, F: F0, mode: 'fwd'}) +
       '<div class="math">h<sub>i</sub> = ReLU(w<sub>i</sub>·x) → h₁ = ReLU(' + f(P0.w1) + '·' + f(X) + ') = <b>' + f(F0.h1) + '</b>, h₂ = ReLU(' + f(P0.w2) + '·' + f(X) + ') = <b>' + f(F0.h2) + '</b></div>' +
-      '<div class="math">ŷ = v₁h₁ + v₂h₂ = ' + f(P0.v1) + '·' + f(F0.h1) + ' + (' + f(P0.v2) + ')·' + f(F0.h2) + ' = <b>' + f(F0.yh) + '</b></div>' +
+      '<div class="math">ŷ = v₁h₁ + v₂h₂ = ' + f(P0.v1) + '·' + f(F0.h1) + ' + ' + par(P0.v2) + '·' + f(F0.h2) + ' = <b>' + f(F0.yh) + '</b></div>' +
       '<div class="math">L = ½(ŷ − y)² = ½(' + f(F0.yh) + ' − ' + f(Y) + ')² = <b>' + f(F0.L, 5) + '</b></div>' +
       '<div class="info"><strong>Pasada hacia delante completa.</strong> La red predice ŷ = ' + f(F0.yh) + ' pero el objetivo es y = ' + f(Y) + ': la pérdida es ' + f(F0.L, 5) + '. Falta saber cómo mover cada peso para reducirla.</div>';
   }
@@ -222,7 +223,7 @@ function stepHTML(n){
     '</div>' +
     network({p: q, F: F1, mode: 'new'}) +
     '<div class="math">h₁ = ReLU(' + f(q.w1) + '·' + f(X) + ') = <b>' + f(F1.h1) + '</b>; h₂ = ReLU(' + f(q.w2) + '·' + f(X) + ') = <b>' + f(F1.h2) + '</b></div>' +
-    '<div class="math">ŷ = ' + f(q.v1) + '·' + f(F1.h1) + ' + (' + f(q.v2) + ')·' + f(F1.h2) + ' = <b>' + f(F1.yh) + '</b>; L = ½(' + f(F1.yh) + ' − ' + f(Y) + ')² = <b>' + f(F1.L, 5) + '</b></div>' +
+    '<div class="math">ŷ = ' + f(q.v1) + '·' + f(F1.h1) + ' + ' + par(q.v2) + '·' + f(F1.h2) + ' = <b>' + f(F1.yh) + '</b>; L = ½(' + f(F1.yh) + ' − ' + f(Y) + ')² = <b>' + f(F1.L, 5) + '</b></div>' +
     msg +
     '<div class="info">Las redes reales son enormes, pero el cálculo es el mismo: la pasada hacia delante produce la pérdida, la diferenciación en modo inverso propaga sensibilidades hacia atrás y el optimizador usa los gradientes para cambiar los parámetros.</div>';
 }

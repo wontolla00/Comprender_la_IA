@@ -40,7 +40,11 @@ solo de pasada (caja «Entrenamiento» del simulador de neurona y una frase del 
 
 - El simulador tiene tema claro fijo; no sigue el modo oscuro del manual (el de la neurona tampoco).
 - Altura del `<iframe>` fija en 1100 px: en pantalla estrecha (≈420 px) el contenido llega a ≈1320 px y se desplaza dentro del marco.
-- Atribución: se cita a Tech with Mak como origen del ejemplo («adaptado de»). Si el autor prefiere cifras propias, hay que
-  cambiar `P0`, `X` e `Y` en el simulador y el pie.
+- Atribución (actualizado 12/10/2026, tras v118): el autor prefirió cifras propias. El ejemplo pasó de x=1, y=0, w=(1, 2), v=(3, −1)
+  a x=1, y=2, w=(1, 3), v=(−2, 1) y el pie ya no cita a Tech with Mak. Cambios solo en `P0`, `X`, `Y`, el pie y un ayudante `par()`
+  (paréntesis solo en números negativos). Recalculado con un script independiente y comprobado en Chromium sobre el `srcdoc` del manual:
+  η = 0,1 → L = 0,13005 (−74 %; ŷ = 2,51); η = 0,15 → 0,80963 (sube); η = 0,5 → 22,78125 (sube, h₁ queda a 0);
+  gradientes v₁ = −1, v₂ = −3, w₁ = 2, w₂ = −1; L inicial 0,5. Sin errores de JavaScript. Las cifras de arriba (0,12005, 0,75338…)
+  corresponden al ejemplo anterior.
 - El README dice «7 simuladores» (desfasado: hay 15 `<iframe>` interactivos); no se tocó.
 - Commit local; sin push.

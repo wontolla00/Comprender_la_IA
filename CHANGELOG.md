@@ -18,7 +18,8 @@ se rehízo y se incorporó. Detalle en `taller/Registro_manual_v117_a_v118.md`.
 ## v117 — 12 octubre 2026 · Ejemplo interactivo de retropropagación (§0.1.3)
 
 Origen: infografía, post y versión HTML «How Backpropagation Works» (Tech with Mak), recibidos el 12/10/2026;
-el autor decidió incluirlo como referencia visual. Detalle en `taller/Registro_manual_v116_a_v117.md`.
+el autor decidió incluirlo como referencia visual. Después (mismo día) pidió cifras propias: el ejemplo del manual usa
+x=1, y=2, w=(1, 3), v=(−2, 1) y no cita a Tech with Mak (sin cambio de versión). Detalle en `taller/Registro_manual_v116_a_v117.md`.
 
 - **§0.1.3** gana, tras el simulador de la neurona y antes de §0.1.4, un párrafo de enlace (retropropagación y
   descenso del gradiente, ambos con glosario emergente) y un simulador de cuatro pasos sobre una red de una
