@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v116** (septiembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v117** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v117** | §0.1.3 gana un ejemplo interactivo de retropropagación (cuatro pasos: pasada hacia delante, gradientes por la regla de la cadena, actualización con tasa de aprendizaje ajustable y nueva predicción), con un párrafo de enlace que define retropropagación y descenso del gradiente. Ejemplo adaptado de una infografía de Tech with Mak, con las cifras recalculadas. |
 | **v116** | §10.4 gana un recuadro sobre la autoridad de los esquemas de arquitectura de asistentes comerciales obtenidos preguntándole al propio asistente: hipótesis, no documentación; separar lo confirmado por el proveedor de lo autodeclarado. |
 | **v115** | §20.1 y §20.3b ganan dos evidencias sobre decisiones asistidas por IA: el *trendslop* (siete modelos convergen en las mismas estrategias de moda, HBR marzo 2026) y el experimento de IMD (más confianza y peor previsión con ChatGPT que discutiendo con colegas, HBR julio 2025). |
 | **v114** | §2.4 gana el "contrato de embedding" (prefijos de consulta/documento, pooling, normalización y métrica, preprocesado), verificado contra fichas de Hugging Face. §5.7b corrige una contradicción: un MoE de 671B no "cabe en hardware accesible" a 4 bits (≈335 GB de pesos); activos estiman cómputo, residentes determinan memoria. v113: matiz en §10.9.4 sobre memoria de política auto-evolutiva. Detalle en [CHANGELOG.md](CHANGELOG.md) |

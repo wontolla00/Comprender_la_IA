@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retropropagación paso a paso</title>
+<style>
+:root{--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--accent:#4f46e5;--accent-l:#eef2ff;
+--ok:#15803d;--ok-l:#dcfce7;--bad:#b91c1c;--bad-l:#fee2e2;--border:#e2e8f0;--c1:#2563eb;--c2:#c2410c;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:14px;font-size:15px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.nav button{flex:1 1 130px;padding:9px 10px;border:2px solid var(--border);background:var(--card);border-radius:8px;cursor:pointer;font-weight:600;font-size:.88rem;font-family:inherit;color:var(--text)}
+.nav button:hover{border-color:var(--accent);color:var(--accent)}
+.nav button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav .n{opacity:.7;margin-right:6px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
+h2{font-size:1.1rem;margin-bottom:4px}
+.lead{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+.netwrap{overflow-x:auto;margin:6px 0 10px}
+svg{display:block;min-width:520px;width:100%;height:auto}
+.math{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:8px 0;font-family:'Cascadia Mono',Consolas,'Courier New',monospace;font-size:.9rem;overflow-x:auto}
+.math b{color:var(--accent)}
+.chain{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.term{text-align:center;padding:8px 12px;background:var(--accent-l);border:2px solid var(--accent);border-radius:8px;min-width:120px}
+.term .l{font-size:.72rem;color:var(--muted)}
+.term .v{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700;color:var(--accent)}
+.op{align-self:center;font-weight:700;color:var(--muted);font-size:1.2rem}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:.88rem}
+th,td{padding:7px 8px;text-align:center;border-bottom:1px solid var(--border)}
+th{background:var(--bg);color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+td.code{font-family:'Cascadia Mono',Consolas,monospace}
+td.name{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700}
+.info{background:var(--accent-l);border-left:4px solid var(--accent);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem}
+.info.ok{background:var(--ok-l);border-color:var(--ok)}
+.info.bad{background:var(--bad-l);border-color:var(--bad)}
+.lr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin:8px 0}
+.lr label{font-weight:600;font-size:.88rem}
+.lr input{width:160px;max-width:100%}
+.lr output{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700;min-width:44px}
+.cards{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.card{flex:1 1 120px;text-align:center;background:var(--bg);border-radius:10px;padding:10px}
+.card .l{font-size:.72rem;color:var(--muted);text-transform:uppercase}
+.card .v{font-size:1.5rem;font-weight:800}
+.controls{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.controls button{padding:8px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9rem;font-family:inherit}
+.controls .p{background:var(--accent);color:#fff}
+.controls .s{background:#e2e8f0;color:var(--text)}
+.controls button:disabled{opacity:.45;cursor:not-allowed}
+.src{margin-top:10px;font-size:.74rem;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav" aria-label="Pasos del ejemplo"></nav>
+<section class="panel" id="panel" aria-live="polite"></section>
+<div class="controls">
+  <button class="s" id="prev">← Anterior</button>
+  <button class="p" id="next">Siguiente →</button>
+  <button class="s" id="reset">↺ Reiniciar</button>
+</div>
+<p class="src">Ejemplo numérico adaptado de la infografía «How Backpropagation Works» (Tech with Mak). Una sola muestra, sin sesgos; en la práctica se promedia sobre lotes de ejemplos.</p>
+
+<script>
+// ---------- Modelo: una entrada, dos unidades ReLU, salida lineal ----------
+const X = 1, Y = 0;
+const P0 = {w1: 1, w2: 2, v1: 3, v2: -1};
+const relu = z => Math.max(0, z);
+const drelu = z => z > 0 ? 1 : 0;           // en z = 0 se toma 0 por convención
+function forward(p){
+  const z1 = p.w1 * X, z2 = p.w2 * X;
+  const h1 = relu(z1), h2 = relu(z2);
+  const yh = p.v1 * h1 + p.v2 * h2;
+  return {z1, z2, h1, h2, yh, L: 0.5 * (yh - Y) * (yh - Y)};
+}
+const F0 = forward(P0);
+const dy = F0.yh - Y;                        // ∂L/∂ŷ
+const G = {
+  v1: dy * F0.h1,
+  v2: dy * F0.h2,
+  w1: dy * P0.v1 * drelu(F0.z1) * X,
+  w2: dy * P0.v2 * drelu(F0.z2) * X
+};
+let eta = 0.1, step = 1;
+
+// Formato español: coma decimal, signo menos tipográfico, sin ceros sobrantes.
+function f(n, d){
+  d = d === undefined ? 3 : d;
+  let r = Math.round(n * Math.pow(10, d)) / Math.pow(10, d);
+  if (Object.is(r, -0)) r = 0;
+  return String(r).replace('.', ',').replace('-', '−');
+}
+function newParams(){
+  const p = {};
+  for (const k in P0) p[k] = P0[k] - eta * G[k];
+  return p;
+}
+
+// ---------- Red dibujada en SVG ----------
+const NODE = {x: [70, 110], h1: [300, 55], h2: [300, 165], y: [530, 110]};
+function edge(a, b, color, width, label1, label2){
+  const x1 = NODE[a][0] + 50, y1 = NODE[a][1], x2 = NODE[b][0] - 50, y2 = NODE[b][1];
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+  const two = !!label2, h = two ? 36 : 22, wd = 112;
+  let s = '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + color + '" stroke-width="' + width + '" stroke-linecap="round"/>';
+  s += '<rect x="' + (mx - wd / 2) + '" y="' + (my - h / 2) + '" width="' + wd + '" height="' + h + '" rx="6" fill="#fff" stroke="' + color + '" stroke-width="1"/>';
+  s += '<text x="' + mx + '" y="' + (two ? my - 3 : my + 5) + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + color + '">' + label1 + '</text>';
+  if (two) s += '<text x="' + mx + '" y="' + (my + 12) + '" text-anchor="middle" font-size="12" fill="#1e293b">' + label2 + '</text>';
+  return s;
+}
+function node(id, text, fill, stroke, color){
+  const c = NODE[id];
+  return '<rect x="' + (c[0] - 50) + '" y="' + (c[1] - 22) + '" width="100" height="44" rx="9" fill="' + fill + '" stroke="' + stroke + '" stroke-width="2"/>' +
+         '<text x="' + c[0] + '" y="' + (c[1] + 5) + '" text-anchor="middle" font-size="14" font-weight="700" fill="' + color + '">' + text + '</text>';
+}
+function network(o){
+  // o: {p, F, mode}  mode: 'fwd' | 'grad' | 'upd' | 'new'
+  const p = o.p, F = o.F, m = o.mode;
+  const grey = '#94a3b8', blue = '#2563eb', orange = '#c2410c';
+  let c = {w1: blue, w2: orange, v1: blue, v2: orange};
+  let wd = {w1: 2.5, w2: 2.5, v1: 2.5, v2: 2.5};
+  if (m === 'grad'){ c.w2 = grey; c.v2 = grey; wd.w1 = 5; wd.v1 = 5; wd.w2 = 1.5; wd.v2 = 1.5; }
+  const L = {};
+  if (m === 'grad'){
+    L.w1 = ['w₁ = ' + f(p.w1), '∂L/∂w₁ = ' + f(G.w1)];
+    L.w2 = ['w₂ = ' + f(p.w2), '∂L/∂w₂ = ' + f(G.w2)];
+    L.v1 = ['v₁ = ' + f(p.v1), '∂L/∂v₁ = ' + f(G.v1)];
+    L.v2 = ['v₂ = ' + f(p.v2), '∂L/∂v₂ = ' + f(G.v2)];
+  } else if (m === 'upd'){
+    const q = newParams();
+    L.w1 = ['w₁', f(p.w1) + ' → ' + f(q.w1)];
+    L.w2 = ['w₂', f(p.w2) + ' → ' + f(q.w2)];
+    L.v1 = ['v₁', f(p.v1) + ' → ' + f(q.v1)];
+    L.v2 = ['v₂', f(p.v2) + ' → ' + f(q.v2)];
+  } else {
+    L.w1 = ['w₁ = ' + f(p.w1)]; L.w2 = ['w₂ = ' + f(p.w2)];
+    L.v1 = ['v₁ = ' + f(p.v1)]; L.v2 = ['v₂ = ' + f(p.v2)];
+  }
+  let s = '<svg viewBox="0 0 600 220" role="img" aria-label="Red con una entrada, dos unidades ocultas ReLU y una salida lineal">';
+  s += edge('x', 'h1', c.w1, wd.w1, L.w1[0], L.w1[1]);
+  s += edge('x', 'h2', c.w2, wd.w2, L.w2[0], L.w2[1]);
+  s += edge('h1', 'y', c.v1, wd.v1, L.v1[0], L.v1[1]);
+  s += edge('h2', 'y', c.v2, wd.v2, L.v2[0], L.v2[1]);
+  s += node('x', 'x = ' + f(X), '#eef2ff', '#4f46e5', '#4f46e5');
+  s += node('h1', 'h₁ = ' + f(F.h1), '#2563eb', '#1d4ed8', '#fff');
+  s += node('h2', 'h₂ = ' + f(F.h2), '#c2410c', '#9a3412', '#fff');
+  s += node('y', 'ŷ = ' + f(F.yh), '#dcfce7', '#15803d', '#15803d');
+  s += '<text x="' + NODE.y[0] + '" y="160" text-anchor="middle" font-size="13" fill="#1e293b">objetivo y = ' + f(Y) + '</text>';
+  s += '<text x="' + NODE.y[0] + '" y="178" text-anchor="middle" font-size="14" font-weight="700" fill="#b91c1c">L = ' + f(F.L, 5) + '</text>';
+  s += '<text x="' + NODE.x[0] + '" y="160" text-anchor="middle" font-size="12" fill="#64748b">entrada</text>';
+  s += '<text x="' + NODE.h1[0] + '" y="20" text-anchor="middle" font-size="12" fill="#64748b">unidades ReLU</text>';
+  s += '</svg>';
+  return '<div class="netwrap">' + s + '</div>';
+}
+
+// ---------- Contenido de cada paso ----------
+function dyn3(){
+  const q = newParams();
+  const rows = ['w1', 'w2', 'v1', 'v2'].map(k => {
+    const nm = k.replace('1', '\u2081').replace('2', '\u2082');
+    return '<tr><td class="name">' + nm + '</td><td>' + f(P0[k]) + '</td><td>' + f(G[k]) + '</td><td class="code">' + f(P0[k]) + ' \u2212 ' + f(eta, 2) + '·' + (G[k] < 0 ? '(' + f(G[k]) + ')' : f(G[k])) + '</td><td class="name" style="color:#4f46e5">' + f(q[k]) + '</td></tr>';
+  }).join('');
+  return network({p: P0, F: F0, mode: 'upd'}) +
+    '<table><thead><tr><th>Peso</th><th>Antes</th><th>Gradiente</th><th>Cálculo</th><th>Después</th></tr></thead><tbody>' + rows + '</tbody></table>';
+}
+
+function stepHTML(n){
+  if (n === 1){
+    return '<h2>1 · Predecir y medir el error</h2>' +
+      '<p class="lead">Entrada x = ' + f(X) + ', objetivo y = ' + f(Y) + '. Dos unidades ReLU y una salida lineal, sin sesgos.</p>' +
+      network({p: P0, F: F0, mode: 'fwd'}) +
+      '<div class="math">h<sub>i</sub> = ReLU(w<sub>i</sub>·x) → h₁ = ReLU(' + f(P0.w1) + '·' + f(X) + ') = <b>' + f(F0.h1) + '</b>, h₂ = ReLU(' + f(P0.w2) + '·' + f(X) + ') = <b>' + f(F0.h2) + '</b></div>' +
+      '<div class="math">ŷ = v₁h₁ + v₂h₂ = ' + f(P0.v1) + '·' + f(F0.h1) + ' + (' + f(P0.v2) + ')·' + f(F0.h2) + ' = <b>' + f(F0.yh) + '</b></div>' +
+      '<div class="math">L = ½(ŷ − y)² = ½(' + f(F0.yh) + ' − ' + f(Y) + ')² = <b>' + f(F0.L, 5) + '</b></div>' +
+      '<div class="info"><strong>Pasada hacia delante completa.</strong> La red predice ŷ = ' + f(F0.yh) + ' pero el objetivo es y = ' + f(Y) + ': la pérdida es ' + f(F0.L, 5) + '. Falta saber cómo mover cada peso para reducirla.</div>';
+  }
+  if (n === 2){
+    return '<h2>2 · La retropropagación calcula los gradientes</h2>' +
+      '<p class="lead">Se usa la regla de la cadena de atrás hacia delante: cuánto cambia la pérdida si se mueve cada peso un poco.</p>' +
+      '<div class="info">Un peso de la capa oculta no toca la pérdida directamente: cambia una unidad oculta, esa unidad cambia la predicción y la predicción cambia la pérdida. La <strong>regla de la cadena</strong> multiplica esos tres efectos.</div>' +
+      '<p style="font-weight:700;color:#2563eb;margin:8px 0 2px">Gradiente de w₁ (camino azul grueso en la red)</p>' +
+      '<div class="chain">' +
+        '<div class="term"><div class="l">∂L/∂w₁</div><div class="v">' + f(G.w1) + '</div></div><div class="op">=</div>' +
+        '<div class="term"><div class="l">efecto de ŷ en L<br>∂L/∂ŷ = ŷ − y</div><div class="v">' + f(dy) + '</div></div><div class="op">×</div>' +
+        '<div class="term"><div class="l">efecto de h₁ en ŷ<br>∂ŷ/∂h₁ = v₁</div><div class="v">' + f(P0.v1) + '</div></div><div class="op">×</div>' +
+        '<div class="term"><div class="l">efecto de w₁ en h₁<br>ReLU′(z₁)·x</div><div class="v">' + f(drelu(F0.z1) * X) + '</div></div>' +
+      '</div>' +
+      network({p: P0, F: F0, mode: 'grad'}) +
+      '<table><thead><tr><th>Peso</th><th>Cálculo</th><th>Gradiente</th></tr></thead><tbody>' +
+        '<tr><td class="name">w₁</td><td class="code">(ŷ−y)·v₁·ReLU′(z₁)·x = ' + f(dy) + '·' + f(P0.v1) + '·' + drelu(F0.z1) + '·' + f(X) + '</td><td class="name">' + f(G.w1) + '</td></tr>' +
+        '<tr><td class="name">w₂</td><td class="code">(ŷ−y)·v₂·ReLU′(z₂)·x = ' + f(dy) + '·(' + f(P0.v2) + ')·' + drelu(F0.z2) + '·' + f(X) + '</td><td class="name">' + f(G.w2) + '</td></tr>' +
+        '<tr><td class="name">v₁</td><td class="code">(ŷ−y)·h₁ = ' + f(dy) + '·' + f(F0.h1) + '</td><td class="name">' + f(G.v1) + '</td></tr>' +
+        '<tr><td class="name">v₂</td><td class="code">(ŷ−y)·h₂ = ' + f(dy) + '·' + f(F0.h2) + '</td><td class="name">' + f(G.v2) + '</td></tr>' +
+      '</tbody></table>' +
+      '<div class="info"><strong>Por qué importa la derivada de la ReLU.</strong> Las dos preactivaciones (z₁ = ' + f(F0.z1) + ', z₂ = ' + f(F0.z2) + ') son positivas, así que la pendiente vale 1 y el gradiente pasa. Si una preactivación fuera negativa, la pendiente sería 0 y ese camino no recibiría gradiente: la unidad no aprendería de este ejemplo.</div>';
+  }
+  if (n === 3){
+    return '<h2>3 · El descenso del gradiente actualiza los pesos</h2>' +
+      '<p class="lead">θ<sub>nuevo</sub> = θ \u2212 η·∂L/∂θ. Con una sola muestra equivale a SGD. η es la tasa de aprendizaje.</p>' +
+      '<div class="lr"><label for="eta">Tasa de aprendizaje η</label><input type="range" id="eta" min="0.01" max="0.5" step="0.01" value="' + eta + '"><output id="etaOut" for="eta">' + f(eta, 2) + '</output></div>' +
+      '<div id="dyn">' + dyn3() + '</div>' +
+      '<div class="info"><strong>Detalle importante.</strong> Los cuatro gradientes se calculan con los pesos originales, antes de cambiar ninguno. La retropropagación calcula los gradientes; el optimizador es quien cambia los pesos.</div>';
+  }
+  const q = newParams(), F1 = forward(q);
+  const delta = (F0.L - F1.L) / F0.L * 100;
+  const better = F1.L < F0.L;
+  let msg;
+  if (better){
+    msg = '<div class="info ok"><strong>La pérdida bajó</strong> de ' + f(F0.L, 5) + ' a ' + f(F1.L, 5) + ' (' + f(delta, 1) + ' % menos). Una actualización no garantiza esto: depende de η. Prueba η = 0,15 o η = 0,5 en el paso 3.</div>';
+  } else {
+    msg = '<div class="info bad"><strong>La pérdida subió</strong> de ' + f(F0.L, 5) + ' a ' + f(F1.L, 5) + '. Con este η el paso es demasiado grande: el gradiente solo describe la pendiente cerca del punto donde se calculó, y al saltar lejos la red se pasa. Baja η en el paso 3.</div>';
+  }
+  const dead = [];
+  if (F1.z1 <= 0) dead.push('h₁');
+  if (F1.z2 <= 0) dead.push('h₂');
+  if (dead.length) msg += '<div class="info">Con los pesos nuevos, la preactivación de ' + dead.join(' y ') + ' es ≤ 0 y la ReLU la deja en 0: esa unidad ya no aporta a la salida y, con este ejemplo, tampoco recibiría gradiente en el paso siguiente.</div>';
+  return '<h2>4 · Nueva pasada hacia delante con los pesos actualizados</h2>' +
+    '<p class="lead">Misma entrada y mismo objetivo, con η = ' + f(eta, 2) + '.</p>' +
+    '<div class="cards">' +
+      '<div class="card"><div class="l">Pérdida antes</div><div class="v" style="color:#b91c1c">' + f(F0.L, 5) + '</div></div>' +
+      '<div class="card"><div class="l">Pérdida después</div><div class="v" style="color:' + (better ? '#15803d' : '#b91c1c') + '">' + f(F1.L, 5) + '</div></div>' +
+      '<div class="card"><div class="l">Variación</div><div class="v" style="color:' + (better ? '#15803d' : '#b91c1c') + '">' + (better ? '−' : '+') + f(Math.abs(delta), 1) + ' %</div></div>' +
+    '</div>' +
+    network({p: q, F: F1, mode: 'new'}) +
+    '<div class="math">h₁ = ReLU(' + f(q.w1) + '·' + f(X) + ') = <b>' + f(F1.h1) + '</b>; h₂ = ReLU(' + f(q.w2) + '·' + f(X) + ') = <b>' + f(F1.h2) + '</b></div>' +
+    '<div class="math">ŷ = ' + f(q.v1) + '·' + f(F1.h1) + ' + (' + f(q.v2) + ')·' + f(F1.h2) + ' = <b>' + f(F1.yh) + '</b>; L = ½(' + f(F1.yh) + ' − ' + f(Y) + ')² = <b>' + f(F1.L, 5) + '</b></div>' +
+    msg +
+    '<div class="info">Las redes reales son enormes, pero el cálculo es el mismo: la pasada hacia delante produce la pérdida, la diferenciación en modo inverso propaga sensibilidades hacia atrás y el optimizador usa los gradientes para cambiar los parámetros.</div>';
+}
+
+// ---------- Navegación ----------
+const NAMES = ['Pasada hacia delante', 'Retropropagación', 'Actualización', 'Nueva predicción'];
+function render(){
+  document.getElementById('nav').innerHTML = NAMES.map((t, i) =>
+    '<button data-step="' + (i + 1) + '"' + (i + 1 === step ? ' aria-current="step"' : '') + '><span class="n">0' + (i + 1) + '</span>' + t + '</button>').join('');
+  document.getElementById('panel').innerHTML = stepHTML(step);
+  document.getElementById('prev').disabled = step === 1;
+  document.getElementById('next').disabled = step === 4;
+  const sl = document.getElementById('eta');
+  if (sl) sl.addEventListener('input', e => {
+    eta = parseFloat(e.target.value);
+    document.getElementById('etaOut').textContent = f(eta, 2);
+    document.getElementById('dyn').innerHTML = dyn3();
+  });
+}
+document.getElementById('nav').addEventListener('click', e => {
+  const b = e.target.closest('button[data-step]');
+  if (b){ step = parseInt(b.dataset.step, 10); render(); }
+});
+document.getElementById('prev').addEventListener('click', () => { if (step > 1){ step--; render(); } });
+document.getElementById('next').addEventListener('click', () => { if (step < 4){ step++; render(); } });
+document.getElementById('reset').addEventListener('click', () => { eta = 0.1; step = 1; render(); });
+render();
+</script>
+</body>
+</html>

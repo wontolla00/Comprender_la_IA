@@ -1,6 +1,6 @@
 # Comprender la IA (repo git del manual) — memoria de proyecto
 
-Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v116 a 30/09/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
+Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v117 a 12/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
 
 ## Leer primero
 1. `CHANGELOG.md` (la entrada más reciente = estado).
@@ -23,4 +23,4 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Cómputo en inferencia (12/10/2026)**: CI-IT-1 en la misma cabecera del Triaje (entrada `2026-10-12 (d)`). Media.
 - **Bucles y grafos de agentes (12/10/2026)**: CI-FO-1 en la misma cabecera del Triaje (entrada `2026-10-12 (e)`). Baja; comprobar §8.8b y §10.4b antes de tocar.
 - **Metacognición y asistencia por IA (12/10/2026)**: CI-MC-1 en la misma cabecera del Triaje (entrada `2026-10-12 (f)`). Baja-media; estudio exploratorio, no citar como establecido.
-- **Retropropagación, ejemplo interactivo (12/10/2026)**: CI-BP-1 en la misma cabecera del Triaje (entrada `2026-10-12 (g)`). Baja; el autor quiere incluirlo; corregir el HTML antes de portarlo.
+- **Retropropagación, ejemplo interactivo (12/10/2026)**: CI-BP-1 HECHO en v117 (§0.1.3). Fuente editable en `taller/widget_retropropagacion.html`; detalle en `taller/Registro_manual_v116_a_v117.md`.

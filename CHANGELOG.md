@@ -2,6 +2,20 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v117 — 12 octubre 2026 · Ejemplo interactivo de retropropagación (§0.1.3)
+
+Origen: infografía, post y versión HTML «How Backpropagation Works» (Tech with Mak), recibidos el 12/10/2026;
+el autor decidió incluirlo como referencia visual. Detalle en `taller/Registro_manual_v116_a_v117.md`.
+
+- **§0.1.3** gana, tras el simulador de la neurona y antes de §0.1.4, un párrafo de enlace (retropropagación y
+  descenso del gradiente, ambos con glosario emergente) y un simulador de cuatro pasos sobre una red de una
+  entrada, dos unidades ReLU y una salida lineal: pasada hacia delante, gradientes con la regla de la cadena,
+  actualización con tasa de aprendizaje η ajustable y nueva predicción. Todo se recalcula desde η, de modo que
+  con η = 0,15 o 0,5 la pérdida sube y el simulador lo dice. Fuente editable: `taller/widget_retropropagacion.html`.
+- El ejemplo numérico es el de la infografía original (adaptado, con la fuente en el pie del simulador); la
+  versión HTML original se rehízo: corregida la notación, dibujada la red y calculados con η los pasos 3 y 4.
+  Sin `id` nuevo ni entrada de índice.
+
 ## v116 — 30 septiembre 2026 · Quién describe la arquitectura de un asistente comercial (§10.4)
 
 Origen: un post de LinkedIn del 30/09 con el esquema de arquitectura de Muse (Meta), obtenido

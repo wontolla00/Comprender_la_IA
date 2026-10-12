@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. septiembre 2026 · v116</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v117</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v116 · sep 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v117 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -2813,6 +2813,268 @@ body.dark .exec-mode dt{color:#cbd5e1;}
     &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;" style="width:100%;height:1050px;border:none;display:block;" title="Neurona Artificial Interactiva"></iframe>
+</div>
+<p>Hasta aquí la neurona solo calcula; falta ver cómo aprende. Entrenar es repetir un ciclo: una pasada hacia delante produce la predicción, se mide el error, la <span class="gt">retropropagación<span class="tt">Algoritmo que calcula, aplicando la regla de la cadena de atrás hacia delante, cuánto contribuye cada peso al error. Calcula los gradientes; no cambia los pesos.</span></span> averigua cuánto contribuyó cada peso y el <span class="gt">descenso del gradiente<span class="tt">Método de optimización que mueve cada peso un poco en la dirección que reduce el error: θ_nuevo = θ − η·gradiente, donde η es la tasa de aprendizaje.</span></span> lo mueve en la dirección que lo reduce. El ejemplo siguiente sigue un solo paso de ese ciclo con cuatro pesos que puedes comprobar a mano; los modelos reales hacen lo mismo con miles de millones de parámetros.</p>
+<div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(99,102,241,.25);background:var(--card,#fff)">
+<div style="background:rgba(99,102,241,.06);padding:8px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(99,102,241,.15)">
+<span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700">🎮 INTERACTIVO</span>
+<span style="font-size:.8rem;color:var(--muted)">Un paso de aprendizaje con cuatro pesos: pasada hacia delante, retropropagación, actualización y nueva predicción</span>
+</div>
+<iframe loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Retropropagación paso a paso&lt;/title&gt;
+&lt;style&gt;
+:root{--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--accent:#4f46e5;--accent-l:#eef2ff;
+--ok:#15803d;--ok-l:#dcfce7;--bad:#b91c1c;--bad-l:#fee2e2;--border:#e2e8f0;--c1:#2563eb;--c2:#c2410c;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:14px;font-size:15px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.nav button{flex:1 1 130px;padding:9px 10px;border:2px solid var(--border);background:var(--card);border-radius:8px;cursor:pointer;font-weight:600;font-size:.88rem;font-family:inherit;color:var(--text)}
+.nav button:hover{border-color:var(--accent);color:var(--accent)}
+.nav button[aria-current=&quot;step&quot;]{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav .n{opacity:.7;margin-right:6px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
+h2{font-size:1.1rem;margin-bottom:4px}
+.lead{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+.netwrap{overflow-x:auto;margin:6px 0 10px}
+svg{display:block;min-width:520px;width:100%;height:auto}
+.math{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:8px 0;font-family:'Cascadia Mono',Consolas,'Courier New',monospace;font-size:.9rem;overflow-x:auto}
+.math b{color:var(--accent)}
+.chain{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.term{text-align:center;padding:8px 12px;background:var(--accent-l);border:2px solid var(--accent);border-radius:8px;min-width:120px}
+.term .l{font-size:.72rem;color:var(--muted)}
+.term .v{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700;color:var(--accent)}
+.op{align-self:center;font-weight:700;color:var(--muted);font-size:1.2rem}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:.88rem}
+th,td{padding:7px 8px;text-align:center;border-bottom:1px solid var(--border)}
+th{background:var(--bg);color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+td.code{font-family:'Cascadia Mono',Consolas,monospace}
+td.name{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700}
+.info{background:var(--accent-l);border-left:4px solid var(--accent);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem}
+.info.ok{background:var(--ok-l);border-color:var(--ok)}
+.info.bad{background:var(--bad-l);border-color:var(--bad)}
+.lr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin:8px 0}
+.lr label{font-weight:600;font-size:.88rem}
+.lr input{width:160px;max-width:100%}
+.lr output{font-family:'Cascadia Mono',Consolas,monospace;font-weight:700;min-width:44px}
+.cards{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.card{flex:1 1 120px;text-align:center;background:var(--bg);border-radius:10px;padding:10px}
+.card .l{font-size:.72rem;color:var(--muted);text-transform:uppercase}
+.card .v{font-size:1.5rem;font-weight:800}
+.controls{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.controls button{padding:8px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9rem;font-family:inherit}
+.controls .p{background:var(--accent);color:#fff}
+.controls .s{background:#e2e8f0;color:var(--text)}
+.controls button:disabled{opacity:.45;cursor:not-allowed}
+.src{margin-top:10px;font-size:.74rem;color:var(--muted);text-align:center}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;nav class=&quot;nav&quot; id=&quot;nav&quot; aria-label=&quot;Pasos del ejemplo&quot;&gt;&lt;/nav&gt;
+&lt;section class=&quot;panel&quot; id=&quot;panel&quot; aria-live=&quot;polite&quot;&gt;&lt;/section&gt;
+&lt;div class=&quot;controls&quot;&gt;
+  &lt;button class=&quot;s&quot; id=&quot;prev&quot;&gt;← Anterior&lt;/button&gt;
+  &lt;button class=&quot;p&quot; id=&quot;next&quot;&gt;Siguiente →&lt;/button&gt;
+  &lt;button class=&quot;s&quot; id=&quot;reset&quot;&gt;↺ Reiniciar&lt;/button&gt;
+&lt;/div&gt;
+&lt;p class=&quot;src&quot;&gt;Ejemplo numérico adaptado de la infografía «How Backpropagation Works» (Tech with Mak). Una sola muestra, sin sesgos; en la práctica se promedia sobre lotes de ejemplos.&lt;/p&gt;
+
+&lt;script&gt;
+// ---------- Modelo: una entrada, dos unidades ReLU, salida lineal ----------
+const X = 1, Y = 0;
+const P0 = {w1: 1, w2: 2, v1: 3, v2: -1};
+const relu = z =&gt; Math.max(0, z);
+const drelu = z =&gt; z &gt; 0 ? 1 : 0;           // en z = 0 se toma 0 por convención
+function forward(p){
+  const z1 = p.w1 * X, z2 = p.w2 * X;
+  const h1 = relu(z1), h2 = relu(z2);
+  const yh = p.v1 * h1 + p.v2 * h2;
+  return {z1, z2, h1, h2, yh, L: 0.5 * (yh - Y) * (yh - Y)};
+}
+const F0 = forward(P0);
+const dy = F0.yh - Y;                        // ∂L/∂ŷ
+const G = {
+  v1: dy * F0.h1,
+  v2: dy * F0.h2,
+  w1: dy * P0.v1 * drelu(F0.z1) * X,
+  w2: dy * P0.v2 * drelu(F0.z2) * X
+};
+let eta = 0.1, step = 1;
+
+// Formato español: coma decimal, signo menos tipográfico, sin ceros sobrantes.
+function f(n, d){
+  d = d === undefined ? 3 : d;
+  let r = Math.round(n * Math.pow(10, d)) / Math.pow(10, d);
+  if (Object.is(r, -0)) r = 0;
+  return String(r).replace('.', ',').replace('-', '−');
+}
+function newParams(){
+  const p = {};
+  for (const k in P0) p[k] = P0[k] - eta * G[k];
+  return p;
+}
+
+// ---------- Red dibujada en SVG ----------
+const NODE = {x: [70, 110], h1: [300, 55], h2: [300, 165], y: [530, 110]};
+function edge(a, b, color, width, label1, label2){
+  const x1 = NODE[a][0] + 50, y1 = NODE[a][1], x2 = NODE[b][0] - 50, y2 = NODE[b][1];
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+  const two = !!label2, h = two ? 36 : 22, wd = 112;
+  let s = '&lt;line x1=&quot;' + x1 + '&quot; y1=&quot;' + y1 + '&quot; x2=&quot;' + x2 + '&quot; y2=&quot;' + y2 + '&quot; stroke=&quot;' + color + '&quot; stroke-width=&quot;' + width + '&quot; stroke-linecap=&quot;round&quot;/&gt;';
+  s += '&lt;rect x=&quot;' + (mx - wd / 2) + '&quot; y=&quot;' + (my - h / 2) + '&quot; width=&quot;' + wd + '&quot; height=&quot;' + h + '&quot; rx=&quot;6&quot; fill=&quot;#fff&quot; stroke=&quot;' + color + '&quot; stroke-width=&quot;1&quot;/&gt;';
+  s += '&lt;text x=&quot;' + mx + '&quot; y=&quot;' + (two ? my - 3 : my + 5) + '&quot; text-anchor=&quot;middle&quot; font-size=&quot;13&quot; font-weight=&quot;700&quot; fill=&quot;' + color + '&quot;&gt;' + label1 + '&lt;/text&gt;';
+  if (two) s += '&lt;text x=&quot;' + mx + '&quot; y=&quot;' + (my + 12) + '&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#1e293b&quot;&gt;' + label2 + '&lt;/text&gt;';
+  return s;
+}
+function node(id, text, fill, stroke, color){
+  const c = NODE[id];
+  return '&lt;rect x=&quot;' + (c[0] - 50) + '&quot; y=&quot;' + (c[1] - 22) + '&quot; width=&quot;100&quot; height=&quot;44&quot; rx=&quot;9&quot; fill=&quot;' + fill + '&quot; stroke=&quot;' + stroke + '&quot; stroke-width=&quot;2&quot;/&gt;' +
+         '&lt;text x=&quot;' + c[0] + '&quot; y=&quot;' + (c[1] + 5) + '&quot; text-anchor=&quot;middle&quot; font-size=&quot;14&quot; font-weight=&quot;700&quot; fill=&quot;' + color + '&quot;&gt;' + text + '&lt;/text&gt;';
+}
+function network(o){
+  // o: {p, F, mode}  mode: 'fwd' | 'grad' | 'upd' | 'new'
+  const p = o.p, F = o.F, m = o.mode;
+  const grey = '#94a3b8', blue = '#2563eb', orange = '#c2410c';
+  let c = {w1: blue, w2: orange, v1: blue, v2: orange};
+  let wd = {w1: 2.5, w2: 2.5, v1: 2.5, v2: 2.5};
+  if (m === 'grad'){ c.w2 = grey; c.v2 = grey; wd.w1 = 5; wd.v1 = 5; wd.w2 = 1.5; wd.v2 = 1.5; }
+  const L = {};
+  if (m === 'grad'){
+    L.w1 = ['w₁ = ' + f(p.w1), '∂L/∂w₁ = ' + f(G.w1)];
+    L.w2 = ['w₂ = ' + f(p.w2), '∂L/∂w₂ = ' + f(G.w2)];
+    L.v1 = ['v₁ = ' + f(p.v1), '∂L/∂v₁ = ' + f(G.v1)];
+    L.v2 = ['v₂ = ' + f(p.v2), '∂L/∂v₂ = ' + f(G.v2)];
+  } else if (m === 'upd'){
+    const q = newParams();
+    L.w1 = ['w₁', f(p.w1) + ' → ' + f(q.w1)];
+    L.w2 = ['w₂', f(p.w2) + ' → ' + f(q.w2)];
+    L.v1 = ['v₁', f(p.v1) + ' → ' + f(q.v1)];
+    L.v2 = ['v₂', f(p.v2) + ' → ' + f(q.v2)];
+  } else {
+    L.w1 = ['w₁ = ' + f(p.w1)]; L.w2 = ['w₂ = ' + f(p.w2)];
+    L.v1 = ['v₁ = ' + f(p.v1)]; L.v2 = ['v₂ = ' + f(p.v2)];
+  }
+  let s = '&lt;svg viewBox=&quot;0 0 600 220&quot; role=&quot;img&quot; aria-label=&quot;Red con una entrada, dos unidades ocultas ReLU y una salida lineal&quot;&gt;';
+  s += edge('x', 'h1', c.w1, wd.w1, L.w1[0], L.w1[1]);
+  s += edge('x', 'h2', c.w2, wd.w2, L.w2[0], L.w2[1]);
+  s += edge('h1', 'y', c.v1, wd.v1, L.v1[0], L.v1[1]);
+  s += edge('h2', 'y', c.v2, wd.v2, L.v2[0], L.v2[1]);
+  s += node('x', 'x = ' + f(X), '#eef2ff', '#4f46e5', '#4f46e5');
+  s += node('h1', 'h₁ = ' + f(F.h1), '#2563eb', '#1d4ed8', '#fff');
+  s += node('h2', 'h₂ = ' + f(F.h2), '#c2410c', '#9a3412', '#fff');
+  s += node('y', 'ŷ = ' + f(F.yh), '#dcfce7', '#15803d', '#15803d');
+  s += '&lt;text x=&quot;' + NODE.y[0] + '&quot; y=&quot;160&quot; text-anchor=&quot;middle&quot; font-size=&quot;13&quot; fill=&quot;#1e293b&quot;&gt;objetivo y = ' + f(Y) + '&lt;/text&gt;';
+  s += '&lt;text x=&quot;' + NODE.y[0] + '&quot; y=&quot;178&quot; text-anchor=&quot;middle&quot; font-size=&quot;14&quot; font-weight=&quot;700&quot; fill=&quot;#b91c1c&quot;&gt;L = ' + f(F.L, 5) + '&lt;/text&gt;';
+  s += '&lt;text x=&quot;' + NODE.x[0] + '&quot; y=&quot;160&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#64748b&quot;&gt;entrada&lt;/text&gt;';
+  s += '&lt;text x=&quot;' + NODE.h1[0] + '&quot; y=&quot;20&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#64748b&quot;&gt;unidades ReLU&lt;/text&gt;';
+  s += '&lt;/svg&gt;';
+  return '&lt;div class=&quot;netwrap&quot;&gt;' + s + '&lt;/div&gt;';
+}
+
+// ---------- Contenido de cada paso ----------
+function dyn3(){
+  const q = newParams();
+  const rows = ['w1', 'w2', 'v1', 'v2'].map(k =&gt; {
+    const nm = k.replace('1', '\u2081').replace('2', '\u2082');
+    return '&lt;tr&gt;&lt;td class=&quot;name&quot;&gt;' + nm + '&lt;/td&gt;&lt;td&gt;' + f(P0[k]) + '&lt;/td&gt;&lt;td&gt;' + f(G[k]) + '&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;' + f(P0[k]) + ' \u2212 ' + f(eta, 2) + '·' + (G[k] &lt; 0 ? '(' + f(G[k]) + ')' : f(G[k])) + '&lt;/td&gt;&lt;td class=&quot;name&quot; style=&quot;color:#4f46e5&quot;&gt;' + f(q[k]) + '&lt;/td&gt;&lt;/tr&gt;';
+  }).join('');
+  return network({p: P0, F: F0, mode: 'upd'}) +
+    '&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Peso&lt;/th&gt;&lt;th&gt;Antes&lt;/th&gt;&lt;th&gt;Gradiente&lt;/th&gt;&lt;th&gt;Cálculo&lt;/th&gt;&lt;th&gt;Después&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;' + rows + '&lt;/tbody&gt;&lt;/table&gt;';
+}
+
+function stepHTML(n){
+  if (n === 1){
+    return '&lt;h2&gt;1 · Predecir y medir el error&lt;/h2&gt;' +
+      '&lt;p class=&quot;lead&quot;&gt;Entrada x = ' + f(X) + ', objetivo y = ' + f(Y) + '. Dos unidades ReLU y una salida lineal, sin sesgos.&lt;/p&gt;' +
+      network({p: P0, F: F0, mode: 'fwd'}) +
+      '&lt;div class=&quot;math&quot;&gt;h&lt;sub&gt;i&lt;/sub&gt; = ReLU(w&lt;sub&gt;i&lt;/sub&gt;·x) → h₁ = ReLU(' + f(P0.w1) + '·' + f(X) + ') = &lt;b&gt;' + f(F0.h1) + '&lt;/b&gt;, h₂ = ReLU(' + f(P0.w2) + '·' + f(X) + ') = &lt;b&gt;' + f(F0.h2) + '&lt;/b&gt;&lt;/div&gt;' +
+      '&lt;div class=&quot;math&quot;&gt;ŷ = v₁h₁ + v₂h₂ = ' + f(P0.v1) + '·' + f(F0.h1) + ' + (' + f(P0.v2) + ')·' + f(F0.h2) + ' = &lt;b&gt;' + f(F0.yh) + '&lt;/b&gt;&lt;/div&gt;' +
+      '&lt;div class=&quot;math&quot;&gt;L = ½(ŷ − y)² = ½(' + f(F0.yh) + ' − ' + f(Y) + ')² = &lt;b&gt;' + f(F0.L, 5) + '&lt;/b&gt;&lt;/div&gt;' +
+      '&lt;div class=&quot;info&quot;&gt;&lt;strong&gt;Pasada hacia delante completa.&lt;/strong&gt; La red predice ŷ = ' + f(F0.yh) + ' pero el objetivo es y = ' + f(Y) + ': la pérdida es ' + f(F0.L, 5) + '. Falta saber cómo mover cada peso para reducirla.&lt;/div&gt;';
+  }
+  if (n === 2){
+    return '&lt;h2&gt;2 · La retropropagación calcula los gradientes&lt;/h2&gt;' +
+      '&lt;p class=&quot;lead&quot;&gt;Se usa la regla de la cadena de atrás hacia delante: cuánto cambia la pérdida si se mueve cada peso un poco.&lt;/p&gt;' +
+      '&lt;div class=&quot;info&quot;&gt;Un peso de la capa oculta no toca la pérdida directamente: cambia una unidad oculta, esa unidad cambia la predicción y la predicción cambia la pérdida. La &lt;strong&gt;regla de la cadena&lt;/strong&gt; multiplica esos tres efectos.&lt;/div&gt;' +
+      '&lt;p style=&quot;font-weight:700;color:#2563eb;margin:8px 0 2px&quot;&gt;Gradiente de w₁ (camino azul grueso en la red)&lt;/p&gt;' +
+      '&lt;div class=&quot;chain&quot;&gt;' +
+        '&lt;div class=&quot;term&quot;&gt;&lt;div class=&quot;l&quot;&gt;∂L/∂w₁&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;' + f(G.w1) + '&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;op&quot;&gt;=&lt;/div&gt;' +
+        '&lt;div class=&quot;term&quot;&gt;&lt;div class=&quot;l&quot;&gt;efecto de ŷ en L&lt;br&gt;∂L/∂ŷ = ŷ − y&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;' + f(dy) + '&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;op&quot;&gt;×&lt;/div&gt;' +
+        '&lt;div class=&quot;term&quot;&gt;&lt;div class=&quot;l&quot;&gt;efecto de h₁ en ŷ&lt;br&gt;∂ŷ/∂h₁ = v₁&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;' + f(P0.v1) + '&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;op&quot;&gt;×&lt;/div&gt;' +
+        '&lt;div class=&quot;term&quot;&gt;&lt;div class=&quot;l&quot;&gt;efecto de w₁ en h₁&lt;br&gt;ReLU′(z₁)·x&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;' + f(drelu(F0.z1) * X) + '&lt;/div&gt;&lt;/div&gt;' +
+      '&lt;/div&gt;' +
+      network({p: P0, F: F0, mode: 'grad'}) +
+      '&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Peso&lt;/th&gt;&lt;th&gt;Cálculo&lt;/th&gt;&lt;th&gt;Gradiente&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;' +
+        '&lt;tr&gt;&lt;td class=&quot;name&quot;&gt;w₁&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;(ŷ−y)·v₁·ReLU′(z₁)·x = ' + f(dy) + '·' + f(P0.v1) + '·' + drelu(F0.z1) + '·' + f(X) + '&lt;/td&gt;&lt;td class=&quot;name&quot;&gt;' + f(G.w1) + '&lt;/td&gt;&lt;/tr&gt;' +
+        '&lt;tr&gt;&lt;td class=&quot;name&quot;&gt;w₂&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;(ŷ−y)·v₂·ReLU′(z₂)·x = ' + f(dy) + '·(' + f(P0.v2) + ')·' + drelu(F0.z2) + '·' + f(X) + '&lt;/td&gt;&lt;td class=&quot;name&quot;&gt;' + f(G.w2) + '&lt;/td&gt;&lt;/tr&gt;' +
+        '&lt;tr&gt;&lt;td class=&quot;name&quot;&gt;v₁&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;(ŷ−y)·h₁ = ' + f(dy) + '·' + f(F0.h1) + '&lt;/td&gt;&lt;td class=&quot;name&quot;&gt;' + f(G.v1) + '&lt;/td&gt;&lt;/tr&gt;' +
+        '&lt;tr&gt;&lt;td class=&quot;name&quot;&gt;v₂&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;(ŷ−y)·h₂ = ' + f(dy) + '·' + f(F0.h2) + '&lt;/td&gt;&lt;td class=&quot;name&quot;&gt;' + f(G.v2) + '&lt;/td&gt;&lt;/tr&gt;' +
+      '&lt;/tbody&gt;&lt;/table&gt;' +
+      '&lt;div class=&quot;info&quot;&gt;&lt;strong&gt;Por qué importa la derivada de la ReLU.&lt;/strong&gt; Las dos preactivaciones (z₁ = ' + f(F0.z1) + ', z₂ = ' + f(F0.z2) + ') son positivas, así que la pendiente vale 1 y el gradiente pasa. Si una preactivación fuera negativa, la pendiente sería 0 y ese camino no recibiría gradiente: la unidad no aprendería de este ejemplo.&lt;/div&gt;';
+  }
+  if (n === 3){
+    return '&lt;h2&gt;3 · El descenso del gradiente actualiza los pesos&lt;/h2&gt;' +
+      '&lt;p class=&quot;lead&quot;&gt;θ&lt;sub&gt;nuevo&lt;/sub&gt; = θ \u2212 η·∂L/∂θ. Con una sola muestra equivale a SGD. η es la tasa de aprendizaje.&lt;/p&gt;' +
+      '&lt;div class=&quot;lr&quot;&gt;&lt;label for=&quot;eta&quot;&gt;Tasa de aprendizaje η&lt;/label&gt;&lt;input type=&quot;range&quot; id=&quot;eta&quot; min=&quot;0.01&quot; max=&quot;0.5&quot; step=&quot;0.01&quot; value=&quot;' + eta + '&quot;&gt;&lt;output id=&quot;etaOut&quot; for=&quot;eta&quot;&gt;' + f(eta, 2) + '&lt;/output&gt;&lt;/div&gt;' +
+      '&lt;div id=&quot;dyn&quot;&gt;' + dyn3() + '&lt;/div&gt;' +
+      '&lt;div class=&quot;info&quot;&gt;&lt;strong&gt;Detalle importante.&lt;/strong&gt; Los cuatro gradientes se calculan con los pesos originales, antes de cambiar ninguno. La retropropagación calcula los gradientes; el optimizador es quien cambia los pesos.&lt;/div&gt;';
+  }
+  const q = newParams(), F1 = forward(q);
+  const delta = (F0.L - F1.L) / F0.L * 100;
+  const better = F1.L &lt; F0.L;
+  let msg;
+  if (better){
+    msg = '&lt;div class=&quot;info ok&quot;&gt;&lt;strong&gt;La pérdida bajó&lt;/strong&gt; de ' + f(F0.L, 5) + ' a ' + f(F1.L, 5) + ' (' + f(delta, 1) + ' % menos). Una actualización no garantiza esto: depende de η. Prueba η = 0,15 o η = 0,5 en el paso 3.&lt;/div&gt;';
+  } else {
+    msg = '&lt;div class=&quot;info bad&quot;&gt;&lt;strong&gt;La pérdida subió&lt;/strong&gt; de ' + f(F0.L, 5) + ' a ' + f(F1.L, 5) + '. Con este η el paso es demasiado grande: el gradiente solo describe la pendiente cerca del punto donde se calculó, y al saltar lejos la red se pasa. Baja η en el paso 3.&lt;/div&gt;';
+  }
+  const dead = [];
+  if (F1.z1 &lt;= 0) dead.push('h₁');
+  if (F1.z2 &lt;= 0) dead.push('h₂');
+  if (dead.length) msg += '&lt;div class=&quot;info&quot;&gt;Con los pesos nuevos, la preactivación de ' + dead.join(' y ') + ' es ≤ 0 y la ReLU la deja en 0: esa unidad ya no aporta a la salida y, con este ejemplo, tampoco recibiría gradiente en el paso siguiente.&lt;/div&gt;';
+  return '&lt;h2&gt;4 · Nueva pasada hacia delante con los pesos actualizados&lt;/h2&gt;' +
+    '&lt;p class=&quot;lead&quot;&gt;Misma entrada y mismo objetivo, con η = ' + f(eta, 2) + '.&lt;/p&gt;' +
+    '&lt;div class=&quot;cards&quot;&gt;' +
+      '&lt;div class=&quot;card&quot;&gt;&lt;div class=&quot;l&quot;&gt;Pérdida antes&lt;/div&gt;&lt;div class=&quot;v&quot; style=&quot;color:#b91c1c&quot;&gt;' + f(F0.L, 5) + '&lt;/div&gt;&lt;/div&gt;' +
+      '&lt;div class=&quot;card&quot;&gt;&lt;div class=&quot;l&quot;&gt;Pérdida después&lt;/div&gt;&lt;div class=&quot;v&quot; style=&quot;color:' + (better ? '#15803d' : '#b91c1c') + '&quot;&gt;' + f(F1.L, 5) + '&lt;/div&gt;&lt;/div&gt;' +
+      '&lt;div class=&quot;card&quot;&gt;&lt;div class=&quot;l&quot;&gt;Variación&lt;/div&gt;&lt;div class=&quot;v&quot; style=&quot;color:' + (better ? '#15803d' : '#b91c1c') + '&quot;&gt;' + (better ? '−' : '+') + f(Math.abs(delta), 1) + ' %&lt;/div&gt;&lt;/div&gt;' +
+    '&lt;/div&gt;' +
+    network({p: q, F: F1, mode: 'new'}) +
+    '&lt;div class=&quot;math&quot;&gt;h₁ = ReLU(' + f(q.w1) + '·' + f(X) + ') = &lt;b&gt;' + f(F1.h1) + '&lt;/b&gt;; h₂ = ReLU(' + f(q.w2) + '·' + f(X) + ') = &lt;b&gt;' + f(F1.h2) + '&lt;/b&gt;&lt;/div&gt;' +
+    '&lt;div class=&quot;math&quot;&gt;ŷ = ' + f(q.v1) + '·' + f(F1.h1) + ' + (' + f(q.v2) + ')·' + f(F1.h2) + ' = &lt;b&gt;' + f(F1.yh) + '&lt;/b&gt;; L = ½(' + f(F1.yh) + ' − ' + f(Y) + ')² = &lt;b&gt;' + f(F1.L, 5) + '&lt;/b&gt;&lt;/div&gt;' +
+    msg +
+    '&lt;div class=&quot;info&quot;&gt;Las redes reales son enormes, pero el cálculo es el mismo: la pasada hacia delante produce la pérdida, la diferenciación en modo inverso propaga sensibilidades hacia atrás y el optimizador usa los gradientes para cambiar los parámetros.&lt;/div&gt;';
+}
+
+// ---------- Navegación ----------
+const NAMES = ['Pasada hacia delante', 'Retropropagación', 'Actualización', 'Nueva predicción'];
+function render(){
+  document.getElementById('nav').innerHTML = NAMES.map((t, i) =&gt;
+    '&lt;button data-step=&quot;' + (i + 1) + '&quot;' + (i + 1 === step ? ' aria-current=&quot;step&quot;' : '') + '&gt;&lt;span class=&quot;n&quot;&gt;0' + (i + 1) + '&lt;/span&gt;' + t + '&lt;/button&gt;').join('');
+  document.getElementById('panel').innerHTML = stepHTML(step);
+  document.getElementById('prev').disabled = step === 1;
+  document.getElementById('next').disabled = step === 4;
+  const sl = document.getElementById('eta');
+  if (sl) sl.addEventListener('input', e =&gt; {
+    eta = parseFloat(e.target.value);
+    document.getElementById('etaOut').textContent = f(eta, 2);
+    document.getElementById('dyn').innerHTML = dyn3();
+  });
+}
+document.getElementById('nav').addEventListener('click', e =&gt; {
+  const b = e.target.closest('button[data-step]');
+  if (b){ step = parseInt(b.dataset.step, 10); render(); }
+});
+document.getElementById('prev').addEventListener('click', () =&gt; { if (step &gt; 1){ step--; render(); } });
+document.getElementById('next').addEventListener('click', () =&gt; { if (step &lt; 4){ step++; render(); } });
+document.getElementById('reset').addEventListener('click', () =&gt; { eta = 0.1; step = 1; render(); });
+render();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;" style="width:100%;height:1100px;border:none;display:block;" title="Retropropagación paso a paso"></iframe>
 </div>
 <h3 id="s014">0.1.4 La arquitectura Transformer</h3>
 <p>En 2017, Google publicó "Attention Is All You Need" e introdujo la arquitectura <span class="gt">Transformer<span class="tt">Arquitectura de red neuronal basada en el mecanismo de atención (Vaswani et al., 2017). Fundamento de todos los LLM modernos.</span></span>. Esta arquitectura se basa en el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer que permite a cada token «mirar» todos los demás tokens del contexto simultáneamente y ponderar su influencia.</span></span>, que permite al modelo procesar todas las palabras de un texto simultáneamente y ponderar la influencia de cada una sobre las demás. La arquitectura Transformer, combinada con el entrenamiento a gran escala, es la base de todos los modelos de lenguaje modernos: GPT, Claude, Gemini, Llama y muchos otros.</p>

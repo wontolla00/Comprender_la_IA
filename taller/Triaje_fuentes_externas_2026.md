@@ -48,7 +48,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   estudio EXPLORATORIO (sin preregistro ni asignación aleatoria): con IA se puntúa más y la confianza sube (0,66→0,78), pero la estimación de la
   propia nota deja de seguir a la nota real (r .07 frente a .40) y la discriminación entre respuestas correctas e incorrectas baja entre tareas, no
   dentro de cada una (no establecido). NO citar las cifras del resumen divulgativo (63,1 %, «igualó a la IA»). Esperar réplica o revisión por pares si se quiere citar como establecido.
-- [ ] **CI-BP-1 · Retropropagación: ejemplo numérico interactivo como referencia visual (entrada `2026-10-12 (g)`, baja; decisión del autor: SÍ incluirlo):** hoy el manual
+- [x] **CI-BP-1 · HECHO en v117 (12/10/2026, §0.1.3, `taller/Registro_manual_v116_a_v117.md`). Texto original del pendiente: Retropropagación: ejemplo numérico interactivo como referencia visual (entrada `2026-10-12 (g)`, baja; decisión del autor: SÍ incluirlo):** hoy el manual
   solo nombra backpropagation de pasada (la caja «Entrenamiento» del widget de neurona, ~línea 2588 de `index.html`, y una frase en el capítulo 5); «regla de la cadena» 0 apariciones.
   Base: `How_Backpropagation_Works.html` (autocontenido, ~10 KB, sin CDN). ANTES de portarlo: (1) corregir erratas (`L/∂w₁` sin ∂ ×2, `∂L/ŷ` → `∂L/∂ŷ`, `∂/∂h₁` → `∂ŷ/∂h₁`);
   (2) `drawConnections()` está vacío: no hay aristas ni pesos dibujados y «blue path» no apunta a nada; (3) con el deslizador el paso 4 queda incoherente (texto fijo 0,7/2,1/−0,49 y caja
@@ -2729,3 +2729,5 @@ razonamiento y criba 17 modelos candidatos, ejemplo de control del confusor de E
 **Relevancia.** Manual, hueco pequeño pero real (backprop nombrado de pasada; 0 «regla de la cadena»). Empreinte, HyperRAG, Auditra y corpus: nada.
 
 **Veredicto: Integrar** (cambio respecto a la primera lectura, «Descartar»: el autor decide incluirlo como referencia visual). `[Manual: CI-BP-1, baja]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Aplicado el 12/10/2026 (v117):** simulador corregido y en español en §0.1.3, con párrafo de enlace. Detalle en `taller/Registro_manual_v116_a_v117.md`.
