@@ -20,6 +20,20 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 *Actualizado 2026-08-20, veinticinco fuentes evaluadas hasta ahora.*
 
+**PENDIENTE BitNet (2026-10-12, entrada `2026-10-12 (a)`; veredicto «Observar», nada implementado).**
+- [ ] **CI-BN-1 · §5.7c, nota breve** tras la fila QAT / la tabla que acaba en Q2_K: BitNet b1.58 = entrenar ya en
+  ternario (-1, 0, +1), no cuantizar después; modelo real = 2B4T (2,4B, 4 billones de tokens, contexto 4.096).
+  Decidir antes: ¿nota o subsección? ¿insignia `caducidad-alta`? Es cambio de versión (v116 → v117): copia a
+  `archivo/`, CHANGELOG, `taller/Registro_manual_*`.
+- [ ] **CI-BN-2 · Ejemplo «demo sintética vs. modelo entrenado»:** el «100B a 5-7 tok/s» del README es una prueba de
+  rendimiento con pesos ficticios; no hay BitNet de 100B entrenado. Candidato a ejemplo en el capítulo de verificación
+  de afirmaciones (junto a la infografía viral ya citada en index.html).
+- [ ] **CI-BN-3 · Antes de citar cifras:** leer el paper de bitnet.cpp (2,37-6,17x x86, 1,37-5,07x ARM, 82 % energía) y
+  el informe técnico de 2B4T. Las cifras del post NO están verificadas; «memoria 16-32x menor» es incorrecto
+  (1,58 bits vs FP16 ≈ 10x).
+- [ ] **Higiene (no es de BitNet):** `git status` marca ~10+ `archivo/Comprender_la_IA_2026_v*.html` como modificados sin
+  intención conocida (¿saltos de línea?). Investigar antes del próximo commit amplio.
+
 **Hecho (2026-08-20, segunda tanda del día).** Dos fuentes del mismo
 publisher (Akshay Pachaar / DailyDoseOfDS.com) → manual §3.4/§3.4b, §5.5c,
 Cap. 1 (Multi-LoRA serving), §8.8 (Semantic caching), §12.4c (Model
@@ -2562,3 +2576,24 @@ pérdida en la cola larga. Auditra, débil: inferencia local fuera de cualquier 
 
 **Veredicto: Observar.** `[Manual: nota breve en §5.7c — pendiente de decidir]` `[Empreinte: proveedor «CPU local 1,58-bit» en la calculadora, sin prioridad]`
 `[HyperRAG: experimento opcional, tras los fallos de recuperación 4 % y 1667]` `[Auditra: ninguno]`
+
+### 2026-10-12 (b) — Post «95 % of AI agents can retrieve. Almost none can investigate» (GraphRAG; autor no identificado, inglés, LinkedIn)
+
+**Fuente.** Contrapone el agente de recuperación (una búsqueda vectorial + resumen) al «agente investigador»
+(descompone la pregunta, consulta un grafo de conocimiento varias veces, cruza hallazgos, recuerda investigaciones
+previas) y lo atribuye a GraphRAG («el vector encuentra lo que suena parecido, el grafo sigue lo conectado»).
+Promocional, sin fuentes ni datos; el «95 %» no tiene origen. La «pista de evidencia» hereda los errores de la
+extracción de entidades (la hace un LLM). No describe una arquitectura nueva: es RAG agéntico + multi-hop + memoria.
+
+**Relevancia.** Manual, ninguna: ya cubierto (§6.5b, §6.6, §6.8.1, §10.9.5; ver el recuento de GraphRAG/Agentic RAG
+en la entrada que lo establece más arriba). HyperRAG, la única real: la afirmación del post es la hipótesis que el
+laboratorio quiere medir. `hyperrag/layers/graph_layer.py` (615 líneas) y `memo_layer.py` existen pero, según
+`docs/PLAN_siguiente_fase.md` (11/08/2026), nunca se han construido ni medido; el plan exige antes el arnés de preguntas
+de dos pasajes (Fase 1) y fija la puerta 1.8: si `bm25,vector` supera el 85 % en multi-hop, `graph` no tiene nada
+que demostrar. Estado actual de la Fase 1 sin comprobar. Empreinte, débil: un agente que consulta el grafo varias
+veces multiplica el coste por tarea (refuerza el pendiente «coste por tarea completada»). Auditra, débil: memoria
+entre investigaciones = superficie para el threat model (retención, envenenamiento); sin demanda de piloto.
+Corpus literario, ninguna.
+
+**Veredicto: Descartar como contenido nuevo.** `[Manual: ninguno]` `[Empreinte: ninguno]`
+`[HyperRAG: sin acción nueva; confirmar el estado de la Fase 1 antes de medir `graph`]` `[Auditra: ninguno]`

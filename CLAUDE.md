@@ -16,3 +16,6 @@ Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edi
 
 ## Carpeta archivada
 La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_archivo/`. La referencia es esta carpeta. Solo esa copia conserva `taller/_insert_124b_cardinalidad.html`.
+
+## Pendientes de veille abiertos
+- **BitNet (12/10/2026)**: CI-BN-1..3 en la cabecera «Pendientes abiertos» de `taller/Triaje_fuentes_externas_2026.md`. Nada tocado en `index.html`.
