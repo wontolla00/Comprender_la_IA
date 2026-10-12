@@ -2541,3 +2541,24 @@ explícitos y métrica «coste por tarea completada»; Laya como caso de calibra
 Hechas las comprobaciones en el código de Auditra que planteaban las entradas (b) y (f). Por tratarse de un
 repositorio público, el resultado detallado vive en la nota privada de Auditra y no se reproduce aquí.
 `[Manual: ninguno]` `[Empreinte: ninguno]` `[HyperRAG: ninguno]`
+
+### 2026-10-12 (a) — Post sobre BitNet / bitnet.cpp (Microsoft; autor no identificado, inglés, LinkedIn)
+
+**Fuente.** Presenta bitnet.cpp como "LLM de 100B en una sola CPU", con pesos ternarios (-1, 0, +1; 1,58 bits),
+5-7 tokens/s, 2,37-6,17x más rápido que llama.cpp en x86, 82 % menos energía y "precisión que apenas cambia".
+Verificado contra el README del repositorio (microsoft/BitNet): el 100B y los 5-7 tokens/s existen, pero son
+una prueba de rendimiento con modelos ficticios ("dummy"), no un modelo entrenado; el README lo declara. El único
+modelo insignia es BitNet b1.58 2B4T (2,4B parámetros, 4 billones de tokens, contexto de 4.096). Las cifras de
+velocidad y energía NO se han verificado (hay que leer el paper). "Memoria 16-32x menor" está inflado:
+1,58 bits frente a FP16 son unas 10x. No es una novedad (bitnet.cpp es de 2024).
+
+**Relevancia.** Manual, media: §5.7c no menciona BitNet ni pesos ternarios, y su tabla acaba en Q2_K (~85-90 %).
+Hueco real: la fila QAT dice que cuantizar durante el entrenamiento es otra categoría; BitNet es el caso extremo
+(entrenar ya en ternario, no cuantizar después), y sirve de ejemplo de "demo sintética vs. modelo entrenado".
+Empreinte, media: caso de coste a nivel de inferencia/hardware (CPU local, sin API; energía y amortización en
+lugar de precio por token); la calidad debe medirla el propio pipeline, no el benchmark del fabricante.
+HyperRAG, baja: oráculo y DIR/PARA con 2B4T en CPU; contexto de 4.096 limita k=20; prueba ES/FR para ver la
+pérdida en la cola larga. Auditra, débil: inferencia local fuera de cualquier proxy (línea para el threat model).
+
+**Veredicto: Observar.** `[Manual: nota breve en §5.7c — pendiente de decidir]` `[Empreinte: proveedor «CPU local 1,58-bit» en la calculadora, sin prioridad]`
+`[HyperRAG: experimento opcional, tras los fallos de recuperación 4 % y 1667]` `[Auditra: ninguno]`
