@@ -2,6 +2,24 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v119 — 14 octubre 2026 · «Una petición MCP, paso a paso» (§10.10.1b)
+
+Origen: infografía y post «MCP in One Request» (veille del 14/10), contrastados con la especificación MCP en primario
+(revisión 2026-07-28, y 2025-11-25 para el handshake anterior). El esquema se descartó como contenido (cliente que
+«descubre servidores» y enruta, flujo con estado previo a 2026, servidor que «ejecuta de forma segura», resultado como
+evidencia anclada, sin prompts, transportes ni autorización); la idea de una explicación de punta a punta se rehízo y se
+incorporó. Detalle en `taller/Registro_manual_v118_a_v119.md`.
+
+- **§10.10.1b** (nuevo, con entrada de índice; `id="s10101b"`) entre §10.10.1 y §10.10.2: actores (host, cliente 1:1,
+  servidor, modelo, persona), la petición en ocho pasos, tabla de las tres primitivas (herramientas: modelo; recursos:
+  aplicación; prompts: persona) con lo que exige el spec, recuadro de tres correcciones al esquema habitual, simulador
+  de cuatro pestañas (recorrido con revisión/transporte/escenario, dos revisiones con matriz de compatibilidad, quién
+  controla qué con test, capa de confianza con cinco controles) y recuadro de revisión con insignia «caduca rápido».
+  Fuente editable: `taller/widget_mcp_peticion.html`. El marco ajusta su altura al contenido y sigue el modo oscuro del manual
+  (`body.dark`); suelto, usa el del sistema y tiene un botón para cambiarlo.
+- **§10.9.4**, «Matiz (2026-09)»: una línea más con el segundo caso de la puerta verificable (Zhang et al.,
+  arXiv:2609.35738), sin cifras y con salvedades (CI-HL-1; el método se describe según la extracción del PDF).
+
 ## v118 — 12 octubre 2026 · Simulador de caché KV y de prefill/decode (§5.7d)
 
 Origen: tres piezas de veille del 12/10 (infografía «How LLMs Actually Generate Text», docx «How LLM Inference Works, Clearly

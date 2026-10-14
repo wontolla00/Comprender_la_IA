@@ -48,6 +48,16 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   estudio EXPLORATORIO (sin preregistro ni asignación aleatoria): con IA se puntúa más y la confianza sube (0,66→0,78), pero la estimación de la
   propia nota deja de seguir a la nota real (r .07 frente a .40) y la discriminación entre respuestas correctas e incorrectas baja entre tareas, no
   dentro de cada una (no establecido). NO citar las cifras del resumen divulgativo (63,1 %, «igualó a la IA»). Esperar réplica o revisión por pares si se quiere citar como establecido.
+- [x] **CI-HL-1 · HECHO en v119 (14/10/2026, §10.9.4, una línea sin cifras y con salvedades; `taller/Registro_manual_v118_a_v119.md`). Texto original del pendiente: Segundo caso para el «Matiz (2026-09)» de §10.9.4 (entrada `2026-10-14 (a)`, baja):** una línea tras Procedural Graphs
+  (arXiv:2609.09153): Zhang et al., arXiv:2609.35738 (JHU/CMU, preprint 28/09/2026) reescriben el código del harness con un proponente de 4B
+  entrenado con RL, y solo sobrevive la edición que gana en datos reservados (tres conjuntos disjuntos: feedback, puntuación, final). Citar con
+  sus salvedades: 0,32 → 0,62 es la media de propuestas sueltas en 21 familias no vistas (no «calidad de edición» ni mejor de ocho), contra 0,56 del
+  profesor de 35B (que gana en el mejor de ocho: 0,85 frente a 0,83); protocolos de «5 secuenciales frente a mejor de 8» sin cómputo igualado; sin
+  coste reportado; modelos de 4B-8B en Reasoning Gym y QA multi-salto. Pariente de §8.5 (DSPy). Antes de citar: leer el PDF completo (las tablas
+  y páginas de la entrada salen de una extracción, no de lectura directa). Sin cambio de versión si es solo esa línea.
+- [ ] **HR-HL-1 · (HyperRAG, media; detalle en `HyperRAG/docs/HR4_conjunto_dificil.md`, «Lo que queda sin hacer»):** conjunto Q4 intacto de confirmación
+  antes de decidir sobre chunking o el peso de BM25 en la fusión, y confirmación de HR-4 con los 56 hechos numéricos de C3 aún sin usar.
+- [x] **CI-MCP-1 · HECHO en v119 (14/10/2026, §10.10.1b, `taller/Registro_manual_v118_a_v119.md`). Texto original del pendiente: una petición MCP de punta a punta (entrada `2026-10-14 (b)`, media; decisión del autor: SÍ, «lo más completo posible»):** §10.10 y §21.6 ya cubrían el qué y los ataques, pero no había un recorrido con quién decide en cada paso ni una nota de revisión del protocolo. Hecho: subsección de texto, simulador de cuatro pestañas y recuadro de revisión 2026-07-28.
 - [x] **CI-BP-1 · HECHO en v117 (12/10/2026, §0.1.3, `taller/Registro_manual_v116_a_v117.md`). Texto original del pendiente: Retropropagación: ejemplo numérico interactivo como referencia visual (entrada `2026-10-12 (g)`, baja; decisión del autor: SÍ incluirlo):** hoy el manual
   solo nombra backpropagation de pasada (la caja «Entrenamiento» del widget de neurona, ~línea 2588 de `index.html`, y una frase en el capítulo 5); «regla de la cadena» 0 apariciones.
   Base: `How_Backpropagation_Works.html` (autocontenido, ~10 KB, sin CDN). ANTES de portarlo: (1) corregir erratas (`L/∂w₁` sin ∂ ×2, `∂L/ŷ` → `∂L/∂ŷ`, `∂/∂h₁` → `∂ŷ/∂h₁`);
@@ -2749,3 +2759,61 @@ vocabulario «unos 50.000», 1 MB por token solo sin GQA, y cifras sin fuente. `
 
 **Veredicto: Integrar, corregido; HECHO en v118 (§5.7d).** Defectos del original y verificaciones en `taller/Registro_manual_v117_a_v118.md`.
 `[Manual: hecho]` `[Empreinte: nada]` `[HyperRAG: el simulador sirve para estimar caché y TTFT de un modelo local; sin tarea]` `[Auditra: nada]` `[Corpus: nada]`
+
+### 2026-10-14 (a) — «This might be the most important paper on AI agents this month» (post en inglés, autor no identificado) y el paper «Harness Learning Enables Generalizable Test-Time Adaptation» (Zhang, Liu, Wang, Tajwar, Arora, Salakhutdinov, Khashabi, Song, Zanette; JHU/CMU; arXiv:2609.35738v1, 28/09/2026)
+
+**Fuente.** Post con figura redibujada de las Figs. 1 y 2 del paper y una receta de seis pasos. Primario localizado y leído **a través de la extracción del PDF**
+(arxiv.org/pdf/2609.35738), no a mano: los números de tabla, figura y página de esta entrada hay que contrastarlos con el PDF antes de citar. Preprint, sin revisión por
+pares, sin replicación independiente. Mecanismo: un `harness.py` alrededor de un solucionador congelado; un proponente de 4B entrenado con RL lee la tarea, el harness y un
+informe de ejecución, propone 8 ediciones por ronda, se puntúan en un conjunto aparte y solo la mejor pasa a ser el harness siguiente; feedback, puntuación y evaluación
+final usan tres conjuntos disjuntos. Modelos: Reasoning Gym, proponente y solucionador Qwen3.5-4B (sin razonamiento) y profesor SFT Qwen3.6-35B-A3B; QA multi-salto,
+proponente Qwen3-4B y solucionador Qwen3-8B, RL sin profesor, entrenado en HotpotQA y evaluado en MuSiQue y 2WikiMultihopQA.
+
+**Cifras del post frente al paper.**
+- *«Superó al modelo de 35B del que aprendió»:* solo en la media de propuestas sueltas sobre 21 familias no vistas: 0,62 (RL de un paso) frente a 0,56 (profesor). En el mejor
+  de ocho gana el profesor: 0,85 frente a 0,83 (Tabla 9).
+- *«Calidad de edición de 0,32 a 0,62»:* el paper no usa ese término; es la puntuación en reserva del harness revisado, promediada sobre propuestas: 0,32 proponente base,
+  0,49 tras SFT, 0,62 con RL de un paso. El post omite el escalón intermedio.
+- *«5 ediciones seguidas igualan o superan al mejor de 8 en paralelo»:* en Reasoning Gym, «se acerca o supera» (Fig. 4c); en QA, la media final de 10 rondas supera al mejor
+  oráculo de 80 propuestas independientes (Fig. 5d-e). El paper avisa de que los protocolos difieren en selección de padre y prompt y de que cómputo y feedback no están igualados.
+- *«Ediciones rotas del 38 % al 15 %»:* es una tasa combinada de ediciones fallidas y harness con puntuación cero (Tabla 10, familias canónicas). Con el proponente base solo 1
+  de 120 propuestas era una edición fallida. En las familias no vistas el descenso es del 38 % al 8 %.
+- *Receta de seis pasos:* omite el ingrediente central. El paper entrena el proponente con RL; pedir cinco ediciones a un modelo cualquiera no está probado. Lo transferible es la
+  partición en tres conjuntos disjuntos y la selección solo por puntuación en datos reservados.
+- *No reportado:* coste (horas de GPU, tiempo, euros) del entrenamiento ni del bucle; número de semillas de entrenamiento en Reasoning Gym. Barras de error: un error estándar entre
+  familias. Limitaciones (§7): solucionador fijo, un solo profesor, instrucciones de revisión prescritas. Los benchmarks están lejos de un agente en producción.
+- *«p. 8, un harness aprendido»:* por el orden del texto, es la Fig. 7 (QA): la llamada de respuesta lee los pasajes recuperados directamente y los resúmenes del primer salto solo
+  guían la recuperación. Página inferida.
+
+**Relevancia.**
+- *Manual (baja):* §10.9.4 ya recoge, en el «Matiz (2026-09)», la autoevolución con puerta de validación en datos reservados y memoria de rechazo (Procedural Graphs, arXiv:2609.09153).
+  Este paper es un segundo caso con otro mecanismo: reescribe el código del harness con un proponente entrenado, no una estructura de conocimiento. Parientes: §8.5 (DSPy) y la entrada
+  `2026-10-02 (e)` (Dream-RSI, que cita Meta-Harness). Una línea basta.
+- *HyperRAG (media):* el paper no enseña nada que el laboratorio no haga ya (regla 2, predicciones antes de medir, ruido de réplica), pero refuerza una brecha que el propio dossier
+  documenta: casos de HR-4 reformulados después de ver los fallos, y Q3 ya inspeccionado caso a caso. Detalle y diseño en `HyperRAG/docs/HR4_conjunto_dificil.md` (HR-HL-1).
+  Un bucle de autoedición automático **no** se propone: el laboratorio busca refutar teorías, no optimizar, y lo automático industrializaría lo que la regla 2 prohíbe.
+- *Empreinte:* nada directo; el coste del bucle (80 propuestas por ejecución en QA) no se reporta, y es lo que mediría.
+- *Auditra:* ver nota privada. *Corpus:* nada.
+
+**Veredicto: Descartar como fuente nueva** (el post exagera y su receta no está probada; el paper es sólido pero no cambia nada que no estuviera ya en el Matiz). Queda como segundo caso
+con salvedades. `[Manual: CI-HL-1, baja]` `[HyperRAG: HR-HL-1, media]` `[Empreinte: nada]` `[Auditra: ver nota privada]` `[Corpus: nada]`
+
+### 2026-10-14 (b) — «MCP in One Request: DISCOVER → CALL → GROUND → RESPOND» (post en inglés + infografía, Greg Coquillo)
+
+**Fuente.** Infografía de una página y texto del post. Contrastada con la especificación MCP en primario, leída el 14/10/2026: revisión **2026-07-28** (arquitectura,
+herramientas, recursos, prompts, autorización, transportes, versionado, descubrimiento y peticiones de varias rondas) y revisión **2025-11-25** (ciclo de vida y transportes).
+
+**Lo que el esquema dice frente al spec.**
+- *«El cliente descubre servidores»:* no. Qué servidores existen lo fija la configuración del host; el cliente (uno por servidor, creado por el host) pide el catálogo del suyo.
+- *Cliente como enrutador/planificador:* las herramientas son **controladas por el modelo**; el cliente no elige ni planifica. Recursos: dirigidos por la aplicación. Prompts: por la persona. El esquema omite las dos últimas primitivas.
+- *Flujo con estado previo a 2026:* en 2026-07-28 no hay `initialize` ni sesión; cada petición lleva `_meta` (versión, cliente, capacidades) y `server/discover` es opcional para el cliente. Los servidores no inician peticiones: `input_required` + reintento.
+- *«El servidor ejecuta de forma segura»:* el protocolo no lo garantiza. Lo que el spec obliga al servidor (validar entradas, control de acceso, límite de tasa, sanear salidas) lo protege a él; la autorización es opcional, solo HTTP (stdio: credenciales del entorno).
+- *«GROUND», el resultado como evidencia:* es entrada no confiable. El spec obliga a tratar las anotaciones como no confiables y recomienda validar resultados antes del modelo; confirmación humana y registro son «debería».
+- *Omisiones:* transportes, autorización y seguridad. *Errata:* «MCP Clinet».
+- *Correcto:* la secuencia general (listar, llamar, resultado, respuesta).
+
+**Relevancia.**
+- *Manual (media):* §10.10 y §21.6 ya cubrían el «qué» y el catálogo de ataques (tool poisoning, rug pull). Faltaban un recorrido de punta a punta con quién decide en cada paso y una nota de revisión del protocolo, que caduca rápido. Integrado en v119 (CI-MCP-1).
+- *Empreinte:* nada. *HyperRAG:* nada. *Corpus:* nada. *Auditra:* ver nota privada.
+
+**Veredicto: Integrar, rehecho** (la idea de un recorrido de punta a punta; no la infografía como contenido). `[Manual: CI-MCP-1, HECHO en v119]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: ver nota privada]` `[Corpus: nada]`
