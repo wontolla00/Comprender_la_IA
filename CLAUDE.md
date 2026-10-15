@@ -27,3 +27,4 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Caché KV y prefill/decode (12/10/2026)**: HECHO en v118 (§5.7d). Fuente editable en `taller/widget_kv_prefill_decode.html`; detalle en `taller/Registro_manual_v117_a_v118.md`.
 - **MCP de punta a punta (14/10/2026)**: CI-MCP-1 y CI-HL-1 HECHOS en v119 (§10.10.1b y línea en §10.9.4). Fuente editable en `taller/widget_mcp_peticion.html`; detalle en `taller/Registro_manual_v118_a_v119.md`.
 - **Inyección que se copia (14/10/2026)**: CI-WM-1 HECHO en v120 (fila en §21.5.1 y recuadro «Matiz (2026-10)»). Detalle en `taller/Registro_manual_v119_a_v120.md`.
+- **Ganchos de Copilot Studio (15/10/2026)**: CI-HK-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-15 (a)`). Baja; «Observar» hasta que salga de preview o haya otra fuente. Nada tocado en `index.html`.
