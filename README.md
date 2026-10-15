@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v119** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v120** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v120** | §21.5.1 suma una fila a la tabla de canales de salida («la salida del agente, leída por otro agente») y un recuadro «Matiz (2026-10)» tras el Caso 4: las inyecciones que se copian (informe de laboratorio de OpenAI, sin incidente ni tasas; antecedente Morris II, 2024). |
 | **v119** | §10.10.1b nuevo: una petición MCP de punta a punta (actores, ocho pasos, quién controla herramientas, recursos y prompts) con un simulador interactivo de cuatro pestañas —recorrido por revisión, transporte y escenario; qué cambia entre las revisiones 2025-11-25 y 2026-07-28; quién controla qué; capa de confianza— y un recuadro de revisión. §10.9.4 suma una línea con el segundo caso de la puerta verificable. |
 | **v118** | §5.7d gana un simulador interactivo de caché KV y de las fases prefill y decode: arquitecturas reales de Llama (con GQA), pesos y caché frente a la memoria de la GPU, TTFT e ITL calculados con un modelo de techo (roofline) y el punto en que decode deja de estar limitado por la memoria. |
 | **v117** | §0.1.3 gana un ejemplo interactivo de retropropagación (cuatro pasos: pasada hacia delante, gradientes por la regla de la cadena, actualización con tasa de aprendizaje ajustable y nueva predicción), con un párrafo de enlace que define retropropagación y descenso del gradiente. Ejemplo adaptado de una infografía de Tech with Mak, con las cifras recalculadas. |

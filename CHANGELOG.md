@@ -2,6 +2,19 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v120 — 15 octubre 2026 · La inyección que se copia (§21.5.1)
+
+Origen: infografía y post «L'injection de prompt devient un ver» (veille del 14/10), contrastados con el informe primario de
+OpenAI («Self-replicating prompt injections exist», 25/09/2026). Veredicto del triaje (`2026-10-14 (c)`): **Integrar, en pequeño**;
+la infografía y sus cifras no entran como contenido. CI-WM-1 cerrado. Detalle en `taller/Registro_manual_v119_a_v120.md`.
+
+- **§21.5.1**, tabla de canales de salida: una fila más, «La salida del agente, leída por otro agente» (la autorreplicación: lo
+  que un agente escribe es la entrada de otro), con su mitigación.
+- **§21.5**, tras el Caso 4: recuadro «Matiz (2026-10)» con el hallazgo de OpenAI (laboratorio, puntos de control internos, sin
+  incidente ni tasas), el antecedente Morris II (arXiv:2403.02817, 2024) y por qué la regla de §21.4 no cambia. Dos entradas
+  más en la bibliografía del capítulo.
+- Versión v119 → v120 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v119 — 14 octubre 2026 · «Una petición MCP, paso a paso» (§10.10.1b)
 
 Origen: infografía y post «MCP in One Request» (veille del 14/10), contrastados con la especificación MCP en primario

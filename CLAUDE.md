@@ -1,6 +1,6 @@
 # Comprender la IA (repo git del manual) — memoria de proyecto
 
-Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v119 a 14/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
+Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v120 a 15/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
 
 ## Leer primero
 1. `CHANGELOG.md` (la entrada más reciente = estado).
@@ -26,3 +26,4 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Retropropagación, ejemplo interactivo (12/10/2026)**: CI-BP-1 HECHO en v117 (§0.1.3). Fuente editable en `taller/widget_retropropagacion.html`; detalle en `taller/Registro_manual_v116_a_v117.md`.
 - **Caché KV y prefill/decode (12/10/2026)**: HECHO en v118 (§5.7d). Fuente editable en `taller/widget_kv_prefill_decode.html`; detalle en `taller/Registro_manual_v117_a_v118.md`.
 - **MCP de punta a punta (14/10/2026)**: CI-MCP-1 y CI-HL-1 HECHOS en v119 (§10.10.1b y línea en §10.9.4). Fuente editable en `taller/widget_mcp_peticion.html`; detalle en `taller/Registro_manual_v118_a_v119.md`.
+- **Inyección que se copia (14/10/2026)**: CI-WM-1 HECHO en v120 (fila en §21.5.1 y recuadro «Matiz (2026-10)»). Detalle en `taller/Registro_manual_v119_a_v120.md`.

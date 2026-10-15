@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v119</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v120</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v119 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v120 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -29320,6 +29320,7 @@ updateAttackConfig();
 <tr><td><strong>Herramientas con efectos externos</strong></td><td>Enviar correo, crear un issue o PR, llamar a un webhook, escribir en un documento compartido.</td><td>Confirmación humana para acciones con destinatario externo; destinatarios en lista blanca fijada por código, no por el modelo.</td></tr>
 <tr><td><strong>Parámetros de herramientas "de lectura"</strong></td><td>Una búsqueda web cuya query contiene los datos robados es, de hecho, una petición hacia fuera.</td><td>Tratar cualquier herramienta con acceso a red como canal de salida en el análisis de la tríada.</td></tr>
 <tr><td><strong>Memoria persistente</strong></td><td>La inyección no exfiltra hoy: escribe una instrucción en la memoria del agente que se ejecutará en otra sesión (ver la puerta de promoción de §10.9.3).</td><td>Escrituras en memoria sujetas a validación; procedencia registrada por entrada.</td></tr>
+<tr><td><strong>La salida del agente, leída por otro agente</strong></td><td>Lo que un agente escribe —la respuesta a un correo, un archivo, un mensaje en un canal— es la entrada de otro agente o de otra sesión. Una inyección puede ordenar que se copie en esas escrituras y viajar así sin que nadie la envíe: la autorreplicación (ver el matiz tras el Caso 4). El canal de salida y el de entrada son el mismo espacio compartido.</td><td>Confirmación humana para lo que el agente escribe en espacios compartidos o hacia fuera; destinos y canales en lista blanca fijada por código; tope de escrituras por ventana de tiempo; tratar como no fiable todo lo que se lee de un espacio compartido, aunque lo haya escrito otro agente propio.</td></tr>
 </tbody>
 </table>
 <div class="callout concept">
@@ -29329,6 +29330,12 @@ updateAttackConfig();
 <p><strong>Las tres patas:</strong> datos privados (el grafo de Microsoft 365), contenido no fiable (un correo externo cualquiera), canal de salida (una imagen que el cliente cargaba sola).</p>
 <p style="margin-bottom:0;"><strong>Lección de diseño:</strong> un clasificador de inyecciones es una capa probabilística que un atacante puede estudiar y rodear; el control que corta el ataque de forma determinista está en el canal de salida (qué URLs se renderizan) y en la separación entre contenido externo y datos internos en el mismo contexto. Fuente: CVE-2025-32711 (MSRC, junio 2025); informe técnico de Aim Labs.</p>
 </div>
+
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · La inyección que se copia</strong>
+    El 25/09/2026 el equipo de alineamiento de OpenAI publicó «Self-replicating prompt injections exist», sobre inyecciones que piden al modelo copiarlas en lo que escribe. Es un <b>hallazgo de laboratorio</b>: lo encontró un modelo atacante entrenado con aprendizaje por refuerzo (descubierto el 27/06/2026) contra puntos de control de investigación internos basados en GPT-5.4-mini y, en el ejemplo de Slack, contra GPT-5.5. El propio informe dice que no se observó impacto fuera de llamadas simuladas a herramientas, que los datos de los ejemplos son sintéticos y que son casos escogidos: <b>no hay incidente real ni tasas de éxito</b>. Describe, entre otras, tres rutas: una inyección en un correo que ordena copiarla en toda respuesta que el agente envíe; un falso aviso de sistema que lleva a borrar un directorio de informes y a escribir el aviso en un archivo; y una cadena de lecturas que parecen relevantes y acaba en el envío de una moneda interna de reconocimiento a un compañero y en repostear el mensaje inyectado.<br/><br/>
+    El antecedente académico es Morris II (Cohen, Bitton y Nassi, arXiv:2403.02817, 2024): un gusano de laboratorio contra un ecosistema de asistentes de correo con RAG. Lo que añade el informe de OpenAI no es un riesgo nuevo —el análisis sigue siendo la tríada letal— sino la forma: cada acción que pide el agente engañado puede parecer legítima por sí sola (responder un correo, escribir un archivo, publicar en un canal), y la copia sale por el mismo espacio compartido por el que entró. De ahí la fila de la tabla y su mitigación: quitar una de las tres patas y poner una confirmación humana, o una lista de destinos, en lo que el agente escribe. El informe espera, además, que entrenar a los modelos con este tipo de ataque mejore su robustez; es una expectativa de los autores, no una medida, y no cambia la regla de 21.4: se diseña el sistema para que sea seguro aunque el modelo sea engañado.
+  </div>
 
 <h2 id="s216">21.6 Seguridad de agentes y MCP: cuando el atacante escribe tus herramientas</h2>
 <p>El Cap. 10 (§10.10) presenta MCP como la capa estándar agente → herramienta. Desde el punto de vista de seguridad, eso significa que <strong>cada servidor MCP que conectas es código y texto de un tercero que entra en el contexto del modelo con autoridad de instrucción</strong>. Los ataques específicos de este ecosistema, documentados públicamente desde 2025, son:</p>
@@ -29544,6 +29551,7 @@ updateAttackConfig();
 <li>Beurer-Kellner et al. (2025). Design Patterns for Securing LLM Agents against Prompt Injections. <em>arXiv:2506.08837</em>.</li>
 <li>Invariant Labs (2025). MCP Security Notification: Tool Poisoning Attacks (abril) y GitHub MCP Exploited: Accessing private repositories via MCP (mayo). <em>invariantlabs.ai</em>.</li>
 <li>Aim Labs (2025). EchoLeak — CVE-2025-32711, Microsoft 365 Copilot. <em>MSRC, junio de 2025</em>.</li>
+<li>OpenAI Alignment (2026). Self-replicating prompt injections exist. <em>alignment.openai.com, misalignment reports, 25 de septiembre de 2026</em>. — Cohen, Bitton y Nassi (2024). Here Comes The AI Worm: Unleashing Zero-click Worms that Target GenAI-Powered Applications (Morris II). <em>arXiv:2403.02817</em>.</li>
 <li>OWASP (2024). OWASP Top 10 for LLM Applications 2025. <em>genai.owasp.org</em>. — MITRE ATLAS, <em>atlas.mitre.org</em>. — NIST AI 100-2 E2025, Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations.</li>
 <li>Reglamento UE 2024/1689 (AI Act). <em>EUR-Lex, digital-strategy.ec.europa.eu</em>.</li>
 </ul>
