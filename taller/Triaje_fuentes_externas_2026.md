@@ -31,19 +31,19 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-BN-3 · Antes de citar cifras:** leer el paper de bitnet.cpp (2,37-6,17x x86, 1,37-5,07x ARM, 82 % energía) y
   el informe técnico de 2B4T. Las cifras del post NO están verificadas; «memoria 16-32x menor» es incorrecto
   (1,58 bits vs FP16 ≈ 10x).
-- [ ] **CI-DM-1 · Dos casos fechados (entrada `2026-10-12 (c)`, baja):** (i) Anthropic, 03/06/2026: precisión offline de ~95 % a ~65 % en un mes
+- [x] **CI-DM-1 · HECHO en v122 (16/10/2026; §13.2 y §13.7; ver `taller/Registro_manual_v121_a_v122.md`). Texto original del pendiente: Dos casos fechados (entrada `2026-10-12 (c)`, baja):** (i) Anthropic, 03/06/2026: precisión offline de ~95 % a ~65 % en un mes
   por documentación sin actualizar (§13.7/§15, evaluación continua); (ii) OpenAI, 29/01/2026: evals con SQL «dorada»,
   comparando SQL y datos (§13.2/Text-to-SQL). Ambos verificados en primario; citar «skills», no «documentación», para
   Anthropic. No citar Spider 2.0/BIRD ni las cifras del artículo (sin verificar). Cambio de versión.
-- [ ] **CI-IT-1 · Subsección «cómputo en inferencia: generar y elegir» (entrada `2026-10-12 (d)`, media):** marco paralelo vs. secuencial;
+- [x] **CI-IT-1 · HECHO en v122 (16/10/2026; nueva §9.7b; ver `taller/Registro_manual_v121_a_v122.md`). Texto original del pendiente: Subsección «cómputo en inferencia: generar y elegir» (entrada `2026-10-12 (d)`, media):** marco paralelo vs. secuencial;
   voto mayoritario (reduce varianza, no sesgo), best-of-N (sobreoptimización frente al modelo de recompensa), autorrefinamiento
   (neto negativo sin crítica externa), árbol de pensamiento/beam/MCTS (coste y por qué DeepSeek lo dejó); regla «verificador
   primero». Encaja con §13.12 y con los §5.x de pensamiento extendido. ANTES: leer los primarios (Snell, Gao, Huang, Sprague,
   Yao, DeepSeek-R1, escalado inverso de Anthropic); solo está verificado arXiv:2511.00751. Cambio de versión.
-- [ ] **CI-FO-1 · Bucles y grafos de agentes: tres comprobaciones en §8.8b y §10.4b (entrada `2026-10-12 (e)`, baja):** (1) test de «aristas falsas»
+- [x] **CI-FO-1 · HECHO en v122 (16/10/2026; §8.8b y §10.4b; «aristas falsas» ya estaba; ver `taller/Registro_manual_v121_a_v122.md`). Texto original del pendiente: Bucles y grafos de agentes: tres comprobaciones en §8.8b y §10.4b (entrada `2026-10-12 (e)`, baja):** (1) test de «aristas falsas»
   (¿separa §8.8b secuencia de dependencia real?); (2) verificador con contexto fresco, distinto del agente que hizo el trabajo (0 apariciones);
   (3) tasa de aprovechamiento (salidas conservadas / generadas, 0 apariciones). Comprobar primero; si ya están, cerrar sin cambio de versión.
-- [ ] **CI-MC-1 · Metacognición y asistencia por IA: matiz en el bloque de sesgo de automatización (entrada `2026-10-12 (f)`, baja-media):** el manual tiene 0
+- [x] **CI-MC-1 · HECHO en v122 (16/10/2026; §14.2b; ver `taller/Registro_manual_v121_a_v122.md`). Texto original del pendiente: Metacognición y asistencia por IA: matiz en el bloque de sesgo de automatización (entrada `2026-10-12 (f)`, baja-media):** el manual tiene 0
   menciones de Dunning-Kruger o metacognición y unas 10 de sesgo de automatización. Candidato: una frase de matiz citando arXiv:2609.31095 como
   estudio EXPLORATORIO (sin preregistro ni asignación aleatoria): con IA se puntúa más y la confianza sube (0,66→0,78), pero la estimación de la
   propia nota deja de seguir a la nota real (r .07 frente a .40) y la discriminación entre respuestas correctas e incorrectas baja entre tareas, no

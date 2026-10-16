@@ -2,6 +2,24 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v122 — 16 octubre 2026 · Cómputo en inferencia: generar y elegir (§9.7b) y tres matices
+
+Origen: pendientes del triaje CI-IT-1 (docx de Chawla, `2026-10-12 (d)`), CI-DM-1 (Letourmy, `2026-10-12 (c)`), CI-MC-1 (Fernandes et al.,
+`2026-10-12 (f)`) y CI-FO-1 (guía «Agents, Loops, Graphs», `2026-10-12 (e)`). Los primarios se leyeron el 16/10/2026 antes de citar; las
+cifras del docx de Chawla y de los resúmenes divulgativos no entran. Detalle en `taller/Registro_manual_v121_a_v122.md`.
+
+- **§9.7b** (nuevo, `id="s97b"`, con entrada de índice, nivel «profundidad»), tras §9.7: marco generación paralela/secuencial y quién elige;
+  tabla de cinco técnicas con la evidencia y sus límites (Wang, Loo, Gao, Huang, Yao, Snell, DeepSeek, Gema); matiz del «14×» de Snell
+  (vale con éxito no trivial del modelo pequeño); Sprague (la cadena de pensamiento ayuda sobre todo en matemáticas y lógica); recuadro
+  «Regla de diseño: primero la señal de verificación» (presentada como regla del manual, no como resultado de un estudio) y recuadro de límites.
+- **§13.2** y **§13.7**, al final: recuadros «Matiz (2026-10)» con dos casos fechados: OpenAI (29/01/2026, evaluaciones que comparan el resultado
+  de la SQL y no el texto) y Anthropic (03/06/2026, la precisión offline derivó de ~95 % a ~65 % en un mes por documentación sin mantener), con salvedades.
+- **§14.2b**: recuadro «Matiz (2026-10) · Rendir más no es calibrar mejor» (Fernandes et al., preprint exploratorio, sin lenguaje causal).
+- **§8.8b** y **§10.4b** (CI-FO-1): el verificador recibe el output y el criterio, no el historial de razonamiento (contexto fresco); la salida 1
+  exige un evaluador distinto del agente; nuevo párrafo sobre la tasa de aprovechamiento (salidas conservadas entre generadas). La comprobación de
+  «aristas falsas» ya estaba en §8.8b bloque 1, sin cambio.
+- Versión v121 → v122 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`; índice 442 → 443 entradas.
+
 ## v121 — 16 octubre 2026 · Medir también tiene que ser reproducible (§4.3)
 
 Origen: artículo «Faites-vous trop confiance à ChatGPT ?» (veille del 16/10) y, a través de él, el preprint «Invisible to the Machine»

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v121</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v122</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v121 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v122 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1212,7 +1212,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <h2>Índice General<span class="version-badge">2025-11</span></h2>
 
 <details>
-<summary style="cursor:pointer;font-family:var(--ff-mono,monospace);font-size:.82rem;color:var(--accent);padding:6px 0;">▸ Desplegar el índice completo — 442 entradas, todos los capítulos y subsecciones</summary>
+<summary style="cursor:pointer;font-family:var(--ff-mono,monospace);font-size:.82rem;color:var(--accent);padding:6px 0;">▸ Desplegar el índice completo — 443 entradas, todos los capítulos y subsecciones</summary>
 <div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;margin-top:12px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
 <strong>Leyenda:</strong>
 <span style="background:#dcfce7;color:#166534;padding:1px 7px;border-radius:4px;margin:0 4px;">✅ Obligatorio</span>
@@ -1453,6 +1453,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s96">· 9.6 Cómo se entrenan: del RLHF al razonamiento por refuerzo</a><span style="background:#f3f4f6;color:#374151;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">💡 Avanzado</span></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s96b">· 9.6b Razonamiento en espacio latente (frontera)</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s97">· 9.7 Modelos de razonamiento en pipelines agenticos: la entropía del pensamiento</a></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s97b">· 9.7b Cómputo en inferencia: generar y elegir</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s98">· 9.8 Tendencias híbridas: RAG + RAFT + modelos de razonamiento</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s99">· 9.9 La escalera de la IA: el marco de decisión antes de escribir código</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s910neuro">· 9.10 IA neurosimbólica: el puente de vuelta</a><span class="badge-propuesta">★ Propuesta del autor</span></div>
@@ -18717,7 +18718,7 @@ prompt_comprimido = resultado['compressed_prompt']</pre>
 <h3>3 · Confiar en lo que sale</h3>
 <p>Un grafo con más nodos tiene más superficie de fallo silencioso, no menos: cada arista es un punto donde un output plausible pero incorrecto se propaga sin que nada lo detecte. Tres medidas, en orden de coste creciente:</p>
 <ul>
-<li><strong>Verificación adversarial</strong> — un nodo cuya única función es intentar refutar el output del nodo anterior, no reformularlo con otras palabras. Aplica el mismo principio de §7 (el verificador no puede compartir el encuadre del que verifica) al interior del grafo.</li>
+<li><strong>Verificación adversarial</strong> — un nodo cuya única función es intentar refutar el output del nodo anterior, no reformularlo con otras palabras, y que recibe el output y el criterio de aceptación pero no el historial de razonamiento del nodo que lo produjo (contexto fresco), para no heredar su encuadre. Aplica el mismo principio de §7 (el verificador no puede compartir el encuadre del que verifica) al interior del grafo.</li>
 <li><strong>Aislamiento de nodos</strong> — cada nodo recibe solo el contexto que necesita, no el historial completo del grafo. Reduce la propagación de un error de encuadre temprano a todos los nodos posteriores, al coste de que el nodo aislado puede repetir un error que otro nodo ya corrigió.</li>
 <li><strong>Ciclos con convergencia garantizada ("loop until dry")</strong> — cuando un nodo puede reintentar, el ciclo necesita una condición de parada explícita e independiente del propio nodo (número máximo de iteraciones, o un criterio de convergencia medido desde fuera), no "hasta que el modelo diga que ya está bien".</li>
 </ul>
@@ -19598,6 +19599,33 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <p><strong>Regla de presupuesto:</strong> antes de desplegar un agente en producción, estima el coste no del caso medio sino del caso con el número máximo de iteraciones permitidas. Si ese número es tolerable, el agente es viable. Si no, reduce el límite de iteraciones o descompón el problema en un workflow con pasos fijos.</p>
 <p style="font-size:.82rem;color:var(--muted);font-family:system-ui,sans-serif;margin-top:8px;">Marco basado en: Valenzuela, J. (2026). «Por qué tu agente de IA cuesta más de lo que debería.»</p>
 </div>
+<h2 id="s97b" data-nivel="profundidad">9.7b Cómputo en inferencia: generar y elegir <span class="version-badge caducidad-alta">2026-10 · caduca rápido</span></h2>
+<p>§9.7 trató el coste de dejar pensar a un modelo; esta sección trata de cómo se <b>gasta</b> el cómputo extra. Casi todas las técnicas de «cómputo en inferencia» se reducen a dos decisiones: <b>cómo se generan los candidatos</b> y <b>quién elige entre ellos</b>. La generación puede ser <b>paralela</b> (varias muestras independientes: el coste se paga en tokens y casi no añade latencia) o <b>secuencial</b> (cada paso depende del anterior: la latencia crece con los pasos). El selector puede ser un voto, un verificador exacto (pruebas, ejecución, validación de esquema), un modelo de recompensa aprendido o el propio modelo. La calidad del selector decide cuánto vale el cómputo adicional.</p>
+<table>
+<thead><tr><th>Técnica</th><th>Generación</th><th>Quién elige</th><th>Qué documenta la literatura, con sus límites</th></tr></thead>
+<tbody>
+<tr><td><b>Voto mayoritario</b> (autoconsistencia)</td><td>Paralela</td><td>La respuesta más frecuente</td><td>Wang et al. (2022, arXiv:2203.11171) lo introducen y reportan mejoras sobre la cadena de pensamiento voraz de +17,9 % en GSM8K a +3,9 % en ARC-challenge, con modelos de aquel año. Reduce la <i>varianza</i>, no el sesgo: si el error es sistemático, gana el error. Loo (2025, arXiv:2511.00751, preprint) mide en Gemini 2.5 +0,4 en HotpotQA con 20 muestras y +1,6 en MATH-500, con un coste en tokens casi lineal en el número de muestras: en modelos actuales los rendimientos son decrecientes.</td></tr>
+<tr><td><b>Mejor de N</b> (best-of-N) con modelo de recompensa</td><td>Paralela</td><td>Un modelo de recompensa aprendido</td><td>Gao, Schulman y Hilton (2022, arXiv:2210.10760), en un montaje sintético donde una recompensa «dorada» de 6B parámetros hace de evaluador humano: al optimizar más contra el modelo de recompensa (el <i>proxy</i>), la recompensa dorada primero sube y después baja, tanto con RL como con mejor de N (cada método con su forma funcional). Es la sobreoptimización de §9.6 (dinámica KL) vista desde la inferencia: aumentar N contra un selector aprendido no es gratis.</td></tr>
+<tr><td><b>Autorrefinamiento</b></td><td>Secuencial</td><td>El mismo modelo (critica y corrige)</td><td>Huang et al. (2023, arXiv:2310.01798; ICLR 2024): sin retroalimentación externa los modelos no mejoran su razonamiento y a veces empeoran (GPT-4 en GSM8K: 95,5 → 91,5 → 89,0 tras dos rondas; GPT-3.5 en CommonSenseQA: 75,8 → 38,1 → 41,8). Las mejoras publicadas antes usaban la respuesta correcta para decidir cuándo parar. Con una crítica <i>externa</i> (pruebas, ejecución, otro verificador) el caso es distinto.</td></tr>
+<tr><td><b>Árbol de pensamiento, haz (beam), MCTS</b></td><td>Secuencial con ramificación</td><td>Un evaluador de estados (modelo o verificador)</td><td>Yao et al. (2023, arXiv:2305.10601): en el juego del 24, GPT-4 con cadena de pensamiento resuelve el 4 % y con árbol de pensamiento el 74 %, a costa de muchas más llamadas. Snell et al. (2024, arXiv:2408.03314): con un verificador por pasos en MATH, la búsqueda con haz ayuda en preguntas difíciles con presupuesto bajo, pero en las fáciles <i>empeora</i> al subir el presupuesto (explota al verificador). DeepSeek (versión 1 del preprint, 22/01/2025, arXiv:2501.12948) cuenta que los modelos de recompensa por proceso y el MCTS no les funcionaron: es difícil definir un paso fino, un modelo de recompensa aprendido acaba en <i>reward hacking</i>, y en la generación de tokens el espacio de búsqueda es enorme y el modelo de valor, difícil de entrenar; aclaran que eso no significa que no puedan servir.</td></tr>
+<tr><td><b>Pensamiento extendido</b> (modelos de razonamiento)</td><td>Secuencial, una cadena larga</td><td>El propio modelo, entrenado con recompensas verificables (§9.6)</td><td>DeepSeek-R1 muestra que el razonamiento largo puede emerger del RL con recompensas verificables. Gema et al. (2025, arXiv:2507.14417) construyen tareas en las que <i>más</i> razonamiento <i>empeora</i> la exactitud (conteo con distractores, regresión con rasgos espurios, deducción con restricciones): los modelos Claude se distraen más con información irrelevante y los de la serie o de OpenAI se ajustan en exceso al encuadre. Son tareas elegidas para provocarlo: no es una regla general, es una razón para medir con varias longitudes de razonamiento.</td></tr>
+</tbody>
+</table>
+<h3>Repartir el cómputo según la dificultad</h3>
+<p>Snell et al. (2024) proponen asignar el cómputo a cada pregunta según su dificultad y reportan que así se iguala el rendimiento del mejor de N con unas cuatro veces menos cómputo. Su titular más citado, que un modelo pequeño con cómputo en inferencia supera a uno unas 14 veces mayor con los mismos FLOPs, tiene una condición que se omite con frecuencia: vale cuando el modelo pequeño ya tiene un éxito no trivial en el problema (en sus experimentos, preguntas fáciles o intermedias con poca carga de inferencia); en las muy difíciles, o con mucha carga de inferencia, compensa más preentrenar. Los resultados son con PaLM 2 sobre MATH. Y no todo problema pide cadena de pensamiento: Sprague et al. (2024, arXiv:2409.12183), con un metaanálisis de más de 100 artículos y evaluaciones en 20 conjuntos de datos y 14 modelos, encuentran que ayuda sobre todo en matemáticas y lógica simbólica y poco en el resto, y recomiendan aplicarla de forma selectiva (§9.2).</p>
+<div class="callout">
+<strong>🧭 Regla de diseño: primero la señal de verificación, después el cómputo</strong>
+    Antes de subir N, la profundidad de búsqueda o el presupuesto de razonamiento, pregunta qué elige entre los candidatos y si ese selector puede equivocarse de forma sistemática. Es una regla de diseño de este manual que se desprende de la evidencia anterior, no el resultado de un estudio concreto:
+    <ul>
+    <li><b>El selector no es el generador.</b> Si el mismo modelo se puntúa o se corrige solo, no hay crítica externa (Huang et al.). Vale igual para los bucles de agente (salida 1 de §10.4b) y para el juez LLM (§13.14.7).</li>
+    <li><b>Mejor un verificador exacto que uno aprendido.</b> Pruebas, ejecución de código o de SQL, validación de esquema o comparación contra un <i>golden dataset</i> auditable (§13.12) no tienen el problema de aproximación del modelo de recompensa aprendido (Gao, Snell), aunque valen lo que valgan sus casos de prueba. Si solo tienes un selector aprendido, limita N y mide también la caída, no solo la subida.</li>
+    <li><b>Mide el coste por tarea resuelta, no por llamada.</b> Las muestras cuestan casi linealmente (Loo) y las ganancias decrecen: compara el coste de cada tarea resuelta correctamente con y sin el cómputo adicional (Cap. 15) antes de generalizar.</li>
+    </ul>
+  </div>
+<div class="nota">
+<strong>🔎 Qué no sale de aquí</strong>
+    Las cifras son de modelos de 2022 a 2025 y de pruebas concretas (GSM8K, MATH, juego del 24); no se trasladan a un modelo de 2026 sin medirlo, y Loo (2025) es un preprint de un solo autor. Para decidir sobre tu sistema, mide con tu <i>golden dataset</i> y con repeticiones (§4.3).
+  </div>
 <hr class="sep"/>
 <h2 id="s98">9.8 Tendencias híbridas: RAG + RAFT + modelos de razonamiento</h2>
 <div class="warning">
@@ -20699,7 +20727,7 @@ pEl.oninput=render; nEl.oninput=render; cEl.oninput=render; render();
 <table>
 <thead><tr><th>Salida</th><th>Mecanismo</th><th>Dispara cuando…</th></tr></thead>
 <tbody>
-<tr><td><strong>1. Objetivo cumplido</strong></td><td>Un evaluador puntúa el output contra una rúbrica explícita (mismo principio que el golden dataset del Cap. 13, aplicado turno a turno).</td><td>El trabajo está medible y demostrablemente terminado — no cuando el modelo <em>dice</em> que ha terminado.</td></tr>
+<tr><td><strong>1. Objetivo cumplido</strong></td><td>Un evaluador puntúa el output contra una rúbrica explícita (mismo principio que el golden dataset del Cap. 13, aplicado turno a turno). El evaluador es otro componente —código, pruebas u otro modelo— y no ve el historial de razonamiento del agente que hizo el trabajo; si el mismo modelo se puntúa a sí mismo, esta salida se convierte en autorrefinamiento sin crítica externa (§9.7b).</td><td>El trabajo está medible y demostrablemente terminado — no cuando el modelo <em>dice</em> que ha terminado.</td></tr>
 <tr><td><strong>2. Tope de turnos</strong></td><td><code>max_steps</code> contado y forzado por el harness, no por una instrucción en el prompt.</td><td>La tarea nunca iba a converger — y lo descubres antes de haber pagado por ello.</td></tr>
 <tr><td><strong>3. Tope de presupuesto</strong></td><td>Límite en tokens o en euros, lo que se agote primero; el número sale de la tabla de costes de agentes (§9.7) o de la calculadora TCO (Cap. 15), no de una cifra arbitraria.</td><td>A mitad de ejecución — por eso es la salida que evita la factura sorpresa de fin de mes.</td></tr>
 <tr><td><strong>4. Reloj de pared</strong></td><td>Plazo por tiempo transcurrido, independiente de cuánto haya avanzado el agente.</td><td>La ejecución choca con una ventana de despliegue, un SLA o el inicio de horario laboral.</td></tr>
@@ -20710,6 +20738,7 @@ pEl.oninput=render; nEl.oninput=render; cEl.oninput=render; render();
 </tbody>
 </table>
 <p>La salida 3 (tope de presupuesto) no es cautela excesiva. Bai et al. (2026, arXiv:2604.22750) miden trayectorias de codificación agéntica reales (SWE-bench Verified, 500 tareas, 8 LLMs de frontera, 4 ejecuciones por combinación) y encuentran hasta <strong>30 veces de varianza en tokens consumidos entre dos ejecuciones de la misma tarea con el mismo modelo</strong> — y que gastar más tokens no implica mayor probabilidad de éxito. Peor: cuando piden a los propios modelos que estimen su consumo futuro antes de empezar, la correlación entre estimación y consumo real es de apenas r≈0,39, con subestimación sistemática. Un agente no tiene forma fiable de saber, por sí mismo, cuánto va a costar completar la tarea — por eso el tope de presupuesto no puede ser una salida opcional, tiene que vivir en el harness igual que las otras siete.</p>
+<p>Una medida que complementa las ocho salidas es la <b>tasa de aprovechamiento</b>: salidas conservadas entre salidas generadas (iteraciones, candidatos o subagentes cuyo resultado se usó). Si casi todo lo que el bucle o el reparto en paralelo genera se descarta, cuesta más de lo que aporta, y cada vuelta además reenvía un contexto más largo (§9.7). No hay un umbral universal: mídela en tu tarea y compárala con hacerla sin el bucle.</p>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">No confundir la salida 7 con el <a href="#cap12">circuit breaker del Cap. 12.4</a>: miden cosas distintas, a granularidades distintas. El circuit breaker observa la tasa de error en una ventana temporal <em>a nivel de servicio</em> (todas las peticiones) y degrada a una respuesta de fallback; el umbral de errores consecutivos cuenta fallos dentro de <em>una sola ejecución</em> y detiene solo esa ejecución. Son complementarios, no intercambiables: el primero protege el servicio, el segundo protege la tarea individual.</p>
 <pre><span class="pseudo-badge">⚠ Pseudocódigo — no ejecutable sin adaptar</span><br/>class AgentLoopGuard:
     def __init__(self, max_steps=8, budget_eur=2.0, deadline_s=1800,
@@ -23704,6 +23733,10 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
 </tbody>
 </table>
 </div>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · La referencia es el resultado ejecutable, no el texto</strong>
+    OpenAI describe (29/01/2026) cómo evalúa su agente interno de datos: un conjunto curado de pares pregunta–respuesta en el que cada pregunta lleva una consulta SQL «dorada» escrita a mano. Se ejecuta la SQL que genera el agente y se compara <b>su resultado</b> con el de la dorada; no se compara el texto, porque la SQL generada puede diferir en la sintaxis y ser correcta. Esas señales alimentan un evaluador que da nota y explicación, y las pruebas se usan «como pruebas unitarias» durante el desarrollo y como avisos tempranos en producción. Es la descripción que hace una empresa de su propio sistema: no trae cifras ni se puede contrastar desde fuera. Lo que se traslada a tu <i>golden dataset</i> es el criterio: cuando la respuesta correcta se puede ejecutar, la referencia que se compara es el resultado, no la redacción.
+  </div>
 <h2 id="cap133">13.3 El pipeline de evaluación automatizada</h2>
 <pre># Evaluación automática con RAGAS sobre muestra de producción
 from ragas import evaluate
@@ -24034,6 +24067,10 @@ def evaluar_muestra_produccion(logs_del_dia: list) -&gt; dict:
 </tbody>
 </table>
 <p>La corrección por comparaciones múltiples no es opcional: si comparas dos variantes en ocho métricas con α=0.05, la probabilidad de al menos un «hallazgo» espurio ronda el 34%. El patrón por defecto para sistemas LLM es Mann-Whitney + Bonferroni: conservador, sin supuestos de normalidad, y defendible ante cualquiera que revise el análisis.</p>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · La evaluación continua también cubre la documentación del agente</strong>
+    El equipo de ciencia e ingeniería de datos de Anthropic cuenta (blog, 03/06/2026) que su agente de analítica no pasaba del 21 % en sus evaluaciones sin «skills» (documentos de contexto sobre el modelo de datos) y, con ellas, quedaba «por encima del 95 % en conjunto». También que vieron derivar su precisión offline «de ~95 % en el lanzamiento a ~65 % en un mes», y lo atribuyen a que esos documentos describen un modelo de datos que cambia a diario, de modo que sin mantenimiento activo «están mal en semanas». Salvedades: es el relato de un equipo sobre su propio sistema; no define el conjunto de evaluaciones, su tamaño ni el modelo, y el «95 %» de su introducción es la cuota de consultas automatizadas, no una precisión. Lo que se traslada es el hábito: ejecuta tu conjunto de evaluación de forma continua y trata la documentación de contexto como parte del sistema, con versión y revisión, no como un anexo que se escribe una vez.
+  </div>
 <h2 id="s138">13.8 Detección de alucinaciones sin ground truth: clustering de consistencia</h2>
 <p>El golden dataset detecta errores conocidos: preguntas para las que tienes la respuesta correcta. Pero el sistema puede alucinar sobre preguntas que no están en el golden dataset — y esas alucinaciones son invisibles hasta que un usuario las detecta. El clustering de consistencia es un segundo mecanismo de detección que opera sobre tráfico real, sin ground truth, usando el propio comportamiento histórico del sistema como referencia.</p>
 <h3>La intuición: el sistema debe ser consistente con sí mismo</h3>
@@ -24953,6 +24990,10 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
 <p>La lógica: si en N meses el responsable nunca ha rechazado, modificado ni escalado una recomendación, existen solo dos explicaciones — o el sistema es perfecto (hipótesis descartable por construcción en sistemas probabilísticos), o el responsable ha dejado de ejercer juicio independiente. En ambos casos, su titularidad del riesgo es ficción contable. La acción no es sancionarle: es rediseñar la interfaz de supervisión (14.3), reducir su volumen de revisión, o reasignar el derecho a quien pueda ejercerlo.</p>
 <p>Umbral operativo orientativo: en sistemas de Nivel 3-4, una tasa de intervención (rechazo + modificación + escalado) sostenida por debajo del 2% durante un trimestre debe disparar una revisión del diseño de supervisión — antes de que la dispare un incidente.</p>
 </div>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · Rendir más no es calibrar mejor</strong>
+    Un estudio reciente, exploratorio, mide algo que la supervisión humana da por supuesto: que quien revisa sabe cuándo dudar. Fernandes et al. (2026, arXiv:2609.31095, preprint del 25/09/2026) compararon a 366 personas resolviendo 40 ítems de razonamiento, 187 sin IA y 179 con ella, en grupos reclutados por separado. Con IA puntuaron más (+7,22 puntos) y su confianza media por respuesta subió (de 0,66 a 0,78); pero la estimación que cada persona hacía de su propia nota siguió peor a la nota real (correlación de 0,07 frente a 0,40) y la capacidad de la confianza para separar respuestas correctas de incorrectas no queda establecida dentro de cada bloque de tareas. El patrón de Dunning-Kruger aparece en ambos grupos y el contraste es mayor con IA, pero con controles por regresión a la media la diferencia entre grupos queda inconclusa. Para §14.2b la lectura prudente es que <b>aumentar el rendimiento no es aumentar la metacognición</b>: una supervisión que descansa en que el revisor reconozca sus dudas debería medir, además del acierto del conjunto persona más IA, si la confianza del revisor sigue discriminando (la tasa de intervención de la regla anterior es un indicador indirecto). Límites: preprint sin revisión por pares, diseño observacional sin asignación aleatoria ni preinscripción (no permite lenguaje causal), una sola IA con esfuerzo de razonamiento bajo y tareas de laboratorio; no se citan las cifras de los resúmenes divulgativos.
+  </div>
 <h3>Cierre del bucle: del organigrama a la traza</h3>
 <p>La matriz de derechos de decisión solo es auditable si conecta con el registro técnico. El <a href="#s12-decision-record">DecisionRecord del Cap. 12</a> admite dos campos de extensión que cierran el bucle entre autoridad organizacional y evidencia técnica:</p>
 <table>
