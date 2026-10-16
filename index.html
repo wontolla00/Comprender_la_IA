@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v120</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v121</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v120 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v121 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9808,6 +9808,12 @@ window.addEventListener('resize', () =&gt; {
 <li><strong>Los modelos se actualizan:</strong> los proveedores de API actualizan sus modelos sin necesariamente publicar todos los cambios. GPT-4 de enero y GPT-4 de septiembre pueden comportarse de forma diferente.</li>
 </ul>
 <p>Esto tiene implicaciones directas para el cumplimiento normativo. Si el AI Act o tu regulador sectorial requieren que puedas explicar una decisión tomada hace seis meses, necesitas haber preservado en ese momento todo el contexto: qué modelo, qué corpus, qué respuesta. Retroactivamente, no puedes reproducirlo.</p>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · Medir también tiene que ser reproducible</strong>
+    La lista anterior trata la reproducibilidad de la <b>salida</b>. Hay otra, la de la <b>medición</b>: si evalúas un sistema con una sola ejecución de una sola consulta, el número mezcla lo que quieres medir con el azar del muestreo. Tres controles baratos: <b>repetir</b> la misma consulta varias veces y mirar la dispersión; <b>reformular</b> la consulta sin cambiar la intención; y, si hay más de un sistema, <b>compararlos</b> entre sí. Y un cuarto, que se olvida: <b>validar el instrumento</b> que extrae y empareja los resultados, porque un error de extracción que se correlaciona con lo que mides puede invertir el hallazgo.
+    Un ejemplo reciente, con sus límites: Pitenin (2026, arXiv:2608.07069) auditó cuatro asistentes con búsqueda (ChatGPT, Claude, Gemini y Perplexity) con 96 consultas de recomendación de cafés y restaurantes en dos zonas de Bali, 2.208 ejecuciones en siete días. Ante la misma consulta repetida, los conjuntos de locales recomendados se solapaban poco (solapamiento medio de Jaccard —locales comunes entre locales totales de dos listas— de 0,22 a 0,45 según el sistema; el brazo más inestable tenía el presupuesto de búsqueda limitado por los propios autores) y, ante una paráfrasis, menos aún en los cuatro. Una segunda medición dos semanas después no se distinguía de la repetición del mismo día: el vaivén era muestreo, no deriva. Y un efecto aparente (que figurar en un conjunto de datos abierto ayudase a ser recomendado, OR 1,70) desapareció (OR 0,84) al corregir errores en el emparejamiento de nombres.
+    Es un <b>preprint</b>, sin revisión por pares, de una empresa que vende herramientas de visibilidad en IA (lo declara, junto con una preinscripción del análisis); es observacional, usa las API con búsqueda y no las aplicaciones de consumo, y cubre una región y consultas en inglés. Las cifras describen listas de locales, no se extrapolan a otras tareas. Lo que sí se traslada a tu <i>golden dataset</i> es el hábito: da la dispersión entre repeticiones junto a la media, y no atribuyas a deriva del modelo una diferencia que cabe dentro de esa dispersión.
+  </div>
 <h2 id="s44">4.4 Gobernanza de modelos: el catálogo que necesitas</h2>
 <p>En datos tienes un catálogo de datos: qué datasets existen, quién es el propietario, cuál es la sensibilidad, dónde está almacenado. En sistemas IA necesitas el equivalente para modelos: un <strong>catálogo de modelos</strong>.</p>
 <div class="comparativa">

@@ -2,6 +2,18 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v121 — 16 octubre 2026 · Medir también tiene que ser reproducible (§4.3)
+
+Origen: artículo «Faites-vous trop confiance à ChatGPT ?» (veille del 16/10) y, a través de él, el preprint «Invisible to the Machine»
+(Pitenin, arXiv:2608.07069), leído completo. Veredicto del triaje (`2026-10-16 (a)`): **Integrar, en pequeño**; las cifras de
+visibilidad de locales y el relato de la «flauta de Hamelín» del artículo no entran. CI-AV-1 cerrado. Detalle en
+`taller/Registro_manual_v120_a_v121.md`.
+
+- **§4.3**, al final: recuadro «Matiz (2026-10)» sobre la reproducibilidad de la *medición* (repetir, reformular, comparar entre
+  sistemas, validar el instrumento de extracción), con el caso del preprint y sus límites explícitos (sin revisión por pares, de un
+  proveedor del sector, observacional, una región, API con búsqueda).
+- Versión v120 → v121 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v120 — 15 octubre 2026 · La inyección que se copia (§21.5.1)
 
 Origen: infografía y post «L'injection de prompt devient un ver» (veille del 14/10), contrastados con el informe primario de

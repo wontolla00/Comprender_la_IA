@@ -57,6 +57,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   y páginas de la entrada salen de una extracción, no de lectura directa). Sin cambio de versión si es solo esa línea.
 - [ ] **HR-HL-1 · (HyperRAG, media; detalle en `HyperRAG/docs/HR4_conjunto_dificil.md`, «Lo que queda sin hacer»):** conjunto Q4 intacto de confirmación
   antes de decidir sobre chunking o el peso de BM25 en la fusión, y confirmación de HR-4 con los 56 hechos numéricos de C3 aún sin usar.
+- [x] **CI-AV-1 · Medir también tiene que ser reproducible (entrada `2026-10-16 (a)`, baja): HECHO en v121 (16/10/2026; recuadro «Matiz (2026-10)» al final de §4.3; ver `taller/Registro_manual_v120_a_v121.md`).** §4.3 trataba la reproducibilidad de la salida, no la de la medición (repetir, reformular, comparar entre sistemas, validar el instrumento de extracción). Pendiente que sigue abierto en Empreinte, sin ítem propio: comprobar en el código si la medición de erosión y de deriva repite y reformula antes de comparar.
 - [ ] **CI-HK-1 · Ganchos del ciclo de vida del agente, recuadro breve en el cap. 10 o 13 (entrada `2026-10-15 (a)`, baja; «Observar»):** control determinista del ciclo de vida frente a herramientas que elige el agente, con la salvedad de que el gancho de Copilot Studio falla abierto (primario: Microsoft Learn, 29/09/2026, preview). Esperar a que salga de preview o a una segunda fuente; si se escribe, citar la fecha y no generalizar a otras plataformas sin comprobarlas. Antes de tocar: buscar «hook» en el manual (solo 5 menciones, ninguna de esto).
 - [x] **CI-WM-1 · La inyección que se copia (entrada `2026-10-14 (c)`, baja-media): HECHO en v120 (15/10/2026; fila en §21.5.1 y recuadro «Matiz (2026-10)»; ver `taller/Registro_manual_v119_a_v120.md`). Texto original del pendiente:** §21.4-§21.5 ya cubren la inyección indirecta, la tríada letal, EchoLeak y la memoria persistente (§10.9.3), pero no la **autorreplicación**: la salida de un agente es la entrada del siguiente. Propuesta: una fila en la tabla de canales de salida del §21.5.1 («lo que un agente escribe y otro leerá») o un Caso 5 breve tras EchoLeak. Contenido verificado en primario el 15/10/2026: OpenAI, «Self-replicating prompt injections exist» (descubierto el 27/06, divulgado el 25/09/2026): hallazgo de laboratorio con puntos de control internos de investigación (GPT-5.4-mini y GPT-5.5), **sin incidente ni tasas publicadas**; tres canales (respuesta de correo, escritura de archivo, mensaje de Slack en varias lecturas). Antecedente: «Morris II» (arXiv 2403.02817, 2024), gusano de IA de laboratorio contra asistentes de correo. Lección de diseño que ya está en §21.5: quitar una de las tres patas y confirmación humana en lo que escribe hacia fuera. **No citar** los «2.076 CVE de la pila IA»: son CVE «relacionados con IA» acumulados de enero de 2025 a agosto de 2026 (GTIG), con ~50 % en middleware de orquestación y solo unos pocos explotados. SalesBleed (Zenity, 24/09/2026) ya está corregido (18/08). Antes de citar: leer el HTML crudo del informe de OpenAI (esta entrada lo leyó mediante resumidor de página). Cambio de versión (v119 → v120).
 - [x] **CI-MCP-1 · HECHO en v119 (14/10/2026, §10.10.1b, `taller/Registro_manual_v118_a_v119.md`). Texto original del pendiente: una petición MCP de punta a punta (entrada `2026-10-14 (b)`, media; decisión del autor: SÍ, «lo más completo posible»):** §10.10 y §21.6 ya cubrían el qué y los ataques, pero no había un recorrido con quién decide en cada paso ni una nota de revisión del protocolo. Hecho: subsección de texto, simulador de cuatro pestañas y recuadro de revisión 2026-07-28.
@@ -2857,3 +2858,36 @@ herramientas, recursos, prompts, autorización, transportes, versionado, descubr
 - *Empreinte:* nada. *HyperRAG:* nada. *Corpus:* nada. *Auditra:* tocado en su guía de integración (privada), sin hueco que registrar aquí.
 
 **Veredicto: Observar** (volver a mirar al salir de preview o con una segunda fuente). `[Manual: CI-HK-1, baja]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: ver guía de integración]` `[Corpus: nada]`
+
+### 2026-10-16 (a) — «Invisible to the Machine» (Pitenin, Norly Research, arXiv:2608.07069, 07/08/2026) + artículo divulgativo que lo cita
+
+**Fuente.** Llegó por el artículo «Faites-vous trop confiance à ChatGPT ?» (Rottembourg y Prunkl, Inria Régalia, 16/10/2026), que usa el
+estudio como prueba de que la IA concentra a todos en los mismos sitios. Se leyó el **PDF completo (31 páginas)**. Preprint, un solo autor,
+sin revisión por pares. Norly vende herramientas de visibilidad en IA: lo declara, y declara preinscripción del análisis y resultados nulos
+contrarios a su interés (el de Foursquare).
+
+**Lo que se sostiene (en el PDF).** Censo de 4.776 locales de dos zonas de Bali frente a 96 consultas de recomendación, 4 sistemas (ChatGPT,
+Claude, Gemini, Perplexity, por API con búsqueda), 2.208 ejecuciones en 7 días, 12.439 menciones válidas. El 85,6 % de los locales no fue
+recomendado nunca (suelo; 92,6 % con el marco más amplio). Entrar en una respuesta se asocia a la documentación (web propia OR 1,92, volumen
+de reseñas OR 1,64, precio, menciones web), no a la nota (OR 0,89); la nota sí predice quedar primero (OR 1,17). Fallo dominante: locales
+cerrados (93 recomendaciones), no invención (0,08 %). Repetición de la misma consulta: Jaccard 0,22 a 0,45; entre motores 0,33 a 0,54; la
+paráfrasis baja la similitud en los cuatro; el retest a las dos semanas no se distingue del reintento del mismo día (ruido, no deriva). Un
+efecto aparente (Foursquare, OR 1,70) pasó a nulo (OR 0,84) al corregir el emparejamiento de nombres.
+
+**Lo que el artículo divulgativo simplifica.** (1) «La nota no juega»: solo en la entrada; para el orden sí. (2) «Flujo masivo hacia el mismo
+grupo»: el paper mide cola larga (el primero, 1,9 %; los 25 primeros, 28,5 %) y poco acuerdo entre motores y entre repeticiones: no apoya
+ese relato. (3) Las cifras no se extrapolan fuera de los locales de dos zonas de Bali. Límites del paper: observacional, API con búsqueda (no
+las aplicaciones), una región, inglés, presupuesto de búsqueda de Claude limitado a dos por ejecución (vinculante en el 97,6 %).
+
+**Relevancia.**
+- *Manual (baja):* hueco en §4.3 (solo la reproducibilidad de la salida): **CI-AV-1, hecho en v121**. Sin GEO, restaurantes ni cifras de
+  visibilidad como contenido. La fila de la tabla de técnicas («si retrieval trae doc obsoleto, alucina con fuente») queda como está: el
+  paper observa fidelidad a fuentes caducadas, pero es un solo estudio de locales, no de documentos.
+- *Empreinte (media, metodológica):* comprobar en el código si la erosión y la deriva repiten y reformulan antes de comparar (revisión aparte).
+- *HyperRAG (baja):* la obsolescencia de las fuentes como modo de fallo de respuestas ancladas enlaza con las preguntas de evaluación
+  temporal anotadas en `2026-10-02 (b)`. Sin acción.
+- *Auditra:* nada. *Corpus:* nada.
+
+**Veredicto: Integrar, en pequeño** (la idea de medir con repetición, reformulación, comparación y validación del instrumento; no las cifras
+de visibilidad). `[Manual: CI-AV-1, hecho v121]` `[Empreinte: comprobar repetición/reformulación en erosión y deriva]` `[HyperRAG: sin acción]`
+`[Auditra: nada]` `[Corpus: nada]`
