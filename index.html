@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v131</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v132</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v131 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v132 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -5725,7 +5725,7 @@ renderCrit(); showCrit(crits[0]);
 <div style="background:linear-gradient(135deg,#0f172a,#1e3a8a);border-radius:10px;padding:18px 22px;margin-bottom:24px;color:white;font-size:.88rem;">
 <div style="font-family:system-ui,sans-serif;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:8px;">🧭 Caso ancla de este capítulo</div>
 <p style="color:rgba(255,255,255,.9);margin:0 0 10px;">Una empresa de seguros quiere que sus agentes puedan preguntar en lenguaje natural sobre las condiciones de 1.200 pólizas distintas. Tienen los PDFs en SharePoint, se actualizan cada trimestre, y los agentes hacen preguntas como: "¿Qué cubre el seguro X para daños por inundación en locales comerciales?"</p>
-<p style="color:rgba(255,255,255,.65);margin:0;font-style:italic;">Al terminar este capítulo sabrás exactamente cómo diseñar el pipeline que resuelve este problema — y por qué las decisiones de chunking y embedding que tomes aquí determinan el 80% de la calidad final del sistema.</p>
+<p style="color:rgba(255,255,255,.65);margin:0;font-style:italic;">Al terminar este capítulo sabrás exactamente cómo diseñar el pipeline que resuelve este problema — y por qué las decisiones de chunking y embedding que tomes aquí pesan mucho en la calidad final del sistema (regla práctica del autor, sin medición).</p>
 </div>
 <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
 <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// al terminar este capítulo, serás capaz de</div>
@@ -6340,7 +6340,7 @@ Art. 3. Los organismos notificados evaluarán la conformidad de los sistemas ant
 <p style="color:var(--muted);font-size:.82rem;margin:-8px 0 16px;font-style:italic;">(Nota de numeración: esta sección puente se referencia como "1.6b" por su posición justo antes de 1.7 — el capítulo no contempla secciones 1.5 ni 1.6 independientes.)</p>
 <div class="callout" style="border-color:var(--orange);background:var(--orange-light);">
 <strong>⚠ Por qué existe esta sección</strong>
-  El manual promete "sin matemáticas del entrenamiento". Esa promesa es honesta para el 90% del contenido. Pero los capítulos 1.8 (RAFT en profundidad) y 5 (fine-tuning y LoRA) presuponen tres ideas que nadie te explicó. Sin ellas vas a llegar al Cap. 5 y a copiar <code>r=8, alpha=16</code> de un blog sin saber qué estás haciendo. Esta sección son 15 minutos. No hay derivadas. Hay tres ideas y cuatro números.
+  El manual promete "sin matemáticas del entrenamiento". Esa promesa es honesta para la mayor parte del contenido. Pero los capítulos 1.8 (RAFT en profundidad) y 5 (fine-tuning y LoRA) presuponen tres ideas que nadie te explicó. Sin ellas vas a llegar al Cap. 5 y a copiar <code>r=8, alpha=16</code> de un blog sin saber qué estás haciendo. Esta sección son 15 minutos. No hay derivadas. Hay tres ideas y cuatro números.
 </div>
 <div class="callout" style="border-color:#0891b2;background:#f0f9ff;">
 <strong>🧭 Puedes saltarte esta sección ahora mismo — y volver antes del Cap. 5</strong>
@@ -6920,7 +6920,7 @@ function clUpdate() {
 <!-- ─────────────────────────────────────────────────────────────── -->
 <div class="resultado-final">
 <strong>💡 Lo que esta sección te da (y lo que no)</strong>
-<p style="margin:12px 0 0;line-height:1.8;">Con esta sección puedes elegir r y α con criterio, entender por qué la inicialización importa, y distinguir RAFT de RAG sin confusión. Eso cubre el 95% de las decisiones prácticas en fine-tuning de dominio. Lo que <em>no</em> te da: la justificación de LoRA+ (learning rates distintos para A y B), el análisis del espacio de gradientes, o cómo diagnosticar degradación en razonamiento matemático post-fine-tune. Para eso, el prerrequisito es un curso de 2–3 horas de álgebra lineal aplicada a redes neuronales — específicamente los conceptos de rango de matriz, espacio nulo y cómo el optimizador Adam escala las actualizaciones. No es obligatorio para empezar. Sí es necesario para no quedarte atascado cuando las cosas fallen.</p>
+<p style="margin:12px 0 0;line-height:1.8;">Con esta sección puedes elegir r y α con criterio, entender por qué la inicialización importa, y distinguir RAFT de RAG sin confusión. Eso cubre, a juicio del autor, la mayoría de las decisiones prácticas habituales en fine-tuning de dominio. Lo que <em>no</em> te da: la justificación de LoRA+ (learning rates distintos para A y B), el análisis del espacio de gradientes, o cómo diagnosticar degradación en razonamiento matemático post-fine-tune. Para eso, el prerrequisito es un curso de 2–3 horas de álgebra lineal aplicada a redes neuronales — específicamente los conceptos de rango de matriz, espacio nulo y cómo el optimizador Adam escala las actualizaciones. No es obligatorio para empezar. Sí es necesario para no quedarte atascado cuando las cosas fallen.</p>
 </div>
 <!-- Glossary -->
 <div class="gterm" id="gt-lora">
@@ -10002,7 +10002,7 @@ renderLevels(); renderPool(); showDetail(levels[0]);
 <p><em>Referencia cruzada: §2.5.4 (cuándo declarar), §4.7 (procedencia del contenido), §10.9.6 (el mismo patrón aplicado a la memoria recuperada), §13.6 (niveles de evidencia y no compensación), §16 (AI Act, Arts. 12 y 15).</em></p>
 </div>
 <h3 id="s47-claude">Un caso con fecha: cómo escala Anthropic el marcado en Claude <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h3>
-<p>El 2 de agosto de 2026 —la fecha en que el Art. 50.2 del AI Act empieza a aplicarse (ver Cap. 16)— es también la fecha que Anthropic eligió para delimitar el alcance de su marca de agua estadística en Claude: "los modelos de Claude lanzados a partir del 2 de agosto de 2026 soportarán marcado legible por máquina desde el lanzamiento" (Anthropic, 14 ago. 2026). Verificado contra la fuente primaria, no contra cobertura de prensa: hoy, 20 de agosto de 2026, <strong>ningún modelo Claude seleccionable cumple esa condición</strong> — Opus 5 (24 jul.), Sonnet 5 (30 jun.) y Fable 5 (9 jun.) se lanzaron todos antes del corte. Los modelos anteriores al corte recibirán marcado "en algún momento" ("we're working to add watermarking for those models as well") sin fecha publicada. La API de detección tampoco existe todavía: Anthropic la describe como "en proceso de definir los detalles de su implementación". Y el despliegue es global sin excepción geográfica, "porque todavía no tenemos una forma duradera de acotarlo por región".</p>
+<p>El 2 de agosto de 2026 —la fecha en que el Art. 50.2 del AI Act empieza a aplicarse (ver Cap. 16)— es también la fecha que Anthropic eligió para delimitar el alcance de su marca de agua estadística en Claude: "los modelos de Claude lanzados a partir del 2 de agosto de 2026 soportarán marcado legible por máquina desde el lanzamiento" (Anthropic, 14 ago. 2026). Verificado contra la fuente primaria, no contra cobertura de prensa: a 20 de agosto de 2026 (fecha de redacción; no se ha reverificado en octubre, y Anthropic lista ya Opus 5.5, Sonnet 5.5 y Haiku 5.5), <strong>ningún modelo Claude seleccionable cumple esa condición</strong> — Opus 5 (24 jul.), Sonnet 5 (30 jun.) y Fable 5 (9 jun.) se lanzaron todos antes del corte. Los modelos anteriores al corte recibirán marcado "en algún momento" ("we're working to add watermarking for those models as well") sin fecha publicada. La API de detección tampoco existe todavía: Anthropic la describe como "en proceso de definir los detalles de su implementación". Y el despliegue es global sin excepción geográfica, "porque todavía no tenemos una forma duradera de acotarlo por región".</p>
 <p>Es el mismo patrón de las tres familias de mecanismos descritas arriba, con las fechas puestas: mientras dure esta ventana, todo lo que Claude genera queda sin marcar y sin forma de comprobarlo — ni para ti, ni para nadie. La ventana se cierra sola, sin aviso, el día que el primer modelo se lance después del corte; no hay una acción tuya que la cierre antes ni que la mantenga abierta después. Trátalo como el resto del contenido con sello de fecha de este capítulo: la mecánica (marca de agua débil en texto factual, C2PA frágil ante la limpieza de metadatos) es estable; los nombres de modelo y las fechas concretas no lo son — verifica el estado actual antes de tomar una decisión de arquitectura sobre ello.</p>
 <hr class="sep"/>
 <div class="resultado-final">
@@ -10327,7 +10327,7 @@ function score(){
 <div class="expands">🔄 <strong>Ampliando Cap. 0:</strong> en el Capítulo 0 viste que los LLMs predicen el siguiente token. Esta sección entra en el mecanismo de atención que hace posible esa predicción — no es contenido nuevo, es la profundización que el Cap. 0 prometía.</div>
 <div class="callout" id="mapa-cap5" style="border-left-color:#0369a1;">
 <strong>🗺 Mapa de este capítulo</strong>
-<p style="margin-top:6px;font-size:.85rem;color:var(--muted);"><em>Este capítulo tiene tres niveles de profundidad. El núcleo (5.1-5.7) basta para el 90% de los lectores; el resto es consulta puntual.</em></p>
+<p style="margin-top:6px;font-size:.85rem;color:var(--muted);"><em>Este capítulo tiene tres niveles de profundidad. El núcleo (5.1-5.7) basta para la mayoría de los lectores; el resto es consulta puntual.</em></p>
 </div>
 <div style="overflow-x:auto;margin:14px 0 28px;">
 <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
@@ -12215,7 +12215,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
 </table>
 <div class="callout">
 <strong>💡 Nota sobre estos umbrales</strong>
-    Los rangos anteriores son orientativos y varían según el modelo, el tipo de tarea y la distribución del contenido en el contexto. Los modelos de 2025-2026 (Gemini 2.0, Claude 3.7) han reducido este sesgo respecto a generaciones anteriores, especialmente en tareas de recuperación simple. Verifica siempre sobre tu corpus y tu tipo de pregunta específico antes de decidir la arquitectura.
+    Los rangos anteriores son orientativos y varían según el modelo, el tipo de tarea y la distribución del contenido en el contexto. Los modelos de 2025 (por ejemplo Gemini 2.0 o Claude 3.7) parecían haber reducido este sesgo respecto a generaciones anteriores, sobre todo en recuperación simple; esa afirmación no se ha reverificado con los modelos de octubre de 2026. Verifica siempre sobre tu corpus y tu tipo de pregunta específico antes de decidir la arquitectura.
   </div>
 <h3>Marco de decisión: contexto largo vs. RAG<span class="version-badge">2025-11</span></h3>
 <p>La metáfora más útil para entender el rol de cada arquitectura es esta: RAG es el disco duro del sistema (recupera fragmentos específicos de un corpus grande), y el contexto largo es la memoria de trabajo (mantiene activo un conjunto de documentos para análisis conjunto). Son complementarios, no alternativos. La confusión viene de usarlos para el mismo propósito.</p>
@@ -14564,7 +14564,7 @@ render();
 </table>
 <div class="callout">
 <strong>💡 Cuándo usar búsqueda exacta vs. ANN</strong>
-    Para corpus menores de 100K documentos, la búsqueda exacta (Flat) es perfectamente viable y elimina la complejidad de configurar HNSW. Por encima de eso, HNSW con los parámetros por defecto de cualquier BD vectorial moderna da resultados excelentes en el 95% de los casos. No necesitas tunear el índice hasta que tengas evidencia de que el rendimiento es un problema real.
+    Para corpus menores de 100K documentos, la búsqueda exacta (Flat) es perfectamente viable y elimina la complejidad de configurar HNSW. Por encima de eso, HNSW con los parámetros por defecto de cualquier BD vectorial moderna suele dar resultados suficientes (regla práctica del autor, sin cifra medida). No necesitas tunear el índice hasta que tengas evidencia de que el rendimiento es un problema real.
   </div>
 <h3>Caso de estudio: compresión de índices — cuando la cuantización llega al retrieval</h3>
 <p>La misma idea que en §5.7c aplica a los pesos del modelo — reducir la precisión para reducir el tamaño — se aplica también al índice vectorial, y la aritmética es igual de contundente: 10 millones de vectores en float32 ocupan ~31 GB; cuantizados a 2-4 bits, alrededor de 4 GB. Motores recientes como <em>Turbovec</em> ilustran hacia dónde va esta ingeniería: cuantización a 2-4 bits sin fase de entrenamiento separada (a diferencia de PQ, que requiere entrenar los codebooks), instrucciones SIMD (NEON/AVX) para comparar vectores comprimidos sin descomprimirlos, y filtrado <em>dentro</em> de la búsqueda — por tenant, permisos o fecha — en lugar del post-filtrado clásico que obliga a recuperar de más para descartar después. El dato honesto: en los escenarios más agresivos de 2 bits, FAISS todavía gana en algunos casos — no es una superioridad universal, es un punto distinto en el mismo triángulo velocidad-precisión-memoria de la tabla anterior. La lección transferible no es la herramienta sino el patrón: el coste de memoria del índice es una variable de diseño tan optimizable como el coste de inferencia del modelo.</p>
@@ -14581,7 +14581,7 @@ render();
 </table>
 <div class="warning">
 <strong>⚠️ Error típico de diagnóstico</strong>
-    Cuando el sistema RAG produce respuestas incorrectas, el primer instinto suele ser "mejorar el prompt" o "usar un modelo mejor". En la mayoría de los casos, el problema está antes: en el retrieval. Mide siempre Hit Rate@5 primero. Si es inferior a 0.80, el LLM no puede salvarte: está respondiendo sobre documentos que no son los correctos.
+    Cuando el sistema RAG produce respuestas incorrectas, el primer instinto suele ser "mejorar el prompt" o "usar un modelo mejor". Con frecuencia, el problema está antes: en el retrieval. Mide siempre Hit Rate@5 primero. Si es inferior a 0.80, el LLM no puede salvarte: está respondiendo sobre documentos que no son los correctos.
   </div>
 <h3 id="s65a">6.5a El techo del oráculo: la medida que decide si el retrieval es tu problema</h3>
 <p>Las cuatro métricas anteriores miden lo mismo desde ángulos distintos: <strong>si el fragmento correcto llega</strong>. Ninguna responde a la pregunta anterior, que es la que decide dónde invertir: <strong>¿podría el modelo responder si le llegara?</strong> Sin esa segunda cifra, un Hit Rate del 100% es perfectamente compatible con un sistema que falla la mitad de las veces, y no tendrás forma de saber por qué.</p>

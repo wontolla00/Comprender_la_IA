@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v132 — 23 octubre 2026 · Segunda pasada, tanda 2: porcentajes sin medición (Cap. 1, 5, 6) y marca de agua (Cap. 4)
+
+- **Cap. 1**: «determinan el 80 % de la calidad», «honesta para el 90 %» y «cubre el 95 % de las decisiones» pasan a regla práctica o juicio del autor, sin cifra.
+- **Cap. 5**: «basta para el 90 % de los lectores» → «la mayoría»; la reducción del sesgo posicional en Gemini 2.0 y Claude 3.7 se fecha en 2025 y se declara no reverificada en 2026.
+- **Cap. 6**: «HNSW por defecto… excelentes en el 95 % de los casos» → regla práctica sin cifra; «en la mayoría de los casos el problema está en el retrieval» → «con frecuencia».
+- **Cap. 4**: el estado del marcado de agua de Anthropic se fecha a 20/08/2026 (no reverificado; ya hay modelos 5.5).
+- Versión v131 → v132.
+
 ## v131 — 23 octubre 2026 · Segunda pasada, tanda 1: Web Semántica (Cap. 2), cifras sin fuente (Cap. 17–19) y Cap. 10
 
 Origen: segunda pasada por capítulo de la auditoría externa (matriz de cobertura).
