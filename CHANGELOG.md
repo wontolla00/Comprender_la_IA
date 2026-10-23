@@ -2,6 +2,15 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v126 — 23 octubre 2026 · Experimento de convergencia como observación exploratoria (§20.1) y «70 %» del Cap. 15
+
+Origen: pendientes del registro v124→v125 (auditoría externa, contrastada con el texto).
+
+- **§20.1, «Convergencia multi-sistema»** (antes «Evidencia de segundo orden»; renombrado también en el índice de conceptos del autor): aviso de estatus (observación exploratoria, prueba informal de tres a cinco sistemas sobre un único objeto, sin anotación ciega ni protocolo publicado, con las explicaciones alternativas sin descartar y lo que haría falta para convertirla en evidencia); «reproducible» → «puede repetirse»; la ausencia de datos compartidos se matiza (las empresas comparten buena parte de las fuentes públicas); «evidencia de segundo orden» → hipótesis del autor; el caso narrativo pasa de «demostración directa» a «ilustración anecdótica».
+- **Checkpoint del Cap. 20**: la pregunta 1 pasa de «explicación más precisa» a «lectura más prudente»; ya no afirma que los modelos no comparten datos de preentrenamiento.
+- **Cap. 15**: el «70 %» deja de ser una cifra («en buena parte» / «en gran parte») y la nota lo declara regla práctica del autor, sin métrica definida ni estudio.
+- Versión v125 → v126 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v125 — 23 octubre 2026 · Atención causal y cross-attention (Cap. 0 y §5.2b)
 
 Origen: pendientes del registro v123→v124 (hallazgos de la auditoría externa contrastados con el texto).
