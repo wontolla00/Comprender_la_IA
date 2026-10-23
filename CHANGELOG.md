@@ -2,6 +2,18 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v127 — 23 octubre 2026 · Apéndice A (costes) con precios de lista fechados y fuentes; Cap. 22 marcado como histórico
+
+Origen: pendientes del registro v125→v126 (auditoría externa; repaso del Cap. 22 y del Apéndice A con fuentes primarias).
+
+- **A.2**: tabla rehecha en **USD/M tokens** (antes decía «€» sobre precios en dólares), con modelos vigentes en octubre de 2026 de Anthropic, OpenAI, Google y DeepSeek, fecha de consulta (23/10/2026) y enlaces a las páginas oficiales. Las filas sin fuente verificada (embeddings, Llama alojado) se declaran «no verificado». Se advierte de los tramos y cambios de precio anunciados.
+- **Aviso «Lo que esta tabla no captura»**: caché (2,5–10 % del input en lectura), batch (−50 %), recargos de residencia de datos y tokenizador (≈ +30 % de tokens desde Claude 4.7); los descuentos por volumen pasan a «según contrato, sin cifra».
+- **A.1**: fórmula con precios de input y output distintos; ejemplo recalculado con Sonnet 5.5 (150 USD/mes; 225 con Sonnet 4.6); precio de embeddings declarado ilustrativo.
+- **Calculadora**: precios separados de input y output (antes output = 4× input), modelos actualizados y retirada de una rama muerta (`arc==='razon'`); aviso de caché reformulado.
+- **A.2b y A.3**: las cifras sin fuente (latencias, costes de GraphRAG/reranker/tool loop, «mejora recall 10–25 %», porcentajes neurosimbólicos de Escudero 2026) se declaran estimaciones del autor o no verificadas; nombres de modelos obsoletos sustituidos por familias.
+- **Cap. 22**: avisos «sección histórica» en GPT-4V/4o y Gemini 1.x–2.0; la arquitectura de GPT-4V/4o y de Gemini deja de describirse como hecho; precio de $5/M y tokens por imagen declarados ilustrativos; precios de TTS y Whisper API fechados; sección de vídeo marcada como sin actualizar (mayo 2025).
+- Versión v126 → v127 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v126 — 23 octubre 2026 · Experimento de convergencia como observación exploratoria (§20.1) y «70 %» del Cap. 15
 
 Origen: pendientes del registro v124→v125 (auditoría externa, contrastada con el texto).

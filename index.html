@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v126</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v127</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v126 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v127 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -29691,11 +29691,11 @@ updateAttackConfig();
   </div>
   <div class="res">
     <div>Tokens visuales/día<b id="mm22Tok">—</b></div>
-    <div>Coste/día (a $5/M input)<b id="mm22Dia">—</b></div>
+    <div>Coste/día (a $5/M input, precio ilustrativo)<b id="mm22Dia">—</b></div>
     <div>Coste/mes<b id="mm22Mes">—</b></div>
     <div>Equivalente en texto por imagen<b id="mm22Eq">—</b></div>
   </div>
-  <p class="nota">Precio orientativo del manual ($5/M tokens de input en gpt-4o). El coste de una imagen es el de un artículo largo en tokens — antes de sumar el texto de contexto. Verifica el precio vigente antes de presupuestar.</p>
+  <p class="nota">Precio ilustrativo del manual ($5/M tokens de input), heredado de la era GPT-4o y <strong>no es el precio vigente</strong>: en octubre de 2026 los modelos de equilibrio de lista cuestan del orden de 2 USD/M de input (Apéndice A.2, con fuentes). Los ~765–1105 tokens por imagen son de GPT-4o; cada proveedor cuenta los tokens de imagen a su manera. El coste de una imagen es el de un artículo corto-medio en tokens, antes de sumar el texto de contexto. Verifica precio y recuento con tu proveedor antes de presupuestar.</p>
 </div>
 <script>
 (function(){
@@ -29749,7 +29749,8 @@ updateAttackConfig();
 </tbody>
 </table>
 <h3 id="s2222">22.2.2 GPT-4V y GPT-4o — visión integrada en el LLM</h3>
-<p><strong>GPT-4V</strong> (2023) y su sucesor <strong>GPT-4o</strong> (2024) integran capacidades visuales directamente en el LLM mediante un encoder visual propio que proyecta la imagen en el espacio de tokens del modelo de lenguaje. GPT-4o unifica además voz nativa (sin conversión a texto intermedia), video y texto en un único modelo de extremo a extremo.</p>
+<div class="nota"><strong>🔎 Matiz (2026-10) · sección histórica</strong> Describe modelos de 2023–2024. Las familias de OpenAI vigentes a octubre de 2026 son otras (p. ej. gpt-6.x, véase Apéndice A.2); lo que sigue sirve para entender el patrón, no como lista de modelos actuales.</div>
+<p><strong>GPT-4V</strong> (2023) y su sucesor <strong>GPT-4o</strong> (2024) integran capacidades visuales en el propio modelo. OpenAI no ha publicado su arquitectura interna: el esquema «encoder visual + proyección a tokens» que se usa más abajo es la forma habitual de los VLM abiertos (p. ej. LLaVA), no una descripción verificada de estos modelos. OpenAI presenta GPT-4o como un modelo único que unifica además voz nativa (sin conversión a texto intermedia), video y texto en un único modelo de extremo a extremo.</p>
 <div class="comparativa">
 <div class="comp-lado viejo">
 <h4>GPT-4V (2023)</h4>
@@ -29777,7 +29778,8 @@ updateAttackConfig();
     Los modelos de visión-lenguaje fallan de forma sistemática en: (1) OCR de texto manuscrito o con fuentes inusuales; (2) recuento preciso de objetos en imágenes densas; (3) razonamiento espacial preciso (izquierda/derecha, dentro/fuera en escenas complejas); (4) consistencia entre ejecuciones con la misma imagen. No asumas que si el modelo "ve" una imagen puede procesar cualquier tarea visual.
   </div>
 <h3 id="s2223">22.2.3 Gemini 1.0 / 1.5 / 2.0 — el enfoque nativo multimodal de Google</h3>
-<p>Los modelos <strong>Gemini</strong> de Google (DeepMind, 2023–2025) fueron diseñados desde cero como modelos multimodales nativos, a diferencia de GPT-4 al que se añadió visión posteriormente. La arquitectura Gemini usa encoders especializados para cada modalidad que proyectan sus representaciones en un espacio de tokens unificado procesado por un Transformer de lenguaje.</p>
+<div class="nota"><strong>🔎 Matiz (2026-10) · sección histórica</strong> Las versiones citadas (1.0–2.0) son anteriores; en octubre de 2026 la API de Google lista, entre otras, gemini-4-argon y la serie 3.x (Apéndice A.2). El contexto de 1M tokens ya no es una rareza de un solo modelo.</div>
+<p>Los modelos <strong>Gemini</strong> de Google (DeepMind, 2023–2025) fueron diseñados desde cero como modelos multimodales nativos, según Google (en contraste con enfoques que añaden un módulo visual a un LLM ya entrenado). Google describe una arquitectura multimodal nativa, pero los detalles internos de las versiones recientes no son públicos; no los asumas.</p>
 <p><strong>Gemini 1.5 Pro</strong> es notable por su ventana de contexto de hasta 1M tokens (en preview: 2M), que permite procesar:</p>
 <ul>
 <li>Vídeos de hasta ~1 hora completos</li>
@@ -29812,7 +29814,7 @@ updateAttackConfig();
 <ul>
 <li><strong>VITS / VITS2</strong> — modelos end-to-end de texto a audio de baja latencia. Open source, muy eficientes.</li>
 <li><strong>YourTTS / Coqui TTS</strong> — clonación de voz con pocos segundos de muestra. Open source.</li>
-<li><strong>OpenAI TTS API</strong> — 6 voces, 2 modelos (tts-1/tts-1-hd), $15/M caracteres.</li>
+<li><strong>OpenAI TTS API</strong> — 6 voces, 2 modelos (tts-1/tts-1-hd), precio de 2024 (~$15/M caracteres; verifica el vigente).</li>
 <li><strong>ElevenLabs</strong> — calidad estado del arte, clonación vocal en segundos, latencia streaming ~400 ms.</li>
 <li><strong>Kokoro-82M</strong> (2024, Apache 2.0) — modelo TTS open source de alta calidad, 82 M parámetros, ejecutable en CPU.</li>
 </ul>
@@ -29922,7 +29924,7 @@ updateAttackConfig();
 <ul>
 <li>Tokens de imagen (GPT-4o: 765–1105 tok/imagen)</li>
 <li>Llamadas a API TTS por caracter</li>
-<li>Minutos de transcripción (Whisper API: $0.006/min)</li>
+<li>Minutos de transcripción (Whisper API: $0.006/min en 2024; verifica el vigente)</li>
 <li>Tiempo de GPU para generación de imagen local</li>
 </ul>
 </div>
@@ -29938,7 +29940,7 @@ updateAttackConfig();
 </div>
 </div>
 <h2 id="mm6">22.6 Modelos de vídeo y el horizonte 2025–2026 <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
-<p>La generación de vídeo es la frontera más activa de la multimodalidad en 2025. Los modelos principales son:</p>
+<p>La generación de vídeo era, en 2025, la frontera más activa de la multimodalidad; la lista siguiente refleja ese momento, no el mercado de octubre de 2026. Los modelos principales son:</p>
 <ul>
 <li><strong>Sora</strong> (OpenAI, 2024) — genera clips de hasta 60 s con física coherente. Acceso limitado, no API pública a febrero 2025.</li>
 <li><strong>Runway Gen-3 Alpha</strong> — generación y edición de vídeo por suscripción. Calidad cinematográfica en shots cortos (&lt;10 s).</li>
@@ -29946,7 +29948,7 @@ updateAttackConfig();
 <li><strong>CogVideoX</strong> (Zhipu AI, Apache 2.0) — modelo open source de vídeo ejecutable localmente con GPU suficiente.</li>
 </ul>
 <div class="nota">
-<strong>📝 Estado del mercado: mayo 2025</strong>
+<strong>📝 Estado del mercado: mayo 2025 (sin actualizar; pendiente de revisión con fuentes primarias)</strong>
     La generación de vídeo está en el estado en que estaba la generación de imagen en 2022: resultados impresionantes en demos, pero con artefactos frecuentes (manos, texto, física compleja). La integración de modelos de vídeo en pipelines de producción con SLA de calidad es prematura salvo para casos de uso tolerantes a la imperfección (storyboarding, prototipado). Para 2026–2027 se espera calidad de producción real.
   </div>
 <h2 id="mm7">22.7 LLaVA y los modelos multimodales open source locales</h2>
@@ -30076,10 +30078,10 @@ updateAttackConfig();
 <div style="background:rgba(255,255,255,.06);border-radius:9px;padding:14px;">
 <div style="font-size:.8rem;font-weight:700;color:#60a5fa;margin-bottom:10px;">② Modelo base</div>
 <div style="display:flex;flex-direction:column;gap:6px;">
-<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input checked="" name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="frontier"/> <span>Frontier (GPT-4o, Claude 3.5, Gemini 1.5 Pro) — ~$3/Mtok</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="mid"/> <span>Mid-tier (Haiku, GPT-4o mini, Gemini Flash) — ~$0.15/Mtok</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="razon"/> <span>Razonamiento (o3-mini, R1) — ~$6/Mtok</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="local"/> <span>Open-weight self-hosted — coste GPU/h</span></label>
+<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input checked="" name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="frontier"/> <span>Equilibrio (Sonnet 5.5, GPT-6.1 Sol, Gemini 4 Argon) — $2 in / $10 out por Mtok</span></label>
+<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="mid"/> <span>Volumen (Haiku 5.5, GPT-6 Luna) — $0.10 in / $0.50 out por Mtok</span></label>
+<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="razon"/> <span>Máxima capacidad (Fable 5.1, GPT-6 Astra) — $10 in / $50 out por Mtok</span></label>
+<label style="display:flex;align-items:center;gap:8px;font-size:.78rem;cursor:pointer;"><input name="mdl" onchange="calcUpdate()" style="accent-color:#60a5fa;" type="radio" value="local"/> <span>Open-weight self-hosted — ~$0.8/Mtok (estimación del autor, no verificada)</span></label>
 </div>
 </div>
 </div>
@@ -30132,8 +30134,8 @@ updateAttackConfig();
     var qdVals=[100,500,1000,5000,10000,50000,100000,500000,1000000];
     var tokVals=[500,1000,2000,4000,8000,16000,32000,64000];
     var outVals=[100,250,500,1000,2000,4000];
-    var mdlPrice={frontier:3,mid:0.15,razon:6,local:0.8};
-    var mdlLabel={frontier:'Frontier (~$3/Mtok)',mid:'Mid-tier (~$0.15/Mtok)',razon:'Razonamiento (~$6/Mtok)',local:'Self-hosted (~$0.8/Mtok estimado)'};
+    var mdlIn={frontier:2,mid:0.10,razon:10,local:0.8}; var mdlOut={frontier:10,mid:0.50,razon:50,local:0.8};
+    var mdlLabel={frontier:'Equilibrio ($2 in / $10 out por Mtok)',mid:'Volumen ($0.10 / $0.50)',razon:'Máxima capacidad ($10 / $50)',local:'Self-hosted (~$0.8/Mtok estimado)'};
     var arcMult={rag:1,agente:8,ft:0.7,ctx:1};
     var arcLabel={rag:'RAG estándar (1×)',agente:'Agente 5 pasos (~8× por contexto acumulado)',ft:'Fine-tuned (~0.7× contexto reducido)',ctx:'Contexto largo (factor tok aplicado directamente)'};
     function fmt(n){
@@ -30155,26 +30157,26 @@ updateAttackConfig();
       var arcEl=document.querySelector('input[name=arc]:checked');
       if(!mdlEl||!arcEl)return;
       var mdl=mdlEl.value; var arc=arcEl.value;
-      var pricePerMtok=mdlPrice[mdl];
+      var pIn=mdlIn[mdl]; var pOut=mdlOut[mdl];
       var mult=arcMult[arc];
-      var inTok=tok*mult; var outTokEff=out*(arc==='razon'?3:1);
-      var costPerQ=(inTok*pricePerMtok/1e6)+(outTokEff*pricePerMtok*4/1e6);
+      var inTok=tok*mult; var outTokEff=out;
+      var costPerQ=(inTok*pIn/1e6)+(outTokEff*pOut/1e6);
       var dia=costPerQ*qd;
       var mes=dia*30; var anio=dia*365;
       document.getElementById('c-dia').textContent=fmt(dia);
       document.getElementById('c-mes').textContent=fmt(mes);
       document.getElementById('c-anio').textContent=fmt(anio);
       var desglose='<strong>Desglose por consulta:</strong> ';
-      desglose+=inTok.toLocaleString('es-ES')+' tok entrada × $'+pricePerMtok.toFixed(2)+'/Mtok = $'+(inTok*pricePerMtok/1e6).toFixed(5);
-      desglose+=' | '+outTokEff.toLocaleString('es-ES')+' tok salida (×4 precio) = $'+(outTokEff*pricePerMtok*4/1e6).toFixed(5);
+      desglose+=inTok.toLocaleString('es-ES')+' tok entrada × $'+pIn.toFixed(2)+'/Mtok = $'+(inTok*pIn/1e6).toFixed(5);
+      desglose+=' | '+outTokEff.toLocaleString('es-ES')+' tok salida × $'+pOut.toFixed(2)+'/Mtok = $'+(outTokEff*pOut/1e6).toFixed(5);
       desglose+=' → <strong>$'+costPerQ.toFixed(5)+' / consulta</strong>';
       desglose+='<br><span style="color:rgba(255,255,255,.5);">Modelo: '+mdlLabel[mdl]+' | Arquitectura: '+arcLabel[arc]+'</span>';
       document.getElementById('calc-desglose').innerHTML=desglose;
       var avisos=[];
       if(arc==='agente')avisos.push('⚠ Los agentes acumulan historial en cada paso — el coste real puede ser 3-15× mayor dependiendo del número de iteraciones y su longitud.');
-      if(mdl==='local')avisos.push('⚠ Self-hosted: el coste estimado (~$0.8/Mtok) asume GPU A100 en cloud. Varía significativamente según hardware, utilización y región.');
+      if(mdl==='local')avisos.push('⚠ Self-hosted: el coste (~$0.8/Mtok) es una estimación del autor, no verificada, que asume GPU en cloud. Varía significativamente según hardware, utilización y región.');
       if(tok>16000)avisos.push('⚠ Con contexto largo, verifica el fenómeno lost-in-the-middle: la calidad puede degradarse en los fragmentos centrales (→ Cap. 5.5b).');
-      if(mes>5000)avisos.push('💡 A este volumen considera: caché de prompts (descuento 50-90% en Anthropic/OpenAI), batching, y modelo más económico para clasificación previa.');
+      if(mes>5000)avisos.push('💡 A este volumen considera: caché de prompts (la lectura de caché cuesta una fracción del input: ~10 % o menos en los precios de lista de Anthropic y OpenAI consultados en 10/2026), batching (−50 % en Anthropic y Google), y modelo más económico para clasificación previa.');
       document.getElementById('calc-aviso').innerHTML=avisos.join('<br>');
     };
     calcUpdate();
@@ -30185,36 +30187,41 @@ updateAttackConfig();
 <strong>📐 Fórmula de coste mensual</strong>
 <code>coste_mensual = consultas/día × 30 × ((tokens_input × precio_input) + (tokens_output × precio_output)) / 1.000.000</code>
 <br/><br/>
-    Donde los precios se expresan habitualmente por millón de tokens (€/M tokens). Para sistemas con embedding en cada consulta, añadir: <code>+ (consultas/día × 30 × tokens_query × precio_embedding) / 1.000.000</code>. Para sistemas agenticos con N llamadas al modelo por consulta, multiplicar la parte de generación por N.
+    Donde los precios se expresan habitualmente por millón de tokens (USD/M tokens; input y output tienen precios distintos, y el output suele costar 4-5× el input). Aviso: el tokenizador cambia entre modelos y generaciones; Anthropic documenta que sus modelos desde Claude 4.7 producen ~30 % más tokens para el mismo texto, así que a igual precio por token el coste por documento puede subir. Para sistemas con embedding en cada consulta, añadir: <code>+ (consultas/día × 30 × tokens_query × precio_embedding) / 1.000.000</code>. Para sistemas agenticos con N llamadas al modelo por consulta, multiplicar la parte de generación por N.
   </div>
 <h3>Ejemplo de cálculo realista</h3>
-<p>Sistema de soporte interno con 500 consultas/día, prompt típico de 3.000 tokens (sistema + retrieval + pregunta), respuesta típica de 400 tokens, embedding de 30 tokens por consulta. Usando Sonnet 4.6 a 3 €/M input y 15 €/M output:</p>
+<p>Sistema de soporte interno con 500 consultas/día, prompt típico de 3.000 tokens (sistema + retrieval + pregunta), respuesta típica de 400 tokens, embedding de 30 tokens por consulta. Usando Claude Sonnet 5.5 a 2 USD/M input y 10 USD/M output (precio de lista, consultado el 23/10/2026):</p>
 <ul>
-<li>Generación: 500 × 30 × (3.000 × 3 + 400 × 15) / 1.000.000 = 500 × 30 × (9.000 + 6.000) / 1.000.000 = 500 × 30 × 0,015 = <strong>225 €/mes</strong></li>
-<li>Embedding (con modelo a 0,1 €/M tokens): 500 × 30 × 30 × 0,1 / 1.000.000 = <strong>0,045 €/mes</strong> — efectivamente despreciable</li>
-<li><strong>Total mensual: ~225 €</strong> para 15.000 consultas/mes, o ~1,5 céntimos por consulta</li>
+<li>Generación: 500 × 30 × (3.000 × 2 + 400 × 10) / 1.000.000 = 500 × 30 × (6.000 + 4.000) / 1.000.000 = 500 × 30 × 0,01 = <strong>150 USD/mes</strong></li>
+<li>Embedding (con un precio ilustrativo de 0,1 USD/M tokens; no verificado, consulta el de tu proveedor): 500 × 30 × 30 × 0,1 / 1.000.000 = <strong>0,045 USD/mes</strong> — efectivamente despreciable</li>
+<li><strong>Total mensual: ~150 USD</strong> para 15.000 consultas/mes, o ~1 céntimo por consulta (con Sonnet 4.6 a 3/15 USD serían ~225 USD: la elección de modelo importa más que cualquier otra palanca)</li>
 </ul>
 <p>El mismo sistema con un modelo de razonamiento (10x el coste de output medio aproximado) o con arquitectura agentica de 3 nodos (3x las llamadas) puede multiplicarse por 5-10. Estas comparaciones son las que convierten una decisión de arquitectura en una decisión de viabilidad.</p>
-<h2>A.2 Tabla de precios orientativos (2026) <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
-<p>Precios por millón de tokens, redondeados, en euros aproximados al cambio. Verifica siempre el precio actual con el proveedor antes de hacer estimaciones de proyecto:</p>
+<h2>A.2 Tabla de precios de lista (2026) <span class="version-badge caducidad-alta">consultado 2026-10-23 · caduca rápido</span></h2>
+<p>Precios de lista en <strong>USD por millón de tokens</strong>, nivel estándar (sin batch ni caché), leídos de las páginas oficiales de cada proveedor el 23/10/2026 (fuentes al pie de la tabla). No son euros. Verifica siempre el precio vigente antes de presupuestar:</p>
 <table>
-<thead><tr><th>Modelo</th><th>Categoría</th><th>Input (€/M)</th><th>Output (€/M)</th><th>Notas operativas</th></tr></thead>
+<thead><tr><th>Modelo</th><th>Categoría</th><th>Input (USD/M)</th><th>Output (USD/M)</th><th>Notas</th></tr></thead>
 <tbody>
-<tr><td>Claude Opus 4.x</td><td>Frontera</td><td>~15</td><td>~75</td><td>Para tareas que justifican el coste; raramente óptimo en RAG estándar</td></tr>
-<tr><td>Claude Sonnet 4.6</td><td>Equilibrio</td><td>~3</td><td>~15</td><td>Default razonable para RAG en producción a escala media</td></tr>
-<tr><td>Claude Haiku 4.5</td><td>Volumen</td><td>~0,8</td><td>~4</td><td>Para clasificación, extracción simple, alta concurrencia</td></tr>
-<tr><td>GPT-4o</td><td>Frontera</td><td>~2,5</td><td>~10</td><td>Multimodal nativo; útil cuando el corpus incluye imágenes</td></tr>
-<tr><td>GPT-4o-mini</td><td>Volumen</td><td>~0,15</td><td>~0,6</td><td>Coste muy bajo para tareas simples</td></tr>
-<tr><td>o3-mini / o3</td><td>Razonamiento</td><td>~1,1 / ~10</td><td>~4,4 / ~40</td><td>Razonamiento opaco; coste real incluye thinking tokens no facturados visibles</td></tr>
-<tr><td>Gemini 2.5 Pro</td><td>Frontera</td><td>~1,2</td><td>~5</td><td>Contexto largo (1-2M tokens) sin sobrecoste prohibitivo</td></tr>
-<tr><td>DeepSeek-R1 (vía proveedor)</td><td>Razonamiento</td><td>~0,5</td><td>~2,2</td><td>Razonamiento visible; pesos abiertos disponibles</td></tr>
-<tr><td>Llama 3.x 70B (Together/Fireworks)</td><td>Open-weight</td><td>~0,8</td><td>~0,8</td><td>Coste simétrico input/output; permite self-hosting</td></tr>
-<tr><td>Embedding (text-embedding-3-large, voyage-3)</td><td>Embedding</td><td>~0,1</td><td>—</td><td>Coste suele ser despreciable comparado con generación</td></tr>
+<tr><td>Claude Fable 5.1 / Mythos 5.1</td><td>Máxima capacidad</td><td>10</td><td>50</td><td>Lectura de caché a 0,025× del input</td></tr>
+<tr><td>Claude Opus 5.5</td><td>Frontera</td><td>4</td><td>20</td><td>Caché 0,05×; Opus 4.1 y anteriores siguen listados a 15 / 75</td></tr>
+<tr><td>Claude Sonnet 5.5</td><td>Equilibrio</td><td>2</td><td>10</td><td>Caché 0,05×; Sonnet 4.6 sigue a 3 / 15</td></tr>
+<tr><td>Claude Haiku 5.5</td><td>Volumen</td><td>0,10</td><td>0,50</td><td>Para prompts ≤100k tokens; por encima, 0,50 / 2,50</td></tr>
+<tr><td>OpenAI gpt-6-astra</td><td>Máxima capacidad</td><td>10</td><td>50</td><td>Input en caché: 1,00. Existen niveles «fast» y «ultrafast» más caros</td></tr>
+<tr><td>OpenAI gpt-6.1-sol</td><td>Equilibrio</td><td>2</td><td>10</td><td>Input en caché: 0,10</td></tr>
+<tr><td>OpenAI gpt-6-luna</td><td>Volumen</td><td>0,10</td><td>0,50</td><td>Input en caché: 0,01</td></tr>
+<tr><td>Google gemini-4-argon</td><td>Frontera</td><td>2</td><td>10</td><td>Anunciado: 4 / 20 desde el 1/12/2026</td></tr>
+<tr><td>Google gemini-3.8-flash</td><td>Volumen</td><td>0,75</td><td>3,75</td><td>Anunciado: 1,50 / 7,50 desde el 1/1/2027</td></tr>
+<tr><td>Google gemini-3.5-flash-lite</td><td>Volumen</td><td>0,30</td><td>2,50</td><td></td></tr>
+<tr><td>DeepSeek V4-Pro</td><td>Open-weight vía API</td><td>1,32</td><td>3,96</td><td>Tarifa valle (off-peak): la mitad; contexto 1M</td></tr>
+<tr><td>DeepSeek V4-Flash</td><td>Open-weight vía API</td><td>0,30</td><td>1,20</td><td>Tarifa valle: la mitad; contexto 1M</td></tr>
+<tr><td>Embeddings y Llama alojado por terceros</td><td>—</td><td colspan="2">no verificado en esta edición</td><td>Consulta al proveedor; el coste de embeddings suele ser pequeño frente a la generación</td></tr>
 </tbody>
 </table>
+<p style="font-size:.82rem;"><em>Fuentes (consultadas el 23/10/2026): <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Anthropic</a> · <a href="https://developers.openai.com/api/docs/pricing" target="_blank" rel="noopener">OpenAI</a> · <a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener">Google</a> · <a href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">DeepSeek</a>. En la página de OpenAI las columnas de las tablas se perdieron al extraer el texto: la asignación de niveles (estándar, batch, fast) se dedujo del orden y de los valores, así que contrasta esa fila con la página. Los precios con tramos (contexto largo, horas valle, fecha de cambio anunciada) están simplificados.</em></p>
+
 <div class="warning">
 <strong>⚠️ Lo que esta tabla no captura</strong>
-    Los precios de lista no incluyen: (1) descuentos por volumen contractual (a partir de cierto compromiso anual los precios efectivos pueden bajar 30-50%); (2) régimen de batch processing, que típicamente reduce el precio un 50% pero introduce latencia de horas; (3) caché de prompts del lado del proveedor, que en algunos modelos reduce el coste del input repetido en un 90%; (4) el coste real de los thinking tokens en modelos de razonamiento, que el proveedor puede facturar como output aunque no sean visibles. Cualquier estimación seria de coste para un proyecto de tamaño no trivial debe pedir una cotización al proveedor con el patrón de uso real, no extrapolar de los precios de lista.
+    Los precios de lista no incluyen: (1) descuentos por volumen contractual (pueden existir según el acuerdo; no hay cifra general verificada); (2) batch processing: −50 % en Anthropic y Google (y, según lo que se dedujo de la página, en OpenAI), a cambio de latencia de hasta horas; (3) caché de prompts: la lectura de caché cuesta entre el 2,5 % y el 10 % del input según proveedor y modelo (p. ej. 0,05× en Sonnet 5.5, 0,1× en gpt-6.1-sol), pero la escritura en caché puede costar más que el input normal; (4) los thinking tokens de los modelos de razonamiento, que normalmente se facturan como output aunque no se muestren; (5) recargos: residencia de datos en EE. UU. (+10 % en Anthropic) o regional (+10 % en OpenAI); (6) el tokenizador, que cambia el número de tokens para el mismo texto. Cualquier estimación seria de coste para un proyecto de tamaño no trivial debe pedir una cotización al proveedor con el patrón de uso real, no extrapolar de los precios de lista.
   </div>
 <h2>A.2b Coste de arquitecturas avanzadas<span class="version-badge">2025-11</span></h2>
 <div class="callout">
@@ -30222,7 +30229,7 @@ updateAttackConfig();
     Cuando la inteligencia cognitiva tiende a coste cero —el coste por token cae mes a mes, los modelos pequeños alcanzan a los grandes en muchas tareas—, el coste dominante de un proceso transaccional ya no es el coste de generación. Es el coste de orquestación: routing, validación, recuperación, herramientas, gestión de estado, observabilidad, recuperación tras fallos. Esta es la analogía de la <span class="gt">Ley de Amdahl<span class="tt">Resultado clásico de la informática (Gene Amdahl, 1967): la mejora total de un sistema está limitada por la fracción que no se puede mejorar. Si optimizas hasta coste cero el 80% que es paralelizable, el 20% restante se convierte en el cuello de botella absoluto.</span></span> aplicada al diseño de pipelines de IA: a medida que el coste del razonamiento individual tiende a cero, lo que <em>no</em> es razonamiento individual —el pegamento entre llamadas— se vuelve el factor económico determinante.<br/><br/>
     Implicación práctica para esta sección: la tabla siguiente desglosa los componentes de "pegamento" más comunes (GraphRAG, reranker, tool loop, contexto largo, chunking contextual). Cada uno tiene un coste y una latencia propios que se acumulan independientemente del modelo de generación que elijas. Cuando proyectes el coste mensual de una arquitectura avanzada, no calcules solo el coste de tokens — calcula también el coste de orquestación, que en las arquitecturas más sofisticadas puede igualar o superar al coste de generación. Y si un componente de pegamento no demuestra una mejora medible sobre tu golden dataset, es deuda técnica disfrazada de innovación, sin importar cuán moderna sea la pieza arquitectural.
   </div>
-<p>Los precios de la tabla anterior son para el componente de generación estándar. Las arquitecturas avanzadas añaden costes propios que pueden cambiar el análisis de viabilidad. Esta tabla usa órdenes de magnitud — valida siempre con una prueba de 500 consultas reales antes de comprometer una arquitectura.</p>
+<p>Los precios de la tabla anterior son para el componente de generación estándar. Las arquitecturas avanzadas añaden costes propios que pueden cambiar el análisis de viabilidad. Esta tabla usa órdenes de magnitud estimados por el autor, no medidos ni extraídos de una fuente primaria — valida siempre con una prueba de 500 consultas reales antes de comprometer una arquitectura.</p>
 <table>
 <thead><tr><th>Componente</th><th>Coste estimado</th><th>Latencia añadida</th><th>Cuándo merece la pena</th><th>Riesgo principal</th></tr></thead>
 <tbody>
@@ -30231,7 +30238,7 @@ updateAttackConfig();
 <tr><td><strong>Cross-encoder reranker (BGE-v2, Jina v3, self-hosted)</strong></td><td>~0 USD / query (infraestructura propia) + coste de GPU/CPU</td><td>+80–500 ms según hardware y número de candidatos</td><td>Top-K &gt; 10, dominios con vocabulario ambiguo, corpus en español técnico</td><td>Cuello de botella en pico de tráfico si el hardware no escala; latencia variable según carga</td></tr>
 <tr><td><strong>Tool loop (router + tool + validate, 3 pasos)</strong></td><td>+0.006–0.015 USD / query (llamadas LLM adicionales para routing y síntesis)</td><td>+600–1.500 ms</td><td>Acciones externas obligatorias (BD, APIs, cálculo en tiempo real)</td><td>Fallo en cascada si la herramienta no valida; inyección por tool output; coste por paso no controlado</td></tr>
 <tr><td><strong>Contexto largo (128K–1M tokens)</strong></td><td>0.8–2.5× el coste base por query (por volumen de tokens de entrada)</td><td>+200–800 ms (primer token)</td><td>Documentos únicos largos donde la coherencia es crítica (contratos, transcripts completos)</td><td>Degradación silenciosa más allá de 64K; trazabilidad nula; coste oculto difícil de presupuestar</td></tr>
-<tr><td><strong>Chunking contextual (prefixing LLM-assisted, indexación)</strong></td><td>+0.0002–0.002 USD / chunk durante indexación (con modelos baratos). Inversión única.</td><td>+50–120 ms solo en indexación, no en query</td><td>Corpus heterogéneo donde los chunks pierden significado fuera de contexto; mejora recall 10–25% en esos casos</td><td>Overhead de re-indexación si el corpus cambia; beneficio marginal si el chunking base ya es estructural</td></tr>
+<tr><td><strong>Chunking contextual (prefixing LLM-assisted, indexación)</strong></td><td>+0.0002–0.002 USD / chunk durante indexación (con modelos baratos). Inversión única.</td><td>+50–120 ms solo en indexación, no en query</td><td>Corpus heterogéneo donde los chunks pierden significado fuera de contexto; la mejora de recall depende del corpus (esta edición no aporta una cifra verificada)</td><td>Overhead de re-indexación si el corpus cambia; beneficio marginal si el chunking base ya es estructural</td></tr>
 </tbody>
 </table>
 <div class="warning">
@@ -30250,17 +30257,18 @@ updateAttackConfig();
 <tr><td>RAG + LLM ligero + verificador formal</td><td><strong>30-50 %</strong> (estimado)</td><td>Combinación: conocimiento actualizable + trazabilidad lógica</td></tr>
 </tbody>
 </table>
-<p><em>Nota: los porcentajes de reducción (estimados 2025-2026, fuente: Escudero 2026) son orientativos y dependen fuertemente del dominio y del tipo de tareas. La reducción real exige medir sobre tu golden dataset, no asumir que se cumplirá automáticamente.</em></p>
+<p><em>Nota: los porcentajes de reducción (estimados 2025-2026, citados de Escudero 2026; no se ha contrastado la fuente primaria para esta edición, trátalos como hipótesis) son orientativos y dependen fuertemente del dominio y del tipo de tareas. La reducción real exige medir sobre tu golden dataset, no asumir que se cumplirá automáticamente.</em></p>
 </div>
 <h2>A.3 Latencia: la otra dimensión de la viabilidad <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <p>El coste por consulta puede hacer un proyecto inviable económicamente. La latencia puede hacerlo inviable funcionalmente. Una respuesta correcta que llega 30 segundos después de la pregunta no es una respuesta correcta — es una respuesta que el usuario ya no está esperando.</p>
 <h3>Tiempos orientativos a 2026 por categoría</h3>
+<div class="nota"><strong>🔎 Matiz (2026-10) · órdenes de magnitud del autor</strong> Estas cifras no proceden de una medición ni de una fuente publicada: dependen del modelo, la carga y la región. Mide TTFT y tokens/s con tus propias peticiones antes de fijar un SLO.</div>
 <table>
 <thead><tr><th>Categoría</th><th>Time-to-first-token</th><th>Tokens/segundo</th><th>Latencia total típica (1.000 tokens output)</th></tr></thead>
 <tbody>
-<tr><td>Modelos rápidos (Haiku, GPT-4o-mini, Gemini Flash)</td><td>200-500 ms</td><td>80-150</td><td>7-13 s</td></tr>
-<tr><td>Modelos equilibrio (Sonnet, GPT-4o, Gemini Pro)</td><td>400-800 ms</td><td>50-90</td><td>11-20 s</td></tr>
-<tr><td>Modelos frontera (Opus, GPT-4-turbo)</td><td>600-1.200 ms</td><td>30-60</td><td>17-33 s</td></tr>
+<tr><td>Modelos pequeños/rápidos (tipo Haiku, Luna o Flash)</td><td>200-500 ms</td><td>80-150</td><td>7-13 s</td></tr>
+<tr><td>Modelos de equilibrio (tipo Sonnet, Sol o Gemini Pro)</td><td>400-800 ms</td><td>50-90</td><td>11-20 s</td></tr>
+<tr><td>Modelos de máxima capacidad (tipo Opus, Fable o Astra)</td><td>600-1.200 ms</td><td>30-60</td><td>17-33 s</td></tr>
 <tr><td>Modelos de razonamiento (thinking visible o no)</td><td>2-30 s (incluye thinking)</td><td>50-100 visible</td><td>20-90 s o más</td></tr>
 <tr><td>Open-weight via proveedor (Llama 70B en Together/Groq)</td><td>100-400 ms</td><td>200-500</td><td>2-5 s (Groq puede ser dramáticamente más rápido)</td></tr>
 </tbody>
@@ -30269,7 +30277,7 @@ updateAttackConfig();
 <p>El <strong>streaming</strong> envía cada token al cliente en cuanto el modelo lo genera, en lugar de esperar a la respuesta completa. La latencia total al último token no cambia, pero el tiempo hasta el primer token (TTFT) sí — pasa de ser igual a la latencia total a ser fracciones de segundo. Para interfaces conversacionales, esto es la diferencia entre una experiencia aceptable y una percibida como rota. Para pipelines agenticos no interactivos, donde el output completo alimenta al siguiente paso, el streaming es irrelevante: el siguiente nodo necesita la respuesta entera antes de empezar.</p>
 <h3>Optimizaciones de latencia con impacto real</h3>
 <ul>
-<li><strong>Modelo más pequeño cuando alcance:</strong> el modelo más rápido es siempre el más pequeño que pueda hacer la tarea. Probar siempre Haiku o GPT-4o-mini antes de asumir que necesitas un modelo frontera.</li>
+<li><strong>Modelo más pequeño cuando alcance:</strong> el modelo más rápido es siempre el más pequeño que pueda hacer la tarea. Probar siempre el modelo pequeño de la familia (tipo Haiku o Luna) antes de asumir que necesitas un modelo frontera.</li>
 <li><strong>Caché de prompts:</strong> si el sistema prompt y el contexto recuperado se repiten en muchas consultas, activar la caché de prompts del proveedor reduce TTFT y coste de input.</li>
 <li><strong>Batching para casos no interactivos:</strong> consultas que pueden esperar horas (procesos nocturnos, generación de informes) deberían ir por batch processing — 50% de descuento típico, sin impacto en latencia percibida porque el caso de uso ya tolera la espera.</li>
 <li><strong>Modelos distillados o cuantizados:</strong> para self-hosting, GGUF Q4 o Q5 reduce la VRAM necesaria y acelera la inferencia con pérdida de calidad típicamente baja en tareas no críticas. Ver capítulo 15 para detalles.</li>
