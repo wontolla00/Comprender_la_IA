@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v136 — 23 octubre 2026 · Segunda pasada, tanda 3 (Cap. 7, 8, 9, 13, 14) y F-18 (estatus de los conceptos del autor)
+
+- **Cifras sin fuente suavizadas o etiquetadas**: «80 % de los problemas RAG» (Cap. 7), heurística de fine-tuning 85 % / 1.000 ejemplos / 9–12 meses (Cap. 8, ahora «umbrales orientativos del autor»), «3-10×», «80 % de las tareas», «LoRA 90 % menos parámetros» y «90 % de los agentes» (Cap. 9), «92,78 % multi-turn» y «>99 % de consistencia» (Cap. 13), «60-80 % de usuarios» (Cap. 14).
+- **Casos marcados como ilustrativos** (Cap. 8 y 14). Chakrabarti: «hasta un 23,1 %».
+- **F-18**: la leyenda de marcas incorpora el estatus del concepto del autor (marco interpretativo, criterio de diseño, hipótesis, observación exploratoria) y cada uno de los 19 «Concepto del autor» lleva su etiqueta. Ninguno equivale a validación externa.
+- **Cap. 12 y 19**: caso 99,8 %/23 % marcado ilustrativo; afirmaciones sobre el mercado de talento marcadas como apreciación del autor. Cap. 18 revisado sin cambios necesarios.
+- Versión v135 → v136.
+
 ## v135 — 23 octubre 2026 · ALiBi y RoPE en la enciclopedia, contrastados con los artículos de BLOOM y Falcon
 
 - **ALiBi**: BLOOM (Scao et al., 2022) y MPT lo usan; el informe de Falcon lo dice y señala que Falcon adoptó RoPE (confirmado en los PDF completos, no solo en el resumen).
