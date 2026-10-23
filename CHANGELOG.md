@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v130 — 23 octubre 2026 · «Trendslop» (F-14) y alucinaciones/temperatura 0 (Cap. 0)
+
+Origen: cruce completo de la auditoría externa (F-01 a F-18) con lo corregido; F-14 era el único hallazgo numerado sin atender.
+
+- **§20.1 (conservadurismo estadístico)**: «produce el argumento estadísticamente más probable» y «subrepresentadas en cualquier modelo» pasan a tendencia (con el ajuste posterior y el muestreo como factores); la causa (máxima verosimilitud) se declara hipótesis del autor; la página de HBR, comprobada el 23/10/2026, se describe como cualitativa, sin cifras ni limitaciones; el cuadro «Concepto del autor» se suaviza igual.
+- **Cap. 0 (alucinaciones)**: «consecuencia estructural inevitable… no un bug que pueda eliminarse» → ninguna técnica conocida las elimina por completo, pero se pueden reducir y detectar. Corrección del feedback del quiz del Cap. 5: temperatura 0 es «casi determinista», no determinista.
+- Versión v129 → v130.
+
 ## v129 — 23 octubre 2026 · Cap. 22: modelos de imagen, vídeo, VLM abiertos y audio al día
 
 Origen: pendientes del Cap. 22 (registro v126→v127).
