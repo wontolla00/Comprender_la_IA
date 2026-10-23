@@ -2,6 +2,16 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v124 — 23 octubre 2026 · Proveedor y deployer en el AI Act (Cap. 16 y referencias)
+
+Origen: punto pendiente del registro v122→v123. El manual decía que quien construye una aplicación sobre una API de LLM es «el deployer» y que los labs son «proveedores de la capa base». Contrastado con el texto del Reglamento (UE) 2024/1689 (arts. 2, 3.3, 3.4, 3.11, 25, 26, 53): quien desarrolla el sistema y lo pone en servicio con su nombre —también para uso propio— es proveedor de ese sistema; deployer es quien usa un sistema desarrollado por otro. Calificación dependiente de cada caso: el texto lo dice y recomienda revisión jurídica.
+
+- **§16.2** reescrita: roles por sistema concreto (proveedor del sistema, deployer, proveedor del modelo GPAI, cambio de rol del art. 25, persona afectada), recuadro de implicación y test rápido de tres preguntas.
+- **Clasificador de §16.1**: cuatro roles (proveedor del sistema, deployer, proveedor de modelo, cambio de rol); por defecto, «proveedor del sistema»; textos de cada rol corregidos (la «política de uso aceptable» no es una obligación del AI Act y se retira).
+- **§4 (introducción)**, caso de RRHH de §16, **§16.3** (reparto de obligaciones de diseño/conformidad y de uso; «antes de agosto de 2026» sustituido por el calendario del Omnibus), **§16.4** (obligaciones del proveedor de modelo; información y contrato con el proveedor, art. 25.4), apartado de sesgo (arts. 10 y 26.4), tabla de roles del glosario de referencia («Co-proveedor» → «Cambio de rol»), entrada «Deployer» del glosario, quiz F3.2, resúmenes de §4 y §16 y mención en DocLang.
+- **Alcance territorial** (apertura del Cap. 16 y tabla de marcos): «opera en la UE o procesa datos de ciudadanos europeos» (criterio del RGPD) → criterios del art. 2 del AI Act, con aviso de que el RGPD es otro régimen.
+- Versión v123 → v124 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v123 — 23 octubre 2026 · Sobreafirmaciones, OWASP 2026 y enlaces de plantilla
 
 Origen: pre-mortem y auditoría factual hechos por un asistente externo sobre la v122, contrastados punto por punto con el texto del manual (varios hallazgos eran ciertos, otros ya estaban corregidos o estaban exagerados; ver `taller/Registro_manual_v122_a_v123.md`). Esta versión corrige los siete puntos aceptados; el resto del informe queda como pendiente en el registro.

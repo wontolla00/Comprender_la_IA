@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v123</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v124</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v123 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v124 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9844,7 +9844,7 @@ window.addEventListener('resize', () =&gt; {
 <h2 id="s45">4.5 El AI Act y lo que implica para ti <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <p>El AI Act europeo (en vigor desde agosto 2024; calendario de obligaciones revisado en julio de 2026 por el "Digital Omnibus" — ver la actualización al final de esta sección) clasifica los sistemas de IA por nivel de riesgo. Como profesional de datos en una organización europea, hay tres cosas que te afectan directamente:</p>
 <p><strong>Si tu sistema es de alto riesgo</strong> (recursos humanos, crédito, educación, infraestructura crítica), necesitarás: documentación técnica, gestión de riesgos documentada, monitorización continua de calidad, y capacidad de auditoría. Es el GDPR del dato, pero para los modelos.</p>
-<p><strong>Si tu sistema usa un modelo de propósito general</strong> (GPT-4, Claude, Gemini) en una aplicación propia, eres el "deployer" según el AI Act. Heredas obligaciones aunque no hayas entrenado el modelo.</p>
+<p><strong>Si construyes una aplicación propia sobre un modelo de propósito general</strong> (GPT-4, Claude, Gemini) y la pones en servicio con tu nombre, lo normal es que seas el <em>proveedor</em> de ese sistema (y su <em>deployer</em>, si además lo usas tú), aunque no hayas entrenado el modelo; si te limitas a usar un sistema ya hecho por otro, eres deployer. El §16.2 te da el test para saber cuál eres.</p>
 <p><strong>La trazabilidad que acabamos de discutir no es opcional en sistemas de alto riesgo:</strong> el AI Act la requiere explícitamente. Tu arquitectura de logging es una obligación de cumplimiento, no solo buena práctica.</p>
 <div class="callout">
 <strong>💡 Referencia</strong>
@@ -10005,7 +10005,7 @@ renderLevels(); renderPool(); showDetail(levels[0]);
 <hr class="sep"/>
 <div class="resultado-final">
 <h3>✅ Resultado de este capítulo <span class="bloom-badge e">ESENCIAL</span></h3>
-<p>Puedes diseñar la arquitectura de trazabilidad de un sistema de IA: qué loggear, cómo, y por qué. Sabes por qué la reproducibilidad es más difícil que en datos y qué implicaciones tiene para el cumplimiento normativo. Puedes aplicar la matriz de verificabilidad/reversibilidad para determinar el nivel de control apropiado para cualquier caso de uso de IA en tu organización. Y sabes qué obligaciones del AI Act te afectan como deployer de sistemas que usan modelos de terceros.</p>
+<p>Puedes diseñar la arquitectura de trazabilidad de un sistema de IA: qué loggear, cómo, y por qué. Sabes por qué la reproducibilidad es más difícil que en datos y qué implicaciones tiene para el cumplimiento normativo. Puedes aplicar la matriz de verificabilidad/reversibilidad para determinar el nivel de control apropiado para cualquier caso de uso de IA en tu organización. Y sabes qué obligaciones del AI Act te afectan como proveedor o deployer de sistemas que usan modelos de terceros.</p>
 </div>
 <div class="leccion-real">
 <div class="lr-header">🔴 Lección del mundo real — Cap. 4</div>
@@ -16759,7 +16759,7 @@ function memUpdate() {
 </div>
 <h3 id="s6124">6.12.4 DocLang y la gobernanza de datos documentales</h3>
 <p>Un elemento que sus promotores presentan como ventaja merece atención especial: DocLang incorpora controles de gobernanza que permiten especificar cómo puede usarse el contenido de un documento — incluyendo políticas sobre privacidad, extracción y entrenamiento de modelos de IA.</p>
-<p>Esto es técnicamente valioso. Pero conviene entender lo que es y lo que no es: es un metadato en un formato de archivo, no un acuerdo ético vinculante. La diferencia importa especialmente en contextos regulados donde las obligaciones del AI Act (como deployer) no se transfieren ni se delegan a un campo de metadatos. Un documento que dice "no usar para entrenamiento de modelos" en su cabecera DocLang no equivale a una cláusula contractual ni a una política de privacidad auditada.</p>
+<p>Esto es técnicamente valioso. Pero conviene entender lo que es y lo que no es: es un metadato en un formato de archivo, no un acuerdo ético vinculante. La diferencia importa especialmente en contextos regulados donde las obligaciones del AI Act (como proveedor o deployer del sistema) no se transfieren ni se delegan a un campo de metadatos. Un documento que dice "no usar para entrenamiento de modelos" en su cabecera DocLang no equivale a una cláusula contractual ni a una política de privacidad auditada.</p>
 <div class="callout-umbral">
 <strong>📐 Para tus decisiones de arquitectura</strong><br/>
   DocLang puede simplificar significativamente el pipeline RAG para documentos instrumentales (documentación, procedimientos, FAQs). Antes de adoptarlo, hazte tres preguntas: (1) ¿El significado de este documento depende de su forma o solo de su contenido? (2) ¿Quién es el lector real — un humano que decide, o un agente que ejecuta? (3) ¿Los controles de gobernanza de DocLang son suficientes para los requisitos regulatorios de tu caso de uso?
@@ -24977,7 +24977,7 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
 <tr><td><strong>Delegar</strong></td><td>¿Quién tiene autoridad para poner este análisis o decisión en manos de un sistema? ¿Quién aprobó que esta clase de decisión sea asistida por IA?</td><td>Entrada en el AI Risk Register (14.5) con propietario nominal y fecha. Si el sistema opera y nadie firmó la delegación, es Shadow AI organizacional aunque el sistema sea oficial.</td></tr>
 <tr><td><strong>Supervisar</strong></td><td>¿Quién revisa las recomendaciones, con qué paradigma (14.1) y con qué tasa de cobertura?</td><td>Métricas del 14.2: tasa de aceptación ciega, tasa de rechazo, latencia media de revisión. Un supervisor sin métricas es un supervisor decorativo.</td></tr>
 <tr><td><strong>Retomar</strong></td><td>¿En qué condiciones el humano recupera la decisión completa — y tiene autoridad y formación reales para hacerlo?</td><td>Umbrales de escalado documentados (14.4) + registro de al menos un ejercicio real de retoma. Un derecho de retoma nunca ejercido ni ensayado es una hipótesis, no un control.</td></tr>
-<tr><td><strong>Responder</strong></td><td>¿Quién asume las consecuencias ante el regulador, el cliente o el tribunal cuando la decisión asistida produce daño?</td><td>Coherencia con el rol bajo el AI Act (16.2: proveedor vs. deployer). La respuesta "el proveedor del modelo" es casi siempre incorrecta para el deployer.</td></tr>
+<tr><td><strong>Responder</strong></td><td>¿Quién asume las consecuencias ante el regulador, el cliente o el tribunal cuando la decisión asistida produce daño?</td><td>Coherencia con el rol bajo el AI Act (16.2: proveedor vs. deployer). La respuesta "el proveedor del modelo" es casi siempre incorrecta para quien construye o despliega el sistema.</td></tr>
 </tbody>
 </table>
 <h3>Regla operativa: rechazo cero = decisión cero<span style="font-size:.7rem;color:#16a34a;background:#dcfce7;padding:2px 6px;border-radius:4px;margin-left:8px;">checklist operativo</span><span class="version-badge">2026-08</span></h3><div style="background:#f0fdf4;border-left:4px solid #16a34a;padding:8px 12px;margin:8px 0;font-size:.85rem;color:#14532d;"><strong>Promovido de propuesta del autor a regla operativa.</strong> Deriva de automation bias (Parasuraman). Umbral orientativo: si tasa de rechazo ≈0% sostenida, rediseñar interfaz o reasignar derecho de decisión.</div>
@@ -25902,7 +25902,7 @@ jobs:
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
-    El AI Act ya está en vigor. Si tu organización opera en la UE o procesa datos de ciudadanos europeos, hay obligaciones que ya aplican y otras con plazos que se acercan. Este capítulo te da el mapa de lo que aplica a ti, cuándo, y qué acciones concretas tienes que tomar.
+    El AI Act ya está en vigor. Si tu organización desarrolla, comercializa o usa sistemas de IA en la UE —o, desde fuera, si el resultado del sistema se utiliza en la UE (art. 2)—, hay obligaciones que ya aplican y otras con plazos que se acercan. Este capítulo te da el mapa de lo que aplica a ti, cuándo, y qué acciones concretas tienes que tomar.
   </div>
 <div class="nota" style="margin-bottom:16px;">
 <strong>🏛 Por qué existe esta regulación</strong>
@@ -25910,7 +25910,7 @@ jobs:
   </div>
 <div style="background:linear-gradient(135deg,#422006,#713f12);border-radius:10px;padding:18px 22px;margin-bottom:24px;color:white;font-size:.88rem;">
 <div style="font-family:system-ui,sans-serif;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:8px;">🧭 Caso ancla de este capítulo</div>
-<p style="color:rgba(255,255,255,.9);margin:0 0 10px;">Una empresa de RRHH usa la API de un LLM para preseleccionar CVs automáticamente: el sistema filtra a los candidatos y decide quiénes llegan a la entrevista humana. El director técnico asume que la responsabilidad regulatoria es del proveedor del LLM. El auditor externo le informa que no: la empresa es el "deployer" bajo el AI Act y el sistema cae en categoría de alto riesgo (Anexo III). Las obligaciones — documentación técnica, trazabilidad, HITL, registro en la base de datos de la UE — recaen sobre ellos.</p>
+<p style="color:rgba(255,255,255,.9);margin:0 0 10px;">Una empresa de RRHH construye, sobre la API de un LLM, un sistema que preselecciona CVs automáticamente: filtra a los candidatos y decide quiénes llegan a la entrevista humana. El director técnico asume que la responsabilidad regulatoria es del proveedor del LLM. El auditor externo le informa que no: al desarrollar ese sistema y ponerlo en servicio con su nombre, la empresa es <strong>proveedora</strong> de un sistema de alto riesgo (Anexo III, selección de personal) y, como además lo usa, también <strong>deployer</strong>. El proveedor del LLM responde de su modelo (documentación para quienes lo integran, etc.), no de la aplicación. Las obligaciones del sistema — gestión de riesgos, documentación técnica, trazabilidad, supervisión humana, evaluación de conformidad, registro en la base de datos de la UE — recaen sobre la empresa. (Si hubiera contratado un producto de preselección ya hecho, sería solo deployer, con las obligaciones de uso del art. 26.)</p>
 <p style="color:rgba(255,255,255,.65);margin:0;font-style:italic;">Al terminar este capítulo sabrás exactamente qué rol tienes bajo el AI Act, qué obligaciones concretas te afectan, y qué tres acciones deberías tomar esta semana.</p>
 </div>
 <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
@@ -25958,18 +25958,20 @@ jobs:
 <p class="sub">Elige primero tu rol (determina quién asume las obligaciones) y responde el árbol. Cada categoría muestra obligaciones, fecha clave del calendario Digital Omnibus y tier de sanción.</p>
 <p class="aviso">⚖ Dato normativo — fechas y tiers revisados agosto 2026 (Reglamento 2026/1744, Digital Omnibus). Verifica vigencia en EUR-Lex antes de decidir. Esto no es asesoramiento jurídico.</p>
 <div class="roles" id="act16Roles">
-  <button data-r="deployer" class="on">Deployer (uso API en mi sistema)</button>
-  <button data-r="proveedor">Proveedor (entrenas / pones en mercado)</button>
-  <button data-r="coproveedor">Co-proveedor (fine-tuning significativo)</button>
+  <button data-r="proveedorsis" class="on">Proveedor del sistema (construyo mi app sobre un LLM)</button>
+  <button data-r="deployer">Deployer (uso un sistema hecho por otro)</button>
+  <button data-r="proveedor">Proveedor de modelo (entreno un LLM)</button>
+  <button data-r="coproveedor">Cambio de rol (otra marca, otro uso, modificación)</button>
 </div>
 <div id="act16Cuerpo" aria-live="polite"></div>
 <script>
 (function(){
- var rol="deployer";
+ var rol="proveedorsis";
  var ROLES={
-  deployer:"Como deployer, las obligaciones de alto riesgo recaen sobre TI aunque el modelo sea de OpenAI, Anthropic o Google: supervisión humana efectiva, logging, información a usuarios y registro. Ellos son proveedores de la capa base; tú respondes del sistema (§16.2).",
-  proveedor:"Como proveedor: documentación técnica, política de uso aceptable y resumen de datos de entrenamiento (GPAI, en vigor desde ago 2025). Con >10²⁵ FLOPs: GPAI sistémico — evaluaciones de riesgo y red teaming (R.4).",
-  coproveedor:"Como posible co-proveedor: el fine-tuning significativo o la integración en un sistema de alto riesgo propio puede hacerte heredar obligaciones del proveedor. Consulta asesoría legal antes de firmar el diseño (§16.4, R.4)."};
+  proveedorsis:"Como proveedor del sistema: si es de alto riesgo, las obligaciones de diseño y conformidad (gestión de riesgos, documentación técnica, registro de logs, supervisión humana por diseño, evaluación de conformidad, registro en la base de datos de la UE) recaen sobre TI aunque el modelo sea de OpenAI, Anthropic o Google. Tu proveedor de modelo solo te debe la información necesaria (arts. 25.4 y 53); si además usas el sistema, eres también deployer (art. 26). Ver §16.2.",
+  deployer:"Como deployer (usas un sistema hecho por otro, sin cambiarlo): usarlo según las instrucciones del proveedor, supervisión humana por personas competentes, conservar los logs bajo tu control al menos 6 meses (art. 26.6), informar a trabajadores y afectados y, en algunos casos, evaluar el impacto en derechos fundamentales (art. 27). El diseño y la conformidad del sistema son del proveedor.",
+  proveedor:"Como proveedor de un modelo de propósito general: documentación técnica e información para quienes integran tu modelo, política de respeto del copyright y resumen público de los datos de entrenamiento (arts. 53–54, aplicables desde ago 2025). Con >10²⁵ FLOP de entrenamiento se presume riesgo sistémico: evaluaciones de riesgo y red teaming (art. 55, R.4).",
+  coproveedor:"Cambio de rol (art. 25): si pones tu nombre o marca a un sistema de alto riesgo ya en el mercado, lo modificas sustancialmente o cambias su propósito previsto hasta hacerlo de alto riesgo (p. ej., usar un chatbot de uso general para filtrar candidatos), pasas a ser el proveedor de ese sistema y el proveedor original debe cooperar contigo. Consulta asesoría legal antes de cerrar el diseño (§16.4, R.4)."};
  var FLOW={
   q1:{txt:"¿El sistema realiza alguna de estas prácticas: manipulación subliminal, scoring social, identificación biométrica remota en tiempo real, generación de material íntimo no consentido o CSAM?",si:"PROH",no:"q2"},
   q2:{txt:"¿Entra en un dominio del Anexo III: RRHH y selección de personal, scoring de crédito, educación, sanidad, infraestructura crítica, justicia, aplicación de la ley o fronteras?",si:"ALTO",no:"q3"},
@@ -26005,19 +26007,27 @@ jobs:
 </script>
 </section>
 <h2 id="s162">16.2 ¿Qué eres tú según el AI Act?</h2>
-<p>El AI Act distingue tres roles con responsabilidades diferentes:</p>
+<p>El AI Act reparte las obligaciones según el papel que juegas respecto de <em>un sistema concreto</em>. No depende de si usas una API, sino de qué haces con ella:</p>
 <div class="nota">
-<strong>📋 Los tres roles del AI Act</strong>
-<strong>Proveedor:</strong> desarrollas o entrenas un sistema de IA para ponerlo en el mercado. Si haces fine-tuning significativo de un modelo base, puedes ser co-proveedor.<br/><br/>
-<strong>Deployer:</strong> utilizas un sistema de IA de terceros en tu organización o en tus productos. Aunque uses la API de OpenAI o Anthropic, eres el deployer responsable del sistema que construyes sobre ella. La mayoría de empresas que no son labs de IA son deployers.<br/><br/>
-<strong>Usuario afectado:</strong> la persona sobre la que el sistema toma decisiones. Tiene derecho a explicación y revisión en sistemas de alto riesgo.
+<strong>📋 Los roles del AI Act (arts. 3 y 25)</strong>
+<strong>Proveedor del sistema:</strong> desarrollas un sistema de IA —o haces que lo desarrollen— y lo comercializas o lo pones en servicio con tu nombre o marca, para terceros o para uso propio (art. 3.3 y 3.11). Construir una aplicación sobre la API de OpenAI, Anthropic o Google y ponerla en marcha con tu marca te convierte, en principio, en proveedor de esa aplicación, aunque no hayas entrenado el modelo. Si es de alto riesgo, sobre ti recaen las obligaciones de diseño y conformidad.<br/><br/>
+<strong>Deployer:</strong> utilizas, bajo tu autoridad y en un contexto profesional, un sistema de IA que desarrolló otro (art. 3.4): por ejemplo, contratas una herramienta de preselección de CVs a un proveedor. Tus obligaciones son las de uso (art. 26). Si has construido el sistema y además lo usas, eres proveedor y deployer a la vez.<br/><br/>
+<strong>Proveedor del modelo de propósito general:</strong> OpenAI, Anthropic, Google… Tiene sus propias obligaciones (arts. 53–55) y debe darte la información que necesites para cumplir las tuyas, pero no asume las del sistema que construyes tú.<br/><br/>
+<strong>Cambio de rol (art. 25):</strong> si pones tu nombre o marca a un sistema de alto riesgo ya en el mercado, lo modificas sustancialmente o cambias su propósito previsto hasta hacerlo de alto riesgo, pasas a ser su proveedor, y el proveedor original debe cooperar contigo.<br/><br/>
+<strong>Persona afectada:</strong> aquella sobre la que el sistema toma o apoya decisiones. En sistemas de alto riesgo tiene derecho a ser informada y a pedir una explicación de la decisión.
   </div>
 <div class="callout">
 <strong>💡 La implicación clave para tu organización</strong>
-    Si usas GPT-4, Claude o cualquier modelo vía API para construir un sistema que toma decisiones sobre personas (selección de personal, scoring, moderación), eres el deployer. Las obligaciones de alto riesgo recaen sobre ti, no sobre OpenAI o Anthropic. Ellos son proveedores de la capa base; tú eres responsable de la aplicación.
+    Si usas GPT-4, Claude o cualquier modelo vía API para construir un sistema que toma decisiones sobre personas (selección de personal, scoring, moderación), lo normal es que seas el <strong>proveedor</strong> de ese sistema —y su deployer, si lo usas tú—, no solo un deployer. Las obligaciones de alto riesgo del sistema recaen sobre ti, no sobre OpenAI o Anthropic, que responden de su modelo. Es una calificación jurídica que depende de cada caso: valídala con asesoría legal antes de fijar tu plan de cumplimiento.
   </div>
+<p><strong>Test rápido, para un sistema concreto:</strong></p>
+<ol>
+<li>¿Lo has desarrollado tú (o lo has hecho desarrollar) y lo pones en servicio o en el mercado con tu nombre o marca? → <strong>proveedor del sistema</strong>.</li>
+<li>¿Lo usas, bajo tu autoridad, en un contexto profesional? → <strong>deployer</strong> (además de proveedor, si también lo has construido tú).</li>
+<li>¿Has puesto tu marca a un sistema ajeno, lo has modificado sustancialmente o has cambiado su propósito previsto? → pasas a ser <strong>proveedor</strong> de ese sistema (art. 25.1).</li>
+</ol>
 <h2 id="s163">16.3 Sistemas de alto riesgo: las obligaciones concretas</h2>
-<p>Si tu sistema cae en la categoría de alto riesgo (Anexo III del AI Act), estas son las obligaciones que debes cumplir antes de agosto de 2026:</p>
+<p>Si tu sistema cae en la categoría de alto riesgo (Anexo III del AI Act), estas son las obligaciones del sistema, que deberán cumplirse antes de que se apliquen las obligaciones completas del Anexo III (2 de diciembre de 2027 según el Digital Omnibus; ver el calendario del §4 y el clasificador de §16.1). Las de diseño y conformidad (gestión de riesgos, documentación técnica, evaluación de conformidad, registro) corresponden al proveedor del sistema; las de uso (supervisión humana en la operación, logs bajo tu control, información a los afectados), al deployer; si construyes y usas el sistema, a ti te tocan ambas:</p>
 <div style="margin:24px 0;">
 <div class="checklist-item">
 <div class="check-box"></div>
@@ -26062,8 +26072,8 @@ jobs:
 <strong>⚖ Dato normativo — verifica vigencia antes de usarlo en decisiones reales</strong><br/>
     La clasificación GPAI, las obligaciones asociadas y la fecha de agosto de 2025 son las vigentes en la edición 2026 de este manual. La calificación legal concreta de un modelo o sistema depende del uso, jurisdicción y rol exacto — consulta asesoría jurídica especializada antes de actuar sobre esta información.
   </div>
-<p>Los modelos base como GPT-4, Claude o Gemini son clasificados como GPAI (General Purpose AI). Sus obligaciones específicas como proveedores (documentación técnica, política de uso aceptable, resumen de datos de entrenamiento) entraron en vigor en agosto de 2025.</p>
-<p>Para ti como deployer: <strong>no heredas las obligaciones del proveedor del modelo base</strong>, pero sí las del sistema que construyes sobre él. Si haces fine-tuning significativo, consulta con asesoría legal si pasas a ser co-proveedor.</p>
+<p>Los modelos base como GPT-4, Claude o Gemini son clasificados como GPAI (General Purpose AI). Sus obligaciones específicas como proveedores del modelo (documentación técnica e información para quienes lo integran, política de copyright, resumen público de los datos de entrenamiento) entraron en vigor en agosto de 2025.</p>
+<p>Si construyes un sistema sobre un modelo base: <strong>no heredas las obligaciones del proveedor del modelo</strong> (arts. 53–55), pero sí las del sistema que construyes sobre él, del que eres proveedor (y deployer, si lo usas). Tu proveedor de modelo debe darte la información que necesitas para cumplir (art. 53.1.b); pídela por contrato, porque el art. 25.4 exige un acuerdo escrito con quien te suministre componentes de un sistema de alto riesgo. Si haces fine-tuning significativo, consulta con asesoría legal si además pasas a ser proveedor del modelo modificado.</p>
 <h2 id="s165">16.5 El plan de acción en tres horizontes</h2>
 <table>
 <thead><tr><th>Horizonte</th><th>Acción</th><th>Responsable</th></tr></thead>
@@ -26092,7 +26102,7 @@ jobs:
 <td>Unión Europea</td>
 <td>Vinculante · Extraterritorial</td>
 <td>Clasificación por riesgo, documentación técnica, HITL, registro en BD UE, prohibiciones absolutas</td>
-<td>Obligatorio si operas en la UE o procesas datos de ciudadanos europeos</td>
+<td>Obligatorio si eres proveedor o deployer de un sistema de IA en la UE, o si el resultado del sistema se usa en la UE aunque estés fuera (art. 2). El RGPD es otro régimen, con su propio alcance</td>
 </tr>
 <tr>
 <td><strong>NIST AI RMF 1.0</strong> (2023)</td>
@@ -26217,12 +26227,12 @@ jobs:
 <hr class="sep"/>
 <div class="resultado-final">
 <h3>✅ Resultado de este capítulo</h3>
-<p>Sabes qué rol tienes según el AI Act (casi siempre deployer), qué categoría aplica a tus sistemas y qué obligaciones concretas tienes que cumplir y cuándo. Conoces el ecosistema regulatorio global — AI Act, NIST AI RMF, ISO/IEC 42001 — y cómo se relacionan entre sí. Tienes una tabla de métricas de riesgo con herramientas concretas para medir desde alucinaciones hasta impacto ambiental. El AI Act no paraliza: con el mapa correcto, es un proceso de ingeniería como cualquier otro.</p>
+<p>Sabes qué rol tienes según el AI Act para cada sistema (proveedor si lo construyes tú, deployer si usas el de otro, o ambos), qué categoría aplica a tus sistemas y qué obligaciones concretas tienes que cumplir y cuándo. Conoces el ecosistema regulatorio global — AI Act, NIST AI RMF, ISO/IEC 42001 — y cómo se relacionan entre sí. Tienes una tabla de métricas de riesgo con herramientas concretas para medir desde alucinaciones hasta impacto ambiental. El AI Act no paraliza: con el mapa correcto, es un proceso de ingeniería como cualquier otro.</p>
 </div>
 
 <div class="warning"><strong>El antipatrón del compliance score promediado</strong> — Cuando las métricas de riesgo de este capítulo aterrizan en un dashboard, la tentación natural es agregarlas en un único «índice de cumplimiento». Resiste. Un promedio de PII-rota + calidad-excelente da un número tranquilizador que no describe ningún estado real del sistema; y ante un auditor o un regulador, el promedio es indefendible — el AI Act no permite compensar una obligación incumplida con otra sobrecumplida. Aplica la regla de no compensación de §14.5: el indicador global, si existe, es el <em>mínimo</em> de los dominios críticos, con el dominio limitante nombrado al lado. Un semáforo en rojo con etiqueta honesta protege más que un 87% verde que nadie puede descomponer.</div>
 <h2>16.x Detección técnica de proxies discriminatorios en producción</h2>
-<p>El AI Act exige a los deployers de sistemas de alto riesgo gestionar el riesgo de discriminación. Pero la obligación normativa no especifica cómo detectar técnicamente si un sistema está recibiendo o produciendo variables proxy para atributos protegidos. Este apartado cubre ese gap.</p>
+<p>El AI Act exige a los proveedores de sistemas de alto riesgo examinar y mitigar los posibles sesgos de los datos (art. 10) y a los deployers vigilar que los datos de entrada que controlan sean pertinentes y representativos (art. 26.4). Pero la obligación normativa no especifica cómo detectar técnicamente si un sistema está recibiendo o produciendo variables proxy para atributos protegidos. Este apartado cubre ese gap.</p>
 <h3>Qué es un proxy discriminatorio</h3>
 <p>Un atributo protegido es una característica que no puede usarse como criterio de decisión: género, origen étnico, religión, edad, orientación sexual. Un proxy discriminatorio es una variable aparentemente neutra que correlaciona fuertemente con un atributo protegido y puede usarse para discriminar indirectamente. Ejemplos concretos en contextos de RRHH y crédito:</p>
 <table>
@@ -28588,7 +28598,7 @@ validateArchitecture();
 <p>El conservadurismo estadístico de este apartado describe un sesgo que emerge del corpus: el modelo favorece lo estadísticamente frecuente en el entrenamiento. Hay un segundo sesgo que opera en paralelo y que es cualitativamente diferente: el <strong>sesgo normativo</strong>, que emerge de las decisiones explícitas de quien diseña el proceso de alineamiento.</p>
 <p>Constitutional AI (Anthropic) hace este segundo sesgo parcialmente visible: la constitución que guía el entrenamiento es pública en su versión de investigación y cita explícitamente la Declaración de Derechos Humanos de la ONU, los Términos de Servicio de Apple y principios de ética aplicada. Esa citación no es neutra. Quien escribe los principios de la constitución decide qué valores se consideran universales, qué tradiciones de pensamiento se toman como referencia y qué tensiones entre principios («ser útil» vs. «evitar daño») se resuelven en qué dirección. Un modelo entrenado con esta constitución no solo sesga hacia el centro estadístico del corpus: sesga hacia los valores normativos de quien escribió la constitución.</p>
 <p>Los dos sesgos son independientes y se superponen: el sesgo estadístico puede medirse analizando el corpus; el sesgo normativo requiere analizar la constitución. En modelos con constituciones no públicas — que es el caso de la mayoría de los modelos comerciales en producción — el sesgo normativo no es auditable por el deployer.</p>
-<p><strong>Implicación para el deployer (→ ver también Cap. 16, AI Act Art. 9-13):</strong> cuando seleccionas un modelo para un sistema de soporte a decisión, documenta explícitamente qué sabes y qué no sabes sobre su proceso de alineamiento. Para sistemas de alto riesgo, la incapacidad de auditar el sesgo normativo es un riesgo de gobernanza que debe constar en la evaluación de riesgo, independientemente del cumplimiento formal de las métricas de rendimiento.</p>
+<p><strong>Implicación para quien construye o despliega el sistema (→ ver también Cap. 16, AI Act Art. 9-13):</strong> cuando seleccionas un modelo para un sistema de soporte a decisión, documenta explícitamente qué sabes y qué no sabes sobre su proceso de alineamiento. Para sistemas de alto riesgo, la incapacidad de auditar el sesgo normativo es un riesgo de gobernanza que debe constar en la evaluación de riesgo, independientemente del cumplimiento formal de las métricas de rendimiento.</p>
 </div>
 <div class="quiz-cp" id="quiz-cap20">
 <div class="quiz-cp-header"><span class="quiz-cp-icon">🧠</span><span class="quiz-cp-title">Checkpoint de comprensión</span><span class="quiz-cp-score">0/3 correctas</span></div>
@@ -30301,13 +30311,13 @@ updateAttackConfig();
   </div>
 <h2>Módulo 3 — Producción y gobernanza</h2>
 <p><strong>F3.1.</strong> ¿Qué es el patrón sándwich y qué problema resuelve?</p>
-<p><strong>F3.2.</strong> Bajo el AI Act, ¿qué diferencia hay entre las obligaciones de un proveedor (provider) y las de un deployer? ¿En cuál se sitúa típicamente una empresa que construye sobre la API de OpenAI?</p>
+<p><strong>F3.2.</strong> Bajo el AI Act, ¿qué diferencia hay entre las obligaciones de un proveedor (provider) y las de un deployer? ¿Qué rol o roles tiene una empresa que construye un sistema propio sobre la API de OpenAI y lo usa con su nombre, y cuál tendría si solo contratara una herramienta ya hecha?</p>
 <p><strong>C3.3.</strong> Tu sistema RAG está en producción. La métrica de calidad sobre el golden dataset es estable (94%), pero los usuarios reportan más quejas que hace seis meses. ¿Qué hipótesis investigarías y en qué orden? ¿Qué evidencia te haría descartar cada una?</p>
 <p><strong>C3.4.</strong> Tu organización detecta que el 70% del uso real de IA por sus empleados ocurre fuera del sistema RAG interno (shadow AI). ¿Qué propones — y qué consecuencias tiene tu propuesta para los presupuestos de seguridad, gobernanza y herramientas?</p>
 <div class="callout">
 <strong>Respuestas y rúbricas — Módulo 3</strong>
 <strong>F3.1:</strong> Patrón arquitectónico que envuelve la llamada al LLM entre una capa de validación de entrada (input guards: filtrado de PII, detección de prompt injection, clasificación de intención) y una capa de validación de salida (output guards: verificación de fuentes citadas, detección de alucinaciones, redacción de información sensible, evaluación de tono). Resuelve el problema de que el LLM por sí solo no es seguro para producción — necesita guards deterministas alrededor que no dependan del propio modelo para ser fiables.<br/><br/>
-<strong>F3.2:</strong> El proveedor (provider) entrena o desarrolla el modelo y es responsable de su conformidad estructural — documentación técnica, evaluación de riesgos, transparencia. El deployer integra y usa el modelo en su producto, asumiendo obligaciones de supervisión humana, registro de operación, y monitorización de impacto. Una empresa que construye sobre la API de OpenAI es deployer — no entrena el modelo, pero la obligación de supervisión y trazabilidad de su producto recae sobre ella, no sobre OpenAI.<br/><br/>
+<strong>F3.2:</strong> El proveedor (provider) desarrolla un sistema de IA —o lo hace desarrollar— y lo comercializa o lo pone en servicio con su nombre; si es de alto riesgo, le corresponden la gestión de riesgos, la documentación técnica, la evaluación de conformidad y el registro. El deployer usa, bajo su autoridad, un sistema hecho por otro y asume las obligaciones de uso: supervisión humana, logs bajo su control, información a los afectados. Una empresa que construye su propio sistema sobre la API de OpenAI y lo usa con su nombre es proveedora de ese sistema y, además, deployer; OpenAI responde de su modelo (arts. 53–55), no de la aplicación. Solo sería deployer a secas si contratara una herramienta ya hecha y no la modificara. La calificación depende del caso y requiere revisión jurídica.<br/><br/>
 <strong>Rúbrica C3.3:</strong> Respuesta sólida si (1) identifica al menos tres hipótesis distintas: concept drift (las preguntas han cambiado pero el corpus no), data drift (el corpus subyacente ha cambiado pero los chunks no se actualizaron), degradación de la representatividad del golden dataset (94% sobre un set obsoleto no es 94% sobre la realidad actual), o cambio en las expectativas del usuario; (2) ordena las hipótesis por probabilidad y coste de verificación, no arbitrariamente; (3) define para cada hipótesis al menos una pieza de evidencia que la descartaría — por ejemplo, "si las preguntas reportadas en quejas son del mismo tipo que el golden dataset, descarto concept drift". Respuesta débil si solo lista posibles causas sin método de discriminación.<br/><br/>
 <strong>Rúbrica C3.4:</strong> Respuesta sólida si reconoce que (1) prohibir el shadow AI es probablemente impracticable y contraproducente — la gente usa esas herramientas porque les son útiles; (2) la opción real es entre integrar (proveer alternativas internas competitivas y auditar el uso externo permitido) o tolerar (asumir el riesgo, monitorizando lo que se puede); (3) cualquier decisión tiene consecuencias presupuestarias concretas — la integración requiere infraestructura y formación, la tolerancia requiere capacidad de detección de incidentes; (4) menciona explícitamente que la decisión es política y educativa antes que técnica. Respuesta débil si propone solamente "bloquear las herramientas externas" sin reconocer las consecuencias operativas y de cumplimiento.
   </div>
@@ -30552,7 +30562,7 @@ updateAttackConfig();
 <span class="gterm-nombre">Deployer</span>
 <span class="gterm-cat cat-gobernanza">Gobernanza</span>
 </div>
-<div class="gterm-def">Bajo el AI Act, organización que utiliza un sistema de IA de terceros en sus productos o procesos. La mayoría de empresas que construyen aplicaciones sobre modelos de API (OpenAI, Anthropic, Google) son deployers. Como deployer de un sistema de alto riesgo, recaen sobre ti las obligaciones de documentación, trazabilidad y supervisión humana, aunque no hayas entrenado el modelo base. → Ver Cap. 16 (Módulo 3).</div>
+<div class="gterm-def">Bajo el AI Act (art. 3.4), organización que utiliza un sistema de IA bajo su autoridad en un contexto profesional. Ojo: si has desarrollado tú el sistema (por ejemplo, una aplicación sobre la API de OpenAI, Anthropic o Google) y lo pones en servicio con tu nombre, eres su <em>proveedor</em> (art. 3.3) y, si además lo usas, también deployer. Solo eres deployer a secas si usas un sistema hecho por otro sin cambiarlo. Cada rol tiene obligaciones distintas y la calificación depende del caso (requiere revisión jurídica). → Ver Cap. 16 (§16.2).</div>
 </div>
 <div class="gterm">
 <div class="gterm-header">
@@ -31732,18 +31742,18 @@ updateAttackConfig();
 <tbody>
 <tr style="border-bottom:1px solid var(--border);">
 <td style="padding:7px 12px;font-weight:700;">Proveedor</td>
-<td style="padding:7px 12px;color:var(--muted);">Desarrolla y pone en mercado el sistema de IA</td>
+<td style="padding:7px 12px;color:var(--muted);">Desarrolla —o hace desarrollar— un sistema de IA y lo comercializa o lo pone en servicio con su nombre o marca (incluido el uso propio). También quien desarrolla un modelo de propósito general</td>
 <td style="padding:7px 12px;">Documentación técnica, evaluación de conformidad, registro, monitorización post-mercado</td>
 </tr>
 <tr style="border-bottom:1px solid var(--border);">
 <td style="padding:7px 12px;font-weight:700;">Deployer</td>
-<td style="padding:7px 12px;color:var(--muted);">Usa el sistema en contexto profesional (ej: empresa usando GPT-4 vía API)</td>
+<td style="padding:7px 12px;color:var(--muted);">Usa bajo su autoridad, en contexto profesional, un sistema desarrollado por otro (ej.: empresa que contrata una herramienta de selección de CVs). Si lo ha construido ella misma sobre una API, es proveedora y deployer</td>
 <td style="padding:7px 12px;">Supervisión humana, log de uso, información a usuarios, no modificar más allá del uso previsto</td>
 </tr>
 <tr>
-<td style="padding:7px 12px;font-weight:700;">Co-proveedor</td>
-<td style="padding:7px 12px;color:var(--muted);">Deployer que hace fine-tuning significativo o integra en sistema de alto riesgo propio</td>
-<td style="padding:7px 12px;">Consultar asesoría legal — puede heredar obligaciones del proveedor</td>
+<td style="padding:7px 12px;font-weight:700;">Cambio de rol (art. 25)</td>
+<td style="padding:7px 12px;color:var(--muted);">Deployer o tercero que pone su nombre a un sistema de alto riesgo, lo modifica sustancialmente o cambia su propósito previsto hasta hacerlo de alto riesgo</td>
+<td style="padding:7px 12px;">Pasa a ser proveedor de ese sistema; el proveedor original debe cooperar. Consultar asesoría legal</td>
 </tr>
 </tbody>
 </table>
