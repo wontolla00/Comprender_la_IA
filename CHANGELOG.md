@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v137 — 23 octubre 2026 · Criterios de superación y caso de transferencia (Apéndice B); Módulo 1 ~5 h
+
+- **Apéndice B**: nuevo recuadro «Cuándo das un módulo por superado» con criterios para preguntas F y C y para el entregable, y un caso de transferencia para los Módulos 1–4. Se declara que el manual aún no se ha probado con lectores reales (propuesta del autor).
+- **Módulo 1**: el mapa decía ~4 h y la cabecera ~5 h; los Caps. 0–4 suman 280 min de lectura, así que ambos pasan a ~5 h.
+- Versión v136 → v137.
+
 ## v136 — 23 octubre 2026 · Segunda pasada, tanda 3 (Cap. 7, 8, 9, 13, 14) y F-18 (estatus de los conceptos del autor)
 
 - **Cifras sin fuente suavizadas o etiquetadas**: «80 % de los problemas RAG» (Cap. 7), heurística de fine-tuning 85 % / 1.000 ejemplos / 9–12 meses (Cap. 8, ahora «umbrales orientativos del autor»), «3-10×», «80 % de las tareas», «LoRA 90 % menos parámetros» y «90 % de los agentes» (Cap. 9), «92,78 % multi-turn» y «>99 % de consistencia» (Cap. 13), «60-80 % de usuarios» (Cap. 14).

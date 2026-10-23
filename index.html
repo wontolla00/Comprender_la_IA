@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v136</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v137</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v136 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v137 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1227,7 +1227,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <input autocomplete="off" id="toc-filtro" placeholder="🔍 Filtrar el índice… (por título, o escribe 'obligatorio', 'recomendado', 'opcional')" style="width:100%;box-sizing:border-box;padding:9px 14px;border:1.5px solid var(--border,#cbd5e1);border-radius:8px;font-size:.9rem;background:var(--bg,#fff);color:inherit;" type="search"/>
 <div id="toc-filtro-n" style="font-size:.75rem;color:var(--muted,#64748b);margin-top:4px;"></div>
 </div>
-<div class="toc-part-title">Módulo 1 · El puente <span style="font-weight:400;font-size:.8rem;color:var(--muted);">~4 h · Obligatorio todos los perfiles</span></div>
+<div class="toc-part-title">Módulo 1 · El puente <span style="font-weight:400;font-size:.8rem;color:var(--muted);">~5 h · Obligatorio todos los perfiles</span></div>
 <div class="toc-item"><a href="#cap0">Cap. 0 — Cómo funciona un LLM (fundamentos)</a><span style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-size:.72rem;margin-left:6px;">✅ Obligatorio</span> <span style="color:var(--muted);font-size:.75rem;">· 60 min</span></div><div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s011">· 0.1.1 La ilusión del conocimiento</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s012">· 0.1.2 El conocimiento como distribución estadística</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s013">· 0.1.3 Fluidez sin comprensión</a></div>
@@ -1763,7 +1763,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="modulo-tags">
 <span class="tag">Caps. 0–4</span>
 <span class="tag verde">Obligatorio</span>
-<span class="tag">~4 horas</span>
+<span class="tag">~5 horas</span>
 </div>
 </div>
 </div>
@@ -30309,6 +30309,16 @@ updateAttackConfig();
 <div class="callout">
 <strong>📌 Cómo usar esta sección</strong>
     Las preguntas son de dos tipos. Las marcadas con <strong>F</strong> (factuales) tienen respuesta corta y verificable; encontrarás la respuesta al final de cada bloque. Las marcadas con <strong>C</strong> (de criterio) no tienen respuesta única — su valor está en la articulación que produces, no en la conclusión a la que llegas. Para esas, encontrarás una rúbrica de autoevaluación en lugar de una respuesta. Una respuesta de criterio bien construida puede llegar a una conclusión opuesta a la que el manual sugiere y aun así ser correcta, si justifica adecuadamente las asunciones bajo las cuales esa conclusión se sigue.
+  </div>
+<div class="callout" id="criterios-superacion">
+<strong>🎓 Cuándo das un módulo por superado (propuesta del autor)</strong>
+    Estos criterios son una propuesta de trabajo: <em>el manual aún no se ha probado con lectores reales</em>, así que los umbrales son orientativos y pueden cambiar tras un piloto.
+    <ul>
+    <li><strong>Preguntas F:</strong> al menos dos de cada tres correctas <em>sin consultar el manual</em>. Si no, vuelve a las secciones de las preguntas falladas y repite solo esas.</li>
+    <li><strong>Preguntas C:</strong> tu respuesta cumple al menos tres cuartas partes de los puntos de la rúbrica <em>y</em> formula por escrito una condición concreta en la que rechazarías la solución que propones.</li>
+    <li><strong>Entregable del módulo:</strong> una decisión justificada con al menos un <em>trade-off</em> explícito y una forma de medir si la decisión funcionó.</li>
+    </ul>
+    <strong>Caso de transferencia (al terminar los Módulos 1–4).</strong> Elige un sistema real de tu organización, o de un dominio distinto de los ejemplos del manual, y escribe una página con tres cosas: (1) cuál de los riesgos del manual aplica a ese sistema y cuál no, con la razón; (2) una decisión que tomarías de forma distinta a la que sugiere el manual, indicando qué asunción de tu contexto la justifica; (3) cómo comprobarías, con una métrica y un conjunto de casos, que tu decisión fue acertada. Lo superas si cada punto se apoya en algo observable de <em>tu</em> sistema y no solo en lo que dice el manual.
   </div>
 <h2>Módulo 1 — El puente</h2>
 <p><strong>F1.1.</strong> ¿En qué se diferencia un chunk de un registro en una tabla relacional, y por qué la diferencia importa para la trazabilidad?</p>
