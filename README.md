@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v130** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v131** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v131** | Segunda pasada, tanda 1: Web Semántica como interpretación del autor; porcentajes sin fuente de los Cap. 17–19 y 10 declarados estimaciones. |
 | **v130** | «Trendslop» y conservadurismo estadístico presentados como tendencia con hipótesis del autor; alucinaciones: «inevitables» matizado; temperatura 0 «casi determinista». |
 | **v129** | Cap. 22 al día (imagen, vídeo, VLM abiertos, audio) con fuentes secundarias fechadas y licencias a verificar. |
 | **v128** | Búsqueda híbrida deja de ser «la recomendada»; la garantía «cero desconocidos» del BPE por bytes se matiza y se retira la cifra 30-50 % del español. |

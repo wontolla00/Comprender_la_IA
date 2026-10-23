@@ -2,6 +2,15 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v131 — 23 octubre 2026 · Segunda pasada, tanda 1: Web Semántica (Cap. 2), cifras sin fuente (Cap. 17–19) y Cap. 10
+
+Origen: segunda pasada por capítulo de la auditoría externa (matriz de cobertura).
+
+- **§2.5 (Web Semántica)**: «mejor diseñadas» → «más ambiciosas»; las cuatro razones del fracaso se declaran interpretación del autor, con otras lecturas posibles; el caso de `schema.org` se presenta como ejemplo que encaja, no como prueba; «obsoleta es peor que ninguna» → «puede ser peor».
+- **Cap. 17–19**: «más del 60 % de las competencias» y «para el 80 % de las empresas» pasan a estimaciones o previsiones del autor; «perfiles más demandados» se declara observación sin datos de mercado; el crédito gratuito de las APIs ya no se cifra.
+- **Cap. 10**: el caso de los cinco agentes (95 % → 92 % → 70-75 %) se rotula escenario ilustrativo con cifras supuestas; «evidencia directa» → «indicio» en consensus_decay_rate; las cifras de las encuestas de gobernanza (9 % / 90 %) se declaran no verificadas.
+- Versión v130 → v131.
+
 ## v130 — 23 octubre 2026 · «Trendslop» (F-14) y alucinaciones/temperatura 0 (Cap. 0)
 
 Origen: cruce completo de la auditoría externa (F-01 a F-18) con lo corregido; F-14 era el único hallazgo numerado sin atender.
