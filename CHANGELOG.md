@@ -2,6 +2,20 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v123 — 23 octubre 2026 · Sobreafirmaciones, OWASP 2026 y enlaces de plantilla
+
+Origen: pre-mortem y auditoría factual hechos por un asistente externo sobre la v122, contrastados punto por punto con el texto del manual (varios hallazgos eran ciertos, otros ya estaban corregidos o estaban exagerados; ver `taller/Registro_manual_v122_a_v123.md`). Esta versión corrige los siete puntos aceptados; el resto del informe queda como pendiente en el registro.
+
+- **§21.1 y §21.10 (protocolo de 5 pasos) y quiz del Cap. 9**: la regla «delta ASR > 40 puntos = alineamiento superficial, no apto para criticidad 2+» pasa a «señal de alerta (heurística del autor)»; ya no se atribuye a Shida et al. La prueba de 10 prompts se llama «screening exploratorio» y se explica por qué no basta (IC 95 % de ±30 puntos; 1/10 → 5/10 da p ≈ 0,14, Fisher). Los objetivos ASR < 20 % / < 5 % se marcan como heurística del autor.
+- **§11.3**: nuevo recuadro «Matiz (2026-10)»: la tabla de precisión mínima es el marco operativo del autor, no un umbral legal; «Obligatorio» significa «lo exige este marco». Mapa del Cap. 3: mismo aviso y el golden dataset de ≥20 pares se presenta como mínimo para arrancar.
+- **Cap. 16 (cabecera)**: se retira «el AI Act no inventa los niveles, los codifica»; los niveles 1–4 son del autor y la correspondencia con las categorías legales es orientativa.
+- **Cap. 10 (aviso inicial)**: «es la causa principal del fracaso silencioso» → «un riesgo central —y fácil de pasar por alto—».
+- **§9.1 y §20.1 (ARC-AGI-3)**: resultados fechados (marzo de 2026); la causa estructural y la diferencia «de tipo» pasan a hipótesis del autor; «demuestra» → indicio. El título del recuadro de §20.1 cambia de «evidencia» a «indicio» (índice de conceptos incluido).
+- **Cap. 22**: la frase «la mayoría de aplicaciones…» se sustituye por una formulación sin cuantificador; los modelos nombrados se declaran ejemplos de 2023–2024. **Pendiente**: repaso completo del capítulo con fuentes primarias.
+- **§21.8**: mapa OWASP actualizado a la edición 2026 (anuncio del 1/09/2026). IDs fijados solo para LLM01–03; Hidden Context Exposure sustituye a System Prompt Leakage; Excessive Agency sube al puesto 3; recuadro con lo verificado y lo no verificado. Referencia del Cap. 21 actualizada.
+- **Enlaces**: 3 enlaces al CHANGELOG apuntan a `github.com/wontolla00/Comprender_la_IA`; los 4 botones a notebooks inexistentes (`your-repo`) se sustituyen por una nota (el código está en el bloque siguiente).
+- Versión v122 → v123 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`. `README.md`: tamaño corregido (~2,9 MB) y Cap. 22 situado en el Módulo 6, como en el HTML.
+
 ## v122 — 16 octubre 2026 · Cómputo en inferencia: generar y elegir (§9.7b) y tres matices
 
 Origen: pendientes del triaje CI-IT-1 (docx de Chawla, `2026-10-12 (d)`), CI-DM-1 (Letourmy, `2026-10-12 (c)`), CI-MC-1 (Fernandes et al.,

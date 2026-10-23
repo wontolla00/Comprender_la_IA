@@ -1,13 +1,13 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v122** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v123** (octubre 2026)
 
 ---
 
 ## ¿Qué es este manual?
 
-Un manual autocontenido en un único archivo HTML (~2,2 MB) que cubre el ciclo completo de los sistemas de IA generativa en producción: desde el funcionamiento interno de un LLM hasta la gobernanza organizacional, pasando por RAG, agentes, evaluación, MLOps, regulación europea y ciberseguridad.
+Un manual autocontenido en un único archivo HTML (~2,9 MB) que cubre el ciclo completo de los sistemas de IA generativa en producción: desde el funcionamiento interno de un LLM hasta la gobernanza organizacional, pasando por RAG, agentes, evaluación, MLOps, regulación europea y ciberseguridad.
 
 No es una colección de tutoriales. Es un manual de **criterio**: cada capítulo está construido para que el lector sepa no solo cómo funciona una técnica, sino cuándo falla, qué no mide, y qué decisión de diseño implica.
 
@@ -64,10 +64,10 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 **Módulo 5 — Referencia y profundidad**
 - Cap. 20 · Las consecuencias epistemológicas de la IA (incl. §20.6, protocolo de lectura crítica y los tres patrones de cifra no fiable ★)
-- Cap. 22 · Sistemas multimodales: visión, audio e imagen en producción (incl. Physical AI)
 
-**Módulo 6 — Ciberseguridad de LLM**
+**Módulo 6 — Ciberseguridad de LLM y extensión multimodal**
 - Cap. 21 · Atacar, medir y defender (ASR/FRR, ataques multimodales, protocolo de 5 pasos, CNIL)
+- Cap. 22 · Sistemas multimodales: visión, audio e imagen en producción (incl. Physical AI)
 
 ### Material complementario
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v123** | Corrección de sobreafirmaciones señaladas por una auditoría externa: regla del delta ASR y umbrales de criticidad marcados como heurística del autor, «causa principal» y ARC-AGI-3 rebajados a hipótesis, frase de prevalencia multimodal retirada, mapa OWASP actualizado a 2026, enlaces de plantilla eliminados. |
 | **v122** | Cuatro pendientes del triaje a la vez. Nueva §9.7b «Cómputo en inferencia: generar y elegir» (voto, mejor de N, autorrefinamiento, árbol/haz/MCTS, pensamiento extendido; regla de verificador primero; límites de las fuentes). Dos notas «Matiz (2026-10)» con casos fechados en §13.2 (OpenAI) y §13.7 (Anthropic), una en §14.2b (confianza y metacognición con IA, estudio exploratorio) y dos retoques en §8.8b y §10.4b (verificador con contexto fresco; tasa de aprovechamiento). |
 | **v121** | §4.3 gana un recuadro «Matiz (2026-10)» sobre la reproducibilidad de la *medición* (no solo de la salida): repetir, reformular, comparar entre sistemas y validar el instrumento de extracción, con el caso de un preprint de 2026 y sus límites. |
 | **v120** | §21.5.1 suma una fila a la tabla de canales de salida («la salida del agente, leída por otro agente») y un recuadro «Matiz (2026-10)» tras el Caso 4: las inyecciones que se copian (informe de laboratorio de OpenAI, sin incidente ni tasas; antecedente Morris II, 2024). |
@@ -150,7 +151,7 @@ Tres principios atraviesan todo el documento:
 
 ## Ficha técnica
 
-- **Formato:** HTML de un solo archivo, ~2,2 MB
+- **Formato:** HTML de un solo archivo, ~2,9 MB
 - **Idioma:** español
 - **Extensión:** ~175.000 palabras (≈ 390 páginas a 450 palabras/página) · 23 capítulos · 5 apéndices · 5 laboratorios · 7 simuladores · glosario de 111 términos
 - **Estructura interna:** 240 secciones de nivel 2, 341 de nivel 3, 213 tablas, 25 bloques de código

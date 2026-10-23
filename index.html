@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v122</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v123</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v122 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v123 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1638,7 +1638,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s215">· 21.5 Exfiltración: la "tríada letal" y los canales de salida que no parecen canales</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s216">· 21.6 Seguridad de agentes y MCP: cuando el atacante escribe tus herramientas</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s217">· 21.7 Patrones de diseño que sí reducen el riesgo</a></div>
-<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s218">· 21.8 Mapa OWASP Top 10 para aplicaciones LLM (2025)</a></div>
+<div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s218">· 21.8 Mapa OWASP Top 10 para aplicaciones LLM (2026)</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s219">· 21.9 Qué controlas y qué NO garantizas</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s2110">· 21.10 El protocolo de 5 pasos: atacar → medir → defender → verificar → documentar</a></div>
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s2111">· 21.11 AI Act, RGPD y CNIL: qué obligación es de quién</a></div>
@@ -12969,13 +12969,10 @@ function attnTab(tab) {
 <p>La regla práctica: <strong>si puedes conseguir el resultado con RAG + buen prompt, no hagas fine-tuning</strong>. El fine-tuning es costoso, frágil ante cambios de dominio y difícil de depurar. Reservalo para casos donde el comportamiento que necesitas no es expresable con instrucciones.</p>
 <h3 id="s577">5.7.7 Ejercicio práctico: fine-tuning con LoRA<span class="version-badge">2025-11</span></h3>
 <div class="callout">
-<strong>📓 Notebook: 05_fine_tuning_lora.ipynb</strong>
+<strong>📓 Ejemplo ejecutable: 05 · fine-tuning con LoRA</strong>
     Requiere: <code>pip install transformers peft datasets accelerate bitsandbytes</code><br/>
     Coste estimado: ejecutable en Google Colab T4 (gratuito) para modelos hasta 7B con QLoRA.<br/>
-<span style="display:inline-flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-<a href="https://colab.research.google.com/github/your-repo/comprender-la-ia/blob/main/notebooks/05_fine_tuning_lora.ipynb" style="background:#f9ab00;color:#000;padding:3px 10px;border-radius:4px;font-size:.78rem;font-weight:600;text-decoration:none;" target="_blank">▶ Abrir en Google Colab</a>
-<a href="https://github.com/your-repo/comprender-la-ia/blob/main/notebooks/05_fine_tuning_lora.ipynb" style="background:#24292e;color:#fff;padding:3px 10px;border-radius:4px;font-size:.78rem;font-weight:600;text-decoration:none;" target="_blank">⬇ Ver en GitHub</a>
-</span>
+<span style="font-size:.78rem;color:var(--muted);">El código completo está en el bloque siguiente; cópialo en un notebook propio (no se distribuye un archivo .ipynb aparte).</span>
 </div>
 <pre><span class="exec-badge">✓ Ejecutable (requiere dependencias/API key)</span><br/># pip install transformers peft datasets accelerate bitsandbytes
 # Fine-tuning con LoRA en un modelo de 7B usando QLoRA (cabe en GPU T4 de 16GB)
@@ -16777,13 +16774,10 @@ function memUpdate() {
 <hr class="sep"/>
 <h2 id="s6x">6.x Ejercicio práctico: búsqueda híbrida BM25 + semántica<span class="version-badge">2025-11</span></h2>
 <div class="callout">
-<strong>📓 Notebook: 06_busqueda_hibrida.ipynb</strong>
+<strong>📓 Ejemplo ejecutable: 06 · búsqueda híbrida</strong>
     Requiere: <code>pip install rank-bm25 sentence-transformers numpy</code><br/>
     Coste: ejecutable en CPU (sin GPU). Tiempo estimado: 3–5 minutos en Colab gratuito.<br/>
-<span style="display:inline-flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-<a href="https://colab.research.google.com/github/your-repo/comprender-la-ia/blob/main/notebooks/06_busqueda_hibrida.ipynb" style="background:#f9ab00;color:#000;padding:3px 10px;border-radius:4px;font-size:.78rem;font-weight:600;text-decoration:none;" target="_blank">▶ Abrir en Google Colab</a>
-<a href="https://github.com/your-repo/comprender-la-ia/blob/main/notebooks/06_busqueda_hibrida.ipynb" style="background:#24292e;color:#fff;padding:3px 10px;border-radius:4px;font-size:.78rem;font-weight:600;text-decoration:none;" target="_blank">⬇ Ver en GitHub</a>
-</span>
+<span style="font-size:.78rem;color:var(--muted);">El código completo está en el bloque siguiente; cópialo en un notebook propio (no se distribuye un archivo .ipynb aparte).</span>
 </div>
 <p>La búsqueda híbrida combina recuperación léxica (BM25) y semántica (vectores). Es la arquitectura recomendada en producción para cubrir los puntos ciegos de cada enfoque.</p>
 <pre><span class="exec-badge">✓ Ejecutable (requiere dependencias/API key)</span><br/># pip install rank-bm25 sentence-transformers numpy
@@ -18884,9 +18878,9 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <div class="callout concept">
 <div class="nota-frontera"><strong>Frontera con alta caducidad.</strong> ARC-AGI-3 es una propuesta en evolución, no práctica asentada. Su lectura natural es desde el Módulo 5 (Referencia y profundidad); aquí aparece por continuidad temática. No bases decisiones de arquitectura solo en esta sección.</div><h4 id="ca-arc-agi3-limite">📐 Concepto del autor: ARC-AGI-3 — el límite arquitectónico de los LLMs</h4>
 <p>El 25 de marzo de 2026, François Chollet (creador de Keras) presentó <strong>ARC-AGI-3</strong> en Y Combinator: un benchmark de entornos interactivos sin instrucciones. No hay reglas declaradas ni objetivos explícitos. El agente debe explorar, deducir cómo funciona el entorno y descubrir qué significa "ganar" — exactamente lo que hace un niño cuando le pones un videojuego nuevo por primera vez.</p>
-<p>Los resultados son el dato empírico más relevante sobre los límites arquitectónicos de los LLMs en 2026:</p>
+<p>Resultados publicados en el lanzamiento (marzo de 2026). Son una fotografía fechada, no un marcador vigente: consulta el <em>leaderboard</em> actual antes de citarlos.</p>
 <table>
-<thead><tr><th>Sistema</th><th>Puntuación ARC-AGI-3</th></tr></thead>
+<thead><tr><th>Sistema</th><th>Puntuación ARC-AGI-3 (marzo de 2026)</th></tr></thead>
 <tbody>
 <tr><td>Humanos</td><td><strong>100 %</strong></td></tr>
 <tr><td>Gemini 3.1 Pro</td><td>0,37 %</td></tr>
@@ -18894,15 +18888,15 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <tr><td>GPT-5.4</td><td>≈ 0 %</td></tr>
 </tbody>
 </table>
-<p>La causa no es insuficiencia de datos ni de parámetros — llevamos dos años probando esa hipótesis a escala industrial y la curva no escala linealmente cuando la tarea exige razonamiento genuinamente nuevo. La causa es <strong>estructural</strong>:</p>
+<p>Una lectura posible —<strong>hipótesis del autor</strong>, no demostrada por el benchmark— es que la causa no sea solo falta de datos o de parámetros, sino <strong>estructural</strong>:</p>
 <ul>
 <li>Una red neuronal aprende <em>correlaciones estadísticas</em> sobre datos vistos. Lo hace extraordinariamente bien.</li>
 <li>Un niño de 10 años razona <em>simbólicamente</em>: forma hipótesis, las testea, deduce reglas y las aplica a casos nuevos.</li>
 </ul>
-<p>Son operaciones cognitivas distintas. Un LLM optimizado para reconocimiento de patrones no puede hacer lo segundo por diseño, independientemente de su tamaño.</p>
+<p>Según esta hipótesis, serían operaciones distintas y un LLM optimizado para reconocer patrones tendría un techo estructural en la segunda. Pero el benchmark mide sistemas concretos, con un diseño y una métrica concretos, en una fecha concreta: no demuestra por sí solo que ese techo exista ni que sea inevitable (los agentes con herramientas o los sistemas neurosimbólicos de este capítulo podrían cambiar el resultado).</p>
 <div class="warning">
 <strong>⚠️ Implicación de diseño</strong>
-    Cuando evalúes si un modelo de razonamiento nativo resuelve tu problema, pregúntate si el problema requiere <em>recuperar y sintetizar patrones conocidos</em> (donde los LLMs son extraordinarios) o <em>explorar un espacio de reglas desconocido y construir nuevo conocimiento</em> (donde ARC-AGI-3 demuestra que todos los LLMs actuales fallan). La diferencia no es de grado — es de tipo.
+    Cuando evalúes si un modelo de razonamiento nativo resuelve tu problema, pregúntate si el problema requiere <em>recuperar y sintetizar patrones conocidos</em> (donde los LLMs son extraordinarios) o <em>explorar un espacio de reglas desconocido y construir nuevo conocimiento</em> (donde, en marzo de 2026, ARC-AGI-3 registró puntuaciones cercanas a cero en los LLMs evaluados). Que esa diferencia sea de tipo y no solo de grado es la hipótesis del autor: úsala como criterio de cautela al elegir arquitectura, no como ley.
   </div>
 </div>
 <h2 id="s92">9.2 En qué son superiores: el perfil de tareas</h2>
@@ -19506,7 +19500,7 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
 <div class="quiz-q-text"><span class="quiz-q-num">2</span>Un golden dataset muestra ASR base = 14% y ASR con ataque compuesto (ABJ + reformulación + contexto falso) = 71%. ¿Qué indica este delta de 57 puntos?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" data-correct="false" onclick="quizAnswer('quiz-cap9',1,this,false,'Incorrecto. El ASR base bajo no garantiza seguridad real. Lo que importa es si el alineamiento generaliza: si un atacante puede triplicar el ASR combinando técnicas, el sistema no es robusto para producción crítica.')">El sistema es seguro porque el ASR base está por debajo del umbral del 20%</button>
-<button class="quiz-opt" data-correct="true" onclick="quizAnswer('quiz-cap9',1,this,true,'Correcto. Según Shida et al. (2026, arXiv:2604.02652), un delta ASR &gt;40 puntos entre ataque simple y compuesto indica alineamiento superficial. El sistema pasaría los tests estándar pero fallaría ante atacantes que combinen técnicas. No apto para criticidad 2+.')">El alineamiento no generaliza: resiste ataques simples pero colapsa ante ataques compuestos, señal de que es superficial</button>
+<button class="quiz-opt" data-correct="true" onclick="quizAnswer('quiz-cap9',1,this,true,'Correcto. Shida et al. (2026, arXiv:2604.02652) documentan, en un modelo concreto, un salto de 14,3 % a 71,4 % al combinar técnicas. Una brecha así es una señal de alerta de que el alineamiento no generaliza (el umbral de 40 puntos del manual es una heurística del autor, no un resultado del estudio): el sistema pasaría los tests estándar pero fallaría ante atacantes que combinen técnicas, y no debería aprobarse para criticidad 2+ sin una evaluación más amplia.')">El alineamiento no generaliza: resiste ataques simples pero colapsa ante ataques compuestos, señal de que es superficial</button>
 <button class="quiz-opt" data-correct="false" onclick="quizAnswer('quiz-cap9',1,this,false,'Incorrecto. El ASR base bajo no garantiza seguridad real. Lo que importa es si el alineamiento generaliza: si un atacante puede triplicar el ASR combinando técnicas, el sistema no es robusto para producción crítica.')">El clasificador de entrada falla específicamente con reformulaciones</button>
 </div>
 <div class="quiz-feedback"></div>
@@ -20116,7 +20110,7 @@ renderQuestion();
 <div class="exec-mode"><span class="exec-title">⚡ Modo ejecutivo — Cap. 10</span><dl><dt>Decisión que habilita:</dt><dd>Justificar cada agente añadido a una cadena con evidencia de que el sistema más simple ya demostró ser insuficiente.</dd><dt>Riesgo si se ignora:</dt><dd>La fiabilidad se degrada multiplicativamente con cada nodo: varios agentes fiables por separado pueden dar un sistema poco fiable en conjunto.</dd><dt>Qué hacer mañana:</dt><dd>Antes de tu próxima propuesta de arquitectura agéntica, estima la fiabilidad acumulada multiplicando la fiabilidad de cada paso.</dd></dl></div>
 <div class="warning">
 <strong>⚠️ Lee este capítulo entero antes de proponer una arquitectura agentica</strong>
-    Si en tu organización se está discutiendo un sistema con dos o más agentes en cadena, la decisión más importante no es qué framework usar ni qué modelo elegir — es entender por qué la fiabilidad se degrada multiplicativamente con cada nodo añadido. Este fenómeno, que el manual llama <strong>entropía acumulada</strong> (sección 10.3), es la causa principal del fracaso silencioso de proyectos agenticos en producción. Un pipeline de tres agentes con 95% de fiabilidad individual no produce un sistema con 95% de fiabilidad: produce uno con aproximadamente 86% bajo el supuesto optimista de errores independientes, y peor cuando los errores son correlacionados. La sección 10.3b extiende este análisis a arquitecturas recursivas (Recursive Language Models), donde la degradación es cualitativamente más severa. <strong>Si solo lees dos secciones de este capítulo, que sean 10.3 y 10.3b.</strong>
+    Si en tu organización se está discutiendo un sistema con dos o más agentes en cadena, la decisión más importante no es qué framework usar ni qué modelo elegir — es entender por qué la fiabilidad se degrada multiplicativamente con cada nodo añadido. Este fenómeno, que el manual llama <strong>entropía acumulada</strong> (sección 10.3), es un riesgo central —y fácil de pasar por alto— en proyectos agénticos en producción. Un pipeline de tres agentes con 95% de fiabilidad individual no produce un sistema con 95% de fiabilidad: produce uno con aproximadamente 86% bajo el supuesto optimista de errores independientes, y peor cuando los errores son correlacionados. La sección 10.3b extiende este análisis a arquitecturas recursivas (Recursive Language Models), donde la degradación es cualitativamente más severa. <strong>Si solo lees dos secciones de este capítulo, que sean 10.3 y 10.3b.</strong>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -20717,7 +20711,7 @@ pEl.oninput=render; nEl.oninput=render; cEl.oninput=render; render();
   </div>
 <div class="callout concept">
 <strong>🔎 Quién describe la arquitectura de un asistente comercial, y con qué autoridad</strong>
-<p>Circulan esquemas de la arquitectura de asistentes personales comerciales —un bucle de agente, una máquina con terminal y navegador, conectores a correo y calendario, trabajo en segundo plano, memoria en ficheros, salvaguardas antes de publicar, enviar o comprar— obtenidos preguntándole al propio asistente. Conviene tratarlos como hipótesis, no como documentación. Lo que un modelo dice de su arquitectura es texto generado: puede reproducir su prompt de sistema (el riesgo LLM07 de <a href="#s218">§21.8</a>, y la razón de que <a href="#s105c">§10.5c</a> pida no poner nada sensible en él) o puede ser una reconstrucción plausible a partir de lo que otros textos cuentan de asistentes parecidos. Desde fuera no se distingue una cosa de otra.</p>
+<p>Circulan esquemas de la arquitectura de asistentes personales comerciales —un bucle de agente, una máquina con terminal y navegador, conectores a correo y calendario, trabajo en segundo plano, memoria en ficheros, salvaguardas antes de publicar, enviar o comprar— obtenidos preguntándole al propio asistente. Conviene tratarlos como hipótesis, no como documentación. Lo que un modelo dice de su arquitectura es texto generado: puede reproducir su prompt de sistema (el riesgo «Hidden Context Exposure», antes «System Prompt Leakage», de <a href="#s218">§21.8</a>, y la razón de que <a href="#s105c">§10.5c</a> pida no poner nada sensible en él) o puede ser una reconstrucción plausible a partir de lo que otros textos cuentan de asistentes parecidos. Desde fuera no se distingue una cosa de otra.</p>
 <p>Un caso de septiembre de 2026: se difundió un esquema así de Muse, el asistente de Meta. El comunicado oficial de Muse Spark (abril de 2026) confirma el lanzamiento de varios subagentes en paralelo y no menciona la máquina Linux, el navegador, las tareas programadas, la memoria en ficheros ni los conectores del esquema. Que no los mencione no prueba que no existan; indica que el esquema no se apoya en esa fuente.</p>
 <p>Dos reglas prácticas. Primera: separar en cada esquema lo confirmado por el proveedor de lo declarado por el propio asistente, y citar cada parte con su origen. Segunda: para gobernanza, diseñar contra lo que se puede observar —llamadas, permisos y registros (<a href="#s106">§10.6</a>, <a href="#s126">§12.6</a>)— y no contra el organigrama que el asistente cuenta de sí mismo.</p>
 </div>
@@ -22145,7 +22139,7 @@ window.addEventListener(&quot;resize&quot;,fit);fit();
     Este módulo cubre el stack completo de producción: evaluación, CI/CD, circuit breaker, supervisión humana, MLOps, AI Act. Todo está aquí porque en algún contexto es obligatorio. Pero no todo es obligatorio en tu contexto. Antes de leer cada capítulo, pregúntate: ¿mi sistema es de qué nivel? La tabla siguiente te dice exactamente qué necesitas y qué es sobreingeniería para tu caso.
   </div>
 <h2>El mapa de complejidad: qué necesitas realmente según lo que construyes</h2>
-<p>El Capítulo 11 explica los cuatro niveles de criticidad en detalle. Esta tabla te da la respuesta práctica antes de que leas ese capítulo: qué componentes son obligatorios en cada nivel, cuáles son recomendados y cuáles son directamente sobreingeniería. El criterio rápido de nivel: ¿qué pasa si el sistema falla? Si la respuesta es "el usuario se molesta un poco" → Nivel 1. "Alguien toma una decisión económica incorrecta" → Nivel 2. "Alguien es discriminado o sufre daño real" → Nivel 3.</p>
+<p>El Capítulo 11 explica los cuatro niveles de criticidad en detalle. Esta tabla te da la respuesta práctica antes de que leas ese capítulo: qué componentes son obligatorios en cada nivel según el marco de este manual (no en sentido legal), cuáles son recomendados y cuáles son directamente sobreingeniería. El criterio rápido de nivel: ¿qué pasa si el sistema falla? Si la respuesta es "el usuario se molesta un poco" → Nivel 1. "Alguien toma una decisión económica incorrecta" → Nivel 2. "Alguien es discriminado o sufre daño real" → Nivel 3.</p>
 <table>
 <thead>
 <tr>
@@ -22158,7 +22152,7 @@ window.addEventListener(&quot;resize&quot;,fit);fit();
 <tbody>
 <tr><td>Pipeline RAG funcional</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
 <tr><td>Logging de queries y respuestas</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
-<tr><td>Golden dataset mínimo (≥20 pares)</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
+<tr><td>Golden dataset mínimo para arrancar (≥20 pares; insuficiente por sí solo para decidir un despliegue)</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
 <tr><td>Feedback del usuario (aunque sea un botón)</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
 <tr><td>Evaluación de faithfulness (offline)</td><td>⚠️ Recomendado</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
 <tr><td>Patrón sándwich (validación determinista del output)</td><td>⚠️ Si el output tiene efectos externos</td><td>✅ Obligatorio</td><td>✅ Obligatorio</td></tr>
@@ -22572,6 +22566,10 @@ showDetail(cells[0],'inmediata',null);
 <tr><td>Nivel 4</td><td>&gt;&gt; 99.9%</td><td>Completa + inmutable</td><td>Siempre (HITL)</td><td>Certificación previa al despliegue</td></tr>
 </tbody>
 </table>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · Esta tabla es el marco operativo del autor, no un umbral legal</strong>
+    Las cifras de precisión (&gt; 90 %, &gt; 95 %, &gt; 98 %, &gt;&gt; 99,9 %) y los controles asociados son un punto de partida pedagógico para calibrar el esfuerzo, no un estándar y tampoco una traducción del AI Act: el Reglamento no fija umbrales de precisión de este tipo para cada nivel de este manual, y los niveles 1–4 de aquí no coinciden con las categorías de riesgo legales (Cap. 16). En un sistema real, el umbral se define por caso de uso: qué métrica se mide (exactitud, recall, tasa de error por subgrupo…), sobre qué conjunto de evaluación, con qué intervalo de confianza y con qué coste de cada tipo de error; y lo valida alguien distinto de quien construyó el sistema. «Obligatorio» en las tablas de este manual significa «lo exige este marco para ese nivel», no «lo exige la ley».
+</div>
 <div class="callout concept">
 <h4 id="ca-primera-segunda-seguridad">📐 Concepto del autor: Primera y Segunda Seguridad</h4>
 <div style="margin-bottom:10px;">
@@ -25537,7 +25535,7 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre MLOps para sistemas RAG que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Comprueba el <a href="https://github.com/your-repo/comprender-la-ia/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre MLOps para sistemas RAG que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -25900,7 +25898,7 @@ jobs:
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre regulación IA (AI Act, CNIL, normativa europea) que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Comprueba el <a href="https://github.com/your-repo/comprender-la-ia/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre regulación IA (AI Act, CNIL, normativa europea) que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -25925,7 +25923,7 @@ jobs:
     <br/><br/>
 <strong>Este capítulo mapea obligaciones técnicas de implementación. No constituye asesoramiento jurídico. Las obligaciones concretas dependen de tu jurisdicción, tipo de sistema y uso específico. Consulta con asesoría legal certificada en regulación IA antes de tomar decisiones de cumplimiento vinculantes.</strong>
 </div>
-<div class="expands">🔄 <strong>Ampliando Cap. 11:</strong> en el Cap. 11 viste los cuatro niveles de criticidad como herramienta de diseño. Este capítulo añade el marco legal que los hace obligatorios — el AI Act no inventa los niveles, los codifica como requisitos de cumplimiento.</div>
+<div class="expands">🔄 <strong>Ampliando Cap. 11:</strong> en el Cap. 11 viste los cuatro niveles de criticidad como herramienta de diseño. Este capítulo añade el marco legal. Ojo: los niveles 1–4 son el marco del autor; el AI Act tiene sus propias categorías de riesgo (prácticas prohibidas, alto riesgo, transparencia y riesgo mínimo) y la correspondencia entre ambos es orientativa, no una equivalencia jurídica.</div>
 <h2 id="s161">16.1 La arquitectura del AI Act en cinco minutos <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
 <p>El AI Act clasifica los sistemas de IA en cuatro categorías de riesgo, con obligaciones proporcionales al nivel de riesgo:</p>
 <section id="act16" aria-label="Figura interactiva: clasificador AI Act">
@@ -28572,9 +28570,9 @@ validateArchitecture();
 
   
   <div class="callout concept">
-<h4 id="ca-conservadurismo-arcagi3">📐 Concepto del autor: El conservadurismo estadístico ante el razonamiento nuevo — evidencia ARC-AGI-3</h4>
-<p>El conservadurismo estadístico descrito en este apartado no es solo una tendencia cualitativa: tiene una demostración empírica cuantitativa en el benchmark ARC-AGI-3 (Chollet, marzo 2026). El test mide la capacidad de un agente para explorar un entorno sin instrucciones, deducir sus reglas y aprender a "ganar" — precisamente el tipo de razonamiento que <em>no</em> se aprende por correlación estadística.</p>
-<p>Los modelos de lenguaje más avanzados disponibles en 2026 obtuvieron puntuaciones próximas a cero frente al 100 % de los evaluadores humanos. La causa no es insuficiencia de datos o parámetros: es que el razonamiento simbólico genuinamente nuevo — formar hipótesis, testarlas, deducir reglas y aplicarlas a situaciones no vistas — es una operación cognitiva cualitativamente diferente de la predicción estadística de tokens.</p>
+<h4 id="ca-conservadurismo-arcagi3">📐 Concepto del autor: El conservadurismo estadístico ante el razonamiento nuevo — indicio ARC-AGI-3</h4>
+<p>El conservadurismo estadístico descrito en este apartado no es solo una tendencia cualitativa: puede leerse junto a un resultado cuantitativo, el del benchmark ARC-AGI-3 (Chollet, marzo 2026), que es un indicio compatible con esa tesis, no una demostración de ella. El test mide la capacidad de un agente para explorar un entorno sin instrucciones, deducir sus reglas y aprender a "ganar" — precisamente el tipo de razonamiento que <em>no</em> se aprende por correlación estadística.</p>
+<p>Los modelos de lenguaje más avanzados disponibles en 2026 obtuvieron puntuaciones próximas a cero (resultados del lanzamiento, marzo de 2026) frente al 100 % de los evaluadores humanos. Una lectura posible —<strong>hipótesis del autor</strong>— es que el razonamiento simbólico genuinamente nuevo (formar hipótesis, testarlas, deducir reglas y aplicarlas a situaciones no vistas) sea una operación cualitativamente diferente de la predicción estadística de tokens, y no solo cuestión de más datos o parámetros. El benchmark, por sí solo, no permite distinguir esa explicación de otras: el diseño de la tarea, el formato de interacción o las herramientas disponibles para el agente también influyen en la puntuación.</p>
 <p>Para el diseñador de sistemas, esto tiene una consecuencia directa en cómo evalúas tu golden dataset: si todos tus casos de evaluación son variaciones de patrones ya vistos en el corpus, estás midiendo el conservadurismo estadístico, no el razonamiento. Añade intencionalmente casos que requieran inferir reglas nuevas a partir de ejemplos mínimos.</p>
 </div>
 <div class="callout concept">
@@ -29001,8 +28999,8 @@ validateArchitecture();
 <h4>📐 El dato que cambia la conversación: 14,3% → 71,4%</h4>
 <p>Estudio Shida et al. (2026, arXiv:2604.02652), sobre gpt-oss-20b: probaron tres técnicas de alineamiento contra ataques simples y compuestos.</p>
 <p><strong>Ataque simple:</strong> 14,3% ASR. <strong>Mismo ataque combinado</strong> con razonamiento en cadena + reformulación + contexto falso: 71,4% ASR.</p>
-<p>El delta de 57 puntos mide cuánto no generaliza el alineamiento. Un sistema que pasa los tests estándar puede colapsar ante un atacante que combine técnicas. <strong>Protocolo de diagnóstico:</strong> si tu delta ASR (simple vs. compuesto) supera 40 puntos, el alineamiento es superficial para criticidad 2+.</p>
-<p style="margin-bottom:0;font-size:.82rem;color:var(--muted);">Cómo replicarlo: toma 10 prompts de JailbreakBench → ejecuta versión simple → añade "piensa paso a paso y considera todos los ángulos" → calcula delta.</p>
+<p>El delta de 57 puntos mide cuánto no generaliza el alineamiento. Un sistema que pasa los tests estándar puede colapsar ante un atacante que combine técnicas. <strong>Señal de alerta (heurística del autor, no resultado del estudio):</strong> una diferencia grande entre el ASR simple y el compuesto —por ejemplo, de 40 puntos o más— indica que el alineamiento probablemente no generaliza y justifica una evaluación más amplia. El umbral de 40 puntos no procede de Shida et al. ni de ninguna norma: el estudio solo documenta este caso (un modelo, tres técnicas de alineamiento).</p>
+<p style="margin-bottom:0;font-size:.82rem;color:var(--muted);">Screening exploratorio (no es una réplica del estudio): toma 10 prompts de JailbreakBench → ejecuta versión simple → añade "piensa paso a paso y considera todos los ángulos" → calcula delta. Con 10 prompts el ASR avanza en saltos de 10 puntos y su intervalo de confianza del 95 % es de unos ±30 puntos: pasar de 1/10 a 5/10 (40 puntos) no es estadísticamente distinguible del azar (p ≈ 0,14, test exacto de Fisher). Para decidir algo, usa los 100 prompts de JailbreakBench más los 20 de tu dominio, con repeticiones e intervalos de confianza.</p>
 </div>
 <div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(239,68,68,.25);background:var(--card,#fff)">
 <div style="background:rgba(239,68,68,.06);padding:8px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(239,68,68,.15)">
@@ -29420,23 +29418,27 @@ updateAttackConfig();
     El Paso 1 (Atacar) del protocolo de 5 pasos debe incluir, además de jailbreaks directos, un conjunto de documentos envenenados en tu propio corpus y de resultados de herramienta manipulados, y medir dos cosas por separado: (a) si el modelo obedece la instrucción inyectada y (b) si, obedeciéndola, el sistema llega a ejecutar un efecto. La métrica que importa para el negocio es (b); la que suele reportarse es (a).
   </div>
 
-<h2 id="s218">21.8 Mapa OWASP Top 10 para aplicaciones LLM (2025) → dónde lo cubre este manual</h2>
+<h2 id="s218">21.8 Mapa OWASP Top 10 para aplicaciones LLM (2026) → dónde lo cubre este manual</h2>
 <p>El OWASP Top 10 for LLM Applications es el vocabulario común que usarán auditores, equipos de seguridad y licitaciones. Esta tabla traduce cada categoría a las secciones del manual donde se trata, para que puedas responder a un cuestionario de seguridad sin reescribir tu documentación.</p>
 <table>
-<thead><tr><th>OWASP (2025)</th><th>En qué consiste</th><th>Dónde en el manual</th></tr></thead>
+<thead><tr><th>OWASP (2026)</th><th>En qué consiste</th><th>Dónde en el manual</th></tr></thead>
 <tbody>
 <tr><td><strong>LLM01</strong> Prompt Injection</td><td>Directa e indirecta</td><td>21.1–21.2, <a href="#s214">21.4</a>, <a href="#s217">21.7</a>, <a href="#s1313">§13.13</a></td></tr>
 <tr><td><strong>LLM02</strong> Sensitive Information Disclosure</td><td>Fuga de datos personales o confidenciales en la salida</td><td><a href="#s215">21.5</a>, <a href="#s105c">§10.5c</a> (aislamiento multi-tenant), anonimización pre-API (glosario)</td></tr>
-<tr><td><strong>LLM03</strong> Supply Chain</td><td>Modelos, datasets, plugins y servidores de terceros comprometidos</td><td><a href="#s216">21.6</a> (servidores MCP), Cap. 15 (versionado de modelos)</td></tr>
-<tr><td><strong>LLM04</strong> Data and Model Poisoning</td><td>Envenenamiento del entrenamiento, del fine-tuning o del corpus</td><td>21.2 (Caso 1, Tay), <a href="#s214">21.4.1</a>, Cap. 5.7 (fine-tuning)</td></tr>
-<tr><td><strong>LLM05</strong> Improper Output Handling</td><td>Usar la salida del LLM sin validar (XSS, SQL, comandos, URLs)</td><td><a href="#s215">21.5.1</a>, Cap. 12 (Capa 3 del sándwich)</td></tr>
-<tr><td><strong>LLM06</strong> Excessive Agency</td><td>Demasiadas herramientas, permisos o autonomía</td><td><a href="#s216">21.6</a>, <a href="#s217">21.7</a>, Cap. 10.2 (agente mínimo viable), Cap. 14</td></tr>
-<tr><td><strong>LLM07</strong> System Prompt Leakage</td><td>Extracción del system prompt o de secretos incluidos en él</td><td>21.2 (Caso 3); regla: nunca pongas credenciales ni lógica de autorización en el prompt (§10.5c)</td></tr>
-<tr><td><strong>LLM08</strong> Vector and Embedding Weaknesses</td><td>Acceso indebido entre tenants en el vector store, inversión de embeddings, envenenamiento del índice</td><td><a href="#s105c">§10.5c</a>, Cap. 6</td></tr>
-<tr><td><strong>LLM09</strong> Misinformation</td><td>Alucinaciones presentadas como hechos</td><td>Cap. 0.4, Cap. 3, Cap. 13 (faithfulness)</td></tr>
-<tr><td><strong>LLM10</strong> Unbounded Consumption</td><td>Denegación de servicio y "denial of wallet" por consumo de tokens</td><td>Cap. 12.4 (circuit breaker), Apéndice de costes y latencia</td></tr>
+<tr><td><strong>LLM03</strong> Excessive Agency <em>(sube del puesto 6 al 3)</em></td><td>Demasiadas herramientas, permisos o autonomía</td><td><a href="#s216">21.6</a>, <a href="#s217">21.7</a>, Cap. 10.2 (agente mínimo viable), Cap. 14</td></tr>
+<tr><td>Supply Chain</td><td>Modelos, datasets, plugins y servidores de terceros comprometidos</td><td><a href="#s216">21.6</a> (servidores MCP), Cap. 15 (versionado de modelos)</td></tr>
+<tr><td>Data and Model Poisoning</td><td>Envenenamiento del entrenamiento, del fine-tuning o del corpus</td><td>21.2 (Caso 1, Tay), <a href="#s214">21.4.1</a>, Cap. 5.7 (fine-tuning)</td></tr>
+<tr><td>Improper Output Handling</td><td>Usar la salida del LLM sin validar (XSS, SQL, comandos, URLs)</td><td><a href="#s215">21.5.1</a>, Cap. 12 (Capa 3 del sándwich)</td></tr>
+<tr><td>Hidden Context Exposure <em>(nueva en 2026; sustituye a System Prompt Leakage)</em></td><td>Exposición del contexto que el usuario no ve: system prompt y secretos incluidos en él, pero también documentos recuperados, memoria, estado de la aplicación, esquemas y respuestas de herramientas</td><td>21.2 (Caso 3); regla: nunca pongas credenciales ni lógica de autorización en el prompt (<a href="#s105c">§10.5c</a>); Cap. 6 (qué entra en el contexto)</td></tr>
+<tr><td>Vector and Embedding Weaknesses</td><td>Acceso indebido entre tenants en el vector store, inversión de embeddings, envenenamiento del índice</td><td><a href="#s105c">§10.5c</a>, Cap. 6</td></tr>
+<tr><td>Misinformation</td><td>Alucinaciones presentadas como hechos</td><td>Cap. 0.4, Cap. 3, Cap. 13 (faithfulness)</td></tr>
+<tr><td>Unbounded Consumption</td><td>Denegación de servicio y "denial of wallet" por consumo de tokens</td><td>Cap. 12.4 (circuit breaker), Apéndice de costes y latencia</td></tr>
 </tbody>
 </table>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · Qué está verificado de esta lista</strong>
+    La edición 2026 existe: el proyecto OWASP GenAI Security Project la presentó el 1 de septiembre de 2026 (con reordenación de prioridades y el nuevo <em>Agent Control Standard</em>), y el anuncio oficial sitúa <em>Excessive Agency</em> en el tercer puesto. El texto completo de la lista se contrastó en fuentes secundarias (nota de investigación de la Cloud Security Alliance, Akamai y Cyber Security News), que coinciden en los puestos 1–3 y en que <em>Hidden Context Exposure</em> reemplaza a <em>System Prompt Leakage</em>, pero <b>discrepan en la numeración de LLM04–LLM10</b>. Por eso esta tabla fija el identificador solo donde hay coincidencia y deja el resto por nombre, sin orden. Para un cuestionario de seguridad o una licitación, cita siempre la lista oficial en genai.owasp.org y completa los identificadores desde ahí.
+</div>
 <p style="font-size:.85rem;color:var(--muted);">Complementos útiles para auditoría: MITRE ATLAS (catálogo de tácticas y técnicas adversariales contra sistemas de IA, en el formato de ATT&amp;CK) y NIST AI 100-2 (taxonomía de ataques de machine learning adversarial). Para agentes, OWASP AISVS (ver §10.10.2).</p>
 
 <h2 id="s219">21.9 Qué controlas y qué NO garantizas</h2>
@@ -29485,7 +29487,7 @@ updateAttackConfig();
 <div style="font-weight:700;font-size:.9rem;color:#f87171;margin-bottom:10px;">🔴 Paso 1 — Atacar (red teaming)</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:.78rem;">
 <div><strong style="color:rgba(255,255,255,.7);">Herramientas:</strong><ul style="margin:6px 0;padding-left:16px;line-height:1.9;"><li>JailbreakBench: 100 prompts adversariales estandarizados</li><li>20 prompts adicionales de tu dominio específico</li><li>4 vectores mínimos: directo, ABJ, multimodal e inyección indirecta (documentos y resultados de herramienta envenenados, 21.4)</li></ul></div>
-<div><strong style="color:rgba(255,255,255,.7);">Protocolo:</strong><ul style="margin:6px 0;padding-left:16px;line-height:1.9;"><li>Temperatura 0, 0.7 y 1.0 — 3 repeticiones cada una</li><li>Registrar: prompt, vector, temperatura, resultado</li><li>Si ASR &gt;20% en criticidad 2+: no pasar a producción</li></ul></div>
+<div><strong style="color:rgba(255,255,255,.7);">Protocolo:</strong><ul style="margin:6px 0;padding-left:16px;line-height:1.9;"><li>Temperatura 0, 0.7 y 1.0 — 3 repeticiones cada una</li><li>Registrar: prompt, vector, temperatura, resultado</li><li>Objetivo del autor (no es un estándar): ASR &gt;20% en criticidad 2+ → no pasar a producción sin mitigación adicional</li></ul></div>
 </div>
 </div>
 <div class="p5-content" id="p5-p1" style="display:none;">
@@ -29494,7 +29496,7 @@ updateAttackConfig();
 <div><strong style="color:rgba(255,255,255,.7);">ASR:</strong><code style="display:block;background:rgba(0,0,0,.3);padding:6px 10px;border-radius:4px;margin:6px 0;font-size:.74rem;">ataques_exitosos / total × 100</code>Graficar por vector y temperatura. Calcular delta simple vs. compuesto.</div>
 <div><strong style="color:rgba(255,255,255,.7);">FRR:</strong><code style="display:block;background:rgba(0,0,0,.3);padding:6px 10px;border-radius:4px;margin:6px 0;font-size:.74rem;">rechazos_legítimos / benignas × 100</code>Golden dataset benigno de 200 preguntas del dominio. Graficar curva ASR/FRR.</div>
 </div>
-<div style="margin-top:10px;background:rgba(251,191,36,.1);border-radius:6px;padding:8px 12px;font-size:.76rem;">Si delta ASR (simple → compuesto) supera 40 puntos: alineamiento superficial. No apto para criticidad 2+.</div>
+<div style="margin-top:10px;background:rgba(251,191,36,.1);border-radius:6px;padding:8px 12px;font-size:.76rem;"><strong>Señal de alerta (heurística del autor):</strong> si el delta ASR (simple → compuesto) es de 40 puntos o más, investiga antes de seguir: amplía la muestra, calcula intervalos de confianza y repite con otras técnicas. La decisión de apto / no apto para criticidad 2+ se toma con el ASR total medido sobre una muestra suficiente y con la tolerancia de tu caso de uso, no solo con el delta.</div>
 </div>
 <div class="p5-content" id="p5-p2" style="display:none;">
 <div style="font-weight:700;font-size:.9rem;color:#60a5fa;margin-bottom:10px;">🛡 Paso 3 — Defender</div>
@@ -29508,11 +29510,11 @@ updateAttackConfig();
 <div class="p5-content" id="p5-p3" style="display:none;">
 <div style="font-weight:700;font-size:.9rem;color:#34d399;margin-bottom:10px;">✅ Paso 4 — Verificar</div>
 <table style="font-size:.76rem;margin-top:4px;">
-<thead><tr><th>Métrica</th><th>Objetivo post-mitigación</th><th>Si no se alcanza</th></tr></thead>
+<thead><tr><th>Métrica</th><th>Objetivo post-mitigación (heurística del autor; ajústalo a tu caso)</th><th>Si no se alcanza</th></tr></thead>
 <tbody>
 <tr><td>ASR total</td><td>&lt;20% (crit. 2) / &lt;5% (crit. 3+)</td><td>Volver al Paso 3. No pasar a producción.</td></tr>
 <tr><td>FRR</td><td>&lt;5-15% según sector</td><td>Ajustar umbral del clasificador.</td></tr>
-<tr><td>Delta ABJ</td><td>&lt;40 puntos sobre ASR base</td><td>Alineamiento superficial. Considerar cambio de modelo.</td></tr>
+<tr><td>Delta ABJ <em>(heurística del autor)</em></td><td>&lt;40 puntos sobre ASR base</td><td>Señal de alineamiento superficial: ampliar la muestra y reevaluar; si se confirma, considerar cambio de modelo.</td></tr>
 </tbody>
 </table>
 </div>
@@ -29599,7 +29601,7 @@ updateAttackConfig();
 <li>Invariant Labs (2025). MCP Security Notification: Tool Poisoning Attacks (abril) y GitHub MCP Exploited: Accessing private repositories via MCP (mayo). <em>invariantlabs.ai</em>.</li>
 <li>Aim Labs (2025). EchoLeak — CVE-2025-32711, Microsoft 365 Copilot. <em>MSRC, junio de 2025</em>.</li>
 <li>OpenAI Alignment (2026). Self-replicating prompt injections exist. <em>alignment.openai.com, misalignment reports, 25 de septiembre de 2026</em>. — Cohen, Bitton y Nassi (2024). Here Comes The AI Worm: Unleashing Zero-click Worms that Target GenAI-Powered Applications (Morris II). <em>arXiv:2403.02817</em>.</li>
-<li>OWASP (2024). OWASP Top 10 for LLM Applications 2025. <em>genai.owasp.org</em>. — MITRE ATLAS, <em>atlas.mitre.org</em>. — NIST AI 100-2 E2025, Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations.</li>
+<li>OWASP GenAI Security Project (2026). <em>OWASP GenAI LLM Top 10 2026</em> (anuncio del 1 de septiembre de 2026). <em>genai.owasp.org</em>. Edición anterior: OWASP Top 10 for LLM Applications 2025. — MITRE ATLAS, <em>atlas.mitre.org</em>. — NIST AI 100-2 E2025, Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations.</li>
 <li>Reglamento UE 2024/1689 (AI Act). <em>EUR-Lex, digital-strategy.ec.europa.eu</em>.</li>
 </ul>
 <div class="callout" style="border-left:3px solid #6366f1;background:rgba(99,102,241,.06);padding:16px 20px;margin:32px 0;">
@@ -29619,11 +29621,11 @@ updateAttackConfig();
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Comprueba el <a href="https://github.com/your-repo/comprender-la-ia/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Los nombres de modelos de este capítulo son ejemplos de 2023–2024, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
-    La mayoría de aplicaciones de IA en producción en 2025–2026 ya no son solo texto. GPT-4V analiza capturas de pantalla, Whisper transcribe audio en tiempo real, Stable Diffusion genera imágenes en pipelines de marketing, y Gemini 1.5 procesa vídeos enteros. Este capítulo te da el mapa técnico de cada modalidad, sus límites reales, y cómo combinarlas sin multiplicar puntos de fallo.
+    Cada vez más aplicaciones de IA en producción combinan el texto con otras modalidades (no hay una estadística fiable de cuántas): hay modelos que analizan capturas de pantalla, transcriben audio en tiempo real, generan imágenes en pipelines de marketing o procesan vídeos largos. Los modelos concretos que nombra este capítulo (GPT-4V, GPT-4o, Gemini 1.5, Whisper, Stable Diffusion…) son ejemplos de 2023–2024 de cada tipo de capacidad, no una lista vigente: comprueba nombres, versiones, precios y límites en la documentación oficial del proveedor antes de decidir. Este capítulo te da el mapa técnico de cada modalidad, sus límites reales, y cómo combinarlas sin multiplicar puntos de fallo.
   </div>
 <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
 <div style="font-family:monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// al terminar este capítulo, serás capaz de</div>
@@ -30365,7 +30367,7 @@ updateAttackConfig();
 <tr><td>21</td><td><a href="#ca-asimetria-deteccion">13.14.4 — La asimetría detección/prescripción: el modelo localiza, el autor opera</a></td><td>§13.14.4</td></tr>
 <tr><td>22</td><td><a href="#ca-modo-oraculo-sonda">Modo Oráculo vs. Modo Sonda/Interlocutor vs. Modo Engagement-Optimizado</a></td><td>Cap. 13-14</td></tr>
 <tr><td>23</td><td><a href="#s142b">14.2b — Derechos de decisión: la capa que la supervisión no resuelve</a></td><td>§14.2b</td></tr>
-<tr><td>24</td><td><a href="#ca-conservadurismo-arcagi3">El conservadurismo estadístico ante el razonamiento nuevo — evidencia ARC-AGI-3</a></td><td>§20.1</td></tr>
+<tr><td>24</td><td><a href="#ca-conservadurismo-arcagi3">El conservadurismo estadístico ante el razonamiento nuevo — indicio ARC-AGI-3</a></td><td>§20.1</td></tr>
 <tr><td>25</td><td><a href="#ca-evidencia-segundo-orden">Evidencia de segundo orden — la convergencia multi-sistema</a></td><td>Cap. 20</td></tr>
 <tr><td>26</td><td><a href="#ca-constitucion-politica">La constitución como acto político — sesgo normativo vs. sesgo estadístico</a></td><td>Cap. 20</td></tr>
 <tr><td>27</td><td><a href="#ca-captura-correcciones">La captura de las correcciones</a></td><td>Cap. 20</td></tr>
