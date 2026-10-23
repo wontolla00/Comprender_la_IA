@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v132</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v133</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v132 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v133 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -1318,7 +1318,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 <div class="toc-item" style="padding-left:1.2rem;font-size:.9em;color:var(--muted);"><a href="#s52b">· 5.2b Taxonomía completa de mecanismos de atención</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b1">· 5.2b.1 Los cuatro mecanismos fundamentales</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b2">· 5.2b.2 Cross-Attention — cómo se conectan dos secuencias</a></div>
-<div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b3">· 5.2b.3 Enciclopedia interactiva: los 47 mecanismos</a></div>
+<div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b3">· 5.2b.3 Enciclopedia interactiva: 47 variantes y técnicas</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b4">· 5.2b.4 Qué usa cada modelo — la tabla que falta en los papers</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b5">· 5.2b.5 Línea de tiempo: evolución 2014→2026</a></div>
 <div class="toc-item" style="padding-left:1.8rem;font-size:.9em;color:var(--muted);"><a href="#s52b6">· 5.2b.6 Mapa de decisión: ¿qué te importa según lo que construyes?</a></div>
@@ -11234,12 +11234,13 @@ Hay más de 40 variantes documentadas de atención. No las usarás todas, ni siq
 CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<sub>dec</sub>K<sub>enc</sub>ᵀ / √d<sub>k</sub>) V<sub>enc</sub>
 </div>
 <p>En modelos solo-decoder como GPT o LLaMA no existe cross-attention; solo self-attention causal. La cross-attention es la base de la traducción encoder-decoder (T5, BART), del reconocimiento de voz de Whisper y de la condición por texto de los modelos de difusión; entre los modelos de visión-lenguaje la usa Flamingo (Alayrac et al., 2022). No la usan todos: CLIP alinea imagen y texto con dos codificadores y una pérdida contrastiva, sin cross-attention; LLaVA proyecta la imagen a tokens que se concatenan al contexto; y la arquitectura de GPT-4V no es pública. RAFT (Retrieval Augmented Fine-Tuning) no es un mecanismo de atención sino una receta de fine-tuning: entrena al modelo con contextos que mezclan documentos relevantes y distractores, y el modelo los lee con su self-attention causal habitual.</p>
-<h3 id="s52b3">5.2b.3 Enciclopedia interactiva: los 47 mecanismos</h3>
+<h3 id="s52b3">5.2b.3 Enciclopedia interactiva: 47 variantes y técnicas</h3>
+<div class="nota"><strong>🔎 Matiz (2026-10) · qué cuenta el «47»</strong> Son 47 entradas de un catálogo, no 47 mecanismos distintos: mezclan mecanismos de atención propiamente dichos, variantes de una misma idea, técnicas de posición, y optimizaciones de implementación o de servicio (como FlashAttention o PagedAttention, que calculan la misma atención de forma más eficiente). Algunos nombres se solapan, la clasificación por familias es del autor y los años son de la primera publicación conocida, no siempre la versión de conferencia. Para citar un mecanismo, acude al artículo original.</div>
 <p>Las variantes completas, organizadas por familia, con fórmula, uso típico y pros/contras:</p>
 <div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(45,212,191,.3);background:var(--card,#fff)">
 <div style="background:rgba(45,212,191,.06);padding:10px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(45,212,191,.15)">
 <span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#0d9488;font-weight:700">📚 ENCICLOPEDIA INTERACTIVA</span>
-<span style="font-size:.8rem;color:var(--muted)">47 mecanismos — busca por nombre o filtra por categoría</span>
+<span style="font-size:.8rem;color:var(--muted)">47 entradas (variantes y técnicas) — busca por nombre o filtra por categoría</span>
 </div>
 <iframe loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;es&quot;&gt;
@@ -11270,7 +11271,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 &lt;h1 class=&quot;text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500&quot;&gt;
  Compendio Global de Mecanismos de Atención
 &lt;/h1&gt;
-                &lt;p class=&quot;text-xs text-slate-400 mt-0.5&quot;&gt;La taxonomía definitiva: 47 variantes analizadas con Pros y Contras&lt;/p&gt;
+                &lt;p class=&quot;text-xs text-slate-400 mt-0.5&quot;&gt;Catálogo de 47 entradas (variantes, técnicas y optimizaciones) con pros y contras; clasificación del autor&lt;/p&gt;
             &lt;/div&gt;
             
             &lt;!-- Barra de Búsqueda y Filtros Rápidos --&gt;
@@ -11375,7 +11376,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 cons: &quot;Dificulta la propagación instantánea de información global; requiere múltiples capas para que los extremos de una frase se conozcan.&quot;
             },
             {
-                id: 8, category: &quot;efficient&quot;, name: &quot;Strided Attention&quot;, year: &quot;2020&quot;,
+                id: 8, category: &quot;efficient&quot;, name: &quot;Strided Attention&quot;, year: &quot;2019&quot;,
                 desc: &quot;Atención a intervalos predefinidos. El token 'i' solo puede mirar a tokens saltando de 'k' en 'k' posiciones (ej: i-k, i-2k...).&quot;,
                 formula: &quot;Alineación condicional por residuo de índice&quot;,
                 use: &quot;Procesamiento periódico de series temporales y arquitecturas de contexto extendido (Sparse Transformers).&quot;,
@@ -11399,7 +11400,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 cons: &quot;Si dos piezas clave de información caen en bloques inconexos, el modelo jamás podrá correlacionarlas.&quot;
             },
             {
-                id: 11, category: &quot;efficient&quot;, name: &quot;Fixed Pattern Attention&quot;, year: &quot;2020&quot;,
+                id: 11, category: &quot;efficient&quot;, name: &quot;Fixed Pattern Attention&quot;, year: &quot;2019&quot;,
                 desc: &quot;Diseña un mapa estático de conexiones inmutables combinando ejes globales y locales fijos en tiempo de diseño.&quot;,
                 formula: &quot;Patrón determinista estático&quot;,
                 use: &quot;Variaciones optimizadas de Transformers ligeros.&quot;,
@@ -11408,7 +11409,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
             },
             // 4. POSITION
             {
-                id: 12, category: &quot;position&quot;, name: &quot;Relative Positional Attention&quot;, year: &quot;2019&quot;,
+                id: 12, category: &quot;position&quot;, name: &quot;Relative Positional Attention&quot;, year: &quot;2018-2019&quot;,
                 desc: &quot;Modifica el cálculo inyectando la distancia geométrica indexada relativa entre la consulta y la clave dentro del producto escalar.&quot;,
                 formula: &quot;Score = q_i * k_j^T + q_i * R_{i-j}&quot;,
                 use: &quot;Modelos como T5 y Transformer-XL.&quot;,
@@ -11475,11 +11476,11 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 cons: &quot;Requiere almacenar y entrenar los parámetros adicionales de la matriz W, elevando costes.&quot;
             },
             {
-                id: 20, category: &quot;especializada&quot;, name: &quot;Dot-Product con Temperatura&quot;, year: &quot;2017&quot;,
+                id: 20, category: &quot;especializada&quot;, name: &quot;Dot-Product con Temperatura (variante, no un mecanismo propio)&quot;, year: &quot;2017&quot;,
                 desc: &quot;Introduce un factor escalar ajustable (Temperatura T) dentro de la exponencial para suavizar o acentuar radicalmente la distribución resultante.&quot;,
                 formula: &quot;Score = softmax(Q K^T / (T * √d_k))&quot;,
-                use: &quot;Control de aleatoriedad y calibración de confianza en la decodificación de LLMs.&quot;,
-                pros: &quot;Permite cambiar el comportamiento del modelo de ultra-preciso a creativo en tiempo de inferencia sin reentrenar.&quot;,
+                use: &quot;Variante de escalado de los scores de atención. No es la temperatura de muestreo del Cap. 5.4, que actúa sobre los logits de salida; no las confundas.&quot;,
+                pros: &quot;Permite acentuar o suavizar la distribución de atención sin cambiar los pesos (efecto distinto al de la temperatura de muestreo).&quot;,
                 cons: &quot;Temperaturas extremas desestabilizan la distribución de salida o rompen por completo la coherencia sintáctica.&quot;
             },
             {
@@ -11658,11 +11659,11 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
             },
             // 14. RECIENTES (2023-2026)
             {
-                id: 42, category: &quot;reciente&quot;, name: &quot;FlashAttention (1, 2 &amp; 3)&quot;, year: &quot;2023-2025&quot;,
+                id: 42, category: &quot;reciente&quot;, name: &quot;FlashAttention (1, 2 &amp; 3)&quot;, year: &quot;2022-2024&quot;,
                 desc: &quot;Una de las mayores revoluciones prácticas. No cambia la matemática de la atención, sino su ejecución en el hardware. Aplica técnicas de división en bloques (tiling) para calcular la atención exacta por fragmentos directamente en la memoria SRAM de la GPU sin escribir constantemente en la lenta memoria global VRAM (HBM).&quot;,
-                formula: &quot;Cálculo exacto bajo restricciones de I/O de memoria cuántica por bloques&quot;,
-                use: &quot;Core de aceleración en todos los clústeres de entrenamiento modernos (vLLM, HuggingFace, Deepspeed).&quot;,
-                pros: &quot;Aceleración masiva de entre 2x y 4x en el entrenamiento e inferencia reduciendo drásticamente el consumo de memoria física.&quot;,
+                formula: &quot;Atención exacta calculada por bloques (tiling) para reducir lecturas y escrituras en memoria de la GPU&quot;,
+                use: &quot;Muy extendido en entrenamiento e inferencia, integrado en librerías como PyTorch, Hugging Face y vLLM (según versión y hardware).&quot;,
+                pros: &quot;Según sus autores, acelera varias veces la atención y reduce el uso de memoria respecto a una implementación estándar; la ganancia depende del hardware y de la longitud de secuencia.&quot;,
                 cons: &quot;Muy dependiente de la arquitectura específica del hardware (requiere kernels CUDA altamente optimizados para NVIDIA Ampere/Hopper/Blackwell).&quot;
             },
             {
@@ -11675,10 +11676,10 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
             },
             {
                 id: 44, category: &quot;reciente&quot;, name: &quot;Optimized MQA/GQA Inferences&quot;, year: &quot;2024&quot;,
-                desc: &quot;Optimización avanzada de los algoritmos de decodificación entrelazando kernels FlashAttention con layouts de memoria GQA nativos.&quot;,
+                desc: &quot;Optimización de la decodificación que combina kernels tipo FlashAttention con layouts de memoria de GQA. Es una técnica de implementación, no un mecanismo nuevo.&quot;,
                 formula: &quot;Fusión a bajo nivel de GQA + Flash Decoding&quot;,
                 use: &quot;Servicio ultrarrápido a tiempo real de agentes e inteligencia artificial interactiva.&quot;,
-                pros: &quot;Reduce las latencias del primer token (TTFT) y eleva la tasa de tokens por segundo a máximos históricos.&quot;,
+                pros: &quot;Puede reducir la latencia y aumentar los tokens por segundo según el hardware y el motor de inferencia.&quot;,
                 cons: &quot;Requiere software de orquestación sumamente especializado y rígido.&quot;
             },
             {
@@ -11699,10 +11700,10 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
             },
             {
                 id: 47, category: &quot;reciente&quot;, name: &quot;Hybrid Attention Patterns (2025-2026)&quot;, year: &quot;2025&quot;,
-                desc: &quot;Evolución definitiva de las grandes casas de IA. Intercala de forma cíclica y secuencial capas de atención densa con capas dispersas, lineales o bloques SSM (como Mamba) a lo largo de la profundidad de la red profunda.&quot;,
+                desc: &quot;Línea de diseño que algunos modelos recientes siguen. Intercala de forma cíclica y secuencial capas de atención densa con capas dispersas, lineales o bloques SSM (como Mamba) a lo largo de la profundidad de la red profunda.&quot;,
                 formula: &quot;Arquitectura heterogénea profunda intercapas&quot;,
                 use: &quot;Modelos fundacionales multitarea de última generación.&quot;,
-                pros: &quot;Consigue la expresividad conceptual perfecta de los Transformers densos con un coste operativo sumamente bajo.&quot;,
+                pros: &quot;Busca combinar buena calidad con menor coste de cómputo y memoria en contextos largos que una atención densa en todas las capas; el equilibrio depende del diseño concreto.&quot;,
                 cons: &quot;Ingeniería de software extremadamente compleja para equilibrar y estabilizar los gradientes durante la fase de pre-entrenamiento.&quot;
             }
         ];

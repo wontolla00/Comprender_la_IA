@@ -2,6 +2,16 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v133 — 23 octubre 2026 · §5.2b.3: la «enciclopedia de los 47 mecanismos» pasa a catálogo de 47 entradas
+
+Origen: la matriz de la auditoría pedía revisar la «taxonomía de 47 mecanismos» del Cap. 5.
+
+- **Título y rótulos** (índice, cabecera, subtítulo del visor): «los 47 mecanismos» → «47 variantes y técnicas»; nueva nota que explica que no son 47 mecanismos distintos (hay variantes, técnicas de posición y optimizaciones de implementación como FlashAttention o PagedAttention) y que la clasificación es del autor.
+- **Años**: Strided y Fixed Pattern 2020 → 2019 (Sparse Transformers); Relative Positional 2019 → 2018-2019; FlashAttention 2023-2025 → 2022-2024.
+- **Dot-Product con Temperatura**: se aclara que es una variante de escalado de los scores, no la temperatura de muestreo (Cap. 5.4); se retira «control de aleatoriedad en la decodificación».
+- **FlashAttention, GQA optimizado e híbridas (2025-2026)**: se eliminan «memoria cuántica», «máximos históricos», «evolución definitiva», «expresividad perfecta» y «en todos los clústeres»; las ganancias se atribuyen a los autores y dependen del hardware.
+- Versión v132 → v133. Comprobado el `<script>` del visor con `node --check` y que siguen siendo 47 entradas.
+
 ## v132 — 23 octubre 2026 · Segunda pasada, tanda 2: porcentajes sin medición (Cap. 1, 5, 6) y marca de agua (Cap. 4)
 
 - **Cap. 1**: «determinan el 80 % de la calidad», «honesta para el 90 %» y «cubre el 95 % de las decisiones» pasan a regla práctica o juicio del autor, sin cifra.
