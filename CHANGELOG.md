@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v138 — 23 octubre 2026 · F-03 contrastado: AIPD frente a evaluación de derechos fundamentales; Shida verificado
+
+- **§21.11**: nota sobre la relación entre la AIPD (art. 35 RGPD) y la evaluación de impacto en derechos fundamentales (art. 27 AI Act): son distintas, la segunda solo la hacen ciertos deployers y, si hay AIPD, la complementa (art. 27(4)); el deployer usa la información del proveedor para su AIPD (art. 26(9)).
+- **Verificado sin cambios**: Shida et al. (arXiv:2604.02652, 3/4/2026, gpt-oss-20b, 14,3 % → 71,4 %); calendario del art. 50 (50.1, 50.3 y 50.4 desde 2/8/2026; marcado 50.2 de sistemas anteriores hasta 2/12/2026).
+- Versión v137 → v138.
+
 ## v137 — 23 octubre 2026 · Criterios de superación y caso de transferencia (Apéndice B); Módulo 1 ~5 h
 
 - **Apéndice B**: nuevo recuadro «Cuándo das un módulo por superado» con criterios para preguntas F y C y para el entregable, y un caso de transferencia para los Módulos 1–4. Se declara que el manual aún no se ha probado con lectores reales (propuesta del autor).
