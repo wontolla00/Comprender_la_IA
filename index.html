@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v138</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v139</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v138 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v139 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -29638,7 +29638,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v129).</strong> Precios del Apéndice A con fuentes primarias; modelos de imagen, vídeo, audio y VLM abiertos con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v139).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -29798,7 +29798,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 <h2 id="mm3">22.3 Audio: Whisper (STT) y TTS en producción</h2>
 <h3 id="s2231">22.3.1 Whisper — Reconocimiento de voz robusto y open source<span class="version-badge">2025-11</span></h3>
 <p><strong>Whisper</strong> (OpenAI, 2022, MIT license) es un modelo de reconocimiento automático de voz (ASR / Speech-to-Text) entrenado sobre 680.000 horas de audio multilingüe de Internet. Su arquitectura es un Transformer encoder-decoder: el encoder convierte el espectrograma de audio en una representación densa, y el decoder genera la transcripción token a token.</p>
-<p>Whisper se puede ejecutar <strong>completamente en local</strong> mediante la librería Python oficial o a través de Faster-Whisper (implementación CTranslate2 con 4× velocidad). Los modelos van de <code>tiny</code> (39 M parámetros, ~1× tiempo real) a <code>large-v3</code> (1.5 B parámetros, ~10× mejor calidad pero 8–10× más lento).</p>
+<p>Whisper se puede ejecutar <strong>completamente en local</strong> mediante la librería Python oficial o a través de Faster-Whisper (implementación CTranslate2, licencia MIT, que según su README llega a ser hasta 4× más rápida con la misma precisión y menos memoria). Los modelos van de <code>tiny</code> (39 M parámetros, ~1× tiempo real) a <code>large-v3</code> (1.5 B parámetros, ~10× mejor calidad pero 8–10× más lento).</p>
 <table>
 <thead><tr><th>Modelo</th><th>Parámetros</th><th>WER (en-US)</th><th>Velocidad RTF</th><th>VRAM</th></tr></thead>
 <tbody>
@@ -29818,17 +29818,17 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 <p>El ecosistema TTS ha evolucionado drásticamente: los modelos actuales producen voz indistinguible de la humana en muchos casos. Las arquitecturas dominantes son:</p>
 <ul>
 <li><strong>VITS / VITS2</strong> — modelos end-to-end de texto a audio de baja latencia. Open source, muy eficientes.</li>
-<li><strong>YourTTS / Coqui TTS</strong> — clonación de voz con pocos segundos de muestra. Open source.</li>
-<li><strong>OpenAI TTS API</strong> — 6 voces, 2 modelos (tts-1/tts-1-hd), $15/M caracteres (tts-1) y $30 (tts-1-hd) en octubre de 2026 según una comparativa secundaria (infro.io, 20/10/2026), que sitúa también a ElevenLabs entre $40 y $80/M caracteres según modelo y a Deepgram Aura-2 en $30. OpenAI ofrece además gpt-4o-mini-tts facturado por tokens.</li>
+<li><strong>YourTTS / Coqui TTS</strong> — clonación de voz con pocos segundos de muestra. Ojo con la licencia: la ficha de XTTS-v2 indica la «Coqui Public Model License», que no es una licencia de software libre estándar; revisa su texto antes de un uso comercial.</li>
+<li><strong>OpenAI TTS API</strong> — 2 modelos (tts-1/tts-1-hd): $15/M caracteres (tts-1) y $30/M (tts-1-hd) según las páginas de modelo de OpenAI (23/10/2026). ElevenLabs cobra $40/M caracteres (Flash/Turbo) y $80/M (Multilingual v2 y v3) según su página de precios de API (23/10/2026). Deepgram Aura-2 a $30/M procede de una comparativa secundaria (infro.io, 20/10/2026) y no está contrastado. OpenAI ofrece además gpt-4o-mini-tts facturado por tokens.</li>
 <li><strong>ElevenLabs</strong> — calidad estado del arte, clonación vocal en segundos, latencia de streaming de orden de cientos de ms (cifra no verificada).</li>
-<li><strong>Kokoro-82M</strong> (2024, Apache 2.0) — modelo TTS open source de alta calidad, 82 M parámetros, ejecutable en CPU.</li>
+<li><strong>Kokoro-82M</strong> (2024, Apache 2.0 según su ficha de Hugging Face) — modelo TTS de pesos abiertos con 82 M parámetros, muy ligero; la ficha no da requisitos de CPU, mídelo en tu hardware.</li>
 </ul>
 <table>
 <thead><tr><th>Requisito</th><th>Elección recomendada</th><th>Por qué</th></tr></thead>
 <tbody>
 <tr><td>Máxima calidad, latencia no crítica</td><td>ElevenLabs API</td><td>Mejor MOS score del mercado, clonación vocal</td></tr>
 <tr><td>Buena calidad, low-latency (&lt;300 ms)</td><td>OpenAI TTS tts-1-hd</td><td>Infraestructura fiable, streaming nativo</td></tr>
-<tr><td>100% local, sin costes API</td><td>Kokoro-82M + Coqui TTS</td><td>Apache 2.0, CPU-viable, multilingüe</td></tr>
+<tr><td>100% local, sin costes API</td><td>Kokoro-82M (o XTTS-v2 si su licencia CPML te lo permite)</td><td>Kokoro: Apache 2.0 y ligero; la licencia de XTTS-v2 es distinta y hay que revisarla</td></tr>
 <tr><td>Embedido en dispositivo (IoT, edge)</td><td>piper-tts</td><td>~50 MB, ejecuta en Raspberry Pi 4</td></tr>
 </tbody>
 </table>
@@ -29934,7 +29934,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 <ul>
 <li>Tokens de imagen (GPT-4o: 765–1105 tok/imagen)</li>
 <li>Llamadas a API TTS por caracter</li>
-<li>Minutos de transcripción (Whisper API: $0.006/min; gpt-transcribe, $0.0045/min, según una comparativa secundaria de octubre de 2026 — verifica)</li>
+<li>Minutos de transcripción (según la página de precios de OpenAI, 23/10/2026: gpt-4o-transcribe $0.006/min, gpt-transcribe $0.0045/min, gpt-4o-mini-transcribe $0.003/min; whisper-1 ya no figura en esa página)</li>
 <li>Tiempo de GPU para generación de imagen local</li>
 </ul>
 </div>
@@ -29950,9 +29950,9 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 </div>
 <h2 id="mm6">22.6 Modelos de vídeo y el horizonte 2025–2026 <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
-<p>La generación de vídeo es una de las fronteras más activas de la multimodalidad. La lista siguiente se actualizó en octubre de 2026 con una fuente secundaria de febrero de 2026; modelos abiertos de vídeo como CogVideoX (Zhipu AI, Apache 2.0, citado en versiones anteriores) no se han revisado. Los modelos principales según una comparativa secundaria de febrero de 2026 (devtk.ai; <strong>no es una fuente primaria y los precios y duraciones cambian cada trimestre</strong>) son:</p>
+<p>La generación de vídeo es una de las fronteras más activas de la multimodalidad. La lista siguiente se actualizó en octubre de 2026 con una fuente secundaria de febrero de 2026; entre los modelos abiertos, CogVideoX-2B tiene licencia Apache 2.0 pero CogVideoX-5B usa una licencia propia («CogVideoX LICENSE»), según sus fichas de Hugging Face (23/10/2026): comprueba la licencia del tamaño concreto antes de usarlo en producto. Los modelos principales según una comparativa secundaria de febrero de 2026 (devtk.ai; <strong>no es una fuente primaria y los precios y duraciones cambian cada trimestre</strong>) son:</p>
 <ul>
-<li><strong>Sora 2</strong> (OpenAI) — clips de hasta ~25 s, con API de OpenAI; el precio publicado por segundo varía mucho según calidad (comparativas secundarias lo sitúan entre ~0,10 y ~0,50 USD/s).</li>
+<li><strong>Sora 2</strong> (OpenAI) — <strong>discontinuado</strong>: según la documentación de OpenAI, los modelos Sora 2 y la API de vídeo se cerraron el 24 de septiembre de 2026 (la guía se conserva «para referencia histórica»). Se mantiene como ejemplo de lo rápido que caduca un proveedor de vídeo; no lo uses como opción de diseño.</li>
 <li><strong>Veo 3.1</strong> (Google DeepMind) — clips de hasta ~8 s en Vertex AI, ~0,75 USD/s según la misma fuente.</li>
 <li><strong>Kling 3.0</strong> (Kuaishou) — modelo propietario (no «open», como decía una versión anterior), hasta ~15 s, accesible vía proveedores como fal.ai o Replicate.</li>
 <li><strong>Seedance 2.0</strong> (ByteDance) — hasta ~15 s; solo mediante proveedores terceros cuando se escribió la fuente.</li>
@@ -29973,8 +29973,8 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 <tr><td>Qwen2-VL-72B</td><td>Qwen2 72B</td><td>ViT propio</td><td>Qwen Research</td><td>40 GB</td></tr>
 <tr><td>InternVL2-8B</td><td>InternLM 7B</td><td>InternViT-300M</td><td>MIT</td><td>8 GB</td></tr>
 <tr><td>moondream2</td><td>Phi-1.5 1.8B</td><td>SigLIP ViT-L</td><td>Apache 2.0</td><td>2 GB</td></tr>
-<tr><td>Qwen3-VL</td><td>Qwen3 (2B a 235B, MoE en lo alto)</td><td>propio</td><td>consultar</td><td>~8 GB (8B, Q4)</td></tr>
-<tr><td>Gemma 4 (con visión)</td><td>Gemma 4 (2B a 31B)</td><td>propio</td><td>consultar</td><td>~8 GB (12B, Q4); ~14 GB (26B-A4B MoE)</td></tr>
+<tr><td>Qwen3-VL</td><td>Qwen3 (2B a 235B, MoE en lo alto)</td><td>propio</td><td>Apache 2.0 (ficha de Qwen3-VL-8B-Instruct; comprueba cada tamaño)</td><td>~8 GB (8B, Q4)</td></tr>
+<tr><td>Gemma 4 (con visión)</td><td>Gemma 4 (2B a 31B)</td><td>propio</td><td>Apache 2.0 (según prensa especializada; confirma en la ficha oficial)</td><td>~8 GB (12B, Q4); ~14 GB (26B-A4B MoE)</td></tr>
 </tbody>
 </table>
 <div class="nota"><strong>🔎 Matiz (2026-10) · generaciones</strong> Las filas LLaVA-1.6, Qwen2-VL e InternVL2 son de 2024; una comparativa secundaria de Ollama (actualizada en septiembre de 2026) da como líderes en capacidad a Qwen3-VL y Gemma 4, y mantiene LLaVA como alternativa que funciona en todas las versiones. Esa misma fuente indica que Llama 3.2 Vision falla en Ollama ≥ 0.30 (error de arquitectura mllama, sin resolver en 0.33.2). Las cifras de VRAM son aproximadas (cuantización Q4, +1–3 GB por el encoder visual) y las licencias de las dos filas nuevas no se han verificado: <strong>consúltalas en la ficha oficial</strong>.</div>

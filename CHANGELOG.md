@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v139 — 23 octubre 2026 · Cap. 22: licencias y precios de voz contrastados con fuentes oficiales; Sora 2 discontinuado
+
+- **Sora 2**: según la documentación de OpenAI, modelos y API de vídeo cerrados el 24/9/2026; se retiran precios y duración y se presenta como ejemplo de caducidad.
+- **Licencias** (fichas de Hugging Face): Kokoro-82M Apache 2.0; CogVideoX-2B Apache 2.0 pero **5B con licencia propia** (corrige el «Apache 2.0» genérico); Qwen3-VL Apache 2.0; Gemma 4 Apache 2.0 (prensa, por confirmar); XTTS-v2 con Coqui Public Model License (se quita el «open source» y el «Apache» de Coqui).
+- **Precios de voz** con fuente oficial: tts-1 $15 y tts-1-hd $30 por M caracteres; ElevenLabs $40 y $80; transcripción gpt-4o-transcribe $0,006/min y gpt-transcribe $0,0045/min (whisper-1 ya no figura). Deepgram queda como secundaria.
+- **faster-whisper**: «hasta 4× más rápido» y MIT, según su README.
+- Versión v138 → v139.
+
 ## v138 — 23 octubre 2026 · F-03 contrastado: AIPD frente a evaluación de derechos fundamentales; Shida verificado
 
 - **§21.11**: nota sobre la relación entre la AIPD (art. 35 RGPD) y la evaluación de impacto en derechos fundamentales (art. 27 AI Act): son distintas, la segunda solo la hacen ciertos deployers y, si hay AIPD, la complementa (art. 27(4)); el deployer usa la información del proveedor para su AIPD (art. 26(9)).
