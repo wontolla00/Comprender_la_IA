@@ -2,6 +2,17 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v129 — 23 octubre 2026 · Cap. 22: modelos de imagen, vídeo, VLM abiertos y audio al día
+
+Origen: pendientes del Cap. 22 (registro v126→v127).
+
+- **§22.4.2 (imagen)**: se añaden FLUX.2 [dev] y [klein] 4B, Qwen-Image-2512 y Z-Image Turbo con licencias y fechas; aviso de que muchas licencias son no comerciales o con umbral de ingresos; SD 3.5 Large sigue siendo la última versión abierta de Stable Diffusion y FLUX 3 Image es solo API (fuente secundaria).
+- **§22.6 (vídeo)**: lista reescrita (Sora 2, Veo 3.1, Kling 3.0, Seedance 2.0, Runway Gen-3 Alpha Turbo); se corrige que Kling no es «open»; precios y duraciones con fuente secundaria de febrero de 2026; la valoración de 2025 queda como tal.
+- **§22.7 (VLM abiertos)**: filas Qwen3-VL y Gemma 4; nota sobre generaciones, VRAM aproximada, licencias a verificar y fallo de Llama 3.2 Vision en Ollama ≥ 0.30 (fuente secundaria).
+- **Audio**: precios de TTS y Whisper API contrastados con una comparativa de 20/10/2026 (gpt-transcribe, ElevenLabs, Deepgram); WER de la tabla Whisper declarados órdenes de magnitud heredados; latencia de ElevenLabs marcada no verificada.
+- Patrón 3 de §22.5: nombres de modelos actualizados. Cabecera del capítulo: fecha y alcance de la revisión.
+- Versión v128 → v129 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v128 — 23 octubre 2026 · Búsqueda híbrida «recomendada» y garantía «cero desconocidos» del BPE a nivel de byte
 
 Origen: hallazgos F-16 y F-17 de la auditoría externa, pendientes desde la v123.

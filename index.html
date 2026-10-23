@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v128</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v129</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v128 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v129 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -29634,7 +29634,7 @@ updateAttackConfig();
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última verificación: junio 2026.</strong> Los nombres de modelos de este capítulo son ejemplos de 2023–2024, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v129).</strong> Precios del Apéndice A con fuentes primarias; modelos de imagen, vídeo, audio y VLM abiertos con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -29805,6 +29805,7 @@ updateAttackConfig();
 <tr><td>whisper-large-v3</td><td>1.5 B</td><td>~2.7%</td><td>~1× RT</td><td>10 GB</td></tr>
 </tbody>
 </table>
+<p class="nota"><strong>🔎 Matiz (2026-10)</strong> Los WER y velocidades de la tabla son órdenes de magnitud heredados de versiones anteriores del manual, sin dataset ni hardware de referencia: dependen mucho del idioma y del audio. Mide el WER con tus grabaciones. Hay APIs de transcripción más recientes (p. ej. gpt-transcribe de OpenAI, Scribe v2 de ElevenLabs, Nova-3 de Deepgram) que pueden superar a Whisper en tu caso; compáralas sobre tus datos.</p>
 <div class="callout">
 <strong>💡 Faster-Whisper para producción</strong>
     La implementación oficial de Whisper en PyTorch es ineficiente para producción. <code>faster-whisper</code> (github.com/SYSTRAN/faster-whisper) usa CTranslate2 para inferencia 4× más rápida con la mitad de VRAM. Para transcripción en tiempo real con latencia &lt;2 s, combina <code>faster-whisper-small</code> con un buffer de audio de 5–10 s y VAD (detección de actividad de voz) para segmentar el audio.
@@ -29814,8 +29815,8 @@ updateAttackConfig();
 <ul>
 <li><strong>VITS / VITS2</strong> — modelos end-to-end de texto a audio de baja latencia. Open source, muy eficientes.</li>
 <li><strong>YourTTS / Coqui TTS</strong> — clonación de voz con pocos segundos de muestra. Open source.</li>
-<li><strong>OpenAI TTS API</strong> — 6 voces, 2 modelos (tts-1/tts-1-hd), precio de 2024 (~$15/M caracteres; verifica el vigente).</li>
-<li><strong>ElevenLabs</strong> — calidad estado del arte, clonación vocal en segundos, latencia streaming ~400 ms.</li>
+<li><strong>OpenAI TTS API</strong> — 6 voces, 2 modelos (tts-1/tts-1-hd), $15/M caracteres (tts-1) y $30 (tts-1-hd) en octubre de 2026 según una comparativa secundaria (infro.io, 20/10/2026), que sitúa también a ElevenLabs entre $40 y $80/M caracteres según modelo y a Deepgram Aura-2 en $30. OpenAI ofrece además gpt-4o-mini-tts facturado por tokens.</li>
+<li><strong>ElevenLabs</strong> — calidad estado del arte, clonación vocal en segundos, latencia de streaming de orden de cientos de ms (cifra no verificada).</li>
 <li><strong>Kokoro-82M</strong> (2024, Apache 2.0) — modelo TTS open source de alta calidad, 82 M parámetros, ejecutable en CPU.</li>
 </ul>
 <table>
@@ -29842,13 +29843,18 @@ updateAttackConfig();
 </ol>
 <p>El texto condiciona la generación a través de un encoder de texto (habitualmente CLIP o T5) cuyos embeddings se inyectan en la U-Net de denoising mediante cross-attention. <strong>Stable Diffusion</strong> optimizó esto operando la difusión en el <em>espacio latente</em> de un Variational Autoencoder (VAE), reduciendo la dimensionalidad 8× y haciendo viable la inferencia en GPUs de consumo.</p>
 <h3 id="s2242">22.4.2 El ecosistema Stable Diffusion</h3>
+<div class="nota"><strong>🔎 Matiz (2026-10) · el ecosistema ya no es solo Stable Diffusion</strong> Las cuatro primeras filas son la línea histórica; las cuatro últimas, modelos abiertos más recientes. Según una comparativa secundaria (Pinggy, actualizada en 2026), SD 3.5 Large (oct. 2024) sigue siendo la última versión abierta de Stable Diffusion, y FLUX 3 Image se ofrece solo por API, sin pesos abiertos. Las licencias cambian y varias son de uso no comercial o con umbral de ingresos: <strong>lee la licencia del modelo concreto antes de usarlo en un producto</strong>. Fuente secundaria; contrasta en la ficha del modelo.</div>
 <table>
-<thead><tr><th>Modelo</th><th>Resolución base</th><th>Parámetros U-Net</th><th>Licencia</th><th>Referencia</th></tr></thead>
+<thead><tr><th>Modelo</th><th>Resolución base</th><th>Parámetros</th><th>Licencia</th><th>Referencia</th></tr></thead>
 <tbody>
 <tr><td>SD 1.5</td><td>512×512</td><td>860 M</td><td>OpenRAIL-M</td><td>Base estable, enorme ecosistema de LoRAs/ControlNets</td></tr>
 <tr><td>SDXL 1.0</td><td>1024×1024</td><td>2.6 B</td><td>OpenRAIL++-M</td><td>Doble encoder de texto, mucho mejor composición</td></tr>
 <tr><td>SD 3.5 Large</td><td>1024×1024</td><td>8 B (MMDiT)</td><td>StabilityAI Community</td><td>Transformer multimodal, mejor tipografía</td></tr>
-<tr><td>FLUX.1 [schnell]</td><td>variable</td><td>12 B (DiT)</td><td>Apache 2.0</td><td>Mejor calidad open source en 2024–2025</td></tr>
+<tr><td>FLUX.1 [schnell]</td><td>variable</td><td>12 B (DiT)</td><td>Apache 2.0</td><td>Referente open source en 2024–2025</td></tr>
+<tr><td>FLUX.2 [dev]</td><td>variable</td><td>32 B</td><td>BFL no comercial</td><td>nov. 2025. Las imágenes generadas se pueden usar comercialmente; ejecutar el modelo en un servicio comercial exige licencia de Black Forest Labs</td></tr>
+<tr><td>FLUX.2 [klein] 4B</td><td>variable</td><td>4 B</td><td>Apache 2.0</td><td>ene. 2026. Cabe en ~13 GB de VRAM</td></tr>
+<tr><td>Qwen-Image-2512</td><td>variable</td><td>~20 B</td><td>Apache 2.0</td><td>dic. 2025</td></tr>
+<tr><td>Z-Image Turbo</td><td>variable</td><td>6 B</td><td>Apache 2.0</td><td>Cabe en 16 GB</td></tr>
 </tbody>
 </table>
 <p style="font-size:.88rem;color:var(--muted);">Los modelos de esta tabla son <strong>generadores puros</strong>: reciben texto y producen imagen, sin capacidad de "entender" sus propias salidas. Una familia distinta, los <strong>modelos multimodales unificados (UMM)</strong> — BAGEL, Janus-Pro, Show-o, Emu3.5 — integran en un único modelo la generación y la comprensión de imagen, compartiendo encoder visual y distribución de preentrenamiento entre ambas ramas. Esa integración es lo que en 2026 empieza a habilitar técnicas experimentales donde la propia rama de comprensión del modelo evalúa la calidad de lo que genera, sin depender de un evaluador externo — ver el recuadro de frontera en 22.5.3.</p>
@@ -29891,7 +29897,7 @@ updateAttackConfig();
 <p>Existen tres patrones principales para integrar múltiples modalidades en un sistema de producción:</p>
 <p><strong>Patrón 1 — Secuencial con enriquecimiento modal:</strong> cada modalidad se procesa en un paso dedicado y su output enriquece el contexto del paso siguiente. Ejemplo: audio → Whisper (texto) → LLM (análisis) → TTS (respuesta voz). Ventaja: simple de depurar. Desventaja: la latencia acumulada puede ser prohibitiva.</p>
 <p><strong>Patrón 2 — Parallel fan-out con fusión:</strong> todas las modalidades se procesan en paralelo y sus representaciones se fusionan antes del paso de razonamiento. Ejemplo: imagen + texto + audio procesados en paralelo, embeddings concatenados o promediados, luego LLM unificado. Ventaja: menor latencia. Desventaja: la fusión trivial (concatenación) a menudo degrada la calidad respecto a modelos nativamente multimodales.</p>
-<p><strong>Patrón 3 — Modelo nativo multimodal:</strong> usar un único modelo que procese todas las modalidades de forma unificada (GPT-4o, Gemini 1.5, LLaVA-1.6). Ventaja: coherencia cross-modal máxima. Desventaja: vendor lock-in, coste por token elevado, latencia de round-trip a API.</p>
+<p><strong>Patrón 3 — Modelo nativo multimodal:</strong> usar un único modelo que procese todas las modalidades de forma unificada (modelos de las familias GPT o Gemini por API, o Qwen3-VL y Gemma 4 en abierto). Ventaja: coherencia cross-modal máxima. Desventaja: vendor lock-in, coste por token elevado, latencia de round-trip a API.</p>
 <h3 id="s2253">22.5.3 Evaluación de sistemas multimodales<span class="version-badge caducidad-alta">2026-07</span><span class="version-badge">2026-07</span></h3>
 <p>Los sistemas multimodales requieren métricas específicas por modalidad más una evaluación de integración:</p>
 <table>
@@ -29924,7 +29930,7 @@ updateAttackConfig();
 <ul>
 <li>Tokens de imagen (GPT-4o: 765–1105 tok/imagen)</li>
 <li>Llamadas a API TTS por caracter</li>
-<li>Minutos de transcripción (Whisper API: $0.006/min en 2024; verifica el vigente)</li>
+<li>Minutos de transcripción (Whisper API: $0.006/min; gpt-transcribe, $0.0045/min, según una comparativa secundaria de octubre de 2026 — verifica)</li>
 <li>Tiempo de GPU para generación de imagen local</li>
 </ul>
 </div>
@@ -29940,15 +29946,16 @@ updateAttackConfig();
 </div>
 </div>
 <h2 id="mm6">22.6 Modelos de vídeo y el horizonte 2025–2026 <span class="version-badge caducidad-alta">2026-08 · caduca rápido</span></h2>
-<p>La generación de vídeo era, en 2025, la frontera más activa de la multimodalidad; la lista siguiente refleja ese momento, no el mercado de octubre de 2026. Los modelos principales son:</p>
+<p>La generación de vídeo es una de las fronteras más activas de la multimodalidad. La lista siguiente se actualizó en octubre de 2026 con una fuente secundaria de febrero de 2026; modelos abiertos de vídeo como CogVideoX (Zhipu AI, Apache 2.0, citado en versiones anteriores) no se han revisado. Los modelos principales según una comparativa secundaria de febrero de 2026 (devtk.ai; <strong>no es una fuente primaria y los precios y duraciones cambian cada trimestre</strong>) son:</p>
 <ul>
-<li><strong>Sora</strong> (OpenAI, 2024) — genera clips de hasta 60 s con física coherente. Acceso limitado, no API pública a febrero 2025.</li>
-<li><strong>Runway Gen-3 Alpha</strong> — generación y edición de vídeo por suscripción. Calidad cinematográfica en shots cortos (&lt;10 s).</li>
-<li><strong>Kling</strong> (Kuaishou, 2024) — modelo open de alta calidad para vídeo de hasta 2 min.</li>
-<li><strong>CogVideoX</strong> (Zhipu AI, Apache 2.0) — modelo open source de vídeo ejecutable localmente con GPU suficiente.</li>
+<li><strong>Sora 2</strong> (OpenAI) — clips de hasta ~25 s, con API de OpenAI; el precio publicado por segundo varía mucho según calidad (comparativas secundarias lo sitúan entre ~0,10 y ~0,50 USD/s).</li>
+<li><strong>Veo 3.1</strong> (Google DeepMind) — clips de hasta ~8 s en Vertex AI, ~0,75 USD/s según la misma fuente.</li>
+<li><strong>Kling 3.0</strong> (Kuaishou) — modelo propietario (no «open», como decía una versión anterior), hasta ~15 s, accesible vía proveedores como fal.ai o Replicate.</li>
+<li><strong>Seedance 2.0</strong> (ByteDance) — hasta ~15 s; solo mediante proveedores terceros cuando se escribió la fuente.</li>
+<li><strong>Runway Gen-3 Alpha Turbo</strong> — por suscripción y API; clips de hasta ~10 s.</li>
 </ul>
 <div class="nota">
-<strong>📝 Estado del mercado: mayo 2025 (sin actualizar; pendiente de revisión con fuentes primarias)</strong>
+<strong>📝 Valoración del autor (redactada en mayo 2025, no revisada)</strong>
     La generación de vídeo está en el estado en que estaba la generación de imagen en 2022: resultados impresionantes en demos, pero con artefactos frecuentes (manos, texto, física compleja). La integración de modelos de vídeo en pipelines de producción con SLA de calidad es prematura salvo para casos de uso tolerantes a la imperfección (storyboarding, prototipado). Para 2026–2027 se espera calidad de producción real.
   </div>
 <h2 id="mm7">22.7 LLaVA y los modelos multimodales open source locales</h2>
@@ -29962,11 +29969,14 @@ updateAttackConfig();
 <tr><td>Qwen2-VL-72B</td><td>Qwen2 72B</td><td>ViT propio</td><td>Qwen Research</td><td>40 GB</td></tr>
 <tr><td>InternVL2-8B</td><td>InternLM 7B</td><td>InternViT-300M</td><td>MIT</td><td>8 GB</td></tr>
 <tr><td>moondream2</td><td>Phi-1.5 1.8B</td><td>SigLIP ViT-L</td><td>Apache 2.0</td><td>2 GB</td></tr>
+<tr><td>Qwen3-VL</td><td>Qwen3 (2B a 235B, MoE en lo alto)</td><td>propio</td><td>consultar</td><td>~8 GB (8B, Q4)</td></tr>
+<tr><td>Gemma 4 (con visión)</td><td>Gemma 4 (2B a 31B)</td><td>propio</td><td>consultar</td><td>~8 GB (12B, Q4); ~14 GB (26B-A4B MoE)</td></tr>
 </tbody>
 </table>
+<div class="nota"><strong>🔎 Matiz (2026-10) · generaciones</strong> Las filas LLaVA-1.6, Qwen2-VL e InternVL2 son de 2024; una comparativa secundaria de Ollama (actualizada en septiembre de 2026) da como líderes en capacidad a Qwen3-VL y Gemma 4, y mantiene LLaVA como alternativa que funciona en todas las versiones. Esa misma fuente indica que Llama 3.2 Vision falla en Ollama ≥ 0.30 (error de arquitectura mllama, sin resolver en 0.33.2). Las cifras de VRAM son aproximadas (cuantización Q4, +1–3 GB por el encoder visual) y las licencias de las dos filas nuevas no se han verificado: <strong>consúltalas en la ficha oficial</strong>.</div>
 <div class="callout">
 <strong>💡 Ollama soporta modelos visuales</strong>
-    Desde Ollama 0.3, puedes ejecutar <code>ollama pull llava:13b</code> y usar la API JSON estándar con imágenes codificadas en base64. Integración directa con el pipeline LightRAG de este manual si quieres añadir análisis de imágenes a tu base de conocimiento.
+    Ollama permite ejecutar modelos con visión (por ejemplo <code>ollama pull llava:13b</code>; consulta la biblioteca de Ollama para las etiquetas vigentes de Qwen3-VL o Gemma 4) y usar la API JSON estándar con imágenes codificadas en base64. Integración directa con el pipeline LightRAG de este manual si quieres añadir análisis de imágenes a tu base de conocimiento.
   </div>
 <h2 id="mm8">22.8 Arquitectura de referencia: pipeline de análisis de documento multimodal</h2>
 <p>Un caso de uso habitual en 2025: analizar documentos empresariales (PDFs con imágenes, tablas escaneadas, esquemas) que combinan texto y elementos visuales no parseables por extracción de texto simple.</p>

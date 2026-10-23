@@ -1,6 +1,6 @@
 # Comprender la IA (repo git del manual) — memoria de proyecto
 
-Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v128 a 23/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
+Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v129 a 23/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
 
 ## Leer primero
 1. `CHANGELOG.md` (la entrada más reciente = estado).
@@ -18,7 +18,7 @@ Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edi
 La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_archivo/`. La referencia es esta carpeta. Solo esa copia conserva `taller/_insert_124b_cardinalidad.html`.
 
 ## Pendientes de veille abiertos
-- **Auditoría externa de la v122 (23/10/2026)**: corregida en v123–v128 (ver `taller/Registro_manual_v122_a_v123.md` … `v127_a_v128.md`). Pendientes abiertos: repaso completo del Cap. 22 y del Apéndice A con fuentes primarias, IDs OWASP LLM04–10 cuando la lista oficial esté completa, decidir si se crean los notebooks 05 y 06 (hoy: código en línea, sin .ipynb), y revisión jurídica externa de §16.2–§16.4.
+- **Auditoría externa de la v122 (23/10/2026)**: corregida en v123–v129 (ver `taller/Registro_manual_v122_a_v123.md` … `v128_a_v129.md`). Pendientes abiertos: repaso completo del Cap. 22 y del Apéndice A con fuentes primarias, IDs OWASP LLM04–10 cuando la lista oficial esté completa, decidir si se crean los notebooks 05 y 06 (hoy: código en línea, sin .ipynb), y revisión jurídica externa de §16.2–§16.4.
 - **BitNet (12/10/2026)**: CI-BN-1..3 en la cabecera «Pendientes abiertos» de `taller/Triaje_fuentes_externas_2026.md`. Nada tocado en `index.html`.
 - **Medición de agentes (12/10/2026)**: CI-DM-1 HECHO en v122 (§13.2 y §13.7, recuadros «Matiz (2026-10)»). Detalle en `taller/Registro_manual_v121_a_v122.md`.
 - **Cómputo en inferencia (12/10/2026)**: CI-IT-1 HECHO en v122 (nueva §9.7b). Primarios leídos el 16/10; detalle en `taller/Registro_manual_v121_a_v122.md`.
