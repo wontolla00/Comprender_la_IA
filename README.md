@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v133** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v134** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v134** | Enciclopedia de §5.2b.3: años y atribuciones contrastados con los artículos originales (arXiv); CLIP, Falcon, Performer-ADN y otros usos erróneos retirados. |
 | **v133** | La enciclopedia de §5.2b.3 pasa de «47 mecanismos» a catálogo de 47 entradas; años y descripciones exageradas corregidos. |
 | **v132** | Segunda pasada, tanda 2: porcentajes sin medición de los Cap. 1, 5 y 6 convertidos en reglas prácticas; marca de agua de Anthropic fechada. |
 | **v131** | Segunda pasada, tanda 1: Web Semántica como interpretación del autor; porcentajes sin fuente de los Cap. 17–19 y 10 declarados estimaciones. |

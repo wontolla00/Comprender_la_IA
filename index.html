@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v133</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v134</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v133 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v134 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -11329,14 +11329,14 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 2, category: &quot;clasica&quot;, name: &quot;Dot-Product Attention (Luong Attention)&quot;, year: &quot;2015&quot;,
                 desc: &quot;Simplifica la atención eliminando el MLP oculto. Calcula la puntuación directamente a través del producto escalar directo entre el vector de consulta y el vector de clave.&quot;,
                 formula: &quot;Score = q^T * k&quot;,
-                use: &quot;Optimización de arquitecturas recurrentes puras.&quot;,
+                use: &quot;Optimización de arquitecturas recurrentes; es una de las tres funciones de puntuación (dot, general, concat) que propone Luong et al. (2015).&quot;,
                 pros: &quot;Mucho más rápida de calcular que la aditiva y consume menos memoria intermedia al aprovechar operaciones de matriz nativas.&quot;,
                 cons: &quot;Si la dimensión de los vectores es muy alta, el producto escalar crece demasiado y la Softmax satura, provocando gradientes desvanecidos.&quot;
             },
             // 2. TRANSFORMERS
             {
-                id: 3, category: &quot;transformer&quot;, name: &quot;Self-Attention (Autoatención)&quot;, year: &quot;2017&quot;,
-                desc: &quot;Mecanismo nuclear donde Queries, Keys y Values nacen de proyecciones lineales de la misma secuencia de entrada exacta. Cada palabra se contextualiza basándose en todas las demás de su propia frase.&quot;,
+                id: 3, category: &quot;transformer&quot;, name: &quot;Self-Attention (Autoatención)&quot;, year: &quot;2016-2017&quot;,
+                desc: &quot;Mecanismo nuclear donde Queries, Keys y Values nacen de proyecciones lineales de la misma secuencia de entrada. Cada posición se contextualiza con las que puede ver (todas en un encoder; solo las anteriores en un decoder causal). Existía antes de 2017 (p. ej. trabajos de 2016-2017 sobre autoatención en redes recurrentes), pero el Transformer lo convirtió en el bloque central.&quot;,
                 formula: &quot;Attention(Q, K, V) = softmax(Q K^T / √d_k) V&quot;,
                 use: &quot;Base fundamental de BERT, GPT y cualquier modelo Transformer moderno.&quot;,
                 pros: &quot;Permite un modelado perfecto de dependencias de largo alcance sin importar la distancia física en el texto.&quot;,
@@ -11420,15 +11420,15 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 13, category: &quot;position&quot;, name: &quot;Rotary Position Embedding (RoPE)&quot;, year: &quot;2021&quot;,
                 desc: &quot;Multiplica las representaciones vectoriales de Queries y Keys por una matriz de rotación en el espacio complejo antes de ejecutar el producto escalar, codificando la posición relativa de forma natural.&quot;,
                 formula: &quot;Score = (R_i * q) * (R_j * k)^T&quot;,
-                use: &quot;Prácticamente el estándar absoluto actual: LLaMA 2/3, Mistral, Gemma, Qwen.&quot;,
+                use: &quot;Muy extendido en modelos abiertos recientes, como la familia LLaMA, Mistral, Gemma y Qwen.&quot;,
                 pros: &quot;Excelente capacidad de extrapolación del contexto sin modificar la dimensionalidad de los vectores.&quot;,
                 cons: &quot;Requiere operaciones trigonométricas de alta precisión en coma flotante en las primeras etapas.&quot;
             },
             {
-                id: 14, category: &quot;position&quot;, name: &quot;ALiBi (Attention with Linear Biases)&quot;, year: &quot;2022&quot;,
+                id: 14, category: &quot;position&quot;, name: &quot;ALiBi (Attention with Linear Biases)&quot;, year: &quot;2021-2022&quot;,
                 desc: &quot;Elimina los embeddings posicionales tradicionales en la entrada de datos. En su lugar, penaliza linealmente el score de atención restando un valor proporcional a la distancia exacta entre tokens.&quot;,
                 formula: &quot;Score = q_i * k_j^T - m * |i - j|&quot;,
-                use: &quot;Modelos enfocados en ventanas gigantescas como MPT o Falcon.&quot;,
+                use: &quot;Usado por varios modelos abiertos (p. ej. BLOOM y MPT); el artículo original es de agosto de 2021.&quot;,
                 pros: &quot;Permite una extrapolación de contexto teóricamente infinita sin caídas drásticas de perplejidad.&quot;,
                 cons: &quot;La penalización lineal fija puede llegar a ser demasiado restrictiva para capturar relaciones semánticas lejanas pero críticas.&quot;
             },
@@ -11500,7 +11500,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 cons: &quot;Consume innecesariamente memoria procesando tokens con valores semánticos irrelevantes cercanos a cero.&quot;
             },
             {
-                id: 23, category: &quot;especializada&quot;, name: &quot;Self-Attention con Bias Aprendible&quot;, year: &quot;2018&quot;,
+                id: 23, category: &quot;especializada&quot;, name: &quot;Self-Attention con Bias Aprendible (entrada genérica)&quot;, year: &quot;2018-2021&quot;,
                 desc: &quot;Añade un sesgo aditivo estático que la red puede ajustar libremente mediante backpropagation durante el entrenamiento.&quot;,
                 formula: &quot;Score = Q K^T / √d_k + B&quot;,
                 use: &quot;Modelos específicos de visión por computador y traducción.&quot;,
@@ -11520,7 +11520,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 25, category: &quot;efficient&quot;, name: &quot;Performer Attention (Favor+)&quot;, year: &quot;2020&quot;,
                 desc: &quot;Aproxima la función Softmax de forma matemática pura descomponiéndola a través de mapas de características kernelizados aleatorios ortogonales.&quot;,
                 formula: &quot;Aproximación por núcleos positivos FAVOR+&quot;,
-                use: &quot;Procesamiento de datos biológicos masivos (cadenas de ADN largas).&quot;,
+                use: &quot;Secuencias muy largas: el artículo original evalúa desde píxeles y texto hasta secuencias de proteínas.&quot;,
                 pros: &quot;Garantiza coste O(n) sin necesidad de reestructurar el entrenamiento original del Transformer.&quot;,
                 cons: &quot;Sufre de alta inestabilidad numérica en las primeras etapas y requiere dimensiones de proyección elevadas para ser exacta.&quot;
             },
@@ -11544,7 +11544,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 28, category: &quot;efficient&quot;, name: &quot;Linear Attention&quot;, year: &quot;2020&quot;,
                 desc: &quot;Altera el orden asociativo del producto matricial eliminando el operador softmax directo del centro de la ecuación mediante funciones de kernel independientes.&quot;,
                 formula: &quot;Attention = (phi(Q) * phi(K)^T) * V -&gt; phi(Q) * (phi(K)^T * V)&quot;,
-                use: &quot;Transformers lineales puros enfocados en velocidad pura y robótica.&quot;,
+                use: &quot;Transformers lineales orientados a velocidad y memoria en secuencias largas; es la base de varias arquitecturas recurrentes recientes.&quot;,
                 pros: &quot;Permite formular el Transformer como una celda recurrente (RNN) rápida con coste de memoria constante durante la inferencia.&quot;,
                 cons: &quot;Carece de la capacidad de mantener el enfoque nítido y preciso en tokens específicos de alta relevancia.&quot;
             },
@@ -11558,7 +11558,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
             },
             // 9. MEMORIA Y COMPRESIÓN
             {
-                id: 30, category: &quot;especializada&quot;, name: &quot;Memory-Augmented Attention&quot;, year: &quot;2018&quot;,
+                id: 30, category: &quot;especializada&quot;, name: &quot;Memory-Augmented Attention&quot;, year: &quot;2019&quot;,
                 desc: &quot;Inyecta una serie de vectores de memoria externa persistentes y aprendibles de forma directa dentro de las matrices de Claves y Valores ordinarias.&quot;,
                 formula: &quot;K_final = Concat(K, Memory_K), V_final = Concat(V, Memory_V)&quot;,
                 use: &quot;Modelos enfocados en retener hechos a largo plazo o personalidades de agentes.&quot;,
@@ -11566,7 +11566,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 cons: &quot;Añade sobrecarga de direccionamiento de memoria de lectura-escritura continua.&quot;
             },
             {
-                id: 31, category: &quot;especializada&quot;, name: &quot;Compressive Attention&quot;, year: &quot;2020&quot;,
+                id: 31, category: &quot;especializada&quot;, name: &quot;Compressive Attention&quot;, year: &quot;2019-2020&quot;,
                 desc: &quot;Aplica operadores de convolución o pooling para compactar fragmentos pasados antiguos de la caché KV en representaciones densas abreviadas.&quot;,
                 formula: &quot;K_compressed = F_comp(K_old)&quot;,
                 use: &quot;Extensiones masivas de memoria a largo plazo.&quot;,
@@ -11575,15 +11575,15 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
             },
             // 10. MULTIMODAL
             {
-                id: 32, category: &quot;multimodal&quot;, name: &quot;Cross-Modal Attention&quot;, year: &quot;2021&quot;,
+                id: 32, category: &quot;multimodal&quot;, name: &quot;Cross-Modal Attention&quot;, year: &quot;2019-2021&quot;,
                 desc: &quot;Fuerza la interacción directa entre embeddings de naturalezas completamente distintas, correlacionando regiones de una imagen con palabras textuales.&quot;,
                 formula: &quot;Q_texto x K_imagen o viceversa&quot;,
-                use: &quot;Modelos fundacionales multimodales avanzados como CLIP, DALL-E, GPT-4V.&quot;,
+                use: &quot;Modelos de visión-lenguaje con atención entre modalidades, como ViLBERT (2019) o Flamingo (2022). CLIP no usa este mecanismo: son dos encoders entrenados con pérdida contrastiva.&quot;,
                 pros: &quot;Capacidad de traducción semántica nativa perfecta entre el espectro visual y el lingüístico.&quot;,
                 cons: &quot;Demanda un alineamiento espacial sumamente estricto y un volumen masivo de datos para converger.&quot;
             },
             {
-                id: 33, category: &quot;multimodal&quot;, name: &quot;Co-Attention&quot;, year: &quot;2018&quot;,
+                id: 33, category: &quot;multimodal&quot;, name: &quot;Co-Attention&quot;, year: &quot;2016&quot;,
                 desc: &quot;Calcula de forma simétrica y simultánea la atención cruzada en ambas direcciones a la vez.&quot;,
                 formula: &quot;Matrices gemelas entrelazadas de atención mutua&quot;,
                 use: &quot;Sistemas avanzados de Visual Question Answering (VQA).&quot;,
@@ -11600,8 +11600,8 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 cons: &quot;Crea matrices con dimensiones dinámicas asimétricas muy complejas de paralelizar en hardware comercial.&quot;
             },
             {
-                id: 35, category: &quot;especializada&quot;, name: &quot;Gated Attention&quot;, year: &quot;2020&quot;,
-                desc: &quot;Utiliza compuertas multiplicativas inspiradas en las celdas LSTM/GRU para vetar o potenciar los vectores resultantes tras el paso de atención.&quot;,
+                id: 35, category: &quot;especializada&quot;, name: &quot;Gated Attention&quot;, year: &quot;varios&quot;,
+                desc: &quot;Familia de variantes que usan compuertas multiplicativas, inspiradas en LSTM/GRU, para amplificar o vetar la salida de atención. No hay un artículo único que la defina; trátala como un patrón de diseño, no como un mecanismo con fecha propia.&quot;,
                 formula: &quot;Output = Attention(Q,K,V) * Gate(x)&quot;,
                 use: &quot;Modelos híbridos estables frente a sobreajuste.&quot;,
                 pros: &quot;Proporciona una capa superior de estabilidad numérica, mitigando explosiones de gradientes.&quot;,
@@ -11611,13 +11611,13 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 36, category: &quot;especializada&quot;, name: &quot;Dynamic Convolutional Attention&quot;, year: &quot;2019&quot;,
                 desc: &quot;Reemplaza o enriquece la matriz combinándola con filtros de convolución cuyos pesos cambian dinámicamente según las características del token actual.&quot;,
                 formula: &quot;Fusión lineal Attention + DynamicConv&quot;,
-                use: &quot;Procesamiento avanzado de audio, señales y voz de alta frecuencia.&quot;,
+                use: &quot;Propuesta original para traducción y modelado de lenguaje (Pay Less Attention, 2019); también explorada en audio.&quot;,
                 pros: &quot;Altamente robusto para extraer características de orden local inmediato con gran fidelidad.&quot;,
                 cons: &quot;Requiere un sobrecoste arquitectónico y de ingeniería de código elevado.&quot;
             },
             // 12. GRAFOS
             {
-                id: 37, category: &quot;multimodal&quot;, name: &quot;Graph Attention (GAT)&quot;, year: &quot;2018&quot;,
+                id: 37, category: &quot;multimodal&quot;, name: &quot;Graph Attention (GAT)&quot;, year: &quot;2017-2018&quot;,
                 desc: &quot;Extiende el concepto de atención al plano de las estructuras de datos no euclidianas. Los nodos solo calculan sus coeficientes de peso frente a sus vecinos directos especificados por la matriz de adyacencia del grafo.&quot;,
                 formula: &quot;Alpha_ij = softmax_j( LeakyReLU( a^T * [W h_i || W h_j] ) )&quot;,
                 use: &quot;Redes Neuronales de Grafos (GNNs), bioinformática, detección de fraude e interacción social.&quot;,
@@ -11686,15 +11686,15 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 45, category: &quot;reciente&quot;, name: &quot;Sliding Window con Sink Tokens&quot;, year: &quot;2023&quot;,
                 desc: &quot;Descubrimiento de que los Transformers acumulan una cantidad inmensa de atención inicial obligatoria en los primeros tokens del texto (sinks). Combina una ventana local pero retiene fijos los 4 primeros tokens pase lo que pase.&quot;,
                 formula: &quot;Atención = Ventana Local + Tokens [0, 1, 2, 3] Permanentes&quot;,
-                use: &quot;Modelos como StreamingLLM, Mistral y LLaMA-3 para permitir chats infinitos sin colapsar la memoria de caché.&quot;,
+                use: &quot;Permite conversaciones muy largas con memoria de caché acotada (StreamingLLM). No amplía la ventana de contexto efectiva: lo que sale de la ventana se pierde.&quot;,
                 pros: &quot;Evita que el modelo empiece a producir alucinaciones graves o rompa su sintaxis al evacuar los primeros tokens de la ventana.&quot;,
                 cons: &quot;El modelo olvida por completo los datos intermedios que caen fuera de la ventana deslizante.&quot;
             },
             {
-                id: 46, category: &quot;reciente&quot;, name: &quot;Ring Attention&quot;, year: &quot;2024&quot;,
+                id: 46, category: &quot;reciente&quot;, name: &quot;Ring Attention&quot;, year: &quot;2023-2024&quot;,
                 desc: &quot;Divide la secuencia masiva a lo largo de un anillo físico de múltiples GPUs conectadas en red. Cada máquina calcula una parte del mapa de atención y transfiere los bloques de Keys/Values a la siguiente de forma circular.&quot;,
                 formula: &quot;Cómputo distribuido asíncrono en topología de anillo&quot;,
-                use: &quot;Entrenamiento de modelos con contextos masivos de millones de tokens (como LLaMA-3.1 y variaciones de Gemini de código abierto).&quot;,
+                use: &quot;Entrenamiento y servicio de contextos muy largos repartiendo la secuencia entre varias GPUs; los autores reportan contextos de millones de tokens.&quot;,
                 pros: &quot;Permite romper la barrera física de la memoria de una única tarjeta gráfica de forma teóricamente ilimitada.&quot;,
                 cons: &quot;Crea una dependencia crítica del ancho de banda y latencia de la red inter-GPU (requiere interconexiones de alto coste InfiniBand / NVLink).&quot;
             },

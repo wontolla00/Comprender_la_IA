@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v134 — 23 octubre 2026 · §5.2b.3: las 40 entradas restantes de la enciclopedia contrastadas con los artículos
+
+- **Contrastado con arXiv** (fecha de primera versión): Performer (30/9/2020; evalúa proteínas, no ADN), Persistent Memory (2/7/2019), Hierarchical Co-Attention (31/5/2016), Ring Attention (3/10/2023), Sparse Transformers (23/4/2019) y ALiBi (27/8/2021).
+- **Años corregidos**: Memory-Augmented 2018 → 2019; Co-Attention 2018 → 2016; Compressive 2020 → 2019-2020; ALiBi 2022 → 2021-2022; Ring Attention 2024 → 2023-2024; GAT 2018 → 2017-2018; Cross-Modal 2021 → 2019-2021; Self-Attention 2017 → 2016-2017 (con nota: el concepto existía antes del Transformer).
+- **Atribuciones corregidas**: Cross-Modal Attention ya no cita CLIP ni GPT-4V (CLIP son dos encoders con pérdida contrastiva; coherente con el Cap. 22); ALiBi ya no cita Falcon (no verificado); Performer ya no habla de ADN; Linear Attention ya no habla de robótica; StreamingLLM deja de prometer «chats infinitos» y de citar Mistral; Ring Attention ya no cita LLaMA-3.1/Gemini; RoPE ya no es «el estándar absoluto».
+- **Entradas genéricas** (Self-Attention con Bias Aprendible y Gated Attention) marcadas como patrón sin artículo único.
+- Versión v133 → v134.
+
 ## v133 — 23 octubre 2026 · §5.2b.3: la «enciclopedia de los 47 mecanismos» pasa a catálogo de 47 entradas
 
 Origen: la matriz de la auditoría pedía revisar la «taxonomía de 47 mecanismos» del Cap. 5.
