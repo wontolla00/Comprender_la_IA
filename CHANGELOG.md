@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v135 — 23 octubre 2026 · ALiBi y RoPE en la enciclopedia, contrastados con los artículos de BLOOM y Falcon
+
+- **ALiBi**: BLOOM (Scao et al., 2022) y MPT lo usan; el informe de Falcon lo dice y señala que Falcon adoptó RoPE (confirmado en los PDF completos, no solo en el resumen).
+- **RoPE**: se añade Falcon a la lista de modelos que lo usan, junto a GPT-J y PaLM.
+- Versión v134 → v135.
+
 ## v134 — 23 octubre 2026 · §5.2b.3: las 40 entradas restantes de la enciclopedia contrastadas con los artículos
 
 - **Contrastado con arXiv** (fecha de primera versión): Performer (30/9/2020; evalúa proteínas, no ADN), Persistent Memory (2/7/2019), Hierarchical Co-Attention (31/5/2016), Ring Attention (3/10/2023), Sparse Transformers (23/4/2019) y ALiBi (27/8/2021).

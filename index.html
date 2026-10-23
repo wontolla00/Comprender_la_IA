@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v134</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v135</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v134 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v135 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -11420,7 +11420,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 13, category: &quot;position&quot;, name: &quot;Rotary Position Embedding (RoPE)&quot;, year: &quot;2021&quot;,
                 desc: &quot;Multiplica las representaciones vectoriales de Queries y Keys por una matriz de rotación en el espacio complejo antes de ejecutar el producto escalar, codificando la posición relativa de forma natural.&quot;,
                 formula: &quot;Score = (R_i * q) * (R_j * k)^T&quot;,
-                use: &quot;Muy extendido en modelos abiertos recientes, como la familia LLaMA, Mistral, Gemma y Qwen.&quot;,
+                use: &quot;Muy extendido en modelos abiertos recientes: GPT-J, PaLM, la familia LLaMA, Mistral, Gemma, Qwen y Falcon.&quot;,
                 pros: &quot;Excelente capacidad de extrapolación del contexto sin modificar la dimensionalidad de los vectores.&quot;,
                 cons: &quot;Requiere operaciones trigonométricas de alta precisión en coma flotante en las primeras etapas.&quot;
             },
@@ -11428,7 +11428,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
                 id: 14, category: &quot;position&quot;, name: &quot;ALiBi (Attention with Linear Biases)&quot;, year: &quot;2021-2022&quot;,
                 desc: &quot;Elimina los embeddings posicionales tradicionales en la entrada de datos. En su lugar, penaliza linealmente el score de atención restando un valor proporcional a la distancia exacta entre tokens.&quot;,
                 formula: &quot;Score = q_i * k_j^T - m * |i - j|&quot;,
-                use: &quot;Usado por varios modelos abiertos (p. ej. BLOOM y MPT); el artículo original es de agosto de 2021.&quot;,
+                use: &quot;Usado por BLOOM (Scao et al., 2022) y MPT (MosaicML, 2023); el informe de Falcon lo menciona así y señala que Falcon, en cambio, adoptó RoPE. El artículo original es de agosto de 2021.&quot;,
                 pros: &quot;Permite una extrapolación de contexto teóricamente infinita sin caídas drásticas de perplejidad.&quot;,
                 cons: &quot;La penalización lineal fija puede llegar a ser demasiado restrictiva para capturar relaciones semánticas lejanas pero críticas.&quot;
             },
