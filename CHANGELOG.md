@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v128 — 23 octubre 2026 · Búsqueda híbrida «recomendada» y garantía «cero desconocidos» del BPE a nivel de byte
+
+Origen: hallazgos F-16 y F-17 de la auditoría externa, pendientes desde la v123.
+
+- **Búsqueda híbrida (Cap. 4/búsqueda y §16784)**: «la arquitectura recomendada en producción» pasa a «un patrón muy extendido»; se añade que no es obligatorio y que se decide con evaluación sobre el golden dataset. La introducción del capítulo se matiza igual.
+- **BPE a nivel de byte (§0.2.3b y cuadro comparativo)**: se aclara que «cero `<unk>`» significa que todo es representable, no que se represente bien o barato; se menciona que no todos los tokenizadores lo hacen. Se retira el «30-50 % más tokens» del español (sin fuente) y se corrige la causa: los 2 bytes de ñ/á cuentan poco porque los acentos comunes suelen fusionarse; el factor principal es el vocabulario sesgado al inglés.
+- Versión v127 → v128 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v127 — 23 octubre 2026 · Apéndice A (costes) con precios de lista fechados y fuentes; Cap. 22 marcado como histórico
 
 Origen: pendientes del registro v125→v126 (auditoría externa; repaso del Cap. 22 y del Apéndice A con fuentes primarias).

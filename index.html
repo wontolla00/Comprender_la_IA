@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v127</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v128</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v127 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v128 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -3626,8 +3626,8 @@ de referencia y de distancia.</p>
 <p>La tokenización por subpalabras tiene tres ventajas clave. Primera: manejo de palabras desconocidas, una palabra no vista se descompone en subpalabras conocidas. Segunda: eficiencia, vocabulario reducido sin perder capacidad expresiva. Tercera: morfología, se capturan regularidades como plurales, conjugaciones y prefijos.</p>
 <p>Ejemplo: "inconstitucionalmente" nunca vista puede descomponerse en "in + constitucional + mente", que sí existen en el vocabulario y permiten al modelo procesarla correctamente.</p>
 <h3 id="s023b">0.2.3b Tokenización a nivel de byte: la garantía de cero desconocidos</h3>
-<p>Los tres sistemas de 2.2 (BPE, WordPiece, SentencePiece) operan sobre <em>caracteres</em>: aprenden qué secuencias de caracteres fusionar en un token. Los tokenizadores de los modelos más recientes —<code>tiktoken</code> en GPT-4, el tokenizador de Llama 3— dan un paso más: aplican BPE directamente sobre los <strong>bytes UTF-8</strong> del texto, no sobre caracteres Unicode. La diferencia parece técnica pero tiene una consecuencia práctica directa: como cualquier carácter de cualquier idioma, emoji o símbolo se puede descomponer en su representación de bytes [0-255], el vocabulario nunca necesita un token de "desconocido" (&lt;unk&gt;) — cualquier entrada, por rara que sea, es representable.</p>
-<p>Este es también el mecanismo exacto detrás del "coste multilingüe" que verás con casos concretos en los recuadros de producción de 2.7: caracteres como "ñ", "á" o los signos "¡"/"¿" ocupan 2 bytes en UTF-8 frente al byte único de las letras ASCII del inglés. Un tokenizador a nivel de byte fragmenta esos caracteres en más unidades binarias, y eso —no una penalización arbitraria del idioma— es la causa mecánica de que un texto en español consuma más tokens que su equivalente en inglés.</p>
+<p>Los tres sistemas de 2.2 (BPE, WordPiece, SentencePiece) operan sobre <em>caracteres</em>: aprenden qué secuencias de caracteres fusionar en un token. Los tokenizadores de los modelos más recientes —<code>tiktoken</code> en GPT-4, el tokenizador de Llama 3— dan un paso más: aplican BPE directamente sobre los <strong>bytes UTF-8</strong> del texto, no sobre caracteres Unicode. La diferencia parece técnica pero tiene una consecuencia práctica directa: como cualquier carácter de cualquier idioma, emoji o símbolo se puede descomponer en su representación de bytes [0-255], el vocabulario nunca necesita un token de "desconocido" (&lt;unk&gt;) — cualquier entrada, por rara que sea, es representable. Ojo con lo que esto <em>no</em> garantiza: que el texto se represente sin &lt;unk&gt; no significa que se represente bien. Una escritura poco frecuente en el corpus del tokenizador se descompone en muchos tokens casi byte a byte, con más coste y peor rendimiento. Y no todos los tokenizadores lo hacen: SentencePiece puede incluir un «byte fallback» opcional, pero no es el comportamiento por defecto de todas las configuraciones.</p>
+<p>Este es también el mecanismo exacto detrás del "coste multilingüe" que verás con casos concretos en los recuadros de producción de 2.7: caracteres como "ñ", "á" o los signos "¡"/"¿" ocupan 2 bytes en UTF-8 frente al byte único de las letras ASCII. Eso explica una parte del sobrecoste solo cuando el tokenizador no tiene un token para esa secuencia; en la práctica, los tokenizadores modernos suelen fusionar los acentos más comunes en un único token. La causa principal es otra: el vocabulario se aprende sobre un corpus dominado por el inglés, de modo que las palabras españolas se parten en más subpalabras. Cuánto más cuesta depende del tokenizador y del texto; mídelo con el tuyo en lugar de asumir una cifra.</p>
 <div class="callout" style="margin:16px 0;">
 <strong>🔬 Pruébalo tú mismo</strong>
   El laboratorio interactivo siguiente compara los cuatro enfoques (carácter, palabra, subpalabra simulada y byte real) sobre el mismo texto. Escribe una frase con acentos o signos de apertura ("¡", "¿") y compara cuántos elementos produce cada modo — el modo "Byte-Level" calcula bytes UTF-8 reales con la misma API que usa un navegador, no una aproximación.
@@ -3877,8 +3877,8 @@ de referencia y de distancia.</p>
 <p><strong>Fe de erratas integrada:</strong> Históricamente, ciertas versiones del manual atribuían la robustez ante caracteres desconocidos de forma nativa a <em>SentencePiece</em>. <strong>Aclaración:</strong> Esta propiedad no es un rasgo de la envoltura de SentencePiece, sino una consecuencia mecánica directa del diseño de <strong>BPE a nivel de byte (Byte-Level BPE)</strong> utilizado por tokenizadores modernos como <code>tiktoken</code> (GPT-4) o Llama 3.</p>
 <p>Al mapear el texto directamente a secuencias de bytes <strong>UTF-8</strong> [0-255] en lugar de caracteres completos:</p>
 <ul>
-<li>Se garantiza un vocabulario compacto inicial y <strong>cero tokens desconocidos (&lt;unk&gt;)</strong>.</li>
-<li>Explica el <strong>coste multilingüe en español (30-50% más tokens)</strong>: caracteres como la "ñ", "á" o los signos "¡" y "¿" consumen 2 bytes en UTF-8, forzando la fragmentación en múltiples tokens binarios independientes frente al ASCII limpio del inglés.</li>
+<li>Se garantiza un vocabulario compacto inicial y <strong>cero tokens desconocidos (&lt;unk&gt;)</strong> (todo es representable, aunque no necesariamente de forma eficiente).</li>
+<li>Contribuye al <strong>sobrecoste multilingüe</strong> (el español suele consumir más tokens que el inglés; la cifra depende del tokenizador, y el manual no fija un porcentaje): los caracteres como "ñ", "á", "¡" o "¿" ocupan 2 bytes en UTF-8, pero el factor principal es que el vocabulario está sesgado hacia el inglés.</li>
 </ul>
 </div>
 <div class="grid-layout">
@@ -3918,7 +3918,7 @@ de referencia y de distancia.</p>
 </li>
 <li class="evolution-item">
 <div class="evolution-title">4. BPE a nivel de byte (el estándar actual)</div>
-<div><strong>Garantía Tiktoken / Llama 3:</strong> Transforma todo a bytes crudos. Cualquier emoji, carácter especial o combinación idiomática es representable nativamente sin generar un token de fallo.</div>
+<div><strong>Garantía Tiktoken / Llama 3:</strong> Transforma todo a bytes crudos. Cualquier emoji, carácter especial o combinación idiomática es representable sin generar un token de fallo (otra cosa es cuántos tokens cueste).</div>
 </li>
 </ul>
 </div>
@@ -14160,7 +14160,7 @@ syncInputs();
 <div class="exec-mode"><span class="exec-title">⚡ Modo ejecutivo — Cap. 6</span><dl><dt>Decisión que habilita:</dt><dd>Elegir la estrategia de búsqueda (densa, híbrida, con re-ranking) según qué tipo de consulta domina tu caso de uso.</dd><dt>Riesgo si se ignora:</dt><dd>Desplegar solo búsqueda semántica y fallar sistemáticamente en nombres propios, códigos y términos exactos sin saber por qué.</dd><dt>Qué hacer mañana:</dt><dd>Audita tus últimas 20 consultas fallidas y clasifica cuántas son de tipo "término exacto" — eso decide si necesitas hybrid search.</dd></dl></div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
-    La búsqueda semántica tiene un punto ciego que sorprende a la mayoría: no es buena con términos exactos, nombres propios ni códigos. Este capítulo te enseña la arquitectura de búsqueda híbrida que usan los sistemas RAG en producción, y cómo elegir la estrategia correcta para cada tipo de consulta.
+    La búsqueda semántica tiene un punto ciego que sorprende a la mayoría: no es buena con términos exactos, nombres propios ni códigos. Este capítulo te enseña la arquitectura de búsqueda híbrida, un patrón frecuente en sistemas RAG en producción cuando conviven consultas conceptuales y de términos exactos, y cómo elegir la estrategia correcta para cada tipo de consulta.
   </div>
 <div class="callout" style="border-left-color:#0d9488;">
 <strong>💰 Antes de decidir arquitectura de retrieval: mira la factura</strong>
@@ -16781,7 +16781,7 @@ function memUpdate() {
     Coste: ejecutable en CPU (sin GPU). Tiempo estimado: 3–5 minutos en Colab gratuito.<br/>
 <span style="font-size:.78rem;color:var(--muted);">El código completo está en el bloque siguiente; cópialo en un notebook propio (no se distribuye un archivo .ipynb aparte).</span>
 </div>
-<p>La búsqueda híbrida combina recuperación léxica (BM25) y semántica (vectores). Es la arquitectura recomendada en producción para cubrir los puntos ciegos de cada enfoque.</p>
+<p>La búsqueda híbrida combina recuperación léxica (BM25) y semántica (vectores). Es un patrón muy extendido en producción para cubrir los puntos ciegos de cada enfoque; no es obligatorio: si tu corpus y tus consultas son puramente conceptuales, o puramente de términos exactos, un solo método medido en tu golden dataset puede bastar. Decide con una evaluación, no por costumbre.</p>
 <pre><span class="exec-badge">✓ Ejecutable (requiere dependencias/API key)</span><br/># pip install rank-bm25 sentence-transformers numpy
 from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer, util

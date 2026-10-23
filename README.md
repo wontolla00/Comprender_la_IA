@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v127** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v128** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v128** | Búsqueda híbrida deja de ser «la recomendada»; la garantía «cero desconocidos» del BPE por bytes se matiza y se retira la cifra 30-50 % del español. |
 | **v127** | Apéndice A: precios de lista en USD con fecha y fuentes oficiales (23/10/2026), calculadora con input/output separados, cifras sin fuente declaradas estimaciones; Cap. 22 marcado como histórico donde describe modelos de 2023–2024. |
 | **v126** | El experimento de convergencia multi-sistema (§20.1) se declara observación exploratoria del autor, con sus límites y lo que haría falta para validarlo; el checkpoint del Cap. 20 se corrige; el «70 %» del Cap. 15 deja de ser una cifra. |
 | **v125** | Atención causal vs. bidireccional explicada con precisión (definición, §0.1.5, §5.2, tabla de variantes) y demo con modo causal; §5.2b.2 corregida: CLIP, GPT-4V, LLaVA y RAFT ya no se presentan como usuarios de cross-attention. |
