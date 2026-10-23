@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v124</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v125</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v124 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v125 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -3080,7 +3080,7 @@ render();
 &lt;/html&gt;" style="width:100%;height:1100px;border:none;display:block;" title="Retropropagación paso a paso"></iframe>
 </div>
 <h3 id="s014">0.1.4 La arquitectura Transformer</h3>
-<p>En 2017, Google publicó "Attention Is All You Need" e introdujo la arquitectura <span class="gt">Transformer<span class="tt">Arquitectura de red neuronal basada en el mecanismo de atención (Vaswani et al., 2017). Fundamento de todos los LLM modernos.</span></span>. Esta arquitectura se basa en el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer que permite a cada token «mirar» todos los demás tokens del contexto simultáneamente y ponderar su influencia.</span></span>, que permite al modelo procesar todas las palabras de un texto simultáneamente y ponderar la influencia de cada una sobre las demás. La arquitectura Transformer, combinada con el entrenamiento a gran escala, es la base de todos los modelos de lenguaje modernos: GPT, Claude, Gemini, Llama y muchos otros.</p>
+<p>En 2017, Google publicó "Attention Is All You Need" e introdujo la arquitectura <span class="gt">Transformer<span class="tt">Arquitectura de red neuronal basada en el mecanismo de atención (Vaswani et al., 2017). Fundamento de todos los LLM modernos.</span></span>. Esta arquitectura se basa en el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer por el que cada posición pondera la información de otras posiciones del contexto: de todas, en un modelo bidireccional (encoder); solo de las anteriores y de sí misma, en un decoder causal (GPT, Llama, Claude).</span></span>, que permite al modelo procesar todas las palabras de un texto simultáneamente y ponderar la influencia de cada una sobre las demás. La arquitectura Transformer, combinada con el entrenamiento a gran escala, es la base de todos los modelos de lenguaje modernos: GPT, Claude, Gemini, Llama y muchos otros.</p>
 <div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(99,102,241,.25);background:var(--card,#fff)">
 <div style="background:rgba(99,102,241,.07);padding:8px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(99,102,241,.15)">
 <span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700">🎮 INTERACTIVO</span>
@@ -3233,14 +3233,14 @@ render();
 &lt;/html&gt;" style="width:100%;height:420px;border:none;display:block;" title="Mecanismo de Auto-Atención — Self-Attention"></iframe>
 </div>
 <h3 id="s015">0.1.5 El mecanismo de atención</h3>
-<p>Para cada <span class="gt">token<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span>, el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer que permite a cada token «mirar» todos los demás tokens del contexto simultáneamente y ponderar su influencia.</span></span> genera tres vectores: query (qué busca), key (qué ofrece al ser buscado) y value (qué información aporta si es seleccionado). El query de cada token se compara con los keys de todos los demás para producir puntuaciones de atención. Este proceso se repite en múltiples "cabezas de atención" en paralelo, cada una especializada en detectar diferentes tipos de relaciones: sintácticas, semánticas, 
+<p>Para cada <span class="gt">token<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span>, el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer por el que cada posición pondera la información de otras posiciones del contexto: de todas, en un modelo bidireccional (encoder); solo de las anteriores y de sí misma, en un decoder causal (GPT, Llama, Claude).</span></span> genera tres vectores: query (qué busca), key (qué ofrece al ser buscado) y value (qué información aporta si es seleccionado). El query de cada token se compara con los keys de las posiciones que puede ver (todas, en un modelo bidireccional; solo las anteriores y la propia, en un decoder causal como GPT, Llama o Claude) para producir puntuaciones de atención. Este proceso se repite en múltiples "cabezas de atención" en paralelo, cada una especializada en detectar diferentes tipos de relaciones: sintácticas, semánticas, 
   <!-- ═══ DIAGRAMA: Mecanismo de atención ═══ -->
 <p style="margin:10px 0 12px;font-size:0.92rem;line-height:1.7;color:#374151;">
     El diagrama siguiente te permite explorar cómo funciona la atención.
     <strong>Haz clic en cualquier token</strong> para ver qué peso de atención asigna a cada
     uno de los demás — las líneas más gruesas y brillantes indican mayor atención.
-    Observa cómo "gato" mira a "hambriento" y "come" simultáneamente: Q, K y V en acción.
-    <span style="font-size:0.82rem;color:#6b7280">💡 La cabeza de atención lee el contexto completo antes de generar cada token.</span>
+    Observa cómo "gato" pondera "hambriento" y "come" en el modo bidireccional (el de un encoder, como BERT). Con el botón puedes pasar al modo causal, el de los modelos generativos (GPT, Llama, Claude): ahí "gato" solo ve "El" y a sí mismo, porque los tokens futuros están enmascarados (§5.2b).
+    <span style="font-size:0.82rem;color:#6b7280">💡 Al generar cada token, la cabeza de atención lee todo el contexto anterior (el prompt y lo ya generado).</span>
 </p>
 <div id="rag-att" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:20px;background:#f8f9fc">
 <style>
@@ -3251,7 +3251,7 @@ render();
   #rag-att canvas{display:block;width:100%;cursor:pointer}
   #rag-att .at-hint{font-size:10px;color:#64748b;padding:8px 20px;text-align:center}
   </style>
-<div class="at-hdr"><span class="at-tag">INTERACTIVO</span><span class="at-title">Haz clic en un token para ver sus pesos de atención</span></div>
+<div class="at-hdr"><span class="at-tag">INTERACTIVO</span><span class="at-title">Haz clic en un token para ver sus pesos de atención</span><button id="at-mode" type="button" style="margin-left:auto;font-size:10px;padding:3px 8px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;color:#334155;cursor:pointer;">Modo: bidireccional (encoder) ⇄ causal</button></div>
 <canvas height="160" id="at-canvas"></canvas>
 <div class="at-hint" id="at-hint">← Haz clic en cualquier token para activar la atención</div>
 <script>
@@ -3266,7 +3266,9 @@ render();
       [0.05,0.15,0.06,0.25,0.38,0.11]
     ];
     var colors=["#6366f1","#f59e0b","#10b981","#ef4444","#8b5cf6","#06b6d4"];
-    var sel=-1;
+    var sel=-1,causal=false;
+    function wts(k){var r=weights[k].slice();if(!causal)return r;var sum=0,j;for(j=0;j<=k;j++)sum+=r[j];for(j=0;j<r.length;j++)r[j]=j<=k?r[j]/sum:0;return r;}
+    function updateHint(idx){var W2=wts(idx);var hint="["+(causal?"causal":"bidireccional")+"] Token «"+tokens[idx]+"» mira principalmente a: ";var sorted=W2.map(function(v,i){return{v:v,i:i}}).filter(function(x){return x.v>0}).sort(function(a,b){return b.v-a.v}).slice(0,3);hint+=sorted.map(function(x){return "«"+tokens[x.i]+"» ("+Math.round(x.v*100)+"%)";}).join(", ");document.getElementById("at-hint").textContent=hint;}
     var c=document.getElementById("at-canvas");
     var ctx=c.getContext("2d");
     function draw(){
@@ -3274,11 +3276,13 @@ render();
       var n=tokens.length,pad=W*0.07,tw=(W-pad*2)/n,th=44,cy=100;
       ctx.fillStyle='#f8f9fc';ctx.fillRect(0,0,W,160);
       if(sel>=0){
+        var W2=wts(sel);
         for(var i=0;i<n;i++){
           if(i===sel)continue;
+          if(causal&&i>sel)continue;
           var x1=pad+sel*tw+tw/2,y1=cy-22;
           var x2=pad+i*tw+tw/2,y2=cy-22;
-          var w=weights[sel][i],op=Math.max(0.03,w);
+          var w=W2[i],op=Math.max(0.03,w);
           ctx.save();ctx.globalAlpha=op;
           ctx.strokeStyle=colors[sel];ctx.lineWidth=Math.max(0.5,w*14);
           var mx=(x1+x2)/2,my=cy-80-Math.abs(x1-x2)*0.22;
@@ -3294,10 +3298,10 @@ render();
       for(var i=0;i<n;i++){
         var tx=pad+i*tw,ty=cy-th/2;
         var active=sel===i,hover=false;
-        ctx.fillStyle=active?colors[i]:(sel>=0?'#e2e8f0':'#e2e8f0');
+        var masked=causal&&sel>=0&&i>sel;ctx.fillStyle=active?colors[i]:(masked?'#f8fafc':'#e2e8f0');
         ctx.strokeStyle=active?colors[i]:'#cbd5e1';ctx.lineWidth=active?2:1;
         ctx.beginPath();ctx.roundRect(tx+4,ty,tw-8,th,6);ctx.fill();ctx.stroke();
-        ctx.fillStyle=active?"#fff":(sel>=0?'#475569':'#1e293b');
+        ctx.fillStyle=active?"#fff":(masked?'#cbd5e1':(sel>=0?'#475569':'#1e293b'));
         ctx.font=(active?"bold ":"")+"11px 'Space Mono',monospace";ctx.textAlign="center";
         ctx.fillText(tokens[i],tx+tw/2,ty+th/2+4);
       }
@@ -3308,13 +3312,11 @@ render();
       var idx=Math.floor((mx-pad)/tw);
       if(idx>=0&&idx<n){
         sel=idx;
-        var hint="Token «"+tokens[idx]+"» mira principalmente a: ";
-        var sorted=weights[idx].map(function(v,i){return{v:v,i:i}}).sort(function(a,b){return b.v-a.v}).slice(0,3);
-        hint+=sorted.map(function(x){return "«"+tokens[x.i]+"» ("+Math.round(x.v*100)+"%)";}).join(", ");
-        document.getElementById("at-hint").textContent=hint;
+        updateHint(idx);
         draw();
       }
     });
+    document.getElementById("at-mode").addEventListener("click",function(){causal=!causal;this.textContent=causal?"Modo: causal (decoder) ⇄ bidireccional":"Modo: bidireccional (encoder) ⇄ causal";if(sel>=0)updateHint(sel);draw();});
     window.addEventListener("resize",draw);draw();
   })();
   </script>
@@ -4140,7 +4142,7 @@ de referencia y de distancia.</p>
 <tr><td>[otros ~199.996]</td><td>0.02</td><td>Larga cola de alternativas improbables</td></tr>
 </table>
 <h3 id="s026">0.2.6 Generación de texto paso a paso</h3>
-<p>El proceso de generación es iterativo. El sistema comienza con el <span class="gt">prompt<span class="tt">El texto de entrada proporcionado al modelo. Prompt engineering es la disciplina de diseñar prompts que maximizan la calidad y fiabilidad de las respuestas.</span></span> inicial y repite el ciclo: analiza todos los <span class="gt">tokens<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span> del contexto disponible mediante el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer que permite a cada token «mirar» todos los demás tokens del contexto simultáneamente y ponderar su influencia.</span></span>; calcula la distribución de probabilidad sobre el vocabulario completo; aplica los parámetros de muestreo (<span class="gt">temperatura<span class="tt">Parámetro que controla la aleatoriedad de la selección de tokens. T=0: casi determinista. T&gt;1: alta creatividad/variabilidad.</span></span>, <span class="gt">top-p, top-k<span class="tt">Métodos de muestreo que limitan la selección de tokens al subconjunto de mayor probabilidad. Top-k limita a los k tokens más probables; top-p selecciona el conjunto cuya probabilidad acumulada alcanza el umbral p.</span></span>) para seleccionar un <span class="gt">token<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span>; añade ese token al texto generado; usa el nuevo contexto completo y repite hasta EOS o límite de tokens.</p>
+<p>El proceso de generación es iterativo. El sistema comienza con el <span class="gt">prompt<span class="tt">El texto de entrada proporcionado al modelo. Prompt engineering es la disciplina de diseñar prompts que maximizan la calidad y fiabilidad de las respuestas.</span></span> inicial y repite el ciclo: analiza todos los <span class="gt">tokens<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span> del contexto disponible mediante el <span class="gt">mecanismo de atención<span class="tt">Mecanismo del Transformer por el que cada posición pondera la información de otras posiciones del contexto: de todas, en un modelo bidireccional (encoder); solo de las anteriores y de sí misma, en un decoder causal (GPT, Llama, Claude).</span></span>; calcula la distribución de probabilidad sobre el vocabulario completo; aplica los parámetros de muestreo (<span class="gt">temperatura<span class="tt">Parámetro que controla la aleatoriedad de la selección de tokens. T=0: casi determinista. T&gt;1: alta creatividad/variabilidad.</span></span>, <span class="gt">top-p, top-k<span class="tt">Métodos de muestreo que limitan la selección de tokens al subconjunto de mayor probabilidad. Top-k limita a los k tokens más probables; top-p selecciona el conjunto cuya probabilidad acumulada alcanza el umbral p.</span></span>) para seleccionar un <span class="gt">token<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span>; añade ese token al texto generado; usa el nuevo contexto completo y repite hasta EOS o límite de tokens.</p>
 <h3 id="s027">0.2.7 De la predicción a la ilusión de inteligencia</h3>
 <p>Esta aparente inteligencia emerge de la escala del entrenamiento (billones de <span class="gt">tokens<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span>) y de la complejidad de las representaciones internas (miles de millones de parámetros). En su núcleo, el sistema sigue realizando la misma operación fundamental: predecir el siguiente <span class="gt">token<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span>.</p>
 <div class="warning">
@@ -10682,7 +10684,7 @@ function score(){
 <h2 id="s52">5.2 El mecanismo de atención: por qué el contexto importa</h2>
 <p>La pieza central de la arquitectura Transformer es el <span class="gt">mecanismo de atención<span class="tt">Mecanismo que permite al modelo ponderar la importancia de cada token del contexto al generar el siguiente. "Prestar atención" a las partes relevantes del input.</span></span>. Para entenderlo sin matemáticas, usa esta imagen:</p>
 <p>Imagina que estás leyendo la frase: <em>"El banco estaba lleno de gente porque había cola"</em>. Para entender "banco" (¿financiero o asiento de parque?), tu cerebro mira al resto de la frase y pondera la importancia de cada palabra. "Gente", "cola" y "lleno" tienen mucho peso. "había" y "de" tienen poco. Eso es la atención.</p>
-<p>El modelo hace lo mismo para cada token, mirando a todos los demás tokens del contexto y calculando cuánto "peso" darle a cada uno. Esto ocurre en múltiples capas paralelas llamadas "cabezas de atención", cada una especializada en detectar distintos tipos de relación: sintáctica, semántica, de referencia, temporal.</p>
+<p>El modelo hace lo mismo para cada token, mirando a los demás tokens del contexto (en un modelo generativo, a los anteriores) y calculando cuánto "peso" darle a cada uno. Esto ocurre en múltiples capas paralelas llamadas "cabezas de atención", cada una especializada en detectar distintos tipos de relación: sintáctica, semántica, de referencia, temporal.</p>
 <div style="margin:32px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(16,185,129,.3);background:var(--card,#fff)">
 <div style="background:rgba(16,185,129,.06);padding:8px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(16,185,129,.15)">
 <span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#059669;font-weight:700">🎮 SIMULADOR AVANZADO</span>
@@ -11222,7 +11224,7 @@ Hay más de 40 variantes documentadas de atención. No las usarás todas, ni siq
 <tbody>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;font-weight:700">Scaled Dot-Product</td><td style="padding:10px 14px">Producto punto Q·K dividido por √d<sub>k</sub> para estabilizar gradientes. Base de todo lo demás.</td><td style="padding:10px 14px;font-family:monospace;font-size:.82rem">softmax(QKᵀ/√dₖ)V</td></tr>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;font-weight:700">Multi-Head Attention</td><td style="padding:10px 14px">Múltiples cabezas en paralelo, cada una especializada en un subespacio distinto (sintaxis, semántica, referencia…)</td><td style="padding:10px 14px;font-family:monospace;font-size:.82rem">Concat(head₁,…,headₕ)Wᴼ</td></tr>
-<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;font-weight:700">Self-Attention</td><td style="padding:10px 14px">Q, K y V provienen de la misma secuencia. Cada token mira a todos los demás de su propio contexto.</td><td style="padding:10px 14px;font-family:monospace;font-size:.82rem">Q=K=V=X·W</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;font-weight:700">Self-Attention</td><td style="padding:10px 14px">Q, K y V provienen de la misma secuencia. Cada posición atiende a otras de su propia secuencia: a todas, si es bidireccional; solo a las anteriores y a sí misma, si es causal.</td><td style="padding:10px 14px;font-family:monospace;font-size:.82rem">Q=K=V=X·W</td></tr>
 <tr><td style="padding:10px 14px;font-weight:700">Causal / Masked</td><td style="padding:10px 14px">Enmascara posiciones futuras (M<sub>ij</sub>=−∞ si j&gt;i). Indispensable para generación autoregresiva.</td><td style="padding:10px 14px;font-family:monospace;font-size:.82rem">softmax((QKᵀ+M)/√dₖ)V</td></tr>
 </tbody></table>
 </div>
@@ -11231,7 +11233,7 @@ Hay más de 40 variantes documentadas de atención. No las usarás todas, ni siq
 <div style="background:rgba(99,102,241,.05);border-left:3px solid var(--accent);padding:14px 18px;border-radius:6px;margin:16px 0;font-family:monospace;font-size:.85rem">
 CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<sub>dec</sub>K<sub>enc</sub>ᵀ / √d<sub>k</sub>) V<sub>enc</sub>
 </div>
-<p>En modelos solo-decoder como GPT o LLaMA no existe cross-attention; solo self-attention causal. Es el fundamento de la traducción (T5, BART), los modelos multimodales (CLIP, GPT-4V) y RAFT.</p>
+<p>En modelos solo-decoder como GPT o LLaMA no existe cross-attention; solo self-attention causal. La cross-attention es la base de la traducción encoder-decoder (T5, BART), del reconocimiento de voz de Whisper y de la condición por texto de los modelos de difusión; entre los modelos de visión-lenguaje la usa Flamingo (Alayrac et al., 2022). No la usan todos: CLIP alinea imagen y texto con dos codificadores y una pérdida contrastiva, sin cross-attention; LLaVA proyecta la imagen a tokens que se concatenan al contexto; y la arquitectura de GPT-4V no es pública. RAFT (Retrieval Augmented Fine-Tuning) no es un mecanismo de atención sino una receta de fine-tuning: entrena al modelo con contextos que mezclan documentos relevantes y distractores, y el modelo los lee con su self-attention causal habitual.</p>
 <h3 id="s52b3">5.2b.3 Enciclopedia interactiva: los 47 mecanismos</h3>
 <p>Las variantes completas, organizadas por familia, con fórmula, uso típico y pros/contras:</p>
 <div style="margin:28px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(45,212,191,.3);background:var(--card,#fff)">
@@ -11851,7 +11853,7 @@ CrossAttention(Q<sub>dec</sub>, K<sub>enc</sub>, V<sub>enc</sub>) = softmax(Q<su
 <tbody>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Pipelines RAG / chatbots</td><td style="padding:9px 12px">Self-Attention causal, GQA, FlashAttention, PagedAttention</td><td style="padding:9px 12px"><a href="#cap5">5.1–5.6</a>, <a href="#s57d">5.7d</a></td></tr>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Documentos largos / 100K+ tokens</td><td style="padding:9px 12px">SWA, Sink Tokens, RoPE+YaRN, Ring Attention</td><td style="padding:9px 12px"><a href="#s55c">5.5c</a>, <a href="#s55d">5.5d</a></td></tr>
-<tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Fine-tuning / RAFT</td><td style="padding:9px 12px">Self-Attention + Cross-Attention (cómo el modelo atiende al documento)</td><td style="padding:9px 12px"><a href="#s18raft">1.8</a>, <a href="#s57b">5.7b</a></td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Fine-tuning / RAFT</td><td style="padding:9px 12px">Self-Attention causal (el modelo atiende al documento colocado en su contexto; RAFT es una receta de entrenamiento, no un mecanismo de atención)</td><td style="padding:9px 12px"><a href="#s18raft">1.8</a>, <a href="#s57b">5.7b</a></td></tr>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Sistemas multimodales</td><td style="padding:9px 12px">Cross-Modal Attention, Co-Attention, Cross-Attention decoder→encoder</td><td style="padding:9px 12px"><a href="#cap22">Cap. 22</a></td></tr>
 <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px">Despliegue / optimización de coste</td><td style="padding:9px 12px">GQA, MQA, MLA, FlashAttention, PagedAttention (vLLM), continuous batching, expert parallelism (MoE)</td><td style="padding:9px 12px"><a href="#s55c">5.5c</a>, <a href="#s57d">5.7d</a>, <a href="#s57g">5.7g</a></td></tr>
 <tr><td style="padding:9px 12px">Elección de modelo base</td><td style="padding:9px 12px">Tabla 5.2b.4 (qué usa cada modelo)</td><td style="padding:9px 12px">Esta sección</td></tr>
@@ -29645,7 +29647,7 @@ updateAttackConfig();
 </div>
 <h2 id="mm1">22.1 El giro multimodal: de texto a percepción</h2>
 <p>Un <strong>modelo multimodal</strong> es un sistema que procesa y/o genera más de una modalidad de señal: texto, imagen, audio, vídeo o datos estructurados. El giro conceptual respecto a los LLM puros es que la <em>representación</em> ya no es exclusivamente lingüística: el modelo aprende a proyectar imagen, sonido y texto en un espacio de embeddings compartido.</p>
-<p>La arquitectura dominante en 2024–2026 para modelos de visión-lenguaje es el <strong>encoder-decoder cruzado</strong>: un encoder visual (ViT o similar) proyecta parches de imagen en tokens visuales que se concatenan al contexto del LLM. Alternativamente, modelos como Flamingo y LLaVA usan <strong>cross-attention</strong> para que el decoder de texto atienda directamente a los features visuales sin tokenizar la imagen.</p>
+<p>La arquitectura dominante en 2024–2026 para modelos de visión-lenguaje es el <strong>encoder-decoder cruzado</strong>: un encoder visual (ViT o similar) proyecta parches de imagen en tokens visuales que se concatenan al contexto del LLM. Alternativamente, modelos como Flamingo usan <strong>cross-attention</strong> para que el decoder de texto atienda directamente a los features visuales sin concatenarlos al contexto (LLaVA, en cambio, sigue el primer enfoque: proyecta y concatena).</p>
 <section id="mm22" aria-label="Figura interactiva: pipeline multimodal y coste de tokens visuales">
 <style>
 #mm22{--bg:#0e1a2b;--card:#13253a;--line:#1e3350;--txt:#e8f0f8;--mut:#9fb3c8;

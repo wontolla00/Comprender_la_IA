@@ -2,6 +2,15 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v125 — 23 octubre 2026 · Atención causal y cross-attention (Cap. 0 y §5.2b)
+
+Origen: pendientes del registro v123→v124 (hallazgos de la auditoría externa contrastados con el texto).
+
+- **Definición de atención** (glosario emergente, 3 apariciones), §0.1.5 y §5.2: «cada token mira a todos los demás» → cada posición pondera las que puede ver (todas, en un modelo bidireccional; solo las anteriores y la propia, en un decoder causal). Fila Self-Attention de la tabla de variantes con la misma precisión.
+- **Demo interactiva de §0.1.5**: nuevo botón de modo «bidireccional (encoder) ⇄ causal (decoder)». En modo causal los tokens futuros se enmascaran y los pesos se renormalizan sobre los visibles («gato» solo ve «El» y a sí mismo). El texto de la demo ya no presenta la atención bidireccional como la de un LLM generativo.
+- **§5.2b.2**: se retira «la cross-attention es el fundamento de… CLIP, GPT-4V y RAFT». Ahora: la base de la traducción encoder-decoder (T5, BART), de Whisper y de la condición por texto en difusión; entre los modelos de visión-lenguaje, Flamingo. CLIP no usa cross-attention (dos codificadores y pérdida contrastiva), LLaVA proyecta y concatena, la arquitectura de GPT-4V no es pública, y RAFT es una receta de fine-tuning, no un mecanismo de atención. Misma corrección en la tabla de la enciclopedia (fila «Fine-tuning / RAFT») y en el Cap. 22 (LLaVA ya no figura entre los que usan cross-attention).
+- Versión v124 → v125 en `<title>`, barra superior, `README.md`, `CHANGELOG.md` y `CLAUDE.md`.
+
 ## v124 — 23 octubre 2026 · Proveedor y deployer en el AI Act (Cap. 16 y referencias)
 
 Origen: punto pendiente del registro v122→v123. El manual decía que quien construye una aplicación sobre una API de LLM es «el deployer» y que los labs son «proveedores de la capa base». Contrastado con el texto del Reglamento (UE) 2024/1689 (arts. 2, 3.3, 3.4, 3.11, 25, 26, 53): quien desarrolla el sistema y lo pone en servicio con su nombre —también para uso propio— es proveedor de ese sistema; deployer es quien usa un sistema desarrollado por otro. Calificación dependiente de cada caso: el texto lo dice y recomienda revisión jurídica.

@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v124** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v125** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v125** | Atención causal vs. bidireccional explicada con precisión (definición, §0.1.5, §5.2, tabla de variantes) y demo con modo causal; §5.2b.2 corregida: CLIP, GPT-4V, LLaVA y RAFT ya no se presentan como usuarios de cross-attention. |
 | **v124** | Proveedor y deployer del AI Act corregidos en todo el manual: quien construye un sistema sobre una API es proveedor de ese sistema (y deployer si lo usa); nuevo test de roles en §16.2, clasificador con cuatro roles, quiz y glosario alineados, alcance territorial según el art. 2 y fechas del Omnibus en §16.3. |
 | **v123** | Corrección de sobreafirmaciones señaladas por una auditoría externa: regla del delta ASR y umbrales de criticidad marcados como heurística del autor, «causa principal» y ARC-AGI-3 rebajados a hipótesis, frase de prevalencia multimodal retirada, mapa OWASP actualizado a 2026, enlaces de plantilla eliminados. |
 | **v122** | Cuatro pendientes del triaje a la vez. Nueva §9.7b «Cómputo en inferencia: generar y elegir» (voto, mejor de N, autorrefinamiento, árbol/haz/MCTS, pensamiento extendido; regla de verificador primero; límites de las fuentes). Dos notas «Matiz (2026-10)» con casos fechados en §13.2 (OpenAI) y §13.7 (Anthropic), una en §14.2b (confianza y metacognición con IA, estudio exploratorio) y dos retoques en §8.8b y §10.4b (verificador con contexto fresco; tasa de aprovechamiento). |
