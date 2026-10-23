@@ -8,4 +8,4 @@ Cap. 22. Ver CHANGELOG v129.
 ## Pendientes
 - Contrastar con fichas oficiales: licencias Qwen3-VL y Gemma 4; precios y duraciones de vídeo; precios de voz.
 - Sin revisar: CogVideoX, Kokoro-82M, Coqui, tabla de VLA (22.9), cifras de la tabla Whisper, Faster-Whisper «4×».
-- Heredados: verificar fila OpenAI del Apéndice A; IDs OWASP LLM04–10; notebooks 05/06; revisión legal §16.2–16.4.
+- Heredados: verificar fila OpenAI del Apéndice A; IDs OWASP LLM04–10; (notebooks 05/06: decidido, se quedan dentro del HTML); revisión legal §16.2–16.4.
