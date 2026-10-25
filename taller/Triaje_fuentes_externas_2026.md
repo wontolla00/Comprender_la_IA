@@ -25,6 +25,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
 - [ ] **CI-MC-1 · monocultivo algorítmico (baja):** Bommasani et al., «Picking on the same person: does algorithmic monoculture lead to outcome homogenization?» (NeurIPS 2022), localizado solo en la bibliografía del Human Creativity Benchmark; no leído. Verificar y, si encaja, citarlo en lugar del HCB para el argumento de monocultivo.
 - [ ] **CI-PI-1 · inyección de prompt y defensas por diseño (baja-media):** leer completos CaMeL (arXiv 2503.18813; 77 % de las tareas de AgentDojo con seguridad demostrable frente a 84 % sin defensa) y «Design Patterns for Securing LLM Agents against Prompt Injections» (2506.08837); comprobar cuántos patrones son y si dicen que un agente generalista no se puede asegurar (afirmación del post, no verificada). Antes: ver qué cubre hoy el manual sobre inyección de prompt. El estudio de las «doce defensas» es Nasr, Carlini y otros (2510.09023).
+- [ ] **CI-DR-1 · significación externa en las redes (baja-media):** Dreyfus (2007), «Why Heideggerian AI failed and how fixing it would require making it more Heideggerian», *Artificial Intelligence* 171, pp. 1137-1160, sección 8 (p. 1150): en las redes neuronales «la significación se añade desde fuera, ya que la red no busca nada». Citable con página como antecedente de la tesis del RLHF como significación externa (Tres Domesticaciones), con el matiz de que habla de redes en general, no de RLHF. Antes: comprobar si el corpus ya cita a Dreyfus (carpeta no conectada); en el manual hay 0 menciones de Dreyfus, Heidegger o Merleau-Ponty (comprobado en los .md y el HTML). Posible uso en el manual: historia de la IA (problema del marco, micro-mundos).
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
@@ -3019,3 +3020,21 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte, HyperRAG, corpus:* nada.
 
 **Veredicto: Observar.** `[Manual: CI-PI-1, baja-media]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Corpus: nada]`
+
+### 2026-10-25 (g) — Post de la libélula («100.000 neuronas… usar el mundo como su propio modelo… Heideggerian AI») y lectura completa de Dreyfus (2007)
+
+**Fuente.** Post en español, sin autor identificado en el texto recibido. Se leyó completo el artículo de Dreyfus (24 págs.). De Mischiati et al. (*Nature* 2015, doi 10.1038/nature14045) solo el resumen.
+
+**El post no se apoya en el artículo.**
+- Dreyfus (2007) trata de IA simbólica, Brooks, Agre, Wheeler y Freeman; no menciona deep learning, modelos de lenguaje ni eficiencia energética. «Profético frente a los LLM» es una extrapolación del autor del post.
+- «El mundo es su propio modelo» es de Brooks, y Dreyfus lo critica: sus robots responden solo a rasgos fijos, no aprenden y esquivan el problema del marco (pp. 1140-1142). Advierte contra la «falacia del primer paso» (insecto → humano, p. 1141) y concluye que una IA heideggeriana exigiría modelar un cuerpo como el nuestro, lo que la hace más difícil (p. 1160). Reconoce algún avance hacia una «IA animal» (salamandra de Freeman), sin razón para creer que sea un primer paso hacia lo humano.
+- Su tesis es ontológica, no empírica (p. 1149). Mischiati et al. (resumen) describen en la libélula «modelos directos e inversos de la dinámica del cuerpo» y modelos del movimiento de la presa; si eso cuenta como «representación» en el sentido de Dreyfus no se ha resuelto (él acepta el modelo de Freeman, que usa estados del cerebro, no del mundo).
+- «Ignorado durante décadas»: solo su propio relato (nota 8; p. 1140, cita de Winograd).
+- Sin verificar: 100.000 neuronas (las estimaciones varían), 97 % frente a 25 % del león (cifras de divulgación). Error de categoría: parámetros de un modelo ≠ neuronas.
+
+**Relevancia.**
+- *Corpus / Tres Domesticaciones (media-alta):* la frase de la p. 1150 sobre significación añadida desde fuera. Ver CI-DR-1.
+- *Manual (media-baja):* 0 menciones de Dreyfus en el repositorio; posible apartado histórico.
+- *Empreinte, HyperRAG, Auditra:* nada.
+
+**Veredicto: el post, Descartar; Dreyfus (2007), Observar.** `[Corpus: CI-DR-1, baja-media]` `[Manual: CI-DR-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]`
