@@ -24,6 +24,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
 - [ ] **CI-MC-1 · monocultivo algorítmico (baja):** Bommasani et al., «Picking on the same person: does algorithmic monoculture lead to outcome homogenization?» (NeurIPS 2022), localizado solo en la bibliografía del Human Creativity Benchmark; no leído. Verificar y, si encaja, citarlo en lugar del HCB para el argumento de monocultivo.
+- [ ] **CI-PI-1 · inyección de prompt y defensas por diseño (baja-media):** leer completos CaMeL (arXiv 2503.18813; 77 % de las tareas de AgentDojo con seguridad demostrable frente a 84 % sin defensa) y «Design Patterns for Securing LLM Agents against Prompt Injections» (2506.08837); comprobar cuántos patrones son y si dicen que un agente generalista no se puede asegurar (afirmación del post, no verificada). Antes: ver qué cubre hoy el manual sobre inyección de prompt. El estudio de las «doce defensas» es Nasr, Carlini y otros (2510.09023).
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
@@ -3001,3 +3002,20 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Manual (baja):* buen ejemplo didáctico de «comparar proveedores con oro humano» y de sus límites. *Corpus, Auditra:* nada.
 
 **Veredicto: Observar** (sin pendiente nuevo hasta ver el paper). `[Manual: ejemplo didáctico]` `[Empreinte: idea]` `[HyperRAG: leer el paper si aplica]` `[Auditra: nada]` `[Corpus: nada]`
+
+### 2026-10-25 (f) — Post «La défense la plus solide contre l'injection de prompt… retirer des pouvoirs à l'agent» (gobernanza, ISO 27001 / 42001), con CaMeL y los patrones de diseño
+
+**Fuente.** Post de LinkedIn en francés, sin autor identificado en el texto recibido. Resume tres primarios que se comprobaron en arXiv (solo resúmenes, ningún PDF):
+- **CaMeL** (Debenedetti, Shumailov, Carlini, Tramèr y otros; 2503.18813, 2025): 77 % de las tareas de AgentDojo con seguridad demostrable, 84 % sin defensa. El post omite ese coste. La cifra de «949 ataques» no aparece en el resumen: sin verificar.
+- **«Doce defensas, más del 90 %»:** Nasr, Carlini y otros, «The Attacker Moves Second» (2510.09023, oct. 2025); ataques adaptativos; muchas defensas declaraban cerca de 0 %. No se sabe si evaluó CaMeL.
+- **Seis patrones de diseño:** 2506.08837 (jun. 2025). El resumen no da el número ni afirma que un agente generalista no se pueda asegurar: esa conclusión es del post.
+- Ambos artículos son de 2025, no de esta semana. NCSC e ISO 27001/42001: no verificados (opinión del autor).
+
+**Lo útil.** Las garantías cubren acciones y flujos de datos, no efectos de un contenido sesgado (resumen orientado, recomendación torcida): para un agente que ayuda a decidir hace falta evaluación de impacto.
+
+**Relevancia.**
+- *Manual (baja-media):* material para una sección sobre inyección de prompt y defensas por diseño; sin comprobar qué cubre hoy. Ver CI-PI-1.
+- *Auditra:* ver nota privada (no se detalla aquí).
+- *Empreinte, HyperRAG, corpus:* nada.
+
+**Veredicto: Observar.** `[Manual: CI-PI-1, baja-media]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Corpus: nada]`
