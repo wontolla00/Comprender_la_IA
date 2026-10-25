@@ -20,6 +20,11 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 *Actualizado 2026-08-20, veinticinco fuentes evaluadas hasta ahora.*
 
+**PENDIENTE medición de la Data en decisiones (2026-10-25, entrada `2026-10-25 (a)`; veredicto «Observar», nada implementado).**
+- [ ] **CI-DV-1 · §14.2b, nota breve (baja-media):** medir la contribución de la Data a las decisiones (plazo de reacción, arbitrajes aplazados,
+  tiempo de conciliación) en lugar de la disponibilidad de la plataforma; con la salvaguarda de comparar a perímetro comparable y descontar otros
+  cambios. Marcar el ejemplo de 6 a 3 semanas como ficticio; no citar cifras. Antes: comprobar que §14.2b no lo recoja ya. Es cambio de versión.
+
 **PENDIENTE BitNet (2026-10-12, entrada `2026-10-12 (a)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-BN-1 · §5.7c, nota breve** tras la fila QAT / la tabla que acaba en Q2_K: BitNet b1.58 = entrenar ya en
   ternario (-1, 0, +1), no cuantizar después; modelo real = 2B4T (2,4B, 4 billones de tokens, contexto 4.096).
@@ -2891,3 +2896,25 @@ las aplicaciones), una región, inglés, presupuesto de búsqueda de Claude limi
 **Veredicto: Integrar, en pequeño** (la idea de medir con repetición, reformulación, comparación y validación del instrumento; no las cifras
 de visibilidad). `[Manual: CI-AV-1, hecho v121]` `[Empreinte: EM-AV-1, comprobado 16/10/2026; a la espera de datos]` `[HyperRAG: sin acción]`
 `[Auditra: nada]` `[Corpus: nada]`
+
+### 2026-10-25 (a) — Viennet, «Et si votre plateforme Data n'était plus le problème ?» + newsletter OVOT n.º 10, «La valeur de la Data se mesure dans les décisions qu'elle améliore» (15/10/2026)
+
+**Fuente.** Dos textos del mismo autor (Johann Viennet, Head of Data & AI), publicados el 15/10/2026: un artículo de opinión que adelanta la
+newsletter n.º 10 de «One Version of Truth» (OVOT), la que cierra su primer ciclo. Sin datos ni fuentes primarias que verificar. El propio autor
+presenta la tesis como hipótesis «que debe verificarse».
+
+**Qué dice.** Con una plataforma de datos madura, la restricción puede pasar de la información al arbitraje entre directivas (quién decide, con qué
+criterios y bajo qué responsabilidad). Propone medir la contribución de la Data a las decisiones, no la disponibilidad de la plataforma: plazo entre
+una variación significativa de la demanda (>15 %) y la revisión del plan, número de arbitrajes aplazados por falta de hipótesis comunes y tiempo de
+conciliación de previsiones; comparar antes y después a perímetro comparable, descontando otros cambios del periodo. El ejemplo «de 6 a 3 semanas» es
+**ficticio** y el autor aclara que no demuestra mejores decisiones ni ganancia económica atribuible a la plataforma.
+
+**Relevancia.**
+- *Manual (baja-media):* extiende la línea de derechos de decisión de §14.2b (existe en el manual). No se encontró «Viennet» en `index.html`; la
+  autoría del hilo de v102 consta en `taller/Registro_manual_v101_a_v102.md`. No es una fuente independiente de ese hilo. Ver CI-DV-1.
+- *Empreinte (baja):* paralelo con «coste por tarea completada» y con la exigencia de comparar descontando confusores (EM-DM-1, EM-IT-1). Encuadre, no función.
+- *HyperRAG, corpus, impacto económico:* nada.
+- *Auditra:* ver nota privada (no se detalla aquí).
+
+**Veredicto: Observar** (tesis sin evidencia propia; lo útil es el marco de medición y sus salvaguardas contra la atribución abusiva).
+`[Manual: CI-DV-1, baja-media]` `[Empreinte: encuadre, sin pendiente nuevo]` `[HyperRAG: nada]` `[Auditra: ver nota privada]` `[Corpus: nada]`
