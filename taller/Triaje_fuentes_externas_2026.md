@@ -3038,3 +3038,17 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte, HyperRAG, Auditra:* nada.
 
 **Veredicto: el post, Descartar; Dreyfus (2007), Observar.** `[Corpus: CI-DR-1, baja-media]` `[Manual: CI-DR-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]`
+
+### 2026-10-25 (h) — Post «A committee cannot be accountable» (propiedad de la gobernanza de IA: un directivo de negocio con nombre, no un comité)
+
+**Fuente.** Post de LinkedIn sin autor identificado en el texto recibido; cita la «AI Governance & Security Matrix» de Inga Stirbyte (no verificada). Opinión, sin estudios ni primarios.
+
+**Tesis.** El propietario de un sistema de IA es el directivo de negocio cuyo proceso cambia; el comité coordina, el CISO fija las barreras y el CIO opera las plataformas. Tres mecanismos: registro de casos de uso con un propietario nominal, misma delegación de firma que cualquier gasto, revisión trimestral del registro por el comité de auditoría.
+
+**Relevancia.**
+- *Manual (baja-media):* misma tesis que el hilo de derechos de decisión (§14.2b) y el Cap. 16.2 sobre tu rol y tu responsabilidad ante el AI Act; sin fuente nueva. Sin pendiente.
+- *Auditra:* ver nota privada (no se detalla aquí).
+- *Empreinte (baja):* si reporta por agente, el propietario nominal sería una columna natural; no se ha comprobado si existe.
+- *HyperRAG, corpus:* nada.
+
+**Veredicto: Observar** (peso bajo). `[Manual: sin pendiente]` `[Auditra: ver nota privada]` `[Empreinte: comprobar]` `[HyperRAG: nada]` `[Corpus: nada]`
