@@ -29,6 +29,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
+- [ ] **CI-CA-1 · RAG, CAG y GraphRAG (baja):** el manual cubre GraphRAG (73 líneas del HTML con la palabra) pero no menciona CAG (Cache-Augmented Generation) ni «Cache-Augmented». Si se añade una nota comparativa, hacerlo desde la fuente original de CAG (no localizada ni leída) y con cifras de coste y calidad, no desde la regla de decisión del post (entrada (j)). Relacionado con CI-LC-1 (caché KV por documento).
 
 **PENDIENTE medición de la Data en decisiones (2026-10-25, entrada `2026-10-25 (a)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-DV-1 · §14.2b, nota breve (baja-media):** medir la contribución de la Data a las decisiones (plazo de reacción, arbitrajes aplazados,
@@ -71,6 +72,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
   coste reportado; modelos de 4B-8B en Reasoning Gym y QA multi-salto. Pariente de §8.5 (DSPy). Antes de citar: leer el PDF completo (las tablas
   y páginas de la entrada salen de una extracción, no de lectura directa). Sin cambio de versión si es solo esa línea.
 - [ ] **HR-HL-1 · (HyperRAG, media; detalle en `HyperRAG/docs/HR4_conjunto_dificil.md`, «Lo que queda sin hacer»):** conjunto Q4 intacto de confirmación
+- [ ] **HR-CA-1 · amortización de cachear frente a recuperar (baja-media):** medir en HyperRAG el punto en que precargar el documento (CAG, o caché KV) compensa frente a recuperar: preguntas por documento, tamaño del corpus, coste y latencia, y recuperación de detalles raros. Es la pregunta que el post (entrada (j)) plantea sin medir y que CI-LC-1 señala como lo que habría que medir. Sin diseño ni piloto todavía.
   antes de decidir sobre chunking o el peso de BM25 en la fusión, y confirmación de HR-4 con los 56 hechos numéricos de C3 aún sin usar.
 - [x] **CI-AV-1 · Medir también tiene que ser reproducible (entrada `2026-10-16 (a)`, baja): HECHO en v121 (16/10/2026; recuadro «Matiz (2026-10)» al final de §4.3; ver `taller/Registro_manual_v120_a_v121.md`).** §4.3 trataba la reproducibilidad de la salida, no la de la medición (repetir, reformular, comparar entre sistemas, validar el instrumento de extracción). La comprobación en Empreinte ya se hizo (16/10/2026) y quedó recogida como ítem EM-AV-1 en ese proyecto (a la espera de datos de uso libre); nada pendiente en el manual.
 - [ ] **CI-HK-1 · Ganchos del ciclo de vida del agente, recuadro breve en el cap. 10 o 13 (entrada `2026-10-15 (a)`, baja; «Observar»):** control determinista del ciclo de vida frente a herramientas que elige el agente, con la salvedad de que el gancho de Copilot Studio falla abierto (primario: Microsoft Learn, 29/09/2026, preview). Esperar a que salga de preview o a una segunda fuente; si se escribe, citar la fecha y no generalizar a otras plataformas sin comprobarlas. Antes de tocar: buscar «hook» en el manual (solo 5 menciones, ninguna de esto).
@@ -3070,3 +3072,16 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte, corpus:* nada.
 
 **Veredicto: Observar** (peso bajo). `[Manual: CI-PI-1, ampliado]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: baja]` `[Corpus: nada]`
+
+### 2026-10-25 (j) — Post «RAG vs CAG vs GraphRAG» (regla de decisión de divulgación)
+
+**Fuente.** Post de LinkedIn (Sneha Vijaykumar, según el pie del texto recibido). Sin datos, estudios ni fuente de CAG.
+
+**Qué dice.** RAG si los datos cambian a menudo; CAG si el conocimiento es pequeño y estable con consultas repetidas; GraphRAG si hay relaciones y preguntas de varios saltos; se pueden combinar. No define «pequeño», no da cifras de coste, latencia ni calidad, y no cita la fuente de CAG.
+
+**Relevancia (interés potencial anotado a petición del autor).**
+- *Manual (baja):* GraphRAG ya está cubierto; CAG, no. Ver CI-CA-1.
+- *HyperRAG (baja-media):* la pregunta de cuándo compensa cachear frente a recuperar es medible en el laboratorio. Ver HR-CA-1.
+- *Empreinte, Auditra, corpus:* nada.
+
+**Veredicto: Descartar el post** (sin evidencia); se conservan los dos pendientes como interés potencial. `[Manual: CI-CA-1, baja]` `[HyperRAG: HR-CA-1, baja-media]` `[Empreinte: nada]` `[Auditra: nada]` `[Corpus: nada]`
