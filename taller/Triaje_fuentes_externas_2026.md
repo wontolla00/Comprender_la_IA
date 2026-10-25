@@ -25,6 +25,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
 - [ ] **CI-MC-1 · monocultivo algorítmico (baja):** Bommasani et al., «Picking on the same person: does algorithmic monoculture lead to outcome homogenization?» (NeurIPS 2022), localizado solo en la bibliografía del Human Creativity Benchmark; no leído. Verificar y, si encaja, citarlo en lugar del HCB para el argumento de monocultivo.
 - [ ] **CI-PI-1 · inyección de prompt y defensas por diseño (baja-media):** leer completos CaMeL (arXiv 2503.18813; 77 % de las tareas de AgentDojo con seguridad demostrable frente a 84 % sin defensa) y «Design Patterns for Securing LLM Agents against Prompt Injections» (2506.08837); comprobar cuántos patrones son y si dicen que un agente generalista no se puede asegurar (afirmación del post, no verificada). Antes: ver qué cubre hoy el manual sobre inyección de prompt. El estudio de las «doce defensas» es Nasr, Carlini y otros (2510.09023). Añadir como ejemplo pequeño (con salvedades, ver entrada (i)): Qiao et al., UCLA, arXiv 2610.12524.
+- [ ] **CI-MS-1 · gobernanza de agentes, fuente primaria de Microsoft (baja-media):** Abdo, «Agents are your newest insiders» (Microsoft Security Blog, 19/10/2026): identidad por agente, permisos acotados por tarea, riesgo continuo y respuesta graduada, con el principio de controles deterministas fuera del modelo. Citar solo como posición del fabricante: el texto no da estado de disponibilidad ni fechas de lo que presenta («introducing»). Antes: comprobar qué cubre hoy el manual sobre identidad y permisos de agentes.
 - [ ] **CI-DR-1 · significación externa en las redes (baja-media):** Dreyfus (2007), «Why Heideggerian AI failed and how fixing it would require making it more Heideggerian», *Artificial Intelligence* 171, pp. 1137-1160, sección 8 (p. 1150): en las redes neuronales «la significación se añade desde fuera, ya que la red no busca nada». Citable con página como antecedente de la tesis del RLHF como significación externa (Tres Domesticaciones), con el matiz de que habla de redes en general, no de RLHF. Antes: comprobar si el corpus ya cita a Dreyfus (carpeta no conectada); en el manual hay 0 menciones de Dreyfus, Heidegger o Merleau-Ponty (comprobado en los .md y el HTML). Posible uso en el manual: historia de la IA (problema del marco, micro-mundos).
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
@@ -3085,3 +3086,18 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte, Auditra, corpus:* nada.
 
 **Veredicto: Descartar el post** (sin evidencia); se conservan los dos pendientes como interés potencial. `[Manual: CI-CA-1, baja]` `[HyperRAG: HR-CA-1, baja-media]` `[Empreinte: nada]` `[Auditra: nada]` `[Corpus: nada]`
+
+### 2026-10-25 (k) — Post «Les agents IA sont les nouveaux collaborateurs…» y dos artículos de Microsoft: «Agents are your newest insiders» (19/10/2026) y «Rethinking security for the age of AI» (27/07/2026)
+
+**Fuente.** Post de LinkedIn en francés, sin autor identificado en el texto recibido; resume bien el artículo de octubre. Se leyeron los dos artículos originales (blog de Microsoft).
+
+**Octubre (Nadim Abdo, vicepresidente, Identidad y Acceso a la Red).** Principio: «rodear la inteligencia no determinista con controles deterministas, evidencia independiente y límites de contención»; el modelo no debe ser su propia autoridad de seguridad. Presenta Dynamic Permissions, Dynamic Agent Risk, Dynamic Conditional Access y agentes guardianes (en Project Perception) con el verbo «introducing», **sin estado de disponibilidad ni fechas**; amplía Entra Agent ID y el descubrimiento de agentes locales a 60 tipos (35 nuevos, entre ellos Claude Code, OpenAI Codex y GitHub Copilot). No cita estadísticas externas; «cientos de miles de agentes» dentro de Microsoft es una cita sin fuente. No usa «kill switch», pero habla de aislar el entorno o detener la ejecución con el riesgo más alto; aprobación humana verificable en acciones de alto impacto; saber «quién es el propietario» de cada agente.
+
+**Julio (Hayete Gallot, vicepresidenta ejecutiva, Microsoft Security).** Anuncia Project Perception (defensa multiagente con agentes rojos, azules y verdes; vista previa pública el 3 de agosto; primer caso, gestión de vulnerabilidades). Cifras de Microsoft sin verificación independiente: 96 % en CyberGym con métrica de «cualquier fallo», supera a Mythos en esa clasificación, casi 50 % de ahorro de coste. No trata de controles deterministas ni de evidencia de auditoría. Es el origen de los «agentes guardianes» de octubre.
+
+**Relevancia.**
+- *Manual (media-baja):* material para el apartado de gobernanza de agentes. Ver CI-MS-1.
+- *Auditra:* ver nota privada (no se detalla aquí).
+- *Empreinte (baja), HyperRAG, corpus:* nada.
+
+**Veredicto: Observar** (posición del fabricante, sin datos propios). `[Manual: CI-MS-1, baja-media]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Corpus: nada]`
