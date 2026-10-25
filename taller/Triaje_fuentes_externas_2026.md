@@ -24,7 +24,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
 - [ ] **CI-MC-1 · monocultivo algorítmico (baja):** Bommasani et al., «Picking on the same person: does algorithmic monoculture lead to outcome homogenization?» (NeurIPS 2022), localizado solo en la bibliografía del Human Creativity Benchmark; no leído. Verificar y, si encaja, citarlo en lugar del HCB para el argumento de monocultivo.
-- [ ] **CI-PI-1 · inyección de prompt y defensas por diseño (baja-media):** leer completos CaMeL (arXiv 2503.18813; 77 % de las tareas de AgentDojo con seguridad demostrable frente a 84 % sin defensa) y «Design Patterns for Securing LLM Agents against Prompt Injections» (2506.08837); comprobar cuántos patrones son y si dicen que un agente generalista no se puede asegurar (afirmación del post, no verificada). Antes: ver qué cubre hoy el manual sobre inyección de prompt. El estudio de las «doce defensas» es Nasr, Carlini y otros (2510.09023).
+- [ ] **CI-PI-1 · inyección de prompt y defensas por diseño (baja-media):** leer completos CaMeL (arXiv 2503.18813; 77 % de las tareas de AgentDojo con seguridad demostrable frente a 84 % sin defensa) y «Design Patterns for Securing LLM Agents against Prompt Injections» (2506.08837); comprobar cuántos patrones son y si dicen que un agente generalista no se puede asegurar (afirmación del post, no verificada). Antes: ver qué cubre hoy el manual sobre inyección de prompt. El estudio de las «doce defensas» es Nasr, Carlini y otros (2510.09023). Añadir como ejemplo pequeño (con salvedades, ver entrada (i)): Qiao et al., UCLA, arXiv 2610.12524.
 - [ ] **CI-DR-1 · significación externa en las redes (baja-media):** Dreyfus (2007), «Why Heideggerian AI failed and how fixing it would require making it more Heideggerian», *Artificial Intelligence* 171, pp. 1137-1160, sección 8 (p. 1150): en las redes neuronales «la significación se añade desde fuera, ya que la red no busca nada». Citable con página como antecedente de la tesis del RLHF como significación externa (Tres Domesticaciones), con el matiz de que habla de redes en general, no de RLHF. Antes: comprobar si el corpus ya cita a Dreyfus (carpeta no conectada); en el manual hay 0 menciones de Dreyfus, Heidegger o Merleau-Ponty (comprobado en los .md y el HTML). Posible uso en el manual: historia de la IA (problema del marco, micro-mundos).
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
@@ -3052,3 +3052,21 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *HyperRAG, corpus:* nada.
 
 **Veredicto: Observar** (peso bajo). `[Manual: sin pendiente]` `[Auditra: ver nota privada]` `[Empreinte: comprobar]` `[HyperRAG: nada]` `[Corpus: nada]`
+
+### 2026-10-25 (i) — Post «La falacia del control semántico» y preprint de UCLA «An Exploration of Attacks on AI Agent Systems» (arXiv 2610.12524)
+
+**Fuente.** Post de LinkedIn en español, sin autor identificado en el texto recibido. Se localizó el preprint (Qiao, Cabilangan y otros diez, UCLA) y se leyó su versión HTML, no el PDF. Sin señales de revisión por pares; los autores reconocen experimentos pequeños y locales, con muchas pruebas de 3-5 repeticiones, y una fila ilegible en la Tabla III.
+
+**Lo que el post dice frente a lo que consta.**
+- «Seguro en el 100 %»: en PALChain con clasificadores, 3 de 4 consultas salieron SAFE (una etiqueta por consulta, no por repetición); en la más grave el agente leyó `.env` en el 80 % de las pruebas (n=5).
+- «Cambio de formato al 100 % contra barreras duras»: n=5 y contra un filtro codificado a mano (Flag Reveal), no contra los clasificadores.
+- «Más del 97 % por descripción extensa y sentimiento positivo»: mezcla dos ensayos. Sentimiento positivo: 98,15 % (URL local) y 97,65 % (URL aleatoria); descripción más larga: 89,6 %. Montaje: 106 tareas de reserva, GPT-4o y un Gemini cuya versión se cita de forma inconsistente, 4 ensayos.
+- «Sin firmas digitales ni confianza cero» es el montaje del experimento. El artículo no menciona NIS2, DORA, ENS ni ISO 27001: la tesis jurídica es del post.
+
+**Relevancia.**
+- *Auditra:* ver nota privada (no se detalla aquí).
+- *Manual (baja-media):* ejemplo pequeño para el apartado de inyección de prompt; ver CI-PI-1.
+- *HyperRAG (baja):* la inyección por documentos recuperados es un vector, pero el artículo no trata de RAG.
+- *Empreinte, corpus:* nada.
+
+**Veredicto: Observar** (peso bajo). `[Manual: CI-PI-1, ampliado]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: baja]` `[Corpus: nada]`
