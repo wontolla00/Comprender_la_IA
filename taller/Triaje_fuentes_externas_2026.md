@@ -20,6 +20,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 *Actualizado 2026-08-20, veinticinco fuentes evaluadas hasta ahora.*
 
+**PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
+- [ ] **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
+
 **PENDIENTE medición de la Data en decisiones (2026-10-25, entrada `2026-10-25 (a)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-DV-1 · §14.2b, nota breve (baja-media):** medir la contribución de la Data a las decisiones (plazo de reacción, arbitrajes aplazados,
   tiempo de conciliación) en lugar de la disponibilidad de la plataforma; con la salvaguarda de comparar a perímetro comparable y descontar otros
@@ -2918,3 +2921,21 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 
 **Veredicto: Observar** (tesis sin evidencia propia; lo útil es el marco de medición y sus salvaguardas contra la atribución abusiva).
 `[Manual: CI-DV-1, baja-media]` `[Empreinte: encuadre, sin pendiente nuevo]` `[HyperRAG: nada]` `[Auditra: ver nota privada]` `[Corpus: nada]`
+
+### 2026-10-25 (b) — Tres preprints del 14/10/2026 en un post «Rethink memory»: Continuum Attention (arXiv 2610.20586), Latent Compaction with Test-Time Training (2610.20582) y CoPE, Co-Evolving Acting and Forecasting (2610.20597)
+
+**Fuente.** El post (LinkedIn, sin autor identificado en el texto recibido) es prudente: dice que los resúmenes son parciales y que no verifican aceleraciones. De los tres artículos solo se leyó **completo** el de Latent Compaction (PDF a través de una herramienta que lo resume, y el README del código); los otros dos, solo el resumen en espejos (papers.cool, OpenTrain), sin PDF de arXiv.
+
+**Continuum Attention** (Khadangi, un autor). Operador de atención que integra sobre una curva de memoria lineal a trozos; conserva complejidad cuadrática (no es una mejora de eficiencia). Mejora de 0,020 nats/byte frente a softmax y 0,048 frente a atención focal en pérdida de validación; el autor dice que la generalización a mayor escala no está probada. Sin acción.
+
+**Latent Compaction con TTT** (Chen, Shen, Xiao, Han; Tsinghua; código THUNLP, 15/10/2026, no ejecutado). Aprende por documento una caché KV compacta con los pesos congelados: etapa 1 de 1.000 actualizaciones (ajuste de salidas y normalizadores de atención) y etapa 2 de 1.000 (destilación), con 480 prompts genéricos por documento. Resumen: 96,7 % en RULER a 32× frente a 40,0 % de KVZip+. **Lo que el texto no ata:** modelo y longitud de contexto de ese 96,7 % (la Figura 1 usa Qwen3-1.7B; las cifras por subtarea solo están en figuras). **No reporta** tiempo, memoria de GPU ni latencia; sus resultados son «presupuestos lógicos de pares KV», no ahorros medidos; su ruta de atención usa PyTorch explícito, no FlashAttention. Los autores reconocen que el ajuste por documento sigue siendo costoso y que la compresión extrema hace perder precisión; resumir el texto supera al método en RULER con las compresiones más agresivas; en Phonebook Lookup (Qwen3-1.7B, 16×) baja de 87,75 (4K) a 70,50 (16K) y todos los métodos se acercan a 0 a 64× o más. Modelos de 0,6B a 8B, una semilla por documento.
+
+**CoPE** (Yu et al., UIUC; repo ulab-uiuc/CoPE; solo resumen). RL para agentes con un tercer objetivo auxiliar, la secuencia de acciones siguientes (no el resultado). Hasta 1,9× y 2,0× más eficiencia de muestras que ECHO y GRPO en ScienceWorld, sin coste de inferencia; cinco benchmarks. Sin acción.
+
+**Relevancia.**
+- *Manual (baja):* nota posible en §5.7d (la caché KV como objeto entrenable) con la salvedad del coste por documento y de que lo medido son presupuestos lógicos. El manual tiene 0 menciones de «test-time training». Ver CI-LC-1.
+- *HyperRAG (baja):* comparación teórica «cachear un documento estático» frente a RAG; lo que habría que medir es el punto de amortización (preguntas por documento) y la recuperación de detalles raros. Sin acción.
+- *Empreinte (baja):* aviso para el modelo de costes: un ahorro de memoria «lógico» no es un ahorro medido.
+- *Auditra, corpus:* nada.
+
+**Veredicto: Observar.** `[Manual: CI-LC-1, baja]` `[Empreinte: aviso, sin pendiente]` `[HyperRAG: sin acción]` `[Auditra: nada]` `[Corpus: nada]`
