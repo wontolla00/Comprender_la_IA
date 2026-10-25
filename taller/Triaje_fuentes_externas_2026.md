@@ -20,6 +20,10 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 *Actualizado 2026-08-20, veinticinco fuentes evaluadas hasta ahora.*
 
+**PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
+- [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
+- [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
+
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
 
@@ -2939,3 +2943,20 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Auditra, corpus:* nada.
 
 **Veredicto: Observar.** `[Manual: CI-LC-1, baja]` `[Empreinte: aviso, sin pendiente]` `[HyperRAG: sin acción]` `[Auditra: nada]` `[Corpus: nada]`
+
+### 2026-10-25 (c) — «Faites-vous trop confiance à ChatGPT ?» (Rottembourg y Prunkl, Inria Régalia, 16/10/2026), lectura completa del artículo
+
+**Fuente.** Artículo divulgativo, no estudio. Es el mismo que trajo a Pitenin en `2026-10-16 (a)` (allí ya se corrigieron tres simplificaciones); aquí se lee entero. Repite la lectura de «concentración» de Pitenin (689 locales, «flautista de Hamelín») que el paper no apoya: mide cola larga. Valor principal: mapa de primarios.
+
+**Verificado (búsqueda, 25/10/2026).**
+- **Strömberg, Lei y Wu (2026)**, CEPR DP 21577 (columna en VoxEU): 26.811 alumnos de 7.º a 12.º de un condado de China central, 30 meses, nueve materias. Deberes +18 % y tiempo de 64 a 45 min; exámenes mensuales −20 % a los 6 meses; exámenes de acceso −24 % (bachillerato) y −18 % (universidad) tras ~2 años. **Observacional** (diferencias en diferencias escalonadas; las fechas de adopción las declaran los alumnos). «No es la herramienta, es el descargo» es una lectura de la heterogeneidad, no un resultado causal.
+- **Xu, Li y Jiang**, arXiv:2509.00462 (autopreferencia en cribado de CV): 2.245 CV tras limpiar; el 67-82 % es el resultado de igualdad de oportunidades LLM-contra-humano de varios modelos (GPT-4-turbo 66,9; GPT-4o-mini 67,9; GPT-4o 81,9; Qwen 78,0; DeepSeek-V3 71,6); LLaMA 3.3-70B es incoherente entre texto, figura (−1,4) y tabla (79). Solo resúmenes ejecutivos, simulación con 10 CV y 4 plazas; los anotadores humanos prefirieron lo humano «a veces» (18 anotadores, 30 pares cada uno), no como regla.
+- **Barcaui (2025)**: solo se localizó una reseña (no un primario) de un ensayo aleatorizado sobre retención a 45 días con 57,5 % frente a 68,5 %; sin confirmar autor, año, N=120 ni la corrección por tiempo de estudio.
+- **Sin verificar:** umbral del 20 % de Waze, OptimismBench (14 de 16), «The Future's Too Bright», Grok y Musk, el falso think tank, los casos de Cauterets, Floride y Character.AI, la comparación de Barcelona.
+
+**Relevancia.**
+- *Manual (baja-media):* ya hay sycophancy (15), delegación cognitiva (10), deuda cognitiva (2) y envenenamiento (10). **0 menciones de «autopreferencia»** (puede existir el sesgo del juez LLM con otro nombre; no se buscó). Ver CI-ST-1 y CI-XP-1.
+- *Corpus literario (media):* la sección de uniformización toca «monocultivo» y el sesgo optimista de modelos «entrenados para agradar» toca Tres Domesticaciones; apoyarse en primarios, no en este texto.
+- *Empreinte:* si usa juez LLM, importan el sesgo de tendencia central y la autopreferencia (no comprobado). *HyperRAG, Auditra:* nada.
+
+**Veredicto: Observar** (dos primarios candidatos, ninguno leído completo). `[Manual: CI-ST-1 y CI-XP-1, baja-media y baja]` `[Corpus: nota]` `[Empreinte: comprobar si usa juez LLM]` `[HyperRAG: nada]` `[Auditra: nada]`
