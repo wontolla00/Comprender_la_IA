@@ -23,6 +23,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 **PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
+- [ ] **CI-MC-1 · monocultivo algorítmico (baja):** Bommasani et al., «Picking on the same person: does algorithmic monoculture lead to outcome homogenization?» (NeurIPS 2022), localizado solo en la bibliografía del Human Creativity Benchmark; no leído. Verificar y, si encaja, citarlo en lugar del HCB para el argumento de monocultivo.
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
@@ -2960,3 +2961,43 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte:* si usa juez LLM, importan el sesgo de tendencia central y la autopreferencia (no comprobado). *HyperRAG, Auditra:* nada.
 
 **Veredicto: Observar** (dos primarios candidatos, ninguno leído completo). `[Manual: CI-ST-1 y CI-XP-1, baja-media y baja]` `[Corpus: nota]` `[Empreinte: comprobar si usa juez LLM]` `[HyperRAG: nada]` `[Auditra: nada]`
+
+### 2026-10-25 (d) — The Human Creativity Benchmark (Hopkins et al., Contra; arXiv 2606.30561), lectura completa del PDF (39 págs.)
+
+**Fuente.** Un post que lo usaba como prueba de que las ideas se estrechan («acuerdo sobre GPT-Image-1.5, reacciones divididas ante Flux-2-Pro»). Se leyó el PDF entero.
+
+**Lo que el paper hace.** Mide acuerdo entre expertos (28 evaluadores, 93 prompts) en tres ejes (adherencia al prompt, usabilidad, atractivo visual) y tres fases (ideación, maqueta, refinamiento). **No mide diversidad entre salidas ni homogeneización**: el término aparece en el estado de la cuestión (Bommasani 2022, Thanh-Tung 2020) y en la discusión como creencia («We believe this can result in homogenized outputs»). La Figura 2 es un ejemplo ilustrativo de acuerdo entre evaluadores sobre una misma imagen, no un resultado.
+
+**Salvedades verificadas en el texto.**
+- Cifras internas que no cuadran: texto 93 prompts, 5.940 pares, 5.940 valoraciones, 3.675 respuestas (suma 15.555, el «15.000» del resumen); Apéndice A: 95 prompts, 3.174, 2.116 y 2.247 (suma ~7.500). No se comprobó cuál es la del conjunto liberado.
+- α de Krippendorff por debajo de ~0,3 en todos los ejes y dominios (Fig. 40), con filas negativas en la Tabla 4; la «convergencia» se apoya en el % de prompts con evaluadores a ±1 del mediano (laxo en escala de 5). W de Kendall sube en Ad Images (0,345 → 0,549) y baja en Landing Pages (0,484 → 0,333).
+- Cada prompt se ejecutó una vez; muestra pequeña (reconocida por los autores); muchos p de Friedman > 0,05 en maqueta y refinamiento.
+- Restos de borrador («[add details]»; leyendas de las Figs. 13 y 25 que no corresponden). Todos los autores son de Contra, que aportó los evaluadores; el codificado cualitativo lo hizo GPT-4o.
+
+**Relevancia.**
+- *Manual (baja):* caso didáctico de benchmark cuyo N del resumen no coincide con el del apéndice; el marco «el desacuerdo experto es información» es citable como marco, no como resultado.
+- *Corpus / monocultivo:* **no sirve como evidencia**; mejor el primario de Bommasani (CI-MC-1).
+- *Empreinte:* solo si usa juez LLM o rúbricas sobre salidas creativas: reportar acuerdo por eje, no una puntuación única. *HyperRAG, Auditra:* nada.
+
+**Veredicto: Descartar** (como evidencia de homogeneización; se conserva solo el marco).
+`[Manual: nota didáctica, sin pendiente]` `[Corpus: CI-MC-1, baja]` `[Empreinte: condicional]` `[HyperRAG: nada]` `[Auditra: nada]`
+
+### 2026-10-25 (e) — «Can two AI models, given the same task, behave the same way?» (Khan et al., NAIST, 17/10/2026; Claude Haiku 4.5 frente a Gemini 2.5 Flash-Lite en extracción de tripletas desde GitHub), solo el post
+
+**Fuente.** Post divulgativo del primer autor sobre un artículo aceptado en ICCA 2026 (sin enlace ni PDF en el texto recibido; código y anotaciones declarados abiertos). Todo lo siguiente viene del post, no del paper.
+
+**Qué afirma.** 30 repositorios de ML, 8 relaciones, 922 tripletas etiquetadas a mano. F1: Claude 0,76, Gemini 0,66, línea base de regex 0,32 (IC por bootstrap). Claude «conservador» (precisión 0,94), Gemini «agresivo» (0,80); complementarios por relación; la concordancia entre anotadores humanos coincide con las relaciones que los modelos extraen mejor.
+
+**Salvedades.**
+- **Aritmética que no encaja con el relato.** Con esas precisiones y F1, el recall implícito (si son medidas globales de la misma base) sale ≈ 0,64 para Claude y ≈ 0,56 para Gemini: Claude ganaría en precisión *y* recall globales, y «Gemini = alto recall» solo valdría por relación. Comprobar en el paper cómo definen precisión y recall.
+- **Recall sobre un conjunto agrupado:** las 922 tripletas son lo que produjeron los sistemas, así que el recall probablemente se mide contra lo correcto dentro de ese conjunto, no contra todo lo que decía el README (hipótesis, no verificado).
+- **«Vendor» confundido con nivel de modelo:** ambos son modelos pequeños y baratos (Haiku, Flash-Lite); no separa proveedor de tamaño.
+- **El ensamblado no se probó:** «probablemente más productivo» es hipótesis; la mayoría de etiquetas, de un solo anotador; la línea base es de regex; 30 repos populares de ML en Python.
+- Lo bueno: reconoce las limitaciones y publica anotaciones.
+
+**Relevancia.**
+- *Empreinte (baja-media):* misma hipótesis que un auditor multiproveedor (modelos complementarios por tipo de tarea), pero con una tarea de extracción y no de coste; sirve como idea de qué comparar por categoría, no como evidencia.
+- *HyperRAG (baja):* metodología de extracción con oro etiquetado a mano e IC por bootstrap; leer el paper si se construye extracción de tripletas.
+- *Manual (baja):* buen ejemplo didáctico de «comparar proveedores con oro humano» y de sus límites. *Corpus, Auditra:* nada.
+
+**Veredicto: Observar** (sin pendiente nuevo hasta ver el paper). `[Manual: ejemplo didáctico]` `[Empreinte: idea]` `[HyperRAG: leer el paper si aplica]` `[Auditra: nada]` `[Corpus: nada]`
