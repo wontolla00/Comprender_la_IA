@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v141</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v142</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v141 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v142 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9792,7 +9792,7 @@ window.addEventListener('resize', () =&gt; {
 <table>
 <thead><tr><th>Qué loggear</th><th>Por qué</th><th>Formato recomendado</th></tr></thead>
 <tbody>
-<tr><td>Query original del usuario</td><td>Sin ella, no puedes reproducir el contexto</td><td>Texto completo + timestamp + user_id anonimizado</td></tr>
+<tr><td>Query original del usuario</td><td>Sin ella, no puedes reproducir el contexto</td><td>Texto completo + timestamp + user_id seudonimizado (estable, y que no sea el nombre ni el correo)</td></tr>
 <tr><td>Documentos recuperados</td><td>Para saber qué vio el modelo antes de responder</td><td>IDs de chunks + similitud coseno + versión del índice</td></tr>
 <tr><td>Versión del modelo de embedding</td><td>El mismo texto produce vectores distintos con distintas versiones</td><td>model_id + versión</td></tr>
 <tr><td>Versión del corpus / índice vectorial</td><td>Los documentos cambian; necesitas saber cuál estaba activo</td><td>corpus_version + fecha de última actualización</td></tr>
@@ -23321,19 +23321,28 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
 </table>
 <h2 id="cap12x">12.x La PII como problema de arquitectura, no de gobernanza</h2>
 <p>La mayoría de los equipos trata la protección de datos personales como un requisito de gobernanza: se escribe una política, se forma al usuario, y se confía en que nadie introduce datos sensibles en el prompt. Este enfoque es estructuralmente inviable en producción, porque no escala y no es auditable.</p>
-<p>La alternativa correcta es tratar la PII como un problema de arquitectura con una solución técnica concreta: la <span class="gt">capa de anonimización<span class="tt">En el patrón pre-API: función que sustituye PII (nombres, emails, DNI, teléfonos) por marcadores antes de construir el array messages[] para el LLM externo. La PII nunca sale del perímetro del sistema.</span></span> va entre el input del usuario y la llamada a la API externa. No entre la API y el log. Entre el usuario y la API.</p>
+<p>La alternativa correcta es tratar la PII como un problema de arquitectura con una solución técnica concreta: la <span class="gt">capa de anonimización<span class="tt">En el patrón pre-API: función que sustituye PII (nombres, emails, DNI, teléfonos) por marcadores antes de construir el array messages[] para el LLM externo. Es enmascarado, no anonimización en sentido RGPD: reduce la PII que sale del perímetro, no lo garantiza.</span></span> va entre el input del usuario y la llamada a la API externa. No entre la API y el log. Entre el usuario y la API.</p>
 <div class="pipeline">
 <div class="pipe-step"><span class="pi">👤</span><div class="pl">Input usuario</div><div class="ps">Puede contener PII</div></div>
 <div class="pipe-arrow">→</div>
 <div class="pipe-step hi"><span class="pi">🔒</span><div class="pl">Capa de anonimización</div><div class="ps"><strong>Aquí</strong> — antes de la API</div></div>
 <div class="pipe-arrow">→</div>
-<div class="pipe-step"><span class="pi">🤖</span><div class="pl">API externa</div><div class="ps">Nunca ve PII real</div></div>
+<div class="pipe-step"><span class="pi">🤖</span><div class="pl">API externa</div><div class="ps">Recibe el texto ya enmascarado</div></div>
 <div class="pipe-arrow">→</div>
-<div class="pipe-step"><span class="pi">📋</span><div class="pl">Log de auditoría</div><div class="ps">Solo texto anonimizado</div></div>
+<div class="pipe-step"><span class="pi">📋</span><div class="pl">Log de auditoría</div><div class="ps">Texto enmascarado</div></div>
 </div>
 <div class="warning">
 <strong>⚠️ El error de diseño más frecuente: anonimizar en el log, no en el flujo</strong>
-    Muchos sistemas aplican anonimización al escribir el log, después de haber enviado el prompt completo a la API externa. Esto garantiza que el log está limpio, pero la PII ya salió de tu perímetro — viajó a los servidores del proveedor. Si el proveedor usa prompts para mejorar sus modelos (incluso con opt-out no siempre efectivo), o si hay una brecha en el proveedor, los datos ya están expuestos. La anonimización post-API protege el log, no los datos.
+    Muchos sistemas aplican anonimización al escribir el log, después de haber enviado el prompt completo a la API externa. Esto deja el log limpio de lo que el detector reconoce, pero la PII ya salió de tu perímetro — viajó a los servidores del proveedor. Si el proveedor usa prompts para mejorar sus modelos (incluso con opt-out no siempre efectivo), o si hay una brecha en el proveedor, los datos ya están expuestos. La anonimización post-API protege el log, no los datos.
+  </div>
+<div class="nota" id="s12x-terminos-2026-10">
+<strong>🔎 Matiz (2026-10) · Enmascarar no es anonimizar</strong>
+    <b>Enmascarado.</b> Sustituir lo que el detector reconoce por un marcador (<code>[EMAIL]</code>, <code>[NOMBRE_PERSONA]</code>). Es lo que hace la capa de este capítulo. Reduce el riesgo, pero el texto puede seguir identificando a alguien: un nombre que ningún patrón detectó, o datos indirectos (un cargo, un lugar, una fecha) que juntos señalan a una persona.
+    <b>Seudonimización.</b> Sustituir identificadores de modo que otra información (una clave, una tabla) permita volver a la persona. Sigue siendo dato personal. El <code>user_id</code> estable de un log, que enlaza todas las filas de un usuario, es seudonimización, no anonimato.
+    <b>Anonimización.</b> Que la persona ya no sea identificable por ningún medio razonablemente probable (RGPD, considerando 26). Se evalúa por singularización, vinculación e inferencia (dictamen 05/2014 del Grupo del artículo 29), y quitar los identificadores directos no basta. Si el resultado es de verdad anónimo, el RGPD deja de aplicarse a él; un texto enmascarado no se presenta así.
+    <b>Consecuencia práctica.</b> En este manual «anonimización pre-API» es el nombre del patrón, por uso, pero lo que hace es enmascarar. No lo describas ante un DPO o un auditor como «dato anónimo» ni como garantía de que nada sale: di qué detecta, qué no, y dónde se mide.
+    <b>Matiz de jurisprudencia.</b> La sentencia EDPS contra SRB (TJUE, C-413/23 P, 4/9/2025) admite que un dato seudonimizado puede no ser personal para un receptor sin medios para reidentificar. No da un test de anonimización, y quien envía conserva el original: para él el tratamiento sigue siendo de datos personales (lectura prudente, no asesoramiento legal).
+    Origen: el análisis de un artículo de un proveedor de herramientas de anonimización, contrastado con el considerando 26 del RGPD, el dictamen 05/2014 del Grupo del artículo 29 y resúmenes de la sentencia SRB (leídos el 30/10/2026). Las directrices 01/2025 del EDPB sobre seudonimización solo se encontraron como borrador en consulta (enero de 2025).
   </div>
 <h3>El patrón de implementación: dos capas diferenciadas</h3>
 <p>La solución requiere distinguir dos tipos de anonimización con funciones separadas:</p>
@@ -23342,10 +23351,10 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
 <h4><code>anonymize_prompt()</code> — pre-API</h4>
 <ul>
 <li>Se llama antes de construir el array <code>messages[]</code> para el LLM</li>
-<li>Usa NER (Presidio + spaCy) para identificar nombres propios en contexto</li>
-<li>Usa patrones para DNI, IBAN, emails, teléfonos, NSS</li>
-<li>La PII nunca sale del perímetro de tu sistema</li>
-<li>Coste: ~5-20ms por llamada (aceptable en la mayoría de casos)</li>
+<li>Usa patrones con validadores para DNI, IBAN, emails, teléfonos, NSS y claves: barato y de alta precisión</li>
+<li>Los nombres propios sin contexto («Juan Pérez firmó») solo los detecta un NER (p. ej. Presidio + spaCy); sin él, solo se capturan con un disparador («se llama X») o una firma</li>
+<li>Reduce la PII que sale del perímetro de tu sistema; ningún enmascarado detecta el 100 %</li>
+<li>Coste: los patrones son baratos; el NER añade una latencia que debes medir en tu entorno (en la implementación del autor se dejó fuera de la ruta en tiempo real y se ejecuta en diferido)</li>
 </ul>
 </div>
 <div class="comp-lado a">
@@ -23353,8 +23362,8 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
 <ul>
 <li>Se llama sobre la respuesta del LLM antes de guardarla en el log</li>
 <li>Solo filtra datos estructurados (emails, claves API) — no nombres</li>
-<li>Las respuestas del LLM nunca contienen nombres reales de personas (el LLM los inventó o los copió del prompt ya anonimizado)</li>
-<li>Aplicar NER completo a respuestas genera falsos positivos sin beneficio de privacidad</li>
+<li>Las respuestas del LLM sí pueden contener nombres reales: un modelo cita personas públicas y, con RAG o herramientas, devuelve nombres de los documentos recuperados</li>
+<li>Aplicar NER completo a las respuestas genera falsos positivos y, a cambio, protege el log; es un compromiso que se decide según qué guardes, no una regla</li>
 </ul>
 </div>
 </div>
@@ -25154,16 +25163,16 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
     Los sistemas de IA no declarados son el equivalente al shadow IT de los años 2010, pero con un perfil de riesgo diferente: en lugar de instalar software no autorizado, los usuarios envían datos sensibles de la empresa a APIs externas de terceros, fuera del perímetro de auditoría. La diferencia con el shadow IT clásico es que las consecuencias son inmediatas y potencialmente irreversibles: la PII que viajó a un servidor externo no puede "desviajarse".
   </div>
 <h3>La solución técnica: auditoría del perímetro externo</h3>
-<p>Una extensión de navegador que intercepta las llamadas a las APIs de los proveedores LLM (OpenAI, Anthropic, Mistral, Google) y las interfaces web (Claude.ai, ChatGPT, Gemini) permite capturar el uso real de IA en la organización — con anonimización de PII en el cliente, antes de que ningún dato salga del navegador del usuario — y centralizarlo en el mismo sistema de auditoría que el sistema RAG interno.</p>
+<p>Una extensión de navegador que intercepta las llamadas a las APIs de los proveedores LLM (OpenAI, Anthropic, Mistral, Google) y las interfaces web (Claude.ai, ChatGPT, Gemini) permite capturar el uso real de IA en la organización y centralizarlo en el mismo sistema de auditoría que el sistema RAG interno, guardando una copia con la PII enmascarada. Ojo con lo que no hace: la extensión observa lo que el usuario ya envió al proveedor, así que protege el log, no impide que ese dato haya salido (es el caso post-API del Cap. 12).</p>
 <p>Esto produce tres beneficios concretos:</p>
 <ul>
 <li><strong>Visibilidad real del coste de IA</strong>: el coste total no es el de tu API key corporativa — es el de todas las suscripciones individuales de los usuarios más el API corporativa. Sin la extensión, el primero es invisible.</li>
-<li><strong>Detección de PII fuera del perímetro</strong>: si un usuario envía datos de clientes a ChatGPT con su cuenta personal, la extensión lo detecta (con anonimización en el cliente) y lo registra. Sin la extensión, ese riesgo RGPD es invisible.</li>
+<li><strong>Detección de PII fuera del perímetro</strong>: si un usuario envía datos de clientes a ChatGPT con su cuenta personal, la extensión lo detecta y lo registra con la PII enmascarada (no lo impide: el dato ya salió). Sin la extensión, ese riesgo RGPD es invisible.</li>
 <li><strong>A/B natural entre proveedores</strong>: el sistema captura interacciones de Claude.ai, ChatGPT y Gemini con el campo <code>provider</code> diferenciado. Comparar métricas de calidad entre proveedores para las mismas tareas organizacionales produce evidencia para la toma de decisión de qué herramienta contratar corporativamente.</li>
 </ul>
 <div class="callout">
 <strong>🧵 Implementación y privacidad</strong>
-    La extensión debe configurarse con consentimiento informado del usuario — no puede ser silenciosa. La política de privacidad debe especificar qué se captura (metadatos de uso + prompts anonimizados) y qué no (contenido de conversaciones personales fuera del horario laboral, si se detectan). El modo "solo metadatos" (sin captura de contenido) permite monitorizar coste y proveedor sin acceder al contenido de los prompts, lo que puede ser suficiente para los casos de uso de gobernanza básica con el menor impacto en privacidad del usuario.
+    La extensión debe configurarse con consentimiento informado del usuario — no puede ser silenciosa. La política de privacidad debe especificar qué se captura (metadatos de uso + prompts con la PII enmascarada) y qué no (contenido de conversaciones personales fuera del horario laboral, si se detectan). El modo "solo metadatos" (sin captura de contenido) permite monitorizar coste y proveedor sin acceder al contenido de los prompts, lo que puede ser suficiente para los casos de uso de gobernanza básica con el menor impacto en privacidad del usuario.
   </div>
 <hr class="sep"/>
 <div class="resultado-final">
@@ -29655,7 +29664,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v141).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v142).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -30505,7 +30514,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 <span class="gterm-nombre">Anonimización pre-API</span>
 <span class="gterm-cat cat-arquitectura">Arquitectura</span>
 </div>
-<div class="gterm-def">Patrón arquitectural que aplica la anonimización de datos personales (PII) en el flujo de procesamiento <em>antes</em> de construir el array <code>messages[]</code> que se envía a la API del LLM externo. Es la única forma de garantizar que la PII nunca sale del perímetro del sistema. Contrasta con la anonimización post-API (que protege el log pero no impide que los datos salgan hacia el proveedor). → Ver Cap. 12 (Módulo 3), sección 12.x.</div>
+<div class="gterm-def">Patrón arquitectural que aplica la anonimización de datos personales (PII) en el flujo de procesamiento <em>antes</em> de construir el array <code>messages[]</code> que se envía a la API del LLM externo. Es la forma de reducir lo que sale del perímetro del sistema, no de garantizarlo: técnicamente es <em>enmascarado</em> (sustituir lo detectado por marcadores), no anonimización en sentido RGPD. Contrasta con la anonimización post-API (que protege el log pero no impide que los datos salgan hacia el proveedor). → Ver Cap. 12 (Módulo 3), sección 12.x.</div>
 </div>
 <div class="gterm">
 <div class="gterm-header">
@@ -32406,6 +32415,7 @@ document.addEventListener('DOMContentLoaded', renderLabRefs);
     {c:"agentes", k:["ingenieria de contexto vs memoria", "frontera de recuperacion"], label:"La frontera de recuperación: dónde memoria y contexto se tocan", desc:"Ingeniería de contexto e ingeniería de memoria son disciplinas distintas que se confunden y fallan de formas distintas.", where:"Cap. 10 (sec. 10.9.6)", href:"#s1096"},
     {c:"agentes", k:["importance no falsable", "umbral de memoria no calibrado", "memory engineering"], label:"Tres cosas que el discurso de memory engineering da por supuestas", desc:"El campo importance de las políticas de escritura de memoria no es falsable — de dónde sale el umbral 0.6, y por qué nadie lo dice.", where:"Cap. 10 (sec. 10.9.7)", href:"#s1097"},
     {c:"gobernanza", k:["pii como arquitectura", "anonimizacion", "capa de anonimizacion"], label:"La PII como problema de arquitectura, no de gobernanza", desc:"Por qué confiar en que el usuario no introduzca PII en el prompt es estructuralmente inviable en producción.", where:"Cap. 12 (sec. 12.x)", href:"#cap12x"},
+    {c:"gobernanza", k:["enmascarado", "enmascarar", "redaccion", "seudonimizacion", "pseudonimizacion", "anonimizacion rgpd", "considerando 26", "wp29", "dictamen 05/2014", "srb", "dato anonimo", "reidentificacion"], label:"Enmascarar no es anonimizar: enmascarado, seudonimización y anonimización", desc:"Qué es cada cosa en el RGPD, por qué la capa pre-API enmascara y cómo no presentarla como dato anónimo.", where:"Cap. 12 (sec. 12.x)", href:"#s12x-terminos-2026-10"},
     {c:"arquitectura", k:["model routing", "model cascading", "que llm usar", "coste por complejidad de consulta"], label:"Model routing y cascading: la misma pregunta, aplicada a qué LLM", desc:"Enrutar por complejidad antes de llamar (routing) frente a escalar tras un criterio de confianza (cascading) — coste y riesgo distintos.", where:"Cap. 12 (sec. 12.4c)", href:"#s124c"},
     {c:"arquitectura", k:["cardinalidad variable", "jev", "laya", "decision model", "modelo de decision estructurada", "puntuacion de candidatos", "clasificacion sin categorias fijas"], label:"Cardinalidad variable: puntuar candidatos sin categorías fijas", desc:"La fila que falta entre clasificador (categorías fijas) y LLM (contexto abierto) — proyección d→1 por candidato, independiente de n. Ya en producción en el reranker de HyperRAG.", where:"Cap. 12 (sec. 12.4b)", href:"#s124b-cardinalidad"},
     {c:"produccion", k:["compatibilidad de api entre proveedores", "sustituir proveedor de modelo", "anthropic base url", "grok bot kimi"], label:"Elegir entre modelos no es lo mismo que sustituir el proveedor de una herramienta", desc:"Redirigir una herramienta construida para un proveedor hacia otro distinto vía capa de compatibilidad de API — riesgo distinto al de routing/cascading.", where:"Cap. 12 (sec. 12.4c)", href:"#s124c"},

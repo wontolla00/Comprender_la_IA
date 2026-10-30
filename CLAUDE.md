@@ -1,6 +1,6 @@
 # Comprender la IA (repo git del manual) — memoria de proyecto
 
-Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v141 a 30/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
+Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v142 a 30/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
 
 ## Leer primero
 1. `CHANGELOG.md` (la entrada más reciente = estado).
@@ -31,4 +31,5 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Ganchos de Copilot Studio (15/10/2026)**: CI-HK-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-15 (a)`). Baja; «Observar» hasta que salga de preview o haya otra fuente. Nada tocado en `index.html`.
 - **Medición reproducible (16/10/2026)**: CI-AV-1 HECHO en v121 (recuadro «Matiz (2026-10)» al final de §4.3). Detalle en `taller/Registro_manual_v120_a_v121.md`.
 - **Inference Engineering (30/10/2026)**: CI-IE-1 HECHO en v141 (recuadro «Matiz (2026-10)» en §5.7d: TPOT, goodput, chunked prefill, caché KV en FP8). Detalle en `taller/Registro_manual_v140_a_v141.md`.
+- **Gigantics / anonimización (30/10/2026, entrada `(f)`)**: CI-AN-1 HECHO en v142 (recuadro «Enmascarar no es anonimizar» en §12.x, correcciones en §12.x, §14.y, §4.2 y glosario). Detalle en `taller/Registro_manual_v141_a_v142.md`. Pendiente de decisión del autor en Empreinte: EM-AN-2 (NER en la ruta previa a la API).
 - **CUDA Graphs y Chawla «ML tradicional vs LLM» (30/10/2026)**: CI-CG-1 HECHO en v141 (CUDA Graphs nombrado en el bloque overhead-bound de §5.7d). Chawla: «Descartar» (entrada `(d)`).
