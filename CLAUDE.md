@@ -1,6 +1,6 @@
 # Comprender la IA (repo git del manual) — memoria de proyecto
 
-Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v140 a 30/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
+Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v141 a 30/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
 
 ## Leer primero
 1. `CHANGELOG.md` (la entrada más reciente = estado).
@@ -30,5 +30,5 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Inyección que se copia (14/10/2026)**: CI-WM-1 HECHO en v120 (fila en §21.5.1 y recuadro «Matiz (2026-10)»). Detalle en `taller/Registro_manual_v119_a_v120.md`.
 - **Ganchos de Copilot Studio (15/10/2026)**: CI-HK-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-15 (a)`). Baja; «Observar» hasta que salga de preview o haya otra fuente. Nada tocado en `index.html`.
 - **Medición reproducible (16/10/2026)**: CI-AV-1 HECHO en v121 (recuadro «Matiz (2026-10)» al final de §4.3). Detalle en `taller/Registro_manual_v120_a_v121.md`.
-- **Inference Engineering (30/10/2026)**: CI-IE-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-30 (b)`). Recuadro breve en §5.7d (TTFT/ITL/TPOT, goodput, chunked prefill, cuantización de la caché KV); sin aplicar, a la espera de confirmación. Nada tocado en `index.html`.
-- **CUDA Graphs y Chawla «ML tradicional vs LLM» (30/10/2026)**: CI-CG-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-30 (c)`; una o dos frases en §5.7d, sin aplicar). Chawla: «Descartar» (entrada `(d)`). Nada tocado en `index.html`.
+- **Inference Engineering (30/10/2026)**: CI-IE-1 HECHO en v141 (recuadro «Matiz (2026-10)» en §5.7d: TPOT, goodput, chunked prefill, caché KV en FP8). Detalle en `taller/Registro_manual_v140_a_v141.md`.
+- **CUDA Graphs y Chawla «ML tradicional vs LLM» (30/10/2026)**: CI-CG-1 HECHO en v141 (CUDA Graphs nombrado en el bloque overhead-bound de §5.7d). Chawla: «Descartar» (entrada `(d)`).

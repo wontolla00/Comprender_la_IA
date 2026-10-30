@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v141 — 30 octubre 2026 · §5.7d: CUDA Graphs, TPOT, goodput, chunked prefill y caché KV cuantizada
+
+- **§5.7d, bloque «overhead-bound»**: se nombra la técnica de captura (CUDA Graphs) y su coste (grafo estático, varios tamaños capturados, relleno o ejecución eager, más memoria y arranque). Fuentes: diseño de CUDA Graphs de vLLM y tutorial de CUDA, leídos el 30/10/2026 con una herramienta que resume. Sin cifras de aceleración. Cierra CI-CG-1 (entrada `2026-10-30 (c)` del Triaje).
+- **§5.7d, recuadro «Matiz (2026-10)»** tras el párrafo sobre continuous batching: TPOT (sin igualarlo a ITL), goodput según DistServe (arXiv 2401.09670), chunked prefill según Sarathi-Serve (OSDI 2024) y caché KV en FP8 según la documentación de vLLM. Sin cifras de aceleración de los papers. Cierra CI-IE-1 (entrada `2026-10-30 (b)`).
+- **Buscador del manual**: palabras clave nuevas en la entrada overhead-bound y una entrada nueva para el recuadro.
+- Versión v140 → v141. Copia de la v140 en `archivo/`.
+
 ## v140 — 30 octubre 2026 · §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos, espera)
 
 - **§12.4c** (Model routing y cascading): recuadro «Matiz (2026-10)» al final de la sección. Tres términos que el precio de lista no recoge: caché (escritura 1,25× o 2× y lectura normalmente 0,1× del precio base de entrada, según la documentación de Anthropic consultada el 30/10/2026; la página no dice si la caché se reutiliza entre modelos, así que se pide medirlo), reintentos (coste de la llamada dividido por la tasa de éxito: 1,00 con 80 % de éxito = 1,25 por respuesta válida) y espera. Métrica propuesta: coste por tarea completada. Si hay conmutación automática entre proveedores, registrar el modelo y el proveedor servidos.

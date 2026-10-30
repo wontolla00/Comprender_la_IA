@@ -24,12 +24,12 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [x] **CI-RT-1 · §12.4c, coste real de enrutar (media): HECHO en v140** (30/10/2026; recuadro «Matiz (2026-10)» al final de §12.4c; ver `taller/Registro_manual_v139_a_v140.md`). Sin cifras de OpenRouter.
 - [ ] **EM-RT-1 · Empreinte (alta):** la calculadora ya trata caché (`cost_engine.py` guarda `cache_read` y `cache_write`); faltan reintentos (coste ÷ tasa de éxito), espera y la métrica «coste por tarea completada», y un campo de proveedor servido. Sin decidir.
 
-**PENDIENTE de «Inference Engineering» (2026-10-30, entrada `2026-10-30 (b)`; veredicto «Integrar, en pequeño», nada aplicado).**
-- [ ] **CI-IE-1 · §5.7d, recuadro breve (media-baja):** definir juntos TTFT, ITL y TPOT (sin igualar ITL y TPOT); *goodput* según DistServe (arXiv 2401.09670: tasa máxima que cumple el objetivo de servicio, por GPU); *chunked prefill* según Sarathi-Serve (OSDI '24); cuantización de la caché KV según la documentación de vLLM (fp8, calibrar). PP/DP opcional. No citar las aceleraciones de los papers como generales. Primarios leídos solo con herramienta que resume: releer antes de citar cifras. Si se aplica: v141, copia de v140 en `archivo/`, CHANGELOG y `taller/Registro_manual_v140_a_v141.md`.
+**CERRADO en v141 / PENDIENTE de Empreinte: «Inference Engineering» (2026-10-30, entrada `2026-10-30 (b)`; veredicto «Integrar, en pequeño»).**
+- [x] **CI-IE-1 · §5.7d, recuadro breve (media-baja): HECHO en v141** (30/10/2026; ver `taller/Registro_manual_v140_a_v141.md`). definir juntos TTFT, ITL y TPOT (sin igualar ITL y TPOT); *goodput* según DistServe (arXiv 2401.09670: tasa máxima que cumple el objetivo de servicio, por GPU); *chunked prefill* según Sarathi-Serve (OSDI '24); cuantización de la caché KV según la documentación de vLLM (fp8, calibrar). PP/DP opcional. No citar las aceleraciones de los papers como generales. Primarios leídos solo con herramienta que resume: releer antes de citar cifras. Si se aplica: v141, copia de v140 en `archivo/`, CHANGELOG y `taller/Registro_manual_v140_a_v141.md`.
 - [ ] **EM-IE-1 · Empreinte (baja-media):** campo opcional `ttft_ms` (n/d si falta) y porcentaje de interacciones que cumplen un objetivo de latencia declarado por el usuario, como análogo de *goodput*; se une a EM-RT-1. Sujeto a la regla P3. Sin decidir.
 
-**PENDIENTE de CUDA Graphs (2026-10-30, entrada `2026-10-30 (c)`; veredicto «Integrar, en pequeño», nada aplicado).**
-- [ ] **CI-CG-1 · §5.7d, párrafo overhead-bound (baja-media):** una o dos frases con el nombre CUDA Graphs y su coste (grafos para tamaños capturados, relleno o vuelta a eager, memoria y arranque extra), más palabras clave del buscador. Fuente: diseño de CUDA Graphs de vLLM y tutorial de CUDA; sin cifras de aceleración y sin afirmar lo de las direcciones de memoria. Puede ir junto a CI-IE-1 en una sola v141. Primarios leídos solo con herramienta que resume.
+**CERRADO en v141: CUDA Graphs (2026-10-30, entrada `2026-10-30 (c)`; veredicto «Integrar, en pequeño»).**
+- [x] **CI-CG-1 · §5.7d, párrafo overhead-bound (baja-media): HECHO en v141** (30/10/2026). una o dos frases con el nombre CUDA Graphs y su coste (grafos para tamaños capturados, relleno o vuelta a eager, memoria y arranque extra), más palabras clave del buscador. Fuente: diseño de CUDA Graphs de vLLM y tutorial de CUDA; sin cifras de aceleración y sin afirmar lo de las direcciones de memoria. Puede ir junto a CI-IE-1 en una sola v141. Primarios leídos solo con herramienta que resume.
 
 **PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
@@ -3174,7 +3174,7 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Transversal «Impacto económico de la IA»:* enlaza con el coste por tarea completada (EM-RT-1); sin post.
 - *Auditra:* sin detalle aquí (el Triaje es público).
 
-**Veredicto: Integrar, en pequeño** (nada aplicado todavía). `[Manual: CI-IE-1]` `[Empreinte: EM-IE-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+**Veredicto: Integrar, en pequeño** (hecho en el manual, v141). `[Manual: CI-IE-1, HECHO en v141]` `[Empreinte: EM-IE-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
 
 ### 2026-10-30 (c) — «A counterintuitive insight about LLM inference» (CUDA Graphs; post en inglés + infografía «How CUDA Graph Replay Cuts Inference Overhead», autor no identificado)
 
@@ -3195,7 +3195,7 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte:* nada. *HyperRAG:* muy baja; si se compararan latencias entre motores locales, activar o no los grafos sería un confusor (no comprobado cómo lo gestiona llama.cpp).
 - *Auditra:* sin detalle aquí (el Triaje es público). *Corpus:* nada.
 
-**Veredicto: Integrar, en pequeño** (nada aplicado todavía). `[Manual: CI-CG-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+**Veredicto: Integrar, en pequeño** (hecho en el manual, v141). `[Manual: CI-CG-1, HECHO en v141]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
 
 ### 2026-10-30 (d) — «Traditional ML Inference vs. LLM Inference» (Avi Chawla, Daily Dose of DS; texto recibido, sin infografías)
 
