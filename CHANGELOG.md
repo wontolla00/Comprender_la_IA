@@ -4,7 +4,7 @@ Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", 
 
 ## v142 — 30 octubre 2026 · §12.x y §14.y: enmascarar no es anonimizar
 
-- **§12.x, recuadro «Matiz (2026-10)»** (`id="s12x-terminos-2026-10"`): enmascarado, seudonimización y anonimización según el considerando 26 del RGPD y el dictamen 05/2014 del Grupo del artículo 29; la capa pre-API enmascara y no se presenta como dato anónimo; matiz de la sentencia EDPS contra SRB (C-413/23 P, 4/9/2025), leída en resúmenes. Las directrices 01/2025 del EDPB solo existían como borrador en consulta.
+- **§12.x, recuadro «Matiz (2026-10)»** (`id="s12x-terminos-2026-10"`): enmascarado, seudonimización y anonimización según el considerando 26 del RGPD y el dictamen 05/2014 del Grupo del artículo 29; la capa pre-API enmascara y no se presenta como dato anónimo; matiz de la sentencia EDPS contra SRB (C-413/23 P, 4/9/2025), leída en su texto de EUR-Lex con una herramienta que resume (frase sobre el que envía acotada al deber de información tras esa lectura, misma v142). Las directrices 01/2025 del EDPB solo existían como borrador en consulta.
 - **§12.x, correcciones:** «la PII nunca sale del perímetro» y «la API nunca ve PII real» pasan a «reduce» y «recibe el texto enmascarado»; se quita la cifra de «5-20 ms» (sin contrastar) y se explica que los nombres sin contexto exigen NER; se corrige la afirmación de que las respuestas del LLM «nunca contienen nombres reales».
 - **§14.y:** la extensión ya no «anonimiza en el cliente antes de que salga ningún dato»: observa tras el envío, protege el log y no impide la salida. Coherente con el caso post-API del Cap. 12.
 - **§4.2:** «user_id anonimizado» → «seudonimizado» (identificador estable).
