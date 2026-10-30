@@ -28,6 +28,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [ ] **CI-IE-1 · §5.7d, recuadro breve (media-baja):** definir juntos TTFT, ITL y TPOT (sin igualar ITL y TPOT); *goodput* según DistServe (arXiv 2401.09670: tasa máxima que cumple el objetivo de servicio, por GPU); *chunked prefill* según Sarathi-Serve (OSDI '24); cuantización de la caché KV según la documentación de vLLM (fp8, calibrar). PP/DP opcional. No citar las aceleraciones de los papers como generales. Primarios leídos solo con herramienta que resume: releer antes de citar cifras. Si se aplica: v141, copia de v140 en `archivo/`, CHANGELOG y `taller/Registro_manual_v140_a_v141.md`.
 - [ ] **EM-IE-1 · Empreinte (baja-media):** campo opcional `ttft_ms` (n/d si falta) y porcentaje de interacciones que cumplen un objetivo de latencia declarado por el usuario, como análogo de *goodput*; se une a EM-RT-1. Sujeto a la regla P3. Sin decidir.
 
+**PENDIENTE de CUDA Graphs (2026-10-30, entrada `2026-10-30 (c)`; veredicto «Integrar, en pequeño», nada aplicado).**
+- [ ] **CI-CG-1 · §5.7d, párrafo overhead-bound (baja-media):** una o dos frases con el nombre CUDA Graphs y su coste (grafos para tamaños capturados, relleno o vuelta a eager, memoria y arranque extra), más palabras clave del buscador. Fuente: diseño de CUDA Graphs de vLLM y tutorial de CUDA; sin cifras de aceleración y sin afirmar lo de las direcciones de memoria. Puede ir junto a CI-IE-1 en una sola v141. Primarios leídos solo con herramienta que resume.
+
 **PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
@@ -3172,3 +3175,28 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Auditra:* sin detalle aquí (el Triaje es público).
 
 **Veredicto: Integrar, en pequeño** (nada aplicado todavía). `[Manual: CI-IE-1]` `[Empreinte: EM-IE-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+
+### 2026-10-30 (c) — «A counterintuitive insight about LLM inference» (CUDA Graphs; post en inglés + infografía «How CUDA Graph Replay Cuts Inference Overhead», autor no identificado)
+
+**Fuente.** Post y infografía, recibidos y leídos. Texto divulgativo, sin datos propios y sin ninguna cifra. Los primarios se leyeron el 30/10/2026 con una herramienta de lectura web que resume, no con los documentos completos.
+
+**Qué dice.** La inferencia puede acelerarse sin acelerar los kernels, recortando el hueco entre operaciones. Una pasada de LLM son muchos kernels pequeños que la CPU lanza uno a uno; en la decodificación token a token se repite la misma secuencia. Un CUDA Graph guarda esa secuencia tras una pasada de calentamiento y la reproduce con un solo lanzamiento; la reproducción vuelve a calcular con entradas nuevas, no reutiliza salidas. Coste: menos flexibilidad (formas, flujo de control y direcciones de memoria compatibles), de ahí varios grafos por forma común, relleno a un tamaño capturado o ejecución eager, con más memoria de GPU y más trabajo de arranque.
+
+**Verificado.**
+- Mecanismo (capturar, instanciar, lanzar; grabar una vez y repetir «con mínima interacción de la CPU»): documentación de CUDA Graphs (tutorial intro-to-cuda). La misma fuente dice que los grafos son estáticos tras instanciarse y no da ninguna aceleración medida.
+- Varios grafos, relleno y vuelta a eager: diseño de CUDA Graphs de vLLM (`cudagraph_capture_sizes`; sin grafo adecuado, ejecución eager). El modo por defecto usa grafo completo solo para decodificación uniforme y grafos por tramos para el resto; es el que más memoria y más tiempo de captura necesita. Matiza la imagen de «repetir el grafo entero».
+- Que las direcciones de memoria deban coincidir NO se encontró en estas dos fuentes: no darlo como verificado.
+- La utilidad en la práctica depende de que la decodificación esté limitada por el coste de lanzamiento (modelos o lotes pequeños); con kernels largos el hueco pesa poco. Es razonamiento propio, sin medida. «Mayor utilización de GPU» de la infografía solo vale en ese caso.
+
+**Cobertura del manual (búsqueda de texto, v140).** §5.7d ya tiene «Un tercer diagnóstico: overhead-bound» (coste fijo de despacho, síntoma de GPU ociosa con la CPU al límite, arreglo «capturar la secuencia completa para repetirla como una sola unidad») y entrada propia en el buscador. Falta el nombre CUDA Graphs (0 apariciones) y el coste de la técnica (tamaños capturados, relleno, eager, memoria). El Triaje del 2026-08-19 dejó CUDA graphs fuera por ser ingeniería de quien construye el motor; hoy el concepto ya está en el manual, así que basta una o dos frases, no una sección.
+
+**Relevancia.**
+- *Manual (baja-media):* CI-CG-1, ver cabecera.
+- *Empreinte:* nada. *HyperRAG:* muy baja; si se compararan latencias entre motores locales, activar o no los grafos sería un confusor (no comprobado cómo lo gestiona llama.cpp).
+- *Auditra:* sin detalle aquí (el Triaje es público). *Corpus:* nada.
+
+**Veredicto: Integrar, en pequeño** (nada aplicado todavía). `[Manual: CI-CG-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+
+### 2026-10-30 (d) — «Traditional ML Inference vs. LLM Inference» (Avi Chawla, Daily Dose of DS; texto recibido, sin infografías)
+
+**Veredicto: Descartar.** Los cinco puntos ya están en el manual: lotes continuos (14 menciones), desagregación prefill/decode y PagedAttention en §5.7d, enrutamiento por prefijo en §15.4c (llm-d, con el umbral de carga que el texto no menciona) y paralelismo de expertos en §5.7g. Una afirmación habría que acotarla antes de citarla: «las capas de atención se replican en todas las GPU» con paralelismo de expertos depende de la configuración (atención con TP o con DP); no verificado en un primario. Mismo patrón que la entrada `2026-10-12 (i)`. `[Manual: nada]` `[Empreinte, HyperRAG, Auditra, corpus: nada]`
