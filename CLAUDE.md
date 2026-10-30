@@ -30,3 +30,4 @@ La copia antigua `06_Comprender_la_IA` (v113) se archivó el 2026-10-04 en `../_
 - **Inyección que se copia (14/10/2026)**: CI-WM-1 HECHO en v120 (fila en §21.5.1 y recuadro «Matiz (2026-10)»). Detalle en `taller/Registro_manual_v119_a_v120.md`.
 - **Ganchos de Copilot Studio (15/10/2026)**: CI-HK-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-15 (a)`). Baja; «Observar» hasta que salga de preview o haya otra fuente. Nada tocado en `index.html`.
 - **Medición reproducible (16/10/2026)**: CI-AV-1 HECHO en v121 (recuadro «Matiz (2026-10)» al final de §4.3). Detalle en `taller/Registro_manual_v120_a_v121.md`.
+- **Inference Engineering (30/10/2026)**: CI-IE-1 en la cabecera «Pendientes abiertos» del Triaje (entrada `2026-10-30 (b)`). Recuadro breve en §5.7d (TTFT/ITL/TPOT, goodput, chunked prefill, cuantización de la caché KV); sin aplicar, a la espera de confirmación. Nada tocado en `index.html`.

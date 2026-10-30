@@ -24,6 +24,10 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [x] **CI-RT-1 · §12.4c, coste real de enrutar (media): HECHO en v140** (30/10/2026; recuadro «Matiz (2026-10)» al final de §12.4c; ver `taller/Registro_manual_v139_a_v140.md`). Sin cifras de OpenRouter.
 - [ ] **EM-RT-1 · Empreinte (alta):** la calculadora ya trata caché (`cost_engine.py` guarda `cache_read` y `cache_write`); faltan reintentos (coste ÷ tasa de éxito), espera y la métrica «coste por tarea completada», y un campo de proveedor servido. Sin decidir.
 
+**PENDIENTE de «Inference Engineering» (2026-10-30, entrada `2026-10-30 (b)`; veredicto «Integrar, en pequeño», nada aplicado).**
+- [ ] **CI-IE-1 · §5.7d, recuadro breve (media-baja):** definir juntos TTFT, ITL y TPOT (sin igualar ITL y TPOT); *goodput* según DistServe (arXiv 2401.09670: tasa máxima que cumple el objetivo de servicio, por GPU); *chunked prefill* según Sarathi-Serve (OSDI '24); cuantización de la caché KV según la documentación de vLLM (fp8, calibrar). PP/DP opcional. No citar las aceleraciones de los papers como generales. Primarios leídos solo con herramienta que resume: releer antes de citar cifras. Si se aplica: v141, copia de v140 en `archivo/`, CHANGELOG y `taller/Registro_manual_v140_a_v141.md`.
+- [ ] **EM-IE-1 · Empreinte (baja-media):** campo opcional `ttft_ms` (n/d si falta) y porcentaje de interacciones que cumplen un objetivo de latencia declarado por el usuario, como análogo de *goodput*; se une a EM-RT-1. Sujeto a la regla P3. Sin decidir.
+
 **PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
@@ -3142,3 +3146,29 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Transversal «Impacto económico de la IA»:* complementa el hilo de OpenRouter/Stripe y Jevons; no se ha convertido en post.
 
 **Veredicto: Integrar, en pequeño** (hecho en el manual). `[Manual: CI-RT-1, HECHO en v140]` `[Empreinte: EM-RT-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+
+### 2026-10-30 (b) — «Inference Engineering» (Tech with Mak; infografía + post en inglés, LinkedIn)
+
+**Fuente.** Infografía «Inference Engineering» y texto del post, recibidos y leídos. Autor divulgativo, sin datos propios; es un mapa de conceptos (latencia, rendimiento, caché KV, cuantización, paralelismo, servicio), no una medición. Los primarios se leyeron el 30/10/2026 con una herramienta de lectura web que resume, no con los PDF completos.
+
+**Qué dice.** Presenta la ingeniería de inferencia como disciplina propia: TTFT, latencia entre tokens y rendimiento; separación prefill/decode; caché KV con su ejemplo de tamaño; *chunked prefill*; *goodput*; cuantización de la caché KV; paralelismo (TP, PP, DP, EP) y servicio en lotes continuos.
+
+**Verificado.**
+- Ejemplo de caché KV: 2 × 32 capas × 8192 tokens × 8 cabezas KV × 128 × 2 bytes = 1.073.741.824 bytes = 1 GiB. Correcto.
+- *Goodput*: DistServe (arXiv 2401.09670) lo define como la tasa máxima de peticiones servidas cumpliendo el objetivo de nivel de servicio (por ejemplo el 90 %), por GPU; TTFT y TPOT como en el post. Sus cifras (hasta 7,4× más peticiones o 12,6× objetivo más estricto) son de sus montajes, no generales.
+- *Chunked prefill*: Sarathi-Serve (OSDI '24) lo combina con planificación sin parones; 2,6× (Mistral-7B, A100), 3,7× (Yi-34B, 2 A100) y 5,6× (Falcon-180B con PP) frente a vLLM, en sus condiciones. DistServe señala que reduce la interferencia pero no la elimina.
+- Cuantización de la caché KV: documentación de vLLM, `kv_cache_dtype` fp8 / fp8_e4m3 / fp8_e5m2; sin calibración las escalas valen 1,0 y se recomienda calibrar.
+- Ninguna de las cifras de aceleración se cita como general.
+
+**Matices.** ITL y TPOT no son sinónimos exactos en la literatura: definirlos juntos y sin igualarlos. El post no distingue qué optimiza cada técnica (latencia frente a rendimiento) ni su coste en calidad.
+
+**Cobertura del manual (búsqueda de texto en `index.html`, v140).** Ya cubierto: prefill/decode, caché KV, GQA, PagedAttention, FlashAttention, lotes continuos, caché de prefijos, desagregación prefill/decode, inferencia especulativa, TP/EP en MoE; TTFT/ITL ya constaba en §5.7d (entrada de 2026-08-20). Huecos: *goodput* (0 apariciones), TPOT como término (0), *chunked prefill* (0 en el manual; aparece 3 veces en este Triaje), cuantización de la caché KV (0), PP/DP.
+
+**Relevancia.**
+- *Manual (media-baja):* un recuadro breve en §5.7d con TTFT/ITL/TPOT, *goodput* según DistServe, *chunked prefill* según Sarathi-Serve y cuantización de la caché KV según la documentación de vLLM; PP/DP opcional.
+- *Empreinte (baja-media):* hoy mide solo latencia hasta el fin de la respuesta; no registra TTFT. Ver EM-IE-1. Sujeto a la regla P3 de Empreinte (nada pensado para vender).
+- *HyperRAG:* baja (tampoco registra TTFT). *Corpus:* nada.
+- *Transversal «Impacto económico de la IA»:* enlaza con el coste por tarea completada (EM-RT-1); sin post.
+- *Auditra:* sin detalle aquí (el Triaje es público).
+
+**Veredicto: Integrar, en pequeño** (nada aplicado todavía). `[Manual: CI-IE-1]` `[Empreinte: EM-IE-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
