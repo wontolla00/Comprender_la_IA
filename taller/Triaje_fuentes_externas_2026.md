@@ -36,6 +36,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [x] **EM-AN-1 · Empreinte: HECHO** (30/10/2026; extensión 1.2.71 y `Doc/NOTA_Terminologia_Enmascarado_Anonimizacion.md`). Interruptor «Anonimizar PII» que ningún código leía, README de la extensión corregido.
 - [x] **EM-AN-2 · Empreinte: CERRADO «no, por ahora»** (30/10/2026, decide el autor). NER en la ruta previa a la API del chat descartado tras medir con Presidio sobre el log real: 91,7 % de «hallazgos nuevos» en las 121 filas de uso propio, casi todo ruido (proyectos, herramientas, palabras con mayúscula, autores públicos); con NER esos prompts saldrían estropeados. Se reabriría con datos reales de clientes en el chat.
 - [x] **EM-AN-3 · Empreinte: HECHO** (30/10/2026). Patrón de firmas con despedidas ampliadas en `pii_detector.py`, sin NER, motivado por el único dato personal real hallado («Bien à vous, Noémie d'Alteca»).
+- [ ] **CI-AE-1 · §21.5 (recuadro breve) y §10.9 (nota sobre borrado de memoria) (baja-media):** decálogo de la AEPD (`2026-10-30 (e)`). Citarlo como orientación para personas usuarias, no como requisito legal. Antes, CI-AE-2.
+- [ ] **CI-AE-2 · leer la guía de la AEPD de febrero de 2026 (71 páginas, para organizaciones)**, hoy conocida solo por un resumen de un despacho de abogados; condiciona CI-AE-1.
+- [ ] **EM-AE-1 · Empreinte (media):** tabla «permiso, para qué» de la extensión (`storage`, `tabs`, `activeTab`, `notifications`, `scripting`, `webRequest`, `alarms` y permisos de sitio) en el README de la extensión.
 
 **PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
@@ -3206,6 +3209,18 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 ### 2026-10-30 (d) — «Traditional ML Inference vs. LLM Inference» (Avi Chawla, Daily Dose of DS; texto recibido, sin infografías)
 
 **Veredicto: Descartar.** Los cinco puntos ya están en el manual: lotes continuos (14 menciones), desagregación prefill/decode y PagedAttention en §5.7d, enrutamiento por prefijo en §15.4c (llm-d, con el umbral de carga que el texto no menciona) y paralelismo de expertos en §5.7g. Una afirmación habría que acotarla antes de citarla: «las capas de atención se replican en todas las GPU» con paralelismo de expertos depende de la configuración (atención con TP o con DP); no verificado en un primario. Mismo patrón que la entrada `2026-10-12 (i)`. `[Manual: nada]` `[Empreinte, HyperRAG, Auditra, corpus: nada]`
+
+### 2026-10-30 (e) — AEPD, «Asistentes y agentes de IA: Decálogo para personas usuarias» (nota de prensa y PDF de 12 páginas, 27/10/2026)
+
+**Fuente.** Nota de prensa y PDF de la AEPD, leído entero el 30/10/2026. Es una guía para **personas usuarias**, no una norma ni una especificación, y no es certificable; la nota de prensa solo califica de orientativos los límites que la persona escribe en la instrucción. La parte para organizaciones es otra guía de la AEPD (febrero de 2026, 71 páginas) que **no se ha leído**: solo se vio un resumen de un despacho de abogados.
+
+**Qué dice y qué toca a los proyectos.**
+- El PDF (p. 11) lista lo que la AEPD espera del proveedor: permisos comprensibles que distingan consultar de actuar; confirmación configurable para las acciones de mayor impacto; historial de lo que ha hecho el agente; una forma inmediata de detenerlo; gestión y borrado de la memoria; información sobre a quién se envían los datos y si se usan para entrenar; y una vía sencilla para ejercer los derechos. Entre los puntos para la persona usuaria (p. 3) está poder deshacer cambios.
+- *Manual (baja-media):* encaja con la exfiltración de §21.5 (qué puede hacer el agente con sus permisos) y con la memoria persistente de §10.9 (borrado y control de lo que el agente recuerda). Es una guía de usuario: citarla como orientación de la AEPD, nunca como requisito legal ni como «cumplimiento».
+- *Empreinte (media):* el manifiesto de la extensión declara `storage`, `tabs`, `activeTab`, `notifications`, `scripting`, `webRequest` y `alarms`, más permisos de sitio para los chats y las API de los proveedores. El README no los documenta (búsqueda de texto): una tabla de «qué permiso, para qué» responde a la primera exigencia de la lista.
+- *HyperRAG:* nada. *Corpus:* nada. *Auditra:* la comparación está en una nota privada; no se detalla aquí.
+
+**Veredicto: Integrar con cautela.** `[Manual: CI-AE-1, CI-AE-2]` `[Empreinte: EM-AE-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
 
 ### 2026-10-30 (f) — «Data Anonymization Techniques and Methods: A Technical Guide» (Rodrigo de Oliveira, Gigantics; texto recibido)
 
