@@ -1,6 +1,6 @@
 # Comprender la IA (repo git del manual) — memoria de proyecto
 
-Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v139 a 23/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
+Manual técnico autocontenido en **un único HTML** (`index.html`, ~2,9 MB), edición 2026, versión actual en `README.md` y `CHANGELOG.md` (v140 a 30/10/2026). Remoto: `github.com/wontolla00/Comprender_la_IA`. No es software: es el «tercer corpus» del conjunto literario; ver el `CLAUDE.md` de `Obra completa` para las convenciones generales.
 
 ## Leer primero
 1. `CHANGELOG.md` (la entrada más reciente = estado).

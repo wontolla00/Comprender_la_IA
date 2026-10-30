@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v139** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v140** (octubre 2026)
 
 ---
 
@@ -112,6 +112,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 
 | Versión | Contenido principal |
 |---|---|
+| **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v139** | Cap. 22: licencias y precios de voz contrastados con fuentes oficiales; Sora 2 discontinuado. |
 | **v138** | §21.11: AIPD frente a evaluación de derechos fundamentales (art. 27 AI Act); Shida y art. 50 verificados. |
 | **v137** | Apéndice B: criterios de superación por módulo y caso de transferencia; Módulo 1 unificado en ~5 h. |

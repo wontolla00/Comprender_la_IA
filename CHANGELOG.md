@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v140 — 30 octubre 2026 · §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos, espera)
+
+- **§12.4c** (Model routing y cascading): recuadro «Matiz (2026-10)» al final de la sección. Tres términos que el precio de lista no recoge: caché (escritura 1,25× o 2× y lectura normalmente 0,1× del precio base de entrada, según la documentación de Anthropic consultada el 30/10/2026; la página no dice si la caché se reutiliza entre modelos, así que se pide medirlo), reintentos (coste de la llamada dividido por la tasa de éxito: 1,00 con 80 % de éxito = 1,25 por respuesta válida) y espera. Métrica propuesta: coste por tarea completada. Si hay conmutación automática entre proveedores, registrar el modelo y el proveedor servidos.
+- **Fuente del concepto de «coste aterrizado»**: Walker (OpenRouter), 22/10/2026; declarada como publicación de un proveedor con datos propios, sin reproducir sus cifras (no contrastadas con un primario).
+- Pendiente CI-RT-1 del Triaje (entrada `2026-10-30 (a)`) cerrado. Versión v139 → v140.
+
 ## v139 — 23 octubre 2026 · Cap. 22: licencias y precios de voz contrastados con fuentes oficiales; Sora 2 discontinuado
 
 - **Sora 2**: según la documentación de OpenAI, modelos y API de vídeo cerrados el 24/9/2026; se retiran precios y duración y se presenta como ejemplo de caducidad.

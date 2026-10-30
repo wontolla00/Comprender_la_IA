@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v139</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v140</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v139 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v140 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -23292,6 +23292,15 @@ def evaluar_solicitud(texto: str, request_id: str) -&gt; dict:
 <p>Routing y cascading deciden, en cada llamada, <em>cuál</em> de varios modelos disponibles atiende la consulta — una decisión que vive dentro del propio pipeline, en código que tú controlas. Hay un patrón distinto, cada vez más frecuente en 2026: una herramienta construida contra la API de un proveedor concreto (por ejemplo, un cliente de línea de comandos escrito para la API de Anthropic) puede redirigirse a un proveedor de modelo completamente distinto sin tocar la herramienta, si ese otro proveedor expone un endpoint compatible con la misma superficie de API — variables como la URL base y la clave de autenticación bastan para que la herramienta crea que sigue hablando con su proveedor original.</p>
 <p>La diferencia importa porque el riesgo es distinto. Routing falla de forma acotada: si el clasificador se equivoca, una consulta va al modelo equivocado, pero dentro del conjunto de modelos que ya evaluaste. Sustituir el proveedor completo por una capa de compatibilidad cambia el modelo que responde a <em>toda</em> la herramienta a la vez — comportamiento de function calling, formato de salida, límites de contexto y garantías de seguridad pueden diferir del proveedor original sin que la herramienta lo sepa ni lo declare, porque desde su perspectiva nada cambió. Verifica el comportamiento real tras el cambio de proveedor con el mismo rigor que aplicarías a una migración de modelo (§15.3) — no asumas que "misma API" significa "mismo comportamiento".</p>
 </div>
+<div class="nota">
+<strong>🔎 Matiz (2026-10) · El precio de lista no es el coste de enrutar</strong>
+    Comparar modelos por el precio por token de la lista engaña cuando la carga es agéntica o repetitiva. Tres términos cambian el resultado.
+    <b>Caché.</b> Un agente reenvía el mismo contexto largo en cada paso, así que el descuento por caché puede pesar más que la diferencia de precio de lista. Según la documentación de Anthropic (consultada el 30/10/2026), escribir en la caché cuesta 1,25× el precio base de entrada (duración de 5 minutos) o 2× (1 hora), y leer de ella cuesta normalmente 0,1× (menos en algunos modelos). Solo hay acierto con segmentos idénticos y la caché está aislada por organización y espacio de trabajo. Esa página no dice si una caché puede reutilizarse entre modelos distintos: no lo des por hecho y mide los tokens leídos de caché que devuelve cada proveedor antes y después de cambiar de modelo.
+    <b>Reintentos.</b> El coste de una respuesta válida es el coste de la llamada dividido por la tasa de éxito: una llamada de 1,00 que sale bien el 80 % de las veces cuesta 1,25 por respuesta válida. Un proveedor más barato en lista pero con más fallos o límites de tasa puede salir más caro.
+    <b>Espera.</b> La latencia también cuesta cuando hay una persona o un paso del flujo esperando.
+    La suma (precio efectivo tras la caché, más el coste de la espera, más el de los reintentos) se llama a veces «coste aterrizado» (<i>landed cost</i>), y la métrica que se desprende es el <b>coste por tarea completada</b>, no por token. Si un mismo modelo lo sirven varios proveedores y hay conmutación automática ante fallos, registra el modelo y el proveedor que atendieron cada petición, no los solicitados.
+    El concepto de coste aterrizado procede de Walker (OpenRouter), «The Current State of AI Tokenomics», 22/10/2026: la publicación de un proveedor de enrutado, con datos de su propia plataforma. Sirve para fijar la idea, no como evidencia de precios de mercado; sus cifras no se han contrastado con un primario y no se reproducen aquí.
+  </div>
 <h2 id="s125">12.5 Antipatrones críticos del sistema sándwich</h2>
 <table>
 <thead><tr><th>Antipatrón</th><th>Síntoma</th><th>Corrección</th></tr></thead>
@@ -29638,7 +29647,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v139).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v140).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>

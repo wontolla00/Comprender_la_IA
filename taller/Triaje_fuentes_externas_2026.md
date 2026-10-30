@@ -20,6 +20,10 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 *Actualizado 2026-08-20, veinticinco fuentes evaluadas hasta ahora.*
 
+**CERRADO en v140 / PENDIENTE de Empreinte (2026-10-30, entrada `2026-10-30 (a)`; veredicto «Integrar, en pequeño»).**
+- [x] **CI-RT-1 · §12.4c, coste real de enrutar (media): HECHO en v140** (30/10/2026; recuadro «Matiz (2026-10)» al final de §12.4c; ver `taller/Registro_manual_v139_a_v140.md`). Sin cifras de OpenRouter.
+- [ ] **EM-RT-1 · Empreinte (alta):** la calculadora ya trata caché (`cost_engine.py` guarda `cache_read` y `cache_write`); faltan reintentos (coste ÷ tasa de éxito), espera y la métrica «coste por tarea completada», y un campo de proveedor servido. Sin decidir.
+
 **PENDIENTE primarios de «¿confiamos demasiado en ChatGPT?» (2026-10-25, entrada `2026-10-25 (c)`; veredicto «Observar», nada implementado).**
 - [ ] **CI-ST-1 · sección de delegación cognitiva (baja-media):** Strömberg, Lei y Wu (CEPR DP 21577) como evidencia cuantitativa, con el matiz de que es observacional y de un condado. Leer el DP completo antes de citar cifras.
 - [ ] **CI-XP-1 · sesgos de evaluación (baja):** Xu, Li y Jiang (arXiv:2509.00462) como caso concreto de autopreferencia en cribado automático. Antes: comprobar si el manual cubre la autopreferencia del juez LLM con otro nombre. No citar el rango 67-82 % sin acotarlo a los modelos y al análisis que lo dan.
@@ -3119,3 +3123,22 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 - *Empreinte, HyperRAG, corpus:* nada.
 
 **Veredicto: Integrar** en el manual (condicionado a leer el PDF original); **Observar** el resto. `[Manual: CI-CR-1, media-alta]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Corpus: nada]`
+
+### 2026-10-30 (a) — «The Current State of AI Tokenomics» (Peter Walker, OpenRouter; newsletter para directores financieros, 22/10/2026)
+
+**Fuente.** Artículo invitado de Walker (Head of Insights de OpenRouter), texto completo recibido y leído. El bloque inicial de Remote (empleador de registro) es publicidad ajena. El autor trabaja en una pasarela de enrutado y los datos son de su propia plataforma.
+
+**Qué dice.** La inferencia se comporta como una materia prima: volumen al alza, precio unitario a la baja y un mejor proveedor que cambia cada pocos meses. Cifras que declara (no contrastadas): de unos 0,5 billones de tokens semanales en enero de 2025 a 164 billones a finales de septiembre de 2026; precio medio por millón de tokens de $0,77 a $0,14; pesos abiertos con el 60 % de los tokens y el 26 % del gasto; agentes con 131 billones semanales frente a 18 de personas; el 44 % de los tokens de modelos chinos, servidos por proveedores con sede en EE. UU.; para tres modelos abiertos, lo pagado entre un 43 % y un 89 % por debajo del equivalente de lista. Su enrutado por defecto pasa a precio de «coste aterrizado»: precio efectivo tras el descuento de caché, más el coste de espera y el de los reintentos.
+
+**Verificado.** Aritmética del reintento: $1,00 con 80 % de éxito = $1,25 por respuesta válida (correcta). Con su 60 % de tokens y 26 % de gasto, un token abierto cuesta en media aproximadamente una cuarta parte de uno cerrado (cálculo mío). Primario de Anthropic sobre caché de prompt, leído el 30/10/2026 con una herramienta de lectura web que resume: escritura 1,25× (5 min) y 2× (1 h) del precio base, lectura normalmente 0,1× con excepciones por modelo, aciertos solo con segmentos idénticos y aislamiento por organización y espacio de trabajo; la página no dice si la caché se reutiliza entre modelos.
+
+**Matices.** El precio medio por token no es un índice de precios: la caída de $0,77 a $0,14 mezcla cambio de modelos y bajada de precios del mismo modelo, y el artículo no las separa. La muestra es una sola plataforma, con umbrales mínimos de gasto en las cohortes, y las cuotas entre laboratorios valen solo dentro de ella. Las cifras de disponibilidad (92,8 %, 96,9 %, 97,3 %) vienen de la propia empresa. No se comprobaron los modelos nuevos que cita. Las recomendaciones a directores financieros (guardarraíles, regiones, límites por función) son opinión del autor.
+
+**Relevancia.**
+- *Manual (media):* §12.4c no recogía caché, reintentos ni failover; cerrado como CI-RT-1 en v140, tomando el concepto y no las cifras.
+- *Empreinte (alta):* ver EM-RT-1; encaja con «modelo servido ≠ declarado».
+- *Auditra:* sin detalle aquí (el Triaje es público).
+- *HyperRAG:* baja (mide ejecuciones locales). *Corpus:* nada.
+- *Transversal «Impacto económico de la IA»:* complementa el hilo de OpenRouter/Stripe y Jevons; no se ha convertido en post.
+
+**Veredicto: Integrar, en pequeño** (hecho en el manual). `[Manual: CI-RT-1, HECHO en v140]` `[Empreinte: EM-RT-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
