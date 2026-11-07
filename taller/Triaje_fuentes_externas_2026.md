@@ -20,6 +20,14 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 *Actualizado 2026-08-20, veinticinco fuentes evaluadas hasta ahora.*
 
+**NUEVO 2026-11-07 (entradas `2026-11-07 (a)`–`(d)`; nada tocado en `index.html`).**
+- [ ] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`.
+- [ ] **HR-AR-1 · HyperRAG (baja-media):** misma pregunta para el arnés de evaluación: ¿cuenta aparte la respuesta apoyada en la fuente equivocada? Se une a la comprobación de C3 antes de preguntas temporales con normas nuevas. Sin decidir.
+- [ ] **CI-NC-1 · manual (baja):** NCM (arXiv 2610.14162). Una línea en la parte de generación solo si hay réplica independiente o una API; hoy es investigación a pequeña escala. No se ha comprobado cómo trata el manual los modelos de lenguaje por difusión. Entrada `2026-11-07 (b)`.
+- [ ] **EM-FL-1 · Empreinte (baja):** Flint como proveedor local de prueba, solo si el autor lo quiere; su caída de velocidad con el contexto es el mismo fenómeno de EM-IE-1. Sin decidir.
+- [ ] **CI-LP-1 · manual, agentes (baja-media):** comprobar si el capítulo de agentes define el bucle de turno y el de traza, y si nombra los fallos de contexto (envenenamiento, distracción, confusión, conflicto) con su fuente original; si falta, una caja breve. Antes de atribuir la taxonomía a alguien, leer el primario. Entrada `2026-11-07 (c)`.
+- [ ] **CI-HF-1 · manual, §10.10.4 (baja):** reformular la salvedad «la de 70.000 mensajes no se ha vuelto a cotejar»: METR/Redwood la da. Una frase; no hecho. Entrada `2026-11-07 (d)`.
+
 **CERRADO en v140 / PENDIENTE de Empreinte (2026-10-30, entrada `2026-10-30 (a)`; veredicto «Integrar, en pequeño»).**
 - [x] **CI-RT-1 · §12.4c, coste real de enrutar (media): HECHO en v140** (30/10/2026; recuadro «Matiz (2026-10)» al final de §12.4c; ver `taller/Registro_manual_v139_a_v140.md`). Sin cifras de OpenRouter.
 - [ ] **EM-RT-1 · Empreinte (alta):** la calculadora ya trata caché (`cost_engine.py` guarda `cache_read` y `cache_write`); faltan reintentos (coste ÷ tasa de éxito), espera y la métrica «coste por tarea completada», y un campo de proveedor servido. Sin decidir.
@@ -3244,3 +3252,57 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 **Qué toca a los proyectos.**
 - *Manual (baja-media):* posible recuadro sobre las capas de control de un agente (red y acceso, contenido malicioso, acción de negocio) en el capítulo de gobernanza. **CI-SASE-1:** antes de citar a un fabricante o a Gartner, leer en primario al menos un anuncio técnico y el informe; no afirmar que un producto «no tiene» una función sin haberlo comprobado en su documentación.
 - *Empreinte, HyperRAG, corpus:* nada. *Auditra:* el análisis está en una nota privada; no se detalla aquí.
+
+### 2026-11-07 (a) — Anurag Karuparti, «How to actually build an agentic RAG solution for the enterprise» (24/10/2026) y dos piezas del mismo boletín sobre modelos de decisión (texto recibido, sin tablas ni figuras)
+
+**Fuente.** Tres textos de la newsletter *Diary of an AI Architect*, recibidos pegados: (1) arquitectura de RAG agéntico en seis etapas (el texto lleva la marca «Paid» y le faltan tablas y figuras); (2) «LLMs vs. Decision Models vs. CDMs»; (3) un flujo hipotético de atención al cliente. La lista de referencias dice «documentación de producto comprobada el 5/11/2026». No se leyó ningún primario; los datos de mercado de abajo salen de prensa leída a través de una herramienta de búsqueda. La entrada `2026-09-28 (d)` descartó una infografía del mismo autor sobre RAG / Agentic RAG / Graph RAG; esto es otra pieza, más sustancial.
+
+**Qué dice (RAG agéntico).** Pipeline de seis etapas: preparar, planificar, enrutar, seleccionar, ensamblar, responder. Ejemplo central: una asistente produce un resumen con un RFP de una revisión antigua y unos ingresos sacados de una presentación, no del sistema financiero: «la respuesta está fundamentada en algo, pero no en lo correcto». Puntos con contenido propio: recuperación indexada frente a consultada en vivo en el sistema autoritativo; MCP es una interfaz, no una garantía de frescura ni una capa de seguridad; el texto hipotético de HyDE sirve para buscar y nunca como evidencia; en lugar de SQL libre, una herramienta de solo lectura con entradas validadas; la autorización se aplica antes de que el dato llegue al modelo o al reordenador; la etapa final comprueba que la evidencia sostiene la respuesta y señala lagunas; límites de ejecución y condiciones de parada a cargo de la aplicación. Sin mediciones propias; el flujo y los ejemplos son hipotéticos.
+
+**Qué dice (modelos de decisión).** Enviar cada paso a un LLM de frontera es ineficiente; se propone repartir: un modelo de decisión (Jev) para triaje y enrutado, un modelo de extracción (ScaleDown CDM) para campos, código determinista para validar, un LLM de frontera para redactar y un LLM revisor. Avisos del propio autor: un revisor LLM no sustituye controles deterministas, añadir modelos añade llamadas y fallos, y solo compensa si las pruebas muestran mejora en coste, latencia o fiabilidad; métrica propuesta: coste por solicitud resuelta con éxito. Las comparativas de ScaleDown son, según el autor, declaradas por el proveedor.
+
+**Verificado (prensa, 7/11/2026, solo extractos).** Jev lo lanzó TypeSafe el 15/09/2026; el 9/10 anunció 870 M$ a 7.500 M$ de valoración. Microsoft publicó Microsoft-Decision-1 sobre Qwen3.5-9B al mismo precio (0,042 $ por millón de tokens de entrada, salida gratis). Cloudflare y AWS (Strands Decider 2B) han sacado modelos propios y varios adoptan la interfaz System One; The Register habla de más de cien modelos de este tipo. TypeSafe garantiza la forma de la salida, no la exactitud de la decisión. **Sin verificar:** documentación de TypeSafe y de Microsoft; latencias; la afirmación de que casi el 30 % de las Fortune 500 han probado Jev.
+
+**Cobertura previa.** Jev ya estaba en `2026-10-02 (a)` y `(f)`. «Coste por tarea completada» ya está hecho en Empreinte (EM-RT-1). El manual menciona «Agentic RAG» 7 veces y «obsoleto/stale» 23, y «modelo de decisión» solo una (búsqueda de texto, sin leer el contexto).
+
+**Relevancia.**
+- *Manual (baja-media):* CI-AR-1, ver cabecera. Lo nuevo frente a lo que ya cubre es la separación entre fundamentada y correcta, y la autorización antes del modelo.
+- *HyperRAG (baja-media):* HR-AR-1.
+- *Empreinte:* refuerzo de EM-RT-1; nada nuevo.
+- *Auditra:* no se detalla aquí. *Corpus:* nada.
+
+**Veredicto: Integrar, en pequeño** (RAG); **Observar** (modelos de decisión: mercantilización, sin primarios). `[Manual: CI-AR-1]` `[Empreinte: nada nuevo]` `[HyperRAG: HR-AR-1]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+
+### 2026-11-07 (b) — NCM (*Next-Concept Modeling*, Stanford Hazy Research y Together AI, arXiv 2610.14162, 9/10/2026) y Flint (Recursive, 21/10/2026): dos posts y búsqueda de los primarios
+
+**Fuente.** Dos posts de LinkedIn recibidos (el de NCM, de Zaher Abou Shakra, 23/10/2026; el de Flint, anuncio breve). Primarios **no leídos**: de NCM solo extractos del arXiv, del repositorio `HazyResearch/ncm` y resúmenes de prensa y blogs; de Flint extractos de la documentación de SGLang, de la tarjeta de Hugging Face citada por terceros y reseñas.
+
+**NCM.** Dos etapas: un VQ-VAE residual multiescala codifica el texto en una jerarquía de códigos discretos, y un transformer genera nivel a nivel, grueso a fino, con todos los códigos de un nivel en paralelo. Ejemplo del paper citado por el post: 128 llamadas al generador en el modelo de difusión base frente a 12. Un resumen cifra unas 11 veces menos evaluaciones y unas 21 más de velocidad en LM1B, y otro, 10–31 veces según la tarea; los resultados de Sudoku (99,5 % en fáciles) y que en traducción el modelo autorregresivo siga ganando a este tamaño vienen de resúmenes secundarios. El mayor modelo probado tiene 725 M de parámetros. **El post es de los pocos fiables del lote:** comparativa frente a difusión, no frente a LLM de frontera, y dice que no está replicado. Un resumen añade que cada nivel se puede decodificar a texto, lo que lo hace más inspeccionable que el razonamiento latente (no verificado en el paper).
+
+**Flint.** Modelo de código de Recursive, 40 B parámetros con unos 2,5 B activos (mezcla de expertos), 262.144 tokens de contexto, Apache 2.0, publicado el 21/10/2026; en Ollama desde la 0.40.8. El post dice más de 125 tok/s en un M4 Pro con contextos cortos; una prueba independiente (una sola fuente) midió 40–60 tok/s en tareas agénticas y unos 9 con unos 115.000 tokens de contexto. Una reseña indica que queda por detrás de Qwen 3.8 27B denso en la mayoría de las pruebas agénticas de su propia gráfica, y la documentación aconseja dividir las tareas. El Terminal-Bench de Recursive cuenta como fallo las soluciones halladas por recuperación web.
+
+**Relevancia.**
+- *Manual (baja):* CI-NC-1, esperando réplica o API. Flint: nada.
+- *Empreinte (baja):* EM-FL-1. *HyperRAG:* nada (es un modelo de código, no un candidato de RAG). *Auditra:* no se detalla aquí. *Corpus:* nada.
+
+**Veredicto: Observar** (ambos). `[Manual: CI-NC-1]` `[Empreinte: EM-FL-1]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+
+### 2026-11-07 (c) — Lalou, «The Boringly Simple Loop Powering Generative AI Applications» (resumen de una charla de Sebastian Wallkötter, PyData Global 2025; 22/10/2026) y post «Stop writing better prompts. Start building better loops» (autor no identificado, a partir de un vídeo de Martin Keen, IBM)
+
+**Fuente.** Dos textos recibidos pegados. El primero es un resumen de segunda mano de una charla (no se vio). El segundo atribuye a Keen una idea cuyo vídeo no se ha visto; **no verificada la atribución**.
+
+**Qué dicen.** Lalou: toda aplicación generativa es un par de bucles anidados, el de turno (acumula el historial) y el de traza (llama al modelo, ejecuta herramientas y repite hasta que no pide más). Según haya o no cada bucle: completion, chat, agente clásico o copiloto; los agentes con inicio y fin se pueden envolver como herramientas (supervisor, reflexión). Ingeniería de contexto: una ventana estática grande tolera mucho, y cuando falla aparecen cuatro modos silenciosos (sobrecarga, envenenamiento, datos inútiles, inconsistencia) que se resuelven con carga perezosa; RAG, skills, subagentes y memoria son estrategias de carga perezosa. El post: sustituir al humano que reescribe el prompt por un sistema con meta verificable, disparador, un fichero donde el agente anota lo intentado, y un verificador distinto del constructor; **deuda de intención**: el agente relaja una validación para que pasen los tests y nadie anotó el porqué.
+
+**Cobertura por búsqueda de texto (`index.html`, v142).** «Bucle de traza», «trace loop» y «bucle externo» no aparecen; «deuda de intención» tampoco; «ingeniería de contexto» aparece 2 veces. No se comprobó cómo explica el manual el bucle agéntico con otras palabras. Los cuatro fallos de contexto parecen una reetiquetación de una taxonomía conocida (envenenamiento, distracción, confusión, conflicto), **a falta de comprobar el primario**. El verificador distinto del constructor ya se registró desde otro ángulo en `2026-10-12 (c)`.
+
+**Relevancia.**
+- *Manual (baja-media):* CI-LP-1, ver cabecera; el aprovechable es la taxonomía por bucles y, si falta, nombrar los fallos de contexto con su fuente original.
+- *Empreinte, HyperRAG:* nada. *Auditra:* no se detalla aquí. *Corpus:* nada.
+
+**Veredicto: Integrar, en pequeño** (condicionado a comprobar la cobertura real del manual). `[Manual: CI-LP-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: no se detalla aquí]` `[Corpus: nada]`
+
+### 2026-11-07 (d) — Post sobre el informe de METR en el incidente OpenAI/Hugging Face: cotejo de la cifra de 70.000 mensajes
+
+**Veredicto: Descartar como fuente nueva; cierra una salvedad del manual.** `[Manual: CI-HF-1, una frase, no hecho]` `[Empreinte, HyperRAG, Auditra, corpus: nada]`
+
+El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de OpenAI cotejados (cifras, causa por tareas imposibles, reward hacking, manipulación de transcripciones dirigida al evaluador). El post recibido coincide con eso. Lo único que aporta es el cotejo: §10.10.4 dice que las cifras de 1.200 agentes, 70.000 mensajes y 700 atacantes no figuran en el informe de OpenAI y que la de 70.000 «no se ha vuelto a cotejar». El blog de METR («Brief independent investigation…», 26/08/2026) dice más de 70.000 mensajes y archivos en el periodo investigado, unos 1.200 agentes y unos 700 en el ataque, y que un volcado de 1,2 millones de entradas del espacio de nombres de Artifactory usado como tablón se desglosaba en más de 70.000 mensajes y archivos distintos (visto en extractos de búsqueda, no la página entera ni el informe de 37 páginas). Hay que decir «mensajes y archivos», no solo «mensajes». No se pudieron confirmar el reparto 90/10 con «GPT-5.6 Sol», las «más de 100 organizaciones notificadas» ni el caso del wiki alemán que citaba el post: no citar.
