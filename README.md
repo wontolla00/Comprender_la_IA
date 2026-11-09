@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v142** (octubre 2026)
+Manual de formación técnica y conceptual · versión actual: **v143** (noviembre 2026)
 
 ---
 
@@ -114,6 +114,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 |---|---|
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
+| **v143** | §10.10.4: la cifra de 70.000 del incidente OpenAI/Hugging Face cuenta mensajes y archivos (cotejo con METR/Redwood). |
 | **v141** | §5.7d: CUDA Graphs, TPOT, goodput, chunked prefill y caché KV cuantizada. |
 | **v139** | Cap. 22: licencias y precios de voz contrastados con fuentes oficiales; Sora 2 discontinuado. |
 | **v138** | §21.11: AIPD frente a evaluación de derechos fundamentales (art. 27 AI Act); Shida y art. 50 verificados. |
