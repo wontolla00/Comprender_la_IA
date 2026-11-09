@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v144** (noviembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v145** (noviembre 2026)
 
 ---
 
@@ -114,6 +114,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 |---|---|
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
+| **v145** | §13.15.4: un control en un gancho debe decidir de antemano si falla cerrado o abierto (Microsoft Learn, Claude Code, Agent SDK). |
 | **v144** | §5.7c y §0.4: BitNet (entrenar en ternario no es cuantizar después) y ejemplo «demo sintética vs. modelo entrenado». |
 | **v143** | §10.10.4: la cifra de 70.000 del incidente OpenAI/Hugging Face cuenta mensajes y archivos (cotejo con METR/Redwood). |
 | **v141** | §5.7d: CUDA Graphs, TPOT, goodput, chunked prefill y caché KV cuantizada. |

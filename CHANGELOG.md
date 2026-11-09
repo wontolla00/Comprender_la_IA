@@ -2,6 +2,11 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v145 — 9 noviembre 2026 · §13.15.4: ganchos, fallo cerrado o abierto
+
+- **§13.15.4, recuadro «Matiz (2026-11)»** (`id="s13154-ganchos-2026-11"`): un control en un gancho debe decidir de antemano si falla cerrado o abierto. Microsoft Learn «Hooks (GitHub Copilot)» (vista previa, 29/09/2026) y la documentación de Claude Code y del Agent SDK, leídas íntegras: valor por defecto abierto, interruptor `onFailure: block` / `on_failure="block"` donde existe, permisos para prohibiciones sin excepción. No se generaliza a otras plataformas.
+- Origen: CI-HK-1 del Triaje. Versión v144 → v145; copia de la v144 en `archivo/`.
+
 ## v144 — 9 noviembre 2026 · §5.7c y §0.4: BitNet, entrenar en ternario no es cuantizar después
 
 - **§5.7c, recuadro «Matiz (2026-11)»** (`id="s57c-bitnet-2026-11"`): BitNet b1.58 se entrena en ternario desde el principio, a diferencia de la cuantización post-entrenamiento; único modelo entrenado a escala con informe: 2B4T (2,4 mil millones de parámetros, 4 billones de tokens, arXiv 2504.12285); las cifras de eficiencia son de los autores y la energía del 2B4T es estimada. Se trata como línea a observar.

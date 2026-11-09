@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v144</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v145</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v144 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v145 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -24790,6 +24790,7 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
     Mide lo que el receptor recibe, no lo que el emisor produjo — un log de "contenido preparado: N caracteres" no certifica que esos caracteres llegaran al contexto real de quien los necesitaba; hace falta instrumentar los dos lados y compararlos, no solo el de salida. Y ata cualquier control (una regla, un permiso, una barrera de gobernanza) <strong>a la ruta de escritura o al recurso que protege</strong>, nunca a la identidad de la herramienta que lo invoca — es el mismo principio de §10.10.2/§10.10.3 (tinta y cemento: la restricción vive en lo que el sistema deja hacer, no en la promesa de que un agente concreto se comportará bien), aplicado aquí a por qué un control que vigila un canal de escritura deja de aplicarse en cuanto la escritura se mueve a otro canal que nadie instrumentó.
   </div>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">Referencia cruzada: §10.9.8 (skills y divulgación progresiva — el riesgo de fallo de carga silencioso que esta sección documenta no estaba señalado ahí) y §10.10.2/§10.10.3 (identidad de agente e implementación de referencia "tinta y cemento").</p>
+<div class="nota" id="s13154-ganchos-2026-11"><strong>🔎 Matiz (2026-11) · Un control en un gancho: decide de antemano si falla cerrado o abierto</strong> Un gancho (<em>hook</em>) ejecuta código tuyo en un punto fijo del ciclo del agente, por ejemplo antes de cada llamada a una herramienta. Es determinista, pero eso no dice qué pasa cuando el propio gancho falla. Dos documentaciones leídas en noviembre de 2026 coinciden en el valor por defecto: <strong>falla abierto</strong>, es decir, la acción sigue adelante. Microsoft Learn («Hooks (GitHub Copilot)», vista previa, fecha 29/09/2026) dice que los ganchos no detienen al agente cuando fallan y desaconseja usar un gancho como única salvaguarda de una regla crítica de negocio; no declara un tiempo límite ni un interruptor de fallo cerrado. En la documentación de Claude Code, un gancho previo a la herramienta que agota su tiempo no bloquea, un código de salida 1 tampoco (solo el 2 bloquea) y existe una opción «onFailure: block» para ganchos de tipo comando o HTTP. En el Agent SDK de Claude, un callback que agota su tiempo bloquea la llamada, pero uno que lanza una excepción o devuelve una salida inválida la deja pasar salvo que se active <code>on_failure="block"</code>. Criterio práctico: antes de poner un control en un gancho, (1) comprueba qué hace tu plataforma cuando el gancho falla, (2) activa el fallo cerrado si existe el interruptor y la regla lo exige, y (3) para una prohibición que no admita excepciones, usa los permisos de la plataforma en lugar de un gancho, que es lo que recomienda la propia documentación de Claude Code. Esto describe esas dos plataformas en esa fecha; no se generaliza a otras, y las funciones de Microsoft están en vista previa.</div>
 <h2 id="s1316" data-nivel="profundidad">13.16 Fiabilidad de agente: cuando el éxito medio esconde el fallo real</h2>
 <div class="callout">
 <strong>🧵 Por qué te importa esto</strong>
@@ -29666,7 +29667,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v144).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v145).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
