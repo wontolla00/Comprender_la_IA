@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v143</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v144</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v143 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v144 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -5576,6 +5576,7 @@ renderCrit(); showCrit(crits[0]);
 <strong>🧪 La falsa fluidez también es visual</strong>
   El fenómeno no se limita al texto generado. Un caso real: una infografía viral sobre optimización de inferencia — diseño profesional, iconos limpios, metáforas memorables — contenía un panel duplicado, una descripción de Grouped Query Attention reducida a texto sin sentido ("Shrink. == 8 pair.") y presentaba la cuantización como un salto de 32 bits a 8, cuando la inferencia en producción parte de 16 (§5.7c). La fluidez visual produce la misma <em>deuda cognitiva</em> que la fluidez textual: el lector, seducido por el acabado, relaja la vigilancia. Regla práctica: el nivel de acabado gráfico de una fuente no correlaciona con su precisión técnica — verifica los números contra fuentes primarias antes de citarlos, exactamente igual que harías con la salida de un LLM.
 </div>
+<div class="nota" id="s04-demo-sintetica-2026-11"><strong>🔎 Matiz (2026-11) · Ejemplo: una demo sintética no es un modelo entrenado</strong> Se citan a menudo cifras de «un modelo de 100 mil millones de parámetros ejecutándose en una CPU a 5–7 tokens por segundo» (BitNet). Esa cifra sale de pruebas de velocidad con configuraciones sintéticas, es decir, con pesos que no proceden de ningún entrenamiento («dummy setups», apéndice A de arXiv 2410.16144; también en el README de bitnet.cpp): sirven para medir cuánto tarda el motor, no para decir qué calidad tendría un modelo así. Un modelo entrenado de ese tamaño con esa técnica no se ha publicado; el entrenado más grande es de 2,4 mil millones. Al verificar una cifra, pregunta qué se midió (velocidad del motor o calidad del modelo) y con qué pesos.</div>
 <h3 id="s045">0.4.5 La temperatura y la bifurcación crítica</h3>
 <p>Incluso con temperatura = 0, las <span class="gt">alucinaciones<span class="tt">Generación de texto gramaticalmente correcto y semánticamente fluido pero fácticamente falso. No implica intención engañosa: es consecuencia estructural del modelo probabilístico.</span></span> pueden persistir por el fenómeno de bifurcación crítica: el modelo llega a un punto donde dos <span class="gt">tokens<span class="tt">Unidad básica de texto para un modelo de lenguaje. Puede ser una palabra completa, una subpalabra, un carácter o un signo de puntuación.</span></span> tienen probabilidades muy cercanas (ej: 0.481 vs 0.479). Una micro-variación numérica decide cuál se selecciona. A partir de ahí, el <span class="gt">Transformer<span class="tt">Arquitectura de red neuronal basada en el mecanismo de atención (Vaswani et al., 2017). Fundamento de todos los LLM modernos.</span></span> genera la respuesta manteniendo coherencia interna con esa elección inicial —aunque sea errónea. El error se autoperpetúa hasta el final de la respuesta.</p>
 <h3 id="s046">0.4.6 ¿Es posible eliminar las alucinaciones? Análisis profundo</h3>
@@ -13376,6 +13377,7 @@ Costo de inferencia: una vez entrenado, el modelo ajustado consume los mismos re
 <strong>⚠ La regla práctica de cuantización</strong><br/>
   Para uso en producción local, <strong>Q4_K_M es el punto de equilibrio recomendado</strong>: la pérdida de calidad es imperceptible en la mayoría de tareas, y el ahorro de memoria es ~3.5× respecto a bf16. Por debajo de Q4 (Q3, Q2), la degradación se vuelve perceptible en tareas de razonamiento y matemáticas. Por encima de Q5/Q6, el ahorro adicional es marginal respecto a la pérdida de calidad casi nula.
 </div>
+<div class="nota" id="s57c-bitnet-2026-11"><strong>🔎 Matiz (2026-11) · BitNet: entrenar en ternario no es cuantizar después</strong> Todo lo de esta sección es cuantización <em>post-entrenamiento</em>: el modelo se entrena en alta precisión y se reduce después. BitNet b1.58 es otra cosa: el modelo se entrena desde el principio con pesos ternarios (−1, 0, +1; unos 1,58 bits por peso). El único modelo entrenado así a escala con informe técnico es BitNet b1.58 2B4T (Microsoft; 2,4 mil millones de parámetros, 4 billones de tokens; arXiv 2504.12285). Las cifras de memoria, velocidad y energía son de los propios autores, no de una réplica independiente, y en el 2B4T la energía es una estimación. De un modelo de ese tamaño no se deduce cómo se comportaría uno de cientos de miles de millones de parámetros. Mientras no haya réplica independiente ni modelos mayores entrenados, se trata como línea a observar, no como alternativa de producción.</div>
 <h3 id="s57c2b">5.7c.2b El mecanismo común: el problema de los outliers</h3>
 <p>La tabla anterior compara GPTQ/AWQ/bitsandbytes como productos — qué son, dónde se usan, qué calidad dan. Lo que no explica es <strong>por qué</strong> dan resultados distintos entre sí, y esa razón es la misma en los cinco métodos que existen para resolverlo: en un modelo entrenado a escala, aproximadamente el <strong>0,1% de las dimensiones ocultas concentra valores hasta 20 veces mayores</strong> que el resto de la matriz de pesos — un hallazgo bien documentado en la literatura de cuantización (Dettmers et al.). Redondear esas dimensiones a la misma rejilla de 4 bits que el resto rompe la precisión de <em>todo</em> el tensor, no solo de esas posiciones: el rango que la rejilla tiene que cubrir lo fija el valor más extremo.</p>
 <p>Los cinco métodos que vas a encontrarte se diferencian únicamente en <strong>en qué punto del pipeline resuelven ese problema</strong>:</p>
@@ -29664,7 +29666,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v143).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v144).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>

@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v144 — 9 noviembre 2026 · §5.7c y §0.4: BitNet, entrenar en ternario no es cuantizar después
+
+- **§5.7c, recuadro «Matiz (2026-11)»** (`id="s57c-bitnet-2026-11"`): BitNet b1.58 se entrena en ternario desde el principio, a diferencia de la cuantización post-entrenamiento; único modelo entrenado a escala con informe: 2B4T (2,4 mil millones de parámetros, 4 billones de tokens, arXiv 2504.12285); las cifras de eficiencia son de los autores y la energía del 2B4T es estimada. Se trata como línea a observar.
+- **§0.4, recuadro «Matiz (2026-11)»** (`id="s04-demo-sintetica-2026-11"`): ejemplo de verificación de cifras: los «100B a 5–7 tok/s» son pruebas de velocidad con pesos sintéticos (arXiv 2410.16144, apéndice A; README de bitnet.cpp), no un modelo entrenado.
+- No se afirma la ventana de contexto de 4.096 del 2B4T: figura solo en el README y no en los artículos.
+- Origen: CI-BN-1 y CI-BN-2 del Triaje (lectura de arXiv 2504.12285, 2502.11880 y 2410.16144). Versión v143 → v144; copia de la v143 en `archivo/`.
+
 ## v143 — 9 noviembre 2026 · §10.10.4: cotejo de la cifra de 70.000
 
 - **§10.10.4:** la salvedad «la de 70.000 mensajes no se ha vuelto a cotejar» se sustituye por el cotejo con el blog de METR/Redwood (26/08/2026): unos 1.200 agentes, unos 700 en el ataque y más de 70.000 mensajes y archivos distintos; se aclara que la cifra cuenta mensajes y archivos. Leído en extractos de búsqueda, no el informe íntegro (se dice en el texto).
