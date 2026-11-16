@@ -18,7 +18,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (entrada `(f)` Neo4j registrada como Observar y CI-ON-1 abierto tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
@@ -31,8 +31,8 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 **NUEVO 2026-11-16 (d) (entrada `2026-11-16 (d)`; CI-MX-1 hecho en v150).**
 - [x] **CI-MX-1 · manual, §5.7b.3 (baja):** la «especialización emergente» de los expertos pasa de ventaja a cautela con el primario (Mixtral, §5). **HECHO en v150 2026-11-16; ver `taller/Registro_manual_v149_a_v150.md`.**
 
-**NUEVO 2026-11-16 (f) (entrada `2026-11-16 (f)`; nada tocado en `index.html`).**
-- [ ] **CI-ON-1 · manual, §2.5 o §6.5b (baja-media):** una caja «caso con fecha» que compare Neo4j (formato abierto), Databricks Genie Ontology, Microsoft Fabric IQ y Palantir Foundry en barrera de entrada, mantenimiento, qué se hace cumplir de verdad y portabilidad. Investigación hecha el 16/11 con documentación de cada plataforma (ver entrada `(f)`). Sin decidir.
+**NUEVO 2026-11-16 (f) (entrada `2026-11-16 (f)`; CI-ON-1 hecho en v154).**
+- [x] **CI-ON-1 · manual, §2.5 o §6.5b (baja-media):** una caja «caso con fecha» que compare Neo4j (formato abierto), Databricks Genie Ontology, Microsoft Fabric IQ y Palantir Foundry en barrera de entrada, mantenimiento, qué se hace cumplir de verdad y portabilidad. Investigación hecha el 16/11 con documentación de cada plataforma (ver entrada `(f)`). **HECHO en v154 2026-11-16 (§2.5.5.4); ver `taller/Registro_manual_v153_a_v154.md`.**
 
 **NUEVO 2026-11-16 (e) (entrada `2026-11-16 (e)`; CI-RK-1 hecho en v153).**
 - [x] **CI-RK-1 · manual, §6.3 (baja):** explicar por qué hay dos etapas (el cross-encoder no se puede precomputar; el coste crece con los candidatos), advertir de que la sigmoide de un logit no lo calibra y marcar como orientativas las cifras de «ganancia típica», que no tienen fuente. **HECHO en v153 2026-11-16; ver `taller/Registro_manual_v152_a_v153.md`.**
@@ -3432,3 +3432,5 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 - *Neo4j:* ver arriba.
 
 **Lectura.** Las cuatro son capas de producto dentro de una plataforma, no el formalismo compartido de la Web Semántica: la interoperabilidad entre proveedores es lo más débil (formato abierto en Neo4j, importación de RDF/OWL en Fabric). Es lectura mía; ninguna fuente aporta pruebas independientes de mejora de precisión ni de coste de mantenimiento.
+
+**Aplicado.** v154: nota «caso con fecha» en §2.5.5.4 (CI-ON-1, hecho). Antes de escribirla se releyó el anuncio de disponibilidad general de Databricks (11/11/2026): lo disponible es Genie Ontology y los fragmentos; el gestor de ontología sigue «próximamente en beta», y no se describe aprobación humana previa al uso de lo aprendido.

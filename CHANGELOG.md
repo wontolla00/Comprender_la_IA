@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v154 — 16 noviembre 2026 · §2.5.5.4: cuatro «ontologías» de plataforma
+
+- Nota «caso con fecha» al final de §2.5.5.4: Databricks Genie Ontology (disponible de forma general desde el 11/11/2026, con el gestor de ontología aún «próximamente en beta»), Microsoft Fabric IQ (ontología en vista previa; importa RDF/OWL), Palantir Foundry (objetos, vínculos y acciones) y Neo4j Ontology Graph Specification (formato abierto, sin versiones publicadas). Enlaces a la documentación de cada una.
+- Lectura: salvo la importación RDF/OWL de Fabric y el formato abierto de Neo4j, son modelos locales con vocabulario de ontología (tabla de §2.5.5.5). Cautelas: fuentes de los propios proveedores, cifra de precisión de Databricks de una prueba propia en un espacio simulado, y nadie documenta el coste de mantenimiento.
+- Enlace con §6.13.4: Databricks usa el conocimiento aprendido antes de promoverlo.
+- Origen: entrada `2026-11-16 (f)` del Triaje (post de Neo4j), CI-ON-1. Versión v153 → v154; copia de la v153 en `archivo/`.
+
 ## v153 — 16 noviembre 2026 · §6.3: por qué hay dos etapas y qué cuesta la segunda
 
 - Nota nueva tras la tabla de §6.3: el bi-encoder precomputa vectores y el cross-encoder no puede (lee consulta y documento juntos), de ahí el embudo y un coste aproximadamente lineal con el número de candidatos. Extrapolación con la cifra propia del manual (BGE-v2-m3, ~500 ms por 20 documentos en CPU → ~2,5 s para 100), marcada como no medida.

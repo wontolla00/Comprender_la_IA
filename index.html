@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v153</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v154</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v153 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v154 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9421,6 +9421,14 @@ window.addEventListener('resize', () =&gt; {
 </tbody>
 </table>
 <p>La tercera fila merece énfasis porque es el argumento cuantitativo que suele faltar en las críticas al formalismo. Con dos sistemas, un mapeo directo es más barato que un vocabulario compartido. Con ocho sistemas y tres socios externos, veintiocho mapeos bilaterales cuestan más que una ontología mediana — y hay que decirlo cuando se costea la alternativa simple, porque si no la comparación está trucada.</p>
+<div class="nota" id="s2554-plataformas-2026-11"><strong>🔎 Caso con fecha (2026-11, caduca rápido) · Cuatro «ontologías» de plataforma, y qué formalismo comparten</strong> En noviembre de 2026 coinciden cuatro ofertas que usan la palabra «ontología» para dar contexto a agentes. Ninguna es el formalismo compartido de esta sección: son capas de producto dentro de una plataforma. Estado a 16/11/2026, según la documentación de cada una.
+<ul>
+<li><strong>Databricks Genie Ontology</strong> (<a href="https://www.databricks.com/blog/announcing-ga-genie-ontology" target="_blank" rel="noopener">disponible de forma general desde el 11/11/2026</a>): los agentes aprenden «fragmentos de ontología» a partir de paneles, consultas y cuadernos, y estos heredan los permisos del activo de origen. Las definiciones que deben ser exactas las modelan personas. El gestor que permitirá a los responsables promover lo aprendido a conocimiento autoritativo aún figura como «próximamente en beta».</li>
+<li><strong>Microsoft Fabric IQ</strong> (<a href="https://learn.microsoft.com/en-us/fabric/iq/ontology/overview" target="_blank" rel="noopener">ontología en vista previa</a>): guarda definiciones y su vínculo con los datos; se puede generar con un agente o importar desde RDF/OWL.</li>
+<li><strong>Palantir Foundry</strong> (<a href="https://palantir.com/docs/foundry/ontology/core-concepts/" target="_blank" rel="noopener">conceptos básicos</a>): tipos de objeto, de vínculo y de acción; las acciones son las operaciones controladas que modifican los objetos.</li>
+<li><strong>Neo4j Ontology Graph Specification</strong> (<a href="https://github.com/neo4j/ontology-graph-spec" target="_blank" rel="noopener">repositorio</a>): formato abierto en YAML/JSON con JSON Schema y licencia Apache 2.0. Sin versiones publicadas, y la cardinalidad aún no se aplica en la base de datos.</li>
+</ul>
+Solo cruzan fronteras entre proveedores la importación de RDF/OWL de Fabric y el formato abierto de Neo4j. En los términos de la tabla de <a href="#s2555">§2.5.5.5</a>, el resto son modelos locales con vocabulario de ontología. Dos cautelas: todo sale de documentación y blogs de los propios proveedores (la cifra de precisión que publica Databricks, 91 %, procede de una prueba construida por el proveedor en un espacio de trabajo simulado), y ninguna fuente habla del coste de mantener la ontología al día. Y un enlace con <a href="#ca-puerta-promocion">§6.13.4</a>: Databricks usa el conocimiento aprendido antes de que nadie lo promueva (el blog no describe una aprobación humana previa), es decir, una puerta de promoción que llega después del uso.</div>
 <h3 id="s2555">2.5.5.5 El criterio, en una tabla</h3>
 <table>
 <thead><tr><th></th><th>Formalismo compartido</th><th>Modelo local (esquema, API, contrato, grafo de propiedades)</th></tr></thead>
@@ -31083,7 +31091,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v153).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v154).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -34335,6 +34343,7 @@ faithfulness = vec_coherence - 0.15
 #memo-phase-build strong{color:#fff}
 #w-numctx th{color:#cbd5e1 !important}
 
+body:not(.dark) #s2554-plataformas-2026-11 strong,body:not(.dark) #s63-mecanismo-2026-11 strong,body:not(.dark) #s32-obsoleta-2026-11 strong,body:not(.dark) #s6137-atribucion strong{color:#92400e;}
 body.dark .nota a{color:#8ec5ff;}
 body.dark .nota a:visited{color:#c4b5fd;}
 body.dark #s57b3 + div a{color:#8ec5ff;}
