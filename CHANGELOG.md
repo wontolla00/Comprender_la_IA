@@ -2,6 +2,11 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v147 — 16 noviembre 2026 · §9.8: widget interactivo del RAG agéntico con bucle
+
+- **§9.8, «Combinación 3: RAG agéntico»:** el `.pipeline` lineal de seis cajas (que no mostraba el bucle) se sustituye por un widget interactivo (`id="ragag14"`): 8 nodos, bucle de reformulación, tres escenarios (fácil, difícil, sin respuesta con abstención), máximo de iteraciones configurable, contadores de llamadas y coste relativo ilustrativo, y comparación con el RAG lineal. Datos ficticios, etiquetados como ejemplo ilustrativo.
+- Origen: figura propuesta en la comparación de gráficos externos del 2026-11-16; candidatos generados por seis LLM, elegido el de Gemini y corregido (contraste de `<strong>` en tema claro, etiqueta del bucle, nodo 8). Fuente en `taller/widget_ragag14_fuente.html`. Versión v146 → v147; copia de la v146 en `archivo/`.
+
 ## v146 — 16 noviembre 2026 · Contraste en tema claro de los widgets oscuros
 
 - **Corrección de legibilidad, sin cambio de contenido.** En tema claro, los widgets de tarjeta oscura (§1.2 ETL↔RAG, §3.4 diagnóstico de métricas, §6.13.2 tipos de memoria, tablas de herramientas, y los widgets `arb10`, `err13`, `act16`, `mm22`) heredaban de las reglas globales (h4, strong, td, .nota) un texto oscuro sobre fondo oscuro. Se añade un bloque `<style id="fix-contraste-widgets-oscuros">` al final del documento que fuerza el color a las variables propias de cada widget. También se aclaran los grises de `#rag-mec-es`, la cabecera de `#w-numctx` y los títulos de `#memo-phase-build`.

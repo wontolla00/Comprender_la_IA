@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v146</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v147</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v146 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v147 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -19672,18 +19672,1190 @@ evaluar_cambio_prompt(score_actual, score_nuevo)</pre>
   </div>
 <h3>Combinación 3: RAG agentico (Agentic RAG)</h3>
 <p>La variante más importante en adopción real durante 2025. En lugar de un único paso de retrieval, un agente (a menudo alimentado por un modelo de razonamiento) gestiona el retrieval de forma iterativa:</p>
-<div class="pipeline">
-<div class="pipe-step"><span class="pi">❓</span><div class="pl">Pregunta inicial</div></div>
-<div class="pipe-arrow">→</div>
-<div class="pipe-step hi"><span class="pi">🤖</span><div class="pl">Agente analiza</div><div class="ps">¿Qué necesito recuperar?</div></div>
-<div class="pipe-arrow">→</div>
-<div class="pipe-step"><span class="pi">🔍</span><div class="pl">Retrieval 1</div><div class="ps">Sub-pregunta 1</div></div>
-<div class="pipe-arrow">→</div>
-<div class="pipe-step hi"><span class="pi">🤖</span><div class="pl">Agente evalúa</div><div class="ps">¿Es suficiente? ¿Qué falta?</div></div>
-<div class="pipe-arrow">→</div>
-<div class="pipe-step"><span class="pi">🔍</span><div class="pl">Retrieval 2</div><div class="ps">Sub-pregunta 2</div></div>
-<div class="pipe-arrow">→</div>
-<div class="pipe-step hi"><span class="pi">🤖</span><div class="pl">Síntesis final</div></div>
+<p style="font-size:.9rem;color:var(--muted);">Recorre los tres escenarios paso a paso: observa qué decide el agente en cada nodo, cuándo el bucle vuelve a recuperar y cuándo se abstiene.</p>
+<div id="ragag14">
+  <style>
+    #ragag14 {
+      --bg: #0e1a2b;
+      --card: #13253a;
+      --line: #1e3350;
+      --txt: #e8f0f8;
+      --mut: #9fb3c8;
+      --ok: #7ee2a8;
+      --bad: #ff5d5d;
+      --acc: #4cc9f0;
+      --warn: #ff9e4a;
+      font: 15px/1.5 system-ui, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px;
+      max-width: 1060px;
+      margin: 24px auto;
+      box-sizing: border-box;
+    }
+    #ragag14 *, #ragag14 *::before, #ragag14 *::after {
+      box-sizing: border-box;
+    }
+    #ragag14 .rag-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    #ragag14 .rag-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--txt);
+    }
+    #ragag14 .rag-sub {
+      margin: 4px 0 0 0;
+      font-size: 0.9rem;
+      color: var(--mut);
+    }
+    #ragag14 .rag-badge {
+      font-size: 0.78rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--mut);
+    }
+    #ragag14 .rag-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+    #ragag14 .rag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    #ragag14 .rag-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--mut);
+      margin-right: 4px;
+    }
+    #ragag14 button {
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--txt);
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+    #ragag14 button:hover:not(:disabled) {
+      border-color: var(--acc);
+      background: #172b44;
+    }
+    #ragag14 button:focus-visible {
+      outline: 2px solid var(--acc);
+      outline-offset: 2px;
+    }
+    #ragag14 button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    #ragag14 button[aria-pressed="true"] {
+      background: #173654;
+      border-color: var(--acc);
+      color: var(--acc);
+    }
+    #ragag14 .rag-btn-primary {
+      background: #143856;
+      border-color: var(--acc);
+      color: var(--txt);
+    }
+    #ragag14 select {
+      font: inherit;
+      font-size: 0.88rem;
+      padding: 5px 8px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--txt);
+    }
+    #ragag14 select:focus-visible {
+      outline: 2px solid var(--acc);
+      outline-offset: 2px;
+    }
+    #ragag14 .rag-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    #ragag14 .rag-metric-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 10px 14px;
+    }
+    #ragag14 .rag-metric-lbl {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--mut);
+    }
+    #ragag14 .rag-metric-val {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin-top: 2px;
+    }
+    #ragag14 .rag-metric-note {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--mut);
+      margin-top: 2px;
+    }
+    #ragag14 .rag-diagram-wrap {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    #ragag14 svg {
+      display: block;
+      width: 100%;
+      min-width: 720px;
+      height: auto;
+    }
+    #ragag14 .node-rect {
+      fill: var(--bg);
+      stroke: var(--line);
+      stroke-width: 2;
+      transition: stroke 0.2s, fill 0.2s;
+    }
+    #ragag14 .node-active .node-rect {
+      stroke: var(--acc);
+      stroke-width: 3;
+      fill: #15314d;
+    }
+    #ragag14 .node-loop .node-rect {
+      stroke: var(--warn);
+      stroke-width: 3;
+      fill: #2d231a;
+    }
+    #ragag14 .node-ok .node-rect {
+      stroke: var(--ok);
+      stroke-width: 3;
+      fill: #133129;
+    }
+    #ragag14 .node-bad .node-rect {
+      stroke: var(--bad);
+      stroke-width: 3;
+      fill: #331922;
+    }
+    #ragag14 .edge-path {
+      fill: none;
+      stroke: #3b587c;
+      stroke-width: 2;
+    }
+    #ragag14 .edge-loop {
+      fill: none;
+      stroke: var(--warn);
+      stroke-width: 2.2;
+      stroke-dasharray: 6 4;
+    }
+    #ragag14 .edge-active {
+      stroke: var(--acc);
+      stroke-width: 3;
+    }
+    #ragag14 .edge-loop-active {
+      stroke: var(--warn);
+      stroke-width: 3.5;
+      stroke-dasharray: none;
+    }
+    #ragag14 .svg-txt {
+      fill: var(--txt);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+    }
+    #ragag14 .svg-sub {
+      fill: var(--mut);
+      font-size: 12px;
+      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+    }
+    #ragag14 .svg-warn {
+      fill: var(--warn);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+    }
+    #ragag14 .rag-panels {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    #ragag14 .rag-panels.two-cols {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    #ragag14 .rag-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    #ragag14 .rag-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    #ragag14 .rag-panel-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--txt);
+    }
+    #ragag14 .rag-step-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--acc);
+    }
+    #ragag14 .rag-field {
+      margin-bottom: 10px;
+    }
+    #ragag14 .rag-field:last-child {
+      margin-bottom: 0;
+    }
+    #ragag14 .rag-field-lbl {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--mut);
+      margin-bottom: 3px;
+    }
+    #ragag14 .rag-field-val {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--txt);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    #ragag14 .rag-verdict-ok {
+      border-color: var(--ok);
+      color: var(--ok);
+      font-weight: 600;
+    }
+    #ragag14 .rag-verdict-warn {
+      border-color: var(--warn);
+      color: var(--warn);
+      font-weight: 600;
+    }
+    #ragag14 .rag-verdict-bad {
+      border-color: var(--bad);
+      color: var(--bad);
+      font-weight: 600;
+    }
+    #ragag14 .rag-exit-bar {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+      font-size: 0.84rem;
+      color: var(--mut);
+    }
+    #ragag14 .rag-exit-bar strong {
+      color: var(--txt);
+    }
+    #ragag14 .rag-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+    #ragag14 .rag-guide-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    #ragag14 .rag-guide-title {
+      margin: 0 0 8px 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--txt);
+    }
+    #ragag14 .rag-guide-title.use-ok {
+      color: var(--ok);
+    }
+    #ragag14 .rag-guide-title.use-no {
+      color: var(--warn);
+    }
+    #ragag14 .rag-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--txt);
+      font-size: 0.88rem;
+    }
+    #ragag14 .rag-list li {
+      margin-bottom: 5px;
+      color: var(--txt);
+    }
+    #ragag14 .rag-list li:last-child {
+      margin-bottom: 0;
+    }
+    #ragag14 :is(h3,h4,strong,li){color:var(--txt)}
+    #ragag14 :is(h3,h4){font-style:normal;font-family:inherit;letter-spacing:normal;text-transform:none}
+    #ragag14 .rag-guide-title.use-ok{color:var(--ok)}
+    #ragag14 .rag-guide-title.use-no{color:var(--warn)}
+    #ragag14 .rag-hidden {
+      display: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #ragag14 .node-rect,
+      #ragag14 button {
+        transition: none;
+      }
+    }
+  </style>
+
+  <div class="rag-head">
+    <div>
+      <h3 class="rag-title">RAG agéntico con bucle de control</h3>
+      <p class="rag-sub">De un pipeline lineal (ETL clásico de una pasada) a un flujo con evaluación, reformulación y criterios de parada.</p>
+    </div>
+    <span class="rag-badge">Ejemplo ilustrativo · Datos ficticios</span>
+  </div>
+
+  <div class="rag-toolbar" role="region" aria-label="Controles de simulación">
+    <div class="rag-group">
+      <span class="rag-label">Escenario:</span>
+      <button type="button" class="rag-scen-btn" data-scen="easy" aria-pressed="true">a) Pregunta fácil</button>
+      <button type="button" class="rag-scen-btn" data-scen="hard" aria-pressed="false">b) Pregunta difícil</button>
+      <button type="button" class="rag-scen-btn" data-scen="unanswerable" aria-pressed="false">c) Sin respuesta</button>
+    </div>
+
+    <div class="rag-group">
+      <label class="rag-label" for="ragag14-maxiter">Máx. iteraciones:</label>
+      <select id="ragag14-maxiter">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+
+    <div class="rag-group">
+      <button type="button" id="ragag14-step" class="rag-btn-primary">▶ Paso siguiente</button>
+      <button type="button" id="ragag14-play">⏵ Reproducir</button>
+      <button type="button" id="ragag14-reset">↺ Reiniciar</button>
+      <button type="button" id="ragag14-linear-toggle" aria-pressed="false">Ver RAG lineal</button>
+    </div>
+  </div>
+
+  <div class="rag-metrics">
+    <div class="rag-metric-box">
+      <span class="rag-metric-lbl">Iteración de búsqueda</span>
+      <span class="rag-metric-val" id="ragag14-m-iter">0 / 3</span>
+      <span class="rag-metric-note">Ciclos recuperar → evaluar</span>
+    </div>
+    <div class="rag-metric-box">
+      <span class="rag-metric-lbl">Llamadas al modelo</span>
+      <span class="rag-metric-val" id="ragag14-m-calls">0</span>
+      <span class="rag-metric-note">Enrutado, evaluación, generación</span>
+    </div>
+    <div class="rag-metric-box">
+      <span class="rag-metric-lbl">Coste relativo estimado</span>
+      <span class="rag-metric-val" id="ragag14-m-cost">×0</span>
+      <span class="rag-metric-note">Coste relativo ilustrativo, no medido (RAG lineal = ×1)</span>
+    </div>
+  </div>
+
+  <div class="rag-diagram-wrap">
+    <svg viewBox="0 0 920 275" role="img" aria-label="Diagrama de flujo del RAG agéntico con bucle entre recuperación, evaluación y reformulación">
+      <defs>
+        <marker id="ragag14-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#4cc9f0"></path>
+        </marker>
+        <marker id="ragag14-arr-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b587c"></path>
+        </marker>
+        <marker id="ragag14-arr-warn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#ff9e4a"></path>
+        </marker>
+      </defs>
+
+      <!-- Aristas principales -->
+      <path id="ragag14-e-1-2" class="edge-path" d="M 110 65 L 138 65" marker-end="url(#ragag14-arr-muted)" />
+      <path id="ragag14-e-2-3" class="edge-path" d="M 262 65 L 290 65" marker-end="url(#ragag14-arr-muted)" />
+      <path id="ragag14-e-3-4" class="edge-path" d="M 412 65 L 440 65" marker-end="url(#ragag14-arr-muted)" />
+      <path id="ragag14-e-4-6" class="edge-path" d="M 568 65 L 596 65" marker-end="url(#ragag14-arr-muted)" />
+      <path id="ragag14-e-6-7" class="edge-path" d="M 702 65 L 730 65" marker-end="url(#ragag14-arr-muted)" />
+      <path id="ragag14-e-7-8" class="edge-path" d="M 794 95 L 794 155" marker-end="url(#ragag14-arr-muted)" />
+
+      <!-- Arista de abstención directa desde Evaluar (4 -> 8) -->
+      <path id="ragag14-e-4-8" class="edge-path" d="M 535 95 L 535 235 L 700 235 L 700 190 L 714 190" marker-end="url(#ragag14-arr-muted)" />
+      <text x="545" y="227" class="svg-sub">Límite agotado</text>
+
+      <!-- Bucle de retorno (4 -> 5 -> 3) -->
+      <path id="ragag14-e-4-5" class="edge-loop" d="M 495 95 L 495 165 L 490 165" marker-end="url(#ragag14-arr-warn)" />
+      <path id="ragag14-e-5-3" class="edge-loop" d="M 350 165 L 350 98" marker-end="url(#ragag14-arr-warn)" />
+      <text x="358" y="132" class="svg-warn">↻ Bucle: insuficiente</text>
+
+      <!-- Nodo 1: Pregunta -->
+      <g id="ragag14-n-1" transform="translate(12, 35)">
+        <rect class="node-rect" width="98" height="60" rx="8" />
+        <text x="49" y="25" text-anchor="middle" class="svg-txt">1. Pregunta</text>
+        <text x="49" y="43" text-anchor="middle" class="svg-sub">Entrada usuario</text>
+      </g>
+
+      <!-- Nodo 2: Planificar / Enrutar -->
+      <g id="ragag14-n-2" transform="translate(140, 35)">
+        <rect class="node-rect" width="122" height="60" rx="8" />
+        <text x="61" y="25" text-anchor="middle" class="svg-txt">2. Planificar</text>
+        <text x="61" y="43" text-anchor="middle" class="svg-sub">¿Fuente? ¿Buscar?</text>
+      </g>
+
+      <!-- Nodo 3: Recuperar -->
+      <g id="ragag14-n-3" transform="translate(292, 35)">
+        <rect class="node-rect" width="120" height="60" rx="8" />
+        <text x="60" y="25" text-anchor="middle" class="svg-txt">3. Recuperar</text>
+        <text x="60" y="43" text-anchor="middle" class="svg-sub">Índice / BD / Docs</text>
+      </g>
+
+      <!-- Nodo 4: Evaluar contexto -->
+      <g id="ragag14-n-4" transform="translate(442, 35)">
+        <rect class="node-rect" width="126" height="60" rx="8" />
+        <text x="63" y="25" text-anchor="middle" class="svg-txt">4. Evaluar</text>
+        <text x="63" y="43" text-anchor="middle" class="svg-sub">¿Suficiente?</text>
+      </g>
+
+      <!-- Nodo 5: Reformular (en el retorno del bucle) -->
+      <g id="ragag14-n-5" transform="translate(340, 140)">
+        <rect class="node-rect" width="150" height="56" rx="8" />
+        <text x="75" y="24" text-anchor="middle" class="svg-txt">5. Reformular</text>
+        <text x="75" y="42" text-anchor="middle" class="svg-sub">Nueva consulta/fuente</text>
+      </g>
+
+      <!-- Nodo 6: Generar -->
+      <g id="ragag14-n-6" transform="translate(598, 35)">
+        <rect class="node-rect" width="104" height="60" rx="8" />
+        <text x="52" y="25" text-anchor="middle" class="svg-txt">6. Generar</text>
+        <text x="52" y="43" text-anchor="middle" class="svg-sub">Borrador respuesta</text>
+      </g>
+
+      <!-- Nodo 7: Verificar fundamentación -->
+      <g id="ragag14-n-7" transform="translate(732, 35)">
+        <rect class="node-rect" width="124" height="60" rx="8" />
+        <text x="62" y="25" text-anchor="middle" class="svg-txt">7. Verificar</text>
+        <text x="62" y="43" text-anchor="middle" class="svg-sub">Fundamentación</text>
+      </g>
+
+      <!-- Nodo 8: Responder o abstenerse -->
+      <g id="ragag14-n-8" transform="translate(716, 158)">
+        <rect class="node-rect" width="156" height="62" rx="8" />
+        <text x="78" y="25" text-anchor="middle" class="svg-txt">8. Salida final</text>
+        <text x="78" y="43" text-anchor="middle" class="svg-sub">Responder / Abstener</text>
+      </g>
+    </svg>
+  </div>
+
+  <div id="ragag14-panels-wrap" class="rag-panels">
+    <div class="rag-panel" aria-live="polite">
+      <div class="rag-panel-head">
+        <h4 class="rag-panel-title">Traza del RAG agéntico</h4>
+        <span class="rag-step-tag" id="ragag14-step-tag">Paso 0 · Listo</span>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Pregunta del usuario (ejemplo ilustrativo)</span>
+        <p class="rag-field-val" id="ragag14-p-question"></p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Decisión del agente en este paso</span>
+        <p class="rag-field-val" id="ragag14-p-decision"></p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Consulta y fuente activas</span>
+        <p class="rag-field-val" id="ragag14-p-query"></p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Contexto recuperado (fragmento ficticio)</span>
+        <p class="rag-field-val" id="ragag14-p-context"></p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Veredicto del evaluador / verificador</span>
+        <p class="rag-field-val" id="ragag14-p-verdict"></p>
+      </div>
+
+      <div class="rag-exit-bar">
+        <strong>Condiciones de parada del bucle:</strong> contexto suficiente (✓), límite máximo de iteraciones alcanzado, presupuesto de tokens/tiempo agotado o abstención explícita.
+      </div>
+    </div>
+
+    <div id="ragag14-linear-panel" class="rag-panel rag-hidden">
+      <div class="rag-panel-head">
+        <h4 class="rag-panel-title">Comparativa: RAG lineal (1 sola pasada)</h4>
+        <span class="rag-step-tag">Coste base: ×1</span>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Flujo fijo (sin control ni bucle)</span>
+        <p class="rag-field-val">1. Pregunta → 2. Recuperación única (top-k literal) → 3. Generación directa.</p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Consulta literal enviada al índice</span>
+        <p class="rag-field-val" id="ragag14-lin-query"></p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Contexto recuperado en única pasada</span>
+        <p class="rag-field-val" id="ragag14-lin-context"></p>
+      </div>
+
+      <div class="rag-field">
+        <span class="rag-field-lbl">Resultado del RAG lineal</span>
+        <p class="rag-field-val" id="ragag14-lin-result"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rag-compare-grid">
+    <div class="rag-guide-box">
+      <h4 class="rag-guide-title use-ok">✓ Cuándo usar RAG agéntico con bucle</h4>
+      <ul class="rag-list">
+        <li><strong>Preguntas multi-salto:</strong> la respuesta exige cruzar dos documentos o resolver un término intermedio antes de buscar el dato final.</li>
+        <li><strong>Consultas ambiguas o con jerga interna:</strong> hace falta reescribir acrónimos o ampliar términos si la primera búsqueda devuelve ruido.</li>
+        <li><strong>Múltiples fuentes heterogéneas:</strong> wikis, catálogos de tablas, tickets o SQL requieren enrutamiento dinámico.</li>
+        <li><strong>Alto coste del error:</strong> conviene verificar fundamentación y permitir la abstención antes de responder sin respaldo.</li>
+      </ul>
+    </div>
+    <div class="rag-guide-box">
+      <h4 class="rag-guide-title use-no">✗ Cuándo NO usarlo (preferir RAG lineal)</h4>
+      <ul class="rag-list">
+        <li><strong>Latencia crítica:</strong> interfaces interactivas donde cada llamada extra al modelo degrada la experiencia de usuario.</li>
+        <li><strong>Preguntas directas y factuales:</strong> consultas de un solo salto sobre documentación bien estructurada.</li>
+        <li><strong>Corpus pequeño y homogéneo:</strong> si una única recuperación con buena reordenación ya cubre el contexto necesario.</li>
+        <li><strong>Presupuesto acotado sin control estricto:</strong> sin límites duros de iteración y tokens existe riesgo de deriva semántica y sobrecoste.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById("ragag14");
+      if (!root) return;
+
+      var SCENARIOS = {
+        easy: {
+          question: "¿Cuál es la política de retención de logs en el data lake de producción?",
+          linear: {
+            query: "\"política de retención de logs data lake producción\"",
+            context: "[Doc: Gobernanza_Datos_v4.md] Los logs de ingestión del data lake de producción se retienen 90 días en almacenamiento caliente y 1 año en archivo frío.",
+            result: "✓ Correcto (×1): «Los logs de producción se retienen 90 días en caliente y 1 año en frío.» Al ser una búsqueda directa de un solo salto, el RAG lineal acierta sin coste adicional.",
+            verdictClass: "rag-verdict-ok"
+          },
+          buildSteps: function () {
+            return [
+              {
+                node: 1,
+                edge: null,
+                status: "active",
+                iter: 0,
+                calls: 0,
+                cost: "×0",
+                decision: "Recepción de la consulta del usuario.",
+                query: "—",
+                context: "Aún no se ha ejecutado ninguna búsqueda.",
+                verdict: "Pendiente de planificación.",
+                verdictClass: ""
+              },
+              {
+                node: 2,
+                edge: "e-1-2",
+                status: "active",
+                iter: 0,
+                calls: 1,
+                cost: "×0.3",
+                decision: "Pregunta factual interna. Se requiere recuperación en la fuente «Manuales de Gobernanza».",
+                query: "Fuente seleccionada: Índice Gobernanza_Datos",
+                context: "Sin fragmentos recuperados todavía.",
+                verdict: "Plan: 1 búsqueda directa.",
+                verdictClass: ""
+              },
+              {
+                node: 3,
+                edge: "e-2-3",
+                status: "active",
+                iter: 1,
+                calls: 1,
+                cost: "×0.5",
+                decision: "Ejecución de recuperación híbrida (léxica + semántica).",
+                query: "\"política retención logs data lake producción\"",
+                context: "[Gobernanza_Datos_v4.md] «Los logs de ingestión del data lake de producción se retienen 90 días en almacenamiento caliente y 1 año en archivo frío.»",
+                verdict: "1 fragmento relevante recuperado.",
+                verdictClass: ""
+              },
+              {
+                node: 4,
+                edge: "e-3-4",
+                status: "ok",
+                iter: 1,
+                calls: 2,
+                cost: "×0.7",
+                decision: "El evaluador comprueba si el fragmento responde a toda la pregunta.",
+                query: "Evaluación sobre fragmento [Gobernanza_Datos_v4.md]",
+                context: "Cubre entorno (producción), objeto (logs) y plazos (90 días / 1 año).",
+                verdict: "✓ Suficiente: el contexto basta para responder. No hace falta bucle.",
+                verdictClass: "rag-verdict-ok"
+              },
+              {
+                node: 6,
+                edge: "e-4-6",
+                status: "active",
+                iter: 1,
+                calls: 3,
+                cost: "×1.1",
+                decision: "Redacción de respuesta ceñida estrictamente al fragmento recuperado.",
+                query: "Generación condicionada al contexto aprobado",
+                context: "Borrador: «En el data lake de producción, los logs se conservan 90 días en caliente y 1 año en frío.»",
+                verdict: "Borrador listo para verificar.",
+                verdictClass: ""
+              },
+              {
+                node: 7,
+                edge: "e-6-7",
+                status: "ok",
+                iter: 1,
+                calls: 4,
+                cost: "×1.4",
+                decision: "Comprobación de fundamentación (groundedness): cada cifra coincide con la fuente.",
+                query: "Verificación cita ↔ afirmación",
+                context: "90 días = respaldado | 1 año = respaldado.",
+                verdict: "✓ Fundamentada: sin afirmaciones externas al contexto.",
+                verdictClass: "rag-verdict-ok"
+              },
+              {
+                node: 8,
+                edge: "e-7-8",
+                status: "ok",
+                iter: 1,
+                calls: 4,
+                cost: "×1.4",
+                decision: "Condición de salida cumplida (contexto suficiente y verificado en 1 iteración).",
+                query: "Salida entregada al usuario",
+                context: "Respuesta final: «En el data lake de producción, los logs se conservan 90 días en almacenamiento caliente y 1 año en archivo frío.»",
+                verdict: "✓ Completado en 1 iteración.",
+                verdictClass: "rag-verdict-ok"
+              }
+            ];
+          }
+        },
+
+        hard: {
+          question: "¿Qué tablas del dominio Ventas incumplen hoy el SLA acordado con Finanzas tras el cambio de marzo?",
+          linear: {
+            query: "\"tablas dominio Ventas incumplen SLA Finanzas cambio marzo\"",
+            context: "[Acta_Finanzas_Marzo.md] «A partir de marzo, el SLA de cierre diario para informes financieros exige disponibilidad antes de las 07:00 UTC.» (No menciona nombres de tablas ni estado actual).",
+            result: "✗ Falla o alucina (×1): El documento recuperado define la hora del SLA (07:00 UTC), pero no qué tablas pertenecen a Ventas ni sus horas reales de carga. El modelo inventa nombres de tablas o da una respuesta incompleta.",
+            verdictClass: "rag-verdict-bad"
+          },
+          buildSteps: function () {
+            return [
+              {
+                node: 1,
+                edge: null,
+                status: "active",
+                iter: 0,
+                calls: 0,
+                cost: "×0",
+                decision: "Recepción de pregunta multi-salto (exige cruzar definición de SLA + catálogo + telemetría).",
+                query: "—",
+                context: "Aún no se ha ejecutado ninguna búsqueda.",
+                verdict: "Pendiente de planificación.",
+                verdictClass: ""
+              },
+              {
+                node: 2,
+                edge: "e-1-2",
+                status: "active",
+                iter: 0,
+                calls: 1,
+                cost: "×0.3",
+                decision: "Descomposición: primero localizar el acuerdo de SLA de marzo en documentación de negocio.",
+                query: "Fuente 1: Documentación_Negocio",
+                context: "Sin fragmentos recuperados todavía.",
+                verdict: "Plan inicial: buscar regla de SLA.",
+                verdictClass: ""
+              },
+              {
+                node: 3,
+                edge: "e-2-3",
+                status: "active",
+                iter: 1,
+                calls: 1,
+                cost: "×0.6",
+                decision: "Primera recuperación sobre acuerdos de servicio.",
+                query: "\"SLA cierre diario Ventas Finanzas marzo\"",
+                context: "[Acta_Finanzas_Marzo.md] «Desde marzo, las tablas críticas de Ventas para Finanzas deben estar cargadas antes de las 07:00 UTC.»",
+                verdict: "1 fragmento recuperado.",
+                verdictClass: ""
+              },
+              {
+                node: 4,
+                edge: "e-3-4",
+                status: "loop",
+                iter: 1,
+                calls: 2,
+                cost: "×0.9",
+                decision: "Evaluación de suficiencia: conocemos el umbral (07:00 UTC), pero faltan los nombres de tablas y la hora de carga de hoy.",
+                query: "Comprobación de cobertura de la pregunta",
+                context: "Falta: listado de tablas críticas de Ventas y registro de ejecuciones de hoy.",
+                verdict: "✗ Insuficiente: se activa el bucle para buscar inventario y ejecuciones.",
+                verdictClass: "rag-verdict-warn"
+              },
+              {
+                node: 5,
+                edge: "e-4-5",
+                status: "loop",
+                iter: 1,
+                calls: 3,
+                cost: "×1.2",
+                decision: "Reformulación de consulta y cambio de fuente hacia el Catálogo de Datos y Logs de Orquestación.",
+                query: "Nueva consulta: \"tablas críticas Ventas Finanzas hora última carga hoy\" en Catálogo_ETL",
+                context: "Preparando segunda iteración de búsqueda.",
+                verdict: "↻ Vuelta al nodo 3 (Recuperar).",
+                verdictClass: "rag-verdict-warn"
+              },
+              {
+                node: 3,
+                edge: "e-5-3",
+                status: "active",
+                iter: 2,
+                calls: 3,
+                cost: "×1.5",
+                decision: "Segunda recuperación en Catálogo_ETL y telemetría diaria.",
+                query: "\"tablas críticas Ventas Finanzas hora última carga hoy\"",
+                context: "[Catalogo_Ventas.json] Críticas Finanzas: fct_pedidos, dim_clientes. [Logs_Orquestador_Hoy] fct_pedidos finalizó 06:42 UTC; dim_clientes finalizó 07:28 UTC.",
+                verdict: "2 nuevos fragmentos recuperados.",
+                verdictClass: ""
+              },
+              {
+                node: 4,
+                edge: "e-3-4",
+                status: "ok",
+                iter: 2,
+                calls: 4,
+                cost: "×1.8",
+                decision: "Segunda evaluación: ahora se dispone de umbral (07:00 UTC), inventario y horas reales.",
+                query: "Cruce: umbral 07:00 UTC vs. fct_pedidos (06:42) y dim_clientes (07:28)",
+                context: "Toda la evidencia necesaria está presente en el contexto acumulado.",
+                verdict: "✓ Suficiente: se sale del bucle hacia generación.",
+                verdictClass: "rag-verdict-ok"
+              },
+              {
+                node: 6,
+                edge: "e-4-6",
+                status: "active",
+                iter: 2,
+                calls: 5,
+                cost: "×2.3",
+                decision: "Generación sintetizando los tres fragmentos.",
+                query: "Síntesis multi-fuente",
+                context: "Borrador: «Según el SLA de marzo (07:00 UTC), hoy incumple dim_clientes (cargada a las 07:28 UTC). fct_pedidos cumplió (06:42 UTC).»",
+                verdict: "Borrador generado.",
+                verdictClass: ""
+              },
+              {
+                node: 7,
+                edge: "e-6-7",
+                status: "ok",
+                iter: 2,
+                calls: 6,
+                cost: "×2.6",
+                decision: "Verificación de fundamentación contra las tres fuentes.",
+                query: "Auditoría de citas y horas",
+                context: "07:00 UTC (Acta) · dim_clientes 07:28 UTC (Logs) · fct_pedidos 06:42 UTC (Logs).",
+                verdict: "✓ Fundamentada: 100% respaldada por las fuentes.",
+                verdictClass: "rag-verdict-ok"
+              },
+              {
+                node: 8,
+                edge: "e-7-8",
+                status: "ok",
+                iter: 2,
+                calls: 6,
+                cost: "×2.6",
+                decision: "Salida final tras 2 iteraciones.",
+                query: "Respuesta entregada al usuario",
+                context: "Respuesta final: «Hoy incumple dim_clientes (finalizó a las 07:28 UTC frente al límite de las 07:00 UTC fijado en marzo). fct_pedidos cumplió el SLA (06:42 UTC).»",
+                verdict: "✓ Completado en 2 iteraciones.",
+                verdictClass: "rag-verdict-ok"
+              }
+            ];
+          }
+        },
+
+        unanswerable: {
+          question: "¿Cuál fue el presupuesto aprobado para migrar el clúster antiguo a la nueva región cloud en Q4?",
+          linear: {
+            query: "\"presupuesto aprobado migrar clúster nueva región cloud Q4\"",
+            context: "[Propuesta_Arquitectura_Q3.md] «Se estima un esfuerzo de 4 meses para evaluar la migración de región cloud, pendiente de aprobación presupuestaria.»",
+            result: "✗ Riesgo alto de alucinación (×1): No existe cifra aprobada en los documentos, pero el RAG lineal fuerza una generación y puede inventar un importe o confundir plazos con presupuesto.",
+            verdictClass: "rag-verdict-bad"
+          },
+          buildSteps: function (maxIter) {
+            var steps = [
+              {
+                node: 1,
+                edge: null,
+                status: "active",
+                iter: 0,
+                calls: 0,
+                cost: "×0",
+                decision: "Recepción de pregunta sobre un dato financiero específico (presupuesto aprobado).",
+                query: "—",
+                context: "Aún no se ha ejecutado ninguna búsqueda.",
+                verdict: "Pendiente de planificación.",
+                verdictClass: ""
+              },
+              {
+                node: 2,
+                edge: "e-1-2",
+                status: "active",
+                iter: 0,
+                calls: 1,
+                cost: "×0.3",
+                decision: "Enrutado hacia documentación de arquitectura y actas de comité.",
+                query: "Fuente: Índice Proyectos_Cloud",
+                context: "Sin fragmentos recuperados todavía.",
+                verdict: "Plan: buscar partida presupuestaria Q4.",
+                verdictClass: ""
+              }
+            ];
+
+            var variants = [
+              {
+                q: "\"presupuesto aprobado migrar clúster región cloud Q4\"",
+                ctx: "[Propuesta_Arquitectura_Q3.md] «Se estima un esfuerzo de 4 meses para evaluar la migración, pendiente de aprobación presupuestaria.»",
+                reform: "\"acta comité inversiones Q4 partida migración nube\""
+              },
+              {
+                q: "\"acta comité inversiones Q4 partida migración nube\"",
+                ctx: "[Actas_Comite_Octubre.md] «Se revisaron proyectos de seguridad y gobernanza. El punto de migración cloud se pospone sin dotación.»",
+                reform: "\"anexo financiero CAPEX cloud clúster región\""
+              },
+              {
+                q: "\"anexo financiero CAPEX cloud clúster región\"",
+                ctx: "[Resumen_CAPEX_Anual.xlsx] No figuran partidas asignadas a migración de región cloud.",
+                reform: "\"solicitud compra infraestructura región alternativa\""
+              },
+              {
+                q: "\"solicitud compra infraestructura región alternativa\"",
+                ctx: "[Portal_Compras] 0 resultados coinciden con la consulta.",
+                reform: "\"presupuesto TI Q4 clúster\" (búsqueda amplia)"
+              },
+              {
+                q: "\"presupuesto TI Q4 clúster\" (búsqueda amplia)",
+                ctx: "[Presupuesto_TI_General.md] Solo contiene licencias recurrentes; sin mención a migración.",
+                reform: "—"
+              }
+            ];
+
+            var calls = 1;
+            var costNum = 0.3;
+
+            for (var i = 1; i <= maxIter; i++) {
+              var v = variants[Math.min(i - 1, variants.length - 1)];
+              calls += 1;
+              costNum += 0.4;
+              steps.push({
+                node: 3,
+                edge: i === 1 ? "e-2-3" : "e-5-3",
+                status: "active",
+                iter: i,
+                calls: calls,
+                cost: "×" + costNum.toFixed(1),
+                decision: "Iteración " + i + " de " + maxIter + ": recuperación de documentos.",
+                query: v.q,
+                context: v.ctx,
+                verdict: "Fragmento recuperado; pendiente de evaluar.",
+                verdictClass: ""
+              });
+
+              calls += 1;
+              costNum += 0.3;
+              var isLast = (i === maxIter);
+
+              if (!isLast) {
+                steps.push({
+                  node: 4,
+                  edge: "e-3-4",
+                  status: "loop",
+                  iter: i,
+                  calls: calls,
+                  cost: "×" + costNum.toFixed(1),
+                  decision: "Evaluación: no hay cifra de presupuesto aprobado. Aún quedan iteraciones (" + i + "/" + maxIter + ").",
+                  query: "Comprobación de evidencia de importe aprobado",
+                  context: "Evidencia ausente en los fragmentos actuales.",
+                  verdict: "✗ Insuficiente: reformular consulta y reintentar.",
+                  verdictClass: "rag-verdict-warn"
+                });
+
+                calls += 1;
+                costNum += 0.3;
+                steps.push({
+                  node: 5,
+                  edge: "e-4-5",
+                  status: "loop",
+                  iter: i,
+                  calls: calls,
+                  cost: "×" + costNum.toFixed(1),
+                  decision: "Reformulación de búsqueda para explorar sinónimos o actas contables.",
+                  query: "Siguiente consulta: " + v.reform,
+                  context: "Preparando iteración " + (i + 1) + " de " + maxIter + ".",
+                  verdict: "↻ Vuelta al nodo 3 (Recuperar).",
+                  verdictClass: "rag-verdict-warn"
+                });
+              } else {
+                steps.push({
+                  node: 4,
+                  edge: "e-3-4",
+                  status: "bad",
+                  iter: i,
+                  calls: calls,
+                  cost: "×" + costNum.toFixed(1),
+                  decision: "Evaluación: sigue sin existir presupuesto aprobado y se alcanzó el límite máximo (" + maxIter + "/" + maxIter + ").",
+                  query: "Comprobación de condición de parada",
+                  context: "Se activa la parada por límite máximo de iteraciones sin contexto suficiente.",
+                  verdict: "✗ Insuficiente + Límite alcanzado (" + maxIter + "/" + maxIter + "): activar abstención.",
+                  verdictClass: "rag-verdict-bad"
+                });
+
+                steps.push({
+                  node: 8,
+                  edge: "e-4-8",
+                  status: "bad",
+                  iter: i,
+                  calls: calls,
+                  cost: "×" + costNum.toFixed(1),
+                  decision: "Abstención controlada: se evita generar sin respaldo documental.",
+                  query: "Salida de abstención entregada al usuario",
+                  context: "Respuesta final: «No dispongo de información suficiente en las fuentes consultadas para indicar un presupuesto aprobado de migración en Q4 (consta como pendiente o pospuesto).»",
+                  verdict: "✗ Abstención ejecutada (sin alucinación).",
+                  verdictClass: "rag-verdict-bad"
+                });
+              }
+            }
+
+            return steps;
+          }
+        }
+      };
+
+      var currentScen = "easy";
+      var maxIter = 3;
+      var steps = [];
+      var stepIdx = 0;
+      var timer = null;
+
+      var scenBtns = root.querySelectorAll(".rag-scen-btn");
+      var maxIterSelect = root.querySelector("#ragag14-maxiter");
+      var btnStep = root.querySelector("#ragag14-step");
+      var btnPlay = root.querySelector("#ragag14-play");
+      var btnReset = root.querySelector("#ragag14-reset");
+      var btnLinear = root.querySelector("#ragag14-linear-toggle");
+      var panelsWrap = root.querySelector("#ragag14-panels-wrap");
+      var linearPanel = root.querySelector("#ragag14-linear-panel");
+
+      var elMIter = root.querySelector("#ragag14-m-iter");
+      var elMCalls = root.querySelector("#ragag14-m-calls");
+      var elMCost = root.querySelector("#ragag14-m-cost");
+
+      var elStepTag = root.querySelector("#ragag14-step-tag");
+      var elPQuestion = root.querySelector("#ragag14-p-question");
+      var elPDecision = root.querySelector("#ragag14-p-decision");
+      var elPQuery = root.querySelector("#ragag14-p-query");
+      var elPContext = root.querySelector("#ragag14-p-context");
+      var elPVerdict = root.querySelector("#ragag14-p-verdict");
+
+      var elLinQuery = root.querySelector("#ragag14-lin-query");
+      var elLinContext = root.querySelector("#ragag14-lin-context");
+      var elLinResult = root.querySelector("#ragag14-lin-result");
+
+      function stopAutoplay() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+        btnPlay.textContent = "⏵ Reproducir";
+      }
+
+      function clearDiagramHighlights() {
+        for (var n = 1; n <= 8; n++) {
+          var g = root.querySelector("#ragag14-n-" + n);
+          if (g) {
+            g.classList.remove("node-active", "node-loop", "node-ok", "node-bad");
+          }
+        }
+        var edges = root.querySelectorAll(".edge-path, .edge-loop");
+        for (var i = 0; i < edges.length; i++) {
+          edges[i].classList.remove("edge-active", "edge-loop-active");
+          if (edges[i].classList.contains("edge-loop")) {
+            edges[i].setAttribute("marker-end", "url(#ragag14-arr-warn)");
+          } else {
+            edges[i].setAttribute("marker-end", "url(#ragag14-arr-muted)");
+          }
+        }
+      }
+
+      function render() {
+        var scenObj = SCENARIOS[currentScen];
+        var st = steps[stepIdx];
+
+        elPQuestion.textContent = scenObj.question;
+        elLinQuery.textContent = scenObj.linear.query;
+        elLinContext.textContent = scenObj.linear.context;
+        elLinResult.textContent = scenObj.linear.result;
+        elLinResult.className = "rag-field-val " + scenObj.linear.verdictClass;
+
+        elMIter.textContent = st.iter + " / " + maxIter;
+        elMCalls.textContent = String(st.calls);
+        elMCost.textContent = st.cost;
+
+        elStepTag.textContent = "Paso " + (stepIdx + 1) + " de " + steps.length;
+        elPDecision.textContent = st.decision;
+        elPQuery.textContent = st.query;
+        elPContext.textContent = st.context;
+        elPVerdict.textContent = st.verdict;
+        elPVerdict.className = "rag-field-val " + (st.verdictClass || "");
+
+        clearDiagramHighlights();
+        var activeNode = root.querySelector("#ragag14-n-" + st.node);
+        if (activeNode) {
+          activeNode.classList.add("node-" + st.status);
+        }
+        if (st.edge) {
+          var activeEdge = root.querySelector("#ragag14-" + st.edge);
+          if (activeEdge) {
+            if (activeEdge.classList.contains("edge-loop")) {
+              activeEdge.classList.add("edge-loop-active");
+              activeEdge.setAttribute("marker-end", "url(#ragag14-arr-warn)");
+            } else {
+              activeEdge.classList.add("edge-active");
+              activeEdge.setAttribute("marker-end", "url(#ragag14-arr)");
+            }
+          }
+        }
+
+        var atEnd = stepIdx >= steps.length - 1;
+        btnStep.disabled = atEnd;
+        if (atEnd) {
+          stopAutoplay();
+        }
+      }
+
+      function rebuildSimulation(resetToStart) {
+        stopAutoplay();
+        var scenObj = SCENARIOS[currentScen];
+        steps = scenObj.buildSteps(maxIter);
+        if (resetToStart || stepIdx >= steps.length) {
+          stepIdx = 0;
+        }
+        render();
+      }
+
+      for (var i = 0; i < scenBtns.length; i++) {
+        scenBtns[i].addEventListener("click", function () {
+          currentScen = this.getAttribute("data-scen");
+          for (var j = 0; j < scenBtns.length; j++) {
+            scenBtns[j].setAttribute("aria-pressed", scenBtns[j] === this ? "true" : "false");
+          }
+          rebuildSimulation(true);
+        });
+      }
+
+      maxIterSelect.addEventListener("change", function () {
+        maxIter = parseInt(this.value, 10) || 3;
+        rebuildSimulation(true);
+      });
+
+      btnStep.addEventListener("click", function () {
+        if (stepIdx < steps.length - 1) {
+          stepIdx++;
+          render();
+        }
+      });
+
+      btnPlay.addEventListener("click", function () {
+        if (timer) {
+          stopAutoplay();
+          return;
+        }
+        if (stepIdx >= steps.length - 1) {
+          stepIdx = 0;
+          render();
+        }
+        btnPlay.textContent = "⏸ Pausar";
+        timer = setInterval(function () {
+          if (stepIdx < steps.length - 1) {
+            stepIdx++;
+            render();
+          } else {
+            stopAutoplay();
+          }
+        }, 1600);
+      });
+
+      btnReset.addEventListener("click", function () {
+        stopAutoplay();
+        stepIdx = 0;
+        render();
+      });
+
+      btnLinear.addEventListener("click", function () {
+        var isShown = btnLinear.getAttribute("aria-pressed") === "true";
+        var nextState = !isShown;
+        btnLinear.setAttribute("aria-pressed", nextState ? "true" : "false");
+        if (nextState) {
+          linearPanel.classList.remove("rag-hidden");
+          panelsWrap.classList.add("two-cols");
+        } else {
+          linearPanel.classList.add("rag-hidden");
+          panelsWrap.classList.remove("two-cols");
+        }
+      });
+
+      rebuildSimulation(true);
+    })();
+  </script>
 </div>
 <p>El patrón de agentic RAG es especialmente útil para <strong>preguntas multi-hop</strong>: preguntas cuya respuesta requiere combinar información de múltiples fragmentos que no están directamente relacionados entre sí en el índice vectorial. En un RAG estándar de un solo paso, estas preguntas producen resultados deficientes porque el retrieval no puede recuperar todos los fragmentos necesarios en una sola consulta.</p>
 <div class="warning">
@@ -29667,7 +30839,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v146).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v147).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
