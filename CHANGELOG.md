@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v151 — 16 noviembre 2026 · §6.13.7: lo promovido caduca
+
+- Sección nueva §6.13.7 «Lo promovido caduca: recibo de versión y obsolescencia determinista»: afirmación + evidencia + recibo de versión, comprobación determinista (sin llamar al modelo), «obsoleta» distinta de «falsa», y cuatro estados (respaldada, obsoleta, alucinada, no verificada). Con nota de atribución: el patrón es de LangChain (OpenWiki, agosto 2026) y sus resultados no se pueden verificar; se presenta como diseño transferible.
+- Figura interactiva propia (`#obs67`, documento y política ficticios): cambiar la fuente, ver qué se marca, verificar caso a caso; selector de granularidad del recibo (fragmento o documento entero).
+- Puentes: §6.11.2 (el límite «requiere recompilación» remite a §6.13.7) y §6.13.4 (`superseded_by` es el disparador por contradicción; la fuente que cambia es otro).
+- §3.2: nota «Fundamentado no es vigente» tras la tabla de dimensiones (cierra CI-AR-1).
+- Origen: post de Dandes Academy sobre memoria autocorregida; sin entrada de Triaje propia (decisión del autor). Versión v150 → v151; copia de la v150 en `archivo/`.
+
 ## v150 — 16 noviembre 2026 · §5.7b.3: los expertos de un MoE no son especialistas por tema
 
 - Se retira de «Ventajas MoE» el punto «Especialización emergente» (decía que los expertos tienden a especializarse en dominios como código, razonamiento e idiomas) y se sustituye, en «Limitaciones», por una cautela con el primario: en el análisis de enrutamiento de Mixtral (Jiang et al., 2024, §5) no hay patrones evidentes por tema (solo DM Mathematics difiere algo) y sí patrones sintácticos. Otros trabajos discrepan según modelo y tipo de enrutamiento; no se citan.

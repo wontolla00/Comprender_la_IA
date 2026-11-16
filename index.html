@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v150</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v151</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v150 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v151 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9557,6 +9557,7 @@ window.addEventListener('resize', () =&gt; {
 </tr>
 </tbody>
 </table>
+<div class="nota" id="s32-obsoleta-2026-11"><strong>🔎 Matiz (2026-11) · «Fundamentado» no es «vigente»</strong> La fidelidad mide si la respuesta se apoya en lo recuperado, no si lo recuperado sigue siendo lo vigente. Una respuesta puede ser perfectamente fiel a una revisión antigua de un documento, o a una presentación en lugar del sistema de referencia, y fallar igualmente. Conviene no mezclarlo con la alucinación: la causa y el remedio son otros. La alucinación se corrige con mejor recuperación o generación; el error por fuente caducada o no autoritativa, con fuentes versionadas y una marca de «obsoleta» que no obliga a dar la afirmación por falsa. Estados útiles para distinguirlos: respaldada, obsoleta, alucinada, no verificada (<a href="#s6137">§6.13.7</a>).</div>
 <h2 id="s33">3.3 El golden dataset: tu tabla de referencia</h2>
 <p>En calidad de datos tienes tablas de referencia: catálogos de países, listas de productos válidos, rangos aceptables. En evaluación de IA, el equivalente es el <strong>golden dataset</strong>: una colección de pares (pregunta, respuesta de referencia) construida y validada manualmente por expertos del dominio.</p>
 <p>Es tu tabla de verdad. Sin él, no puedes medir nada con rigor. Todo lo demás —métricas automáticas, herramientas de evaluación— necesita este punto de referencia para ser significativo.</p>
@@ -16187,7 +16188,7 @@ traversal.boundary_crossings   # 2  resultados alcanzados saliendo del documento
 <div style="background:var(--yellow-light);border:1px solid var(--yellow);border-radius:10px;padding:16px;">
 <div style="font-weight:700;color:var(--yellow);margin-bottom:10px;">⚠ Límites</div>
 <ul style="padding-left:16px;color:var(--text);line-height:1.8;">
-<li>No apta para corpus que cambian frecuentemente (requiere recompilación)</li>
+<li>No apta para corpus que cambian frecuentemente (requiere recompilación; detectar qué páginas han caducado sin recompilarlo todo: <a href="#s6137">§6.13.7</a>)</li>
 <li>La compilación inicial es lenta — varias llamadas LLM por documento</li>
 <li>Corpus muy grandes pueden generar wikis inmanejables</li>
 <li>La calidad depende del LLM compilador</li>
@@ -17031,7 +17032,7 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
 <span style="color:var(--accent);font-weight:700;">Preferencias</span> — umbral de confianza ≥ 0.5, clave de preferencia no vacía. En producción: requiere confirmación explícita del usuario o repetición en al menos 2 turnos independientes.
       </div>
 <div style="background:var(--bg);border-radius:6px;padding:12px 14px;">
-<span style="color:var(--green);font-weight:700;">Hechos</span> — requiere run_id de procedencia y confianza ≥ 0.7. Los hechos que contradicen un hecho existente no crean un nuevo registro: abren un flujo de superación donde el antiguo se marca como superseded_by.
+<span style="color:var(--green);font-weight:700;">Hechos</span> — requiere run_id de procedencia y confianza ≥ 0.7. Los hechos que contradicen un hecho existente no crean un nuevo registro: abren un flujo de superación donde el antiguo se marca como superseded_by. (Es el disparador por contradicción entre memorias; el que actúa cuando cambia la <em>fuente</em> es otro: <a href="#s6137">§6.13.7</a>.)
       </div>
 <div style="background:var(--bg);border-radius:6px;padding:12px 14px;">
 <span style="color:var(--purple);font-weight:700;">Episodios</span> — se promueven solo en el cierre de una tarea completada. No se promueven conversaciones parciales ni intentos fallidos.
@@ -17151,6 +17152,147 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
 <strong>→ Conexión con el manual</strong>
     La memoria de traza de esta sección es el requisito de trazabilidad del Cap. 10.6 y el fundamento técnico del Cap. 14 (supervisión humana). La puerta de promoción es el componente que previene el envenenamiento de memoria que la entropía acumulada del Cap. 10.3 describe en pipelines multi-agente. El patrón de reconstrucción de prompt por turno es la solución de largo plazo al problema de lost in the middle del Cap. 5.5b. La sección 10.9 cierra el ciclo desde la perspectiva del agente.
   </div>
+<h3 id="s6137">6.13.7 Lo promovido caduca: recibo de versión y obsolescencia determinista</h3>
+<p>La puerta de promoción (§6.13.4) decide <em>qué entra</em> en la memoria. No dice qué ocurre cuando la <strong>fuente</strong> de una afirmación ya promovida cambia. Un hecho guardado el lunes, con su <code>run_id</code> y su confianza en regla, puede ser falso el jueves sin que nadie lo haya contradicho: la memoria no se equivocó, el mundo se movió. Es otro disparador distinto de <code>superseded_by</code>, que actúa cuando una memoria contradice a otra.</p>
+<div class="nota" id="s6137-atribucion"><strong>⚠️ Nota de atribución</strong> El patrón que sigue lo describe LangChain para su proyecto OpenWiki (blog, agosto de 2026), junto con resultados que este manual no ha podido verificar: proceden de un repositorio sin nombrar y sin tamaño de muestra. Se presenta como <strong>diseño transferible</strong>, no como resultado medido. El argumento no depende de esas cifras: comparar dos versiones no cuesta nada.</div>
+<p>El patrón tiene cuatro piezas:</p>
+<ol>
+<li><strong>Afirmación + evidencia + recibo.</strong> Cada afirmación guarda de dónde sale y una huella de la versión de esa fuente en el momento de promoverla (un hash, un número de revisión).</li>
+<li><strong>Comprobación determinista.</strong> Al empezar cada actualización se compara el recibo guardado con la versión actual de la fuente. Es una igualdad de cadenas: no llama al modelo y su coste es despreciable.</li>
+<li><strong>«Obsoleta» no es «falsa».</strong> Si la huella no coincide, la afirmación se marca, pero no se borra ni se da por errónea: la fuente pudo cambiar una coma. Permanece marcada hasta que alguien (una persona o un modelo, ahora sí) la verifique contra la versión vigente.</li>
+<li><strong>Estados que no se confunden.</strong> Cuatro, con causas y remedios distintos:</li>
+</ol>
+<table>
+<thead><tr><th>Estado</th><th>Qué significa</th><th>Qué se hace</th></tr></thead>
+<tbody>
+<tr><td>Respaldada</td><td>La evidencia existe y su recibo coincide con la fuente actual.</td><td>Nada.</td></tr>
+<tr><td>Obsoleta</td><td>La fuente cambió desde que se promovió. Puede seguir siendo cierta.</td><td>Verificar contra la versión vigente; renovar el recibo o reescribir.</td></tr>
+<tr><td>Alucinada</td><td>Ninguna versión de la fuente la respalda.</td><td>Retirar y revisar cómo entró por la puerta.</td></tr>
+<tr><td>No verificada</td><td>Sin evidencia o sin recibo: nunca se comprobó.</td><td>Verificar, o no usarla como hecho.</td></tr>
+</tbody>
+</table>
+<p>Los nombres de los estados son los de este manual; el patrón original usa un vocabulario parecido. La distinción entre <em>obsoleta</em> y <em>alucinada</em> es la misma que separa, en la evaluación de RAG, un error «fundamentado, pero en una fuente que ya no vale» de uno inventado (<a href="#s32">§3.2</a>).</p>
+<p><strong>Dos límites.</strong> Primero, <em>solo funciona si la evidencia está versionada</em>: sin versión no hay recibo, y esa afirmación debe quedar como «no verificada», nunca como «respaldada». Segundo, la <em>granularidad del recibo</em> importa. Con una huella por documento entero, cualquier cambio marca como obsoleta toda la memoria que cuelga de él; con una huella por fragmento (la misma idea que los identificadores por hash de contenido del §15.3) solo se marcan las afirmaciones afectadas. La figura deja comprobarlo.</p>
+<section id="obs67" aria-label="Figura interactiva: afirmaciones guardadas con recibo de versión">
+<style>
+#obs67{--bg:#0e1a2b;--card:#13253a;--line:#1e3350;--txt:#e8f0f8;--mut:#9fb3c8;--ok:#6ee7a0;--old:#ffcf87;--bad:#ff9e9e;--unk:#c3d0e0;--acc:#4cc9f0;
+ font:15px/1.5 system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);
+ border:1px solid var(--line);border-radius:14px;padding:22px;max-width:1060px;margin:24px auto}
+#obs67 .tit{margin:0 0 4px;font-size:1.1rem;font-weight:700;color:var(--txt)}
+#obs67 .sub{margin:0 0 14px;color:var(--mut);font-size:.9rem}
+#obs67 .ctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:.88rem;color:var(--txt)}
+#obs67 .ctl label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+#obs67 .ctl input{accent-color:var(--acc);width:16px;height:16px}
+#obs67 button{cursor:pointer;font:inherit;font-size:.86rem;color:var(--txt);background:#123a4d;border:1px solid var(--acc);border-radius:10px;padding:7px 13px}
+#obs67 button.sec{background:var(--card);border-color:var(--line)}
+#obs67 button:disabled{opacity:.45;cursor:default}
+#obs67 button:focus-visible,#obs67 input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#obs67 .cols{display:grid;grid-template-columns:1fr 1.25fr;gap:14px}
+@media(max-width:760px){#obs67 .cols{grid-template-columns:1fr}}
+#obs67 .col{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+#obs67 .col h4{margin:0 0 10px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+#obs67 .frag{padding:7px 10px;margin:0 0 6px;border-left:3px solid var(--line);font-size:.88rem;color:var(--txt);background:#0f2033;border-radius:0 6px 6px 0}
+#obs67 .frag.chg{border-left-color:var(--old)}
+#obs67 .frag small{display:block;color:var(--mut);font-size:.74rem}
+#obs67 .cl{padding:10px 12px;margin:0 0 8px;border:1px solid var(--line);border-radius:8px;background:#0f2033}
+#obs67 .cl .st{display:inline-block;font-size:.78rem;font-weight:700;margin-bottom:3px}
+#obs67 .cl.ok .st{color:var(--ok)}
+#obs67 .cl.old .st{color:var(--old)}
+#obs67 .cl.bad .st{color:var(--bad)}
+#obs67 .cl.unk .st{color:var(--unk)}
+#obs67 .cl .tx{font-size:.9rem;color:var(--txt)}
+#obs67 .cl .mt{font-size:.76rem;color:var(--mut);font-family:ui-monospace,Consolas,monospace;margin-top:2px}
+#obs67 .cl .nt{font-size:.84rem;color:var(--old);margin-top:4px}
+#obs67 .cl.bad .nt{color:var(--bad)}
+#obs67 .cl button{margin-top:6px}
+#obs67 .cnt{margin-top:12px;font-size:.84rem;color:var(--mut)}
+#obs67 .log{margin-top:6px;font-size:.88rem;color:var(--txt);min-height:1.4em}
+#obs67 .fic{margin:10px 0 0;font-size:.76rem;color:var(--mut)}
+</style>
+<p class="tit">Una memoria con recibos: qué pasa cuando cambia la fuente</p>
+<p class="sub">Cuatro afirmaciones guardadas sobre un documento. Cambia la fuente, observa qué marca la comprobación y verifica después cada caso.</p>
+<div class="ctl">
+<span>Recibo por:</span>
+<label><input type="radio" name="obs67g" value="frag" checked> fragmento</label>
+<label><input type="radio" name="obs67g" value="doc"> documento entero</label>
+<button type="button" id="obs67Cambia">Cambiar la fuente (v3 → v4)</button>
+<button type="button" id="obs67Reset" class="sec">Reiniciar</button>
+</div>
+<div class="cols">
+<div class="col"><h4 id="obs67SrcT">Fuente</h4><div id="obs67Src"></div></div>
+<div class="col"><h4>Afirmaciones guardadas</h4><div id="obs67Cl"></div></div>
+</div>
+<div class="cnt" id="obs67Cnt"></div>
+<div class="log" id="obs67Log" role="status" aria-live="polite"></div>
+<p class="fic">Documento y política ficticios, inventados para esta figura.</p>
+<script>
+(function(){
+  var root=document.getElementById('obs67'); if(!root) return;
+  function hs(t){var x=5381,i;for(i=0;i<t.length;i++){x=((x<<5)+x+t.charCodeAt(i))>>>0;}return x.toString(16);}
+  var V3=["Los registros de facturación se conservan 10 años.","Los registros de actividad se conservan 12 meses.","Las solicitudes de baja se tramitan en 30 dias.","Las copias de seguridad se guardan 35 días."];
+  var V4=[V3[0],"Los registros de actividad se conservan 6 meses.","Las solicitudes de baja se tramitan en 30 días.",V3[3]];
+  var C0=[
+    {t:"La facturación se conserva 10 años.",f:0,ev:true,vive:true},
+    {t:"Los registros de actividad duran 12 meses.",f:1,ev:true,vive:false,nuevo:"Los registros de actividad duran 6 meses."},
+    {t:"Las bajas se resuelven en 30 días.",f:2,ev:true,vive:true},
+    {t:"Las copias de seguridad se cifran con AES-256.",f:3,ev:false,vive:false}
+  ];
+  var src,ver,cl,comps,llam;
+  function gran(){var r=root.querySelector('input[name=obs67g]:checked');return r?r.value:'frag';}
+  function rec(c){return gran()==='frag'?hs(src[c.f]):hs(src.join('|'));}
+  function reset(){
+    src=V3.slice();ver='v3';comps=0;llam=0;
+    cl=C0.map(function(c){return {t:c.t,f:c.f,ev:c.ev,vive:c.vive,nuevo:c.nuevo,st:c.ev?'ok':'unk',r:null,nt:'',falsa:false};});
+    cl.forEach(function(c){if(c.ev)c.r=rec(c);});
+    document.getElementById('obs67Cambia').disabled=false;
+    document.getElementById('obs67Log').textContent='';
+    draw();
+  }
+  var LAB={ok:'✓ Respaldada',old:'⏳ Obsoleta',bad:'✗ Alucinada',unk:'? No verificada'};
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+  function draw(){
+    var S=document.getElementById('obs67Src');S.textContent='';
+    document.getElementById('obs67SrcT').textContent='Fuente · política de retención · '+ver;
+    src.forEach(function(t,i){
+      var d=el('div','frag'+(t!==V3[i]?' chg':''),t);
+      var sm=el('small','','fragmento '+(i+1)+' · huella '+hs(t)+(t!==V3[i]?' · cambió':''));d.appendChild(sm);S.appendChild(d);
+    });
+    var L=document.getElementById('obs67Cl');L.textContent='';
+    cl.forEach(function(c,i){
+      var d=el('div','cl '+c.st);
+      d.appendChild(el('div','st',LAB[c.st]));
+      d.appendChild(el('div','tx',c.t));
+      d.appendChild(el('div','mt',c.r?('evidencia: fragmento '+(c.f+1)+' · recibo '+c.r):('evidencia citada: fragmento '+(c.f+1)+' · sin recibo')));
+      if(c.nt)d.appendChild(el('div','nt',c.nt));
+      if(c.st==='old'||c.st==='unk'){
+        var b=el('button','sec',c.falsa?'Reescribir desde la fuente actual':'Verificar');
+        b.type='button';b.addEventListener('click',function(){accion(i);});d.appendChild(b);
+      }
+      L.appendChild(d);
+    });
+    document.getElementById('obs67Cnt').textContent='Recibos comparados: '+comps+' · llamadas al modelo en la comprobación: '+llam;
+  }
+  function say(m){document.getElementById('obs67Log').textContent=m;}
+  document.getElementById('obs67Cambia').addEventListener('click',function(){
+    src=V4.slice();ver='v4';var n=0,k=0;
+    cl.forEach(function(c){if(c.r!==null&&c.st==='ok'){k++;comps++;if(rec(c)!==c.r){c.st='old';c.nt='La fuente cambió. No se sabe aún si sigue siendo cierta.';n++;}}});
+    this.disabled=true;
+    say('Comprobación determinista: '+k+' recibos comparados, 0 llamadas al modelo, '+n+' afirmaciones marcadas como obsoletas. Ninguna se ha borrado ni se ha dado por falsa.');
+    draw();
+  });
+  document.getElementById('obs67Reset').addEventListener('click',reset);
+  root.querySelectorAll('input[name=obs67g]').forEach(function(r){r.addEventListener('change',reset);});
+  function accion(i){
+    var c=cl[i];
+    if(!c.ev){c.st='bad';c.nt='Verificada: ninguna versión de la fuente dice esto. No está obsoleta: es una alucinación. Hay que retirarla y revisar cómo pasó la puerta.';say('Afirmación sin respaldo en ninguna versión de la fuente.');draw();return;}
+    if(c.falsa){c.t=c.nuevo;c.st='ok';c.falsa=false;c.nt='';c.r=rec(c);say('Reescrita desde la fuente actual y con recibo nuevo.');draw();return;}
+    if(c.vive){c.st='ok';c.nt='';c.r=rec(c);say('Verificada: sigue siendo cierta. Solo se renueva el recibo; el cambio en la fuente era cosmético o ajeno a esta afirmación.');draw();return;}
+    c.falsa=true;c.nt='Verificada contra '+ver+': ya no es cierta (la fuente dice 6 meses). Sigue marcada hasta que se reescriba; no se corrige sola.';say('La marca de obsoleta estaba justificada: la afirmación quedó falsa.');draw();
+  }
+  reset();
+})();
+</script>
+</section>
 <!-- ═══ CAP 7 ═══ -->
 <div class="transition-bridge"><span class="tb-icon">↳</span><span>Aun con buena recuperación, los sistemas RAG fallan. El Cap. 7 da el framework para diagnosticar exactamente dónde.</span></div>
 <div class="chapter-header c7" id="cap7">
@@ -30859,7 +31001,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v150).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v151).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
