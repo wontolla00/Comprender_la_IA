@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v153 — 16 noviembre 2026 · §6.3: por qué hay dos etapas y qué cuesta la segunda
+
+- Nota nueva tras la tabla de §6.3: el bi-encoder precomputa vectores y el cross-encoder no puede (lee consulta y documento juntos), de ahí el embudo y un coste aproximadamente lineal con el número de candidatos. Extrapolación con la cifra propia del manual (BGE-v2-m3, ~500 ms por 20 documentos en CPU → ~2,5 s para 100), marcada como no medida.
+- Misma nota: la sigmoide de un logit lo acota a [0, 1] pero no lo calibra; enlace a §3.1b.
+- Aviso bajo la tabla: las cifras de «ganancia típica» son órdenes de magnitud orientativos, sin fuente única ni medición propia.
+- Origen: entrada `2026-11-16 (e)` del Triaje (post de DataInterview sobre reranking), CI-RK-1. No se portan sus cifras ni sus consejos sin fuente. Versión v152 → v153; copia de la v152 en `archivo/`.
+
 ## v152 — 16 noviembre 2026 · §6.4b: calculadora del tamaño de un índice vectorial
 
 - Sección nueva §6.4b con una figura interactiva propia (`#cal64`): documentos × chunks por documento × dimensión × precisión (float32, float16, int8, 4, 2 y 1 bit) × sobrecarga × réplicas, con comprobación contra la RAM disponible y proporciones. Gigabytes decimales; solo cuenta los vectores, y la sobrecarga la aporta quien usa la figura.

@@ -18,7 +18,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
@@ -30,6 +30,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 **NUEVO 2026-11-16 (d) (entrada `2026-11-16 (d)`; CI-MX-1 hecho en v150).**
 - [x] **CI-MX-1 · manual, §5.7b.3 (baja):** la «especialización emergente» de los expertos pasa de ventaja a cautela con el primario (Mixtral, §5). **HECHO en v150 2026-11-16; ver `taller/Registro_manual_v149_a_v150.md`.**
+
+**NUEVO 2026-11-16 (e) (entrada `2026-11-16 (e)`; CI-RK-1 hecho en v153).**
+- [x] **CI-RK-1 · manual, §6.3 (baja):** explicar por qué hay dos etapas (el cross-encoder no se puede precomputar; el coste crece con los candidatos), advertir de que la sigmoide de un logit no lo calibra y marcar como orientativas las cifras de «ganancia típica», que no tienen fuente. **HECHO en v153 2026-11-16; ver `taller/Registro_manual_v152_a_v153.md`.**
 
 **NUEVO 2026-11-07 (entradas `2026-11-07 (a)`–`(d)`; nada tocado en `index.html`).**
 - [x] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`. **HECHO en v151 2026-11-16 (matiz en §3.2; estados en §6.13.7); ver `taller/Registro_manual_v150_a_v151.md`.**
@@ -3392,3 +3395,17 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Aplicado.** v150: punto retirado de «Ventajas» y cautela en «Limitaciones» (CI-MX-1, hecho).
 
 **No se porta la infografía.** Es equivalente a la figura de §5.7b, y su ejemplo (tokens «database», «poem», «Python» a expertos distintos) refuerza justo la idea de expertos por tema que se acaba de matizar. El código de la infografía aplica softmax a todos los expertos antes de elegir los k mejores, mientras que Mixtral lo aplica sobre los k logits elegidos (reseña secundaria): las implementaciones varían, sin corrección.
+
+### 2026-11-16 (e) — Post e infografía «Reranking» (DataInterview)
+
+**Veredicto: Integrar, en pequeño.** `[Manual: CI-RK-1]` `[Empreinte: nada]` `[HyperRAG: comprobado, nada]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Fuente.** Post e infografía de divulgación de DataInterview, sin primarios: el reranking como segunda etapa con un cross-encoder sobre el top-100 del recuperador, cifras de MS MARCO (+18 % nDCG@10, +22 % Recall@5), latencia (+85 ms en una A100) y consejos de producción, todo sin fuente.
+
+**Contraste con el manual.** §6.3 ya cubre cross-encoders (BGE, Jina, Cohere), LLM como reranker, ColBERT y MMR (§6.3b), y trae un resultado propio medido en HyperRAG sobre rerankers monolingües. Faltaban el porqué de las dos etapas y la advertencia de que la sigmoide de un logit no lo calibra. La tabla de «ganancia típica» de §6.3 no lleva fuente.
+
+**Comprobado en HyperRAG.** `fusion.py` normaliza el score fusionado a [0, 1] antes de mezclarlo con la sigmoide del reranker (0,3 / 0,7), así que no hay desajuste de escala; la duda inicial quedó descartada. `config.py` ya documenta que MiniLM-L6 es solo inglés.
+
+**Aplicado.** v153: nota de mecanismo y calibración, y aviso bajo la tabla (CI-RK-1, hecho).
+
+**No se porta.** Las cifras de MS MARCO y de latencia, ONNX+int8, las pérdidas listwise y la regla de saltarse el rerank en consultas cortas (sin fuente); tampoco la infografía.
