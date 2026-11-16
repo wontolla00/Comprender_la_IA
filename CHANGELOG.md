@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v150 — 16 noviembre 2026 · §5.7b.3: los expertos de un MoE no son especialistas por tema
+
+- Se retira de «Ventajas MoE» el punto «Especialización emergente» (decía que los expertos tienden a especializarse en dominios como código, razonamiento e idiomas) y se sustituye, en «Limitaciones», por una cautela con el primario: en el análisis de enrutamiento de Mixtral (Jiang et al., 2024, §5) no hay patrones evidentes por tema (solo DM Mathematics difiere algo) y sí patrones sintácticos. Otros trabajos discrepan según modelo y tipo de enrutamiento; no se citan.
+- Se reformula el punto de fine-tuning para que no presuponga expertos por dominio.
+- Contraste: el enlace al artículo de Mixtral en las tarjetas de §5.7b.3 se lee en tema oscuro.
+- Origen: entrada `2026-11-16 (d)` del Triaje (post de JoinAI sobre MoE), CI-MX-1. Versión v149 → v150; copia de la v149 en `archivo/`.
+
 ## v149 — 16 noviembre 2026 · §21.8: OWASP agéntico cotejado en ASI05 y ASI07
 
 - Leído el PDF completo del OWASP Top 10 for Agentic Applications 2026. Cotejados contra el manual ASI05 y ASI07: ambos quedan marcados como **cobertura mínima** (el manual solo tiene una línea de sandboxing en §10.4 y la descripción de A2A en §10.10.1, sin seguridad de mensajes). El recuadro resume en palabras propias lo que OWASP recomienda y el manual no desarrolla.

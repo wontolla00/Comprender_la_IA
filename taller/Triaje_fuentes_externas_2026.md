@@ -18,7 +18,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
@@ -27,6 +27,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 **NUEVO 2026-11-16 (b) (entrada `2026-11-16 (b)`; nada tocado en `index.html`).**
 - [ ] **CI-RS-1 · manual, RAG (baja-media):** recuadro en el capítulo de RAG con dos cosas que el manual no tiene: (1) dimensionado del índice vectorial con cuantización (ejemplo: 200 M de chunks × 1024 dimensiones = ~820 GB en float32, ~205 GB en int8, ~26 GB en binario; aritmética recalculada, cifras de una infografía) y (2) el camino de escritura (cola, reintentos, dead-letter «nada se descarta en silencio», relleno del histórico separado de las subidas en vivo, versión del modelo de embedding por chunk). Presentarlo como diseño de referencia de un profesional, no como estándar; p95 < 2 s y tamaños de lote son ilustrativos. Es cambio de versión.
 - [ ] **CI-AG-1 · manual, agentes (baja):** nota de vocabulario en el capítulo de agentes: «LLM», «agente», «agente con LLM» y «IA agéntica» se usan de forma distinta según la fuente (un post lo define como sistema de varios agentes; Anthropic en «Building Effective Agents» usa «agéntico» como paraguas que incluye flujos y agentes: comprobar en la fuente antes de citar). Unir a CI-LP-1 (bucles y fallos de contexto) y, si se quiere, nombrar Plan-and-Execute y Reflexion, que el manual no nombra. Sin decidir.
+
+**NUEVO 2026-11-16 (d) (entrada `2026-11-16 (d)`; CI-MX-1 hecho en v150).**
+- [x] **CI-MX-1 · manual, §5.7b.3 (baja):** la «especialización emergente» de los expertos pasa de ventaja a cautela con el primario (Mixtral, §5). **HECHO en v150 2026-11-16; ver `taller/Registro_manual_v149_a_v150.md`.**
 
 **NUEVO 2026-11-07 (entradas `2026-11-07 (a)`–`(d)`; nada tocado en `index.html`).**
 - [ ] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`.
@@ -3374,3 +3377,18 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Contraste con el manual.** El manual no cita BCG, McKinsey ni Accenture y no trata la figura del director de IA. §14.2b ya cubre los derechos de decisión (convergencia con MIT CISR en CI-CR-1). Lo propio de este artículo es el dueño del resultado completo cuando varios agentes y funciones intervienen. Podría entrar como tercera fuente de CI-CR-1 o como una frase con las tres cifras, avisando de que vienen de encuestas distintas. Sin decidir, y sin pendiente nuevo.
 
 **Descartado sin registrar en esta tanda:** el post de Lan Chu «What happens when you call an LLM API» (duplicado: figura-síntesis de §0.2.6, prefill y decode, y prefix caching en §15.4c).
+
+
+### 2026-11-16 (d) — Post e infografía «How does Mixture of Experts work?» (JoinAI)
+
+**Veredicto: Integrar, en pequeño** (solo como corrección de una frase del manual). `[Manual: CI-MX-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Fuente.** Post e infografía de divulgación de JoinAI sin datos propios: el router puntúa los expertos, solo se ejecutan los k elegidos, las salidas se combinan con los pesos del router; avisa de que «experto» no significa especialista por tema y de que importa el balanceo de carga.
+
+**Contraste con el manual.** El MoE ya está en §5.7b (parámetros totales frente a activos, con figura propia de router y 2/8 expertos) y §5.7g (routing, paralelismo de expertos, desequilibrio de carga). Lo único aprovechable es la cautela sobre la especialización: §5.7b.3 decía que los expertos tienden a especializarse en dominios (código, razonamiento, idiomas).
+
+**Verificado.** En el artículo de Mixtral (Jiang et al., arXiv:2401.04088, §5, leído en el PDF) no se observan patrones evidentes de asignación por tema (distribución parecida para ArXiv, biología y filosofía; solo DM Mathematics difiere algo) y sí patrones sintácticos. Trabajos posteriores discrepan según modelo y tipo de enrutamiento; solo se han leído resúmenes.
+
+**Aplicado.** v150: punto retirado de «Ventajas» y cautela en «Limitaciones» (CI-MX-1, hecho).
+
+**No se porta la infografía.** Es equivalente a la figura de §5.7b, y su ejemplo (tokens «database», «poem», «Python» a expertos distintos) refuerza justo la idea de expertos por tema que se acaba de matizar. El código de la infografía aplica softmax a todos los expertos antes de elegir los k mejores, mientras que Mixtral lo aplica sobre los k logits elegidos (reseña secundaria): las implementaciones varían, sin corrección.
