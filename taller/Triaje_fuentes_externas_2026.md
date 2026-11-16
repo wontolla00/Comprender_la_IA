@@ -18,7 +18,11 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (nuevos CI-OA-1 y CI-RR-1); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+
+**NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; nada tocado en `index.html`).**
+- [ ] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión.
+- [ ] **CI-RR-1 · manual, §14.5 (baja-media):** recuadro con los campos autoridad, evidencia y disparador del registro de riesgos y la regla de reversibilidad (bloquear lo irreversible, vigilar lo reversible). La tabla coloreada «bloquear / vigilar» es opcional y solo con fuente primaria. Entrada `2026-11-16 (a)`.
 
 **NUEVO 2026-11-07 (entradas `2026-11-07 (a)`–`(d)`; nada tocado en `index.html`).**
 - [ ] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`.
@@ -60,7 +64,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 **PENDIENTE caché KV entrenable (2026-10-25, entrada `2026-10-25 (b)`; veredicto «Observar», nada implementado).**
 - [~] APARCADO 2026-11-09 (con CI-LC-1, CI-CA-1 y HR-CA-1; motivo y condiciones de reapertura en la nota privada de HyperRAG «Aparcado: cachear o recuperar») · **CI-LC-1 · §5.7d, nota breve (baja):** la caché KV como objeto que se puede entrenar por documento (Latent Compaction, arXiv:2610.20582): idea de 2 etapas y reutilización para muchas preguntas, con tres salvedades: coste de ajuste por documento no reportado, resultados en presupuestos lógicos (no memoria ni latencia medidas), y degradación con contexto y compresión. Antes de citar cifras: leer el PDF original (el 96,7 % a 32× no está atado a modelo ni longitud en el texto) y no citar CoPE ni Continuum Attention. Es cambio de versión.
-- [~] APARCADO 2026-11-09 (con CI-LC-1, CI-CA-1 y HR-CA-1; motivo y condiciones de reapertura en la nota privada de HyperRAG «Aparcado: cachear o recuperar») · **CI-CA-1 · RAG, CAG y GraphRAG (baja):** el manual cubre GraphRAG (73 líneas del HTML con la palabra) pero no menciona CAG (Cache-Augmented Generation) ni «Cache-Augmented». Si se añade una nota comparativa, hacerlo desde la fuente original de CAG (no localizada ni leída) y con cifras de coste y calidad, no desde la regla de decisión del post (entrada (j)). Relacionado con CI-LC-1 (caché KV por documento).
+- [~] APARCADO 2026-11-09 (con CI-LC-1, CI-CA-1 y HR-CA-1; motivo y condiciones de reapertura en la nota privada de HyperRAG «Aparcado: cachear o recuperar») · **CI-CA-1 · RAG, CAG y GraphRAG (baja):** el manual cubre GraphRAG (73 líneas del HTML con la palabra) pero no menciona CAG (Cache-Augmented Generation) ni «Cache-Augmented». Si se añade una nota comparativa, hacerlo desde la fuente original de CAG (no localizada ni leída) y con cifras de coste y calidad, no desde la regla de decisión del post (entrada (j)). Relacionado con CI-LC-1 (caché KV por documento). **Nota 2026-11-16:** el primario de CAG está localizado (arXiv:2412.15605, Chan et al.); sigue sin leerse entero.
 
 **PENDIENTE medición de la Data en decisiones (2026-10-25, entrada `2026-10-25 (a)`; veredicto «Observar», nada implementado).**
 - [~] **CI-DV-1 · §14.2b, nota breve (baja-media):** medir la contribución de la Data a las decisiones (plazo de reacción, arbitrajes aplazados, **APARCADO 2026-11-09 por el autor: sin fuente primaria; reabrir solo si aparece una.**
@@ -3309,3 +3313,27 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 **Veredicto: Descartar como fuente nueva; cierra una salvedad del manual.** `[Manual: CI-HF-1, una frase, no hecho]` `[Empreinte, HyperRAG, Auditra, corpus: nada]`
 
 El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de OpenAI cotejados (cifras, causa por tareas imposibles, reward hacking, manipulación de transcripciones dirigida al evaluador). El post recibido coincide con eso. Lo único que aporta es el cotejo: §10.10.4 dice que las cifras de 1.200 agentes, 70.000 mensajes y 700 atacantes no figuran en el informe de OpenAI y que la de 70.000 «no se ha vuelto a cotejar». El blog de METR («Brief independent investigation…», 26/08/2026) dice más de 70.000 mensajes y archivos en el periodo investigado, unos 1.200 agentes y unos 700 en el ataque, y que un volcado de 1,2 millones de entradas del espacio de nombres de Artifactory usado como tablón se desglosaba en más de 70.000 mensajes y archivos distintos (visto en extractos de búsqueda, no la página entera ni el informe de 37 páginas). Hay que decir «mensajes y archivos», no solo «mensajes». No se pudieron confirmar el reparto 90/10 con «GPT-5.6 Sol», las «más de 100 organizaciones notificadas» ni el caso del wiki alemán que citaba el post: no citar.
+
+### 2026-11-16 (a) — Post sobre un registro de riesgos de IA para agentes: diez filas con «bloquear o vigilar» y tres campos que suelen faltar (autoridad, evidencia, disparador)
+
+**Veredicto: Integrar, en pequeño.** `[Manual: CI-OA-1, CI-RR-1]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: ver nota privada]` `[Corpus: nada]`
+
+**Fuente.** Post recibido en un documento con varios posts; el autor parte de una plantilla de una página de registro de riesgos de otra cuenta (no vista) y propone las diez primeras filas para un agente, no solo para un modelo. Es opinión de un profesional, no un estándar. Las correspondencias con las listas OWASP del post no se han copiado: hay que sacarlas de la fuente primaria.
+
+**Qué aporta.**
+- Diez riesgos de agente (secuestro de objetivo, agencia excesiva, abuso de identidad y privilegios, exposición de datos, envenenamiento de memoria y contexto, cadena de suministro, fallo de supervisión humana, fallo en cascada multiagente, consumo sin límite, desinformación y error de decisión), cada uno con ejemplo, control clave, tratamiento («bloquear» lo irreversible o de alto impacto, «vigilar» lo reversible) y correspondencia con OWASP.
+- Tres campos que casi ningún registro tiene: **autoridad** (quién puede aceptar el riesgo y hasta qué límite; un propietario con nombre no basta), **evidencia** (dónde vive y si es independiente del sistema) y **disparador** (el cambio de modelo, prompt, herramienta o datos que obliga a reevaluar).
+- Una regla de valoración: tras probabilidad e impacto, subir un nivel si la peor acción no se puede deshacer.
+
+**Contraste con el manual.** §14.5 ya trata el registro de riesgos de IA con ciclo de vida (registrar, revisar…) y la no compensación, pero no pide autoridad, evidencia ni disparador como campos, ni separa por reversibilidad qué se bloquea y qué se vigila. §21.8 mapea el OWASP Top 10 para aplicaciones LLM (2026), no el de aplicaciones agénticas.
+
+**Verificado.** El OWASP Top 10 for Agentic Applications 2026 existe: publicado el 9/12/2025, con diez entradas ASI01–ASI10. Hay que leer la lista en la página de OWASP antes de citar nombres exactos.
+
+**Pendientes.**
+- **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Agentic Top 10 2026 (ASI01–ASI10), citando la fuente primaria y no el post. Es cambio de versión.
+- **CI-RR-1 · manual, §14.5 (baja-media):** recuadro breve con los campos autoridad, evidencia y disparador y la regla de reversibilidad (bloquear lo irreversible, vigilar lo reversible). Opcional: tabla coloreada «bloquear / vigilar» con las diez filas, pero solo con fuente primaria y sin presentarla como estándar.
+- **Auditra:** ver nota privada.
+
+**Sobre CAG (nota, entrada `2026-10-25 (j)` y CI-CA-1).** El primario de CAG está localizado: arXiv:2412.15605 (Chan et al.). No se ha leído entero; CI-CA-1 sigue aparcado.
+
+**Descartados sin registrar en esta tanda, a petición del autor:** el post de Joshi sobre cinco usos de LLM para ingenieros de datos y el de RAG frente a CAG.
