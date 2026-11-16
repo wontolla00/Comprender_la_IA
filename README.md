@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v151** (noviembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v152** (noviembre 2026)
 
 ---
 
@@ -114,6 +114,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 |---|---|
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
+| **v152** | §6.4b nuevo: calculadora interactiva del tamaño de un índice vectorial (dimensión × precisión × sobrecarga × réplicas, con comprobación de RAM) y dos casos precargados. |
 | **v151** | §6.13.7 nuevo: lo promovido caduca (recibo de versión, comprobación determinista, cuatro estados) con figura interactiva propia; puentes en §6.11.2 y §6.13.4; matiz «fundamentado no es vigente» en §3.2. |
 | **v150** | §5.7b.3: la «especialización emergente» de los expertos deja de presentarse como ventaja; pasa a limitaciones con el primario (Mixtral, §5) y una cautela. |
 | **v149** | §21.8: tabla OWASP agéntico cotejada con el documento completo en ASI05 y ASI07; ambas marcadas como cobertura mínima del manual. |

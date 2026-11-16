@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v151</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v152</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v151 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v152 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -14581,6 +14581,86 @@ render();
   </div>
 <h3>Caso de estudio: compresión de índices — cuando la cuantización llega al retrieval</h3>
 <p>La misma idea que en §5.7c aplica a los pesos del modelo — reducir la precisión para reducir el tamaño — se aplica también al índice vectorial, y la aritmética es igual de contundente: 10 millones de vectores en float32 ocupan ~31 GB; cuantizados a 2-4 bits, alrededor de 4 GB. Motores recientes como <em>Turbovec</em> ilustran hacia dónde va esta ingeniería: cuantización a 2-4 bits sin fase de entrenamiento separada (a diferencia de PQ, que requiere entrenar los codebooks), instrucciones SIMD (NEON/AVX) para comparar vectores comprimidos sin descomprimirlos, y filtrado <em>dentro</em> de la búsqueda — por tenant, permisos o fecha — en lugar del post-filtrado clásico que obliga a recuperar de más para descartar después. El dato honesto: en los escenarios más agresivos de 2 bits, FAISS todavía gana en algunos casos — no es una superioridad universal, es un punto distinto en el mismo triángulo velocidad-precisión-memoria de la tabla anterior. La lección transferible no es la herramienta sino el patrón: el coste de memoria del índice es una variable de diseño tan optimizable como el coste de inferencia del modelo.</p>
+<h3 id="s64b">6.4b Calculadora: cuánto pesa tu índice antes de elegir el motor</h3>
+<p>El tamaño de un índice vectorial es una multiplicación, y conviene hacerla antes de elegir motor o infraestructura: <strong>chunks × dimensión × bytes por valor</strong>. Dos palancas la reducen sin cambiar de arquitectura: la <em>dimensión</em> (truncar embeddings Matryoshka, <a href="#s24c">§2.4c</a>) y la <em>precisión</em> de cada valor (cuantización, §6.4 arriba y <a href="#s57c">§5.7c</a>). Se componen: media dimensión y un cuarto de precisión son un octavo del tamaño. La figura calcula ambas a la vez. Usa gigabytes decimales (1 GB = 10⁹ bytes) y solo cuenta los vectores, multiplicados por la sobrecarga y las réplicas que tú indiques.</p>
+<section id="cal64" aria-label="Calculadora interactiva: tamaño de un índice vectorial según dimensión y precisión">
+<style>
+#cal64{--bg:#0e1a2b;--card:#13253a;--line:#1e3350;--txt:#e8f0f8;--mut:#9fb3c8;--ok:#6ee7a0;--bad:#ff9e9e;--acc:#4cc9f0;
+ font:15px/1.5 system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);
+ border:1px solid var(--line);border-radius:14px;padding:22px;max-width:1060px;margin:24px auto}
+#cal64 .tit{margin:0 0 4px;font-size:1.1rem;font-weight:700;color:var(--txt)}
+#cal64 .sub{margin:0 0 14px;color:var(--mut);font-size:.9rem}
+#cal64 .pre{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+#cal64 button{cursor:pointer;font:inherit;font-size:.86rem;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 13px}
+#cal64 button:focus-visible,#cal64 input:focus-visible,#cal64 select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#cal64 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+#cal64 label{display:flex;flex-direction:column;gap:3px;font-size:.78rem;color:var(--mut)}
+#cal64 input,#cal64 select{font:inherit;font-size:.92rem;color:var(--txt);background:#0f2033;border:1px solid var(--line);border-radius:8px;padding:6px 9px;width:100%;box-sizing:border-box}
+#cal64 .der{font-size:.88rem;color:var(--txt);margin:0 0 12px}
+#cal64 .err{color:var(--bad);font-size:.88rem;min-height:1.3em}
+#cal64 table{width:100%;border-collapse:collapse;font-size:.88rem;border:0;margin:0}
+#cal64 th,#cal64 td{border-left:0;border-right:0;border-top:0}
+#cal64 th{text-align:left;color:var(--mut);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line);background:transparent}
+#cal64 td{padding:7px 8px;border-bottom:1px solid var(--line);color:var(--txt);background:transparent;vertical-align:middle}
+#cal64 td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+#cal64 .bar{height:10px;border-radius:5px;background:var(--acc);min-width:2px}
+#cal64 .si{color:var(--ok);font-weight:700}
+#cal64 .no{color:var(--bad);font-weight:700}
+#cal64 .fic{margin:10px 0 0;font-size:.78rem;color:var(--mut)}
+</style>
+<p class="tit">¿Cuánto pesa el índice de tu corpus?</p>
+<p class="sub">Cambia los datos y mira cómo se reparte el tamaño entre las precisiones. Los valores iniciales son ilustrativos, no medidos.</p>
+<div class="pre">
+<button type="button" id="cal64P1">Caso del §6.4 (10 M de vectores, 768-d)</button>
+<button type="button" id="cal64P2">Corpus masivo (200 M de chunks, 1024-d)</button>
+</div>
+<div class="grid">
+<label>Documentos<input type="number" id="cal64Doc" min="1" step="1" value="5000000"></label>
+<label>Chunks por documento<input type="number" id="cal64Cpd" min="1" step="1" value="20"></label>
+<label>Dimensión del vector<select id="cal64Dim"><option>128</option><option>256</option><option>384</option><option>512</option><option>768</option><option selected>1024</option><option>1536</option><option>3072</option></select></label>
+<label>Sobrecarga del índice (×)<input type="number" id="cal64Ovh" min="1" step="0.1" value="1"></label>
+<label>Réplicas<input type="number" id="cal64Rep" min="1" step="1" value="1"></label>
+<label>RAM disponible (GB)<input type="number" id="cal64Ram" min="1" step="1" value="256"></label>
+</div>
+<p class="der" id="cal64Der"></p>
+<div class="err" id="cal64Err" role="alert"></div>
+<table>
+<thead><tr><th>Precisión</th><th>Bytes por vector</th><th>Tamaño total</th><th>Frente a float32</th><th>¿Cabe en RAM?</th><th style="width:22%">Proporción</th></tr></thead>
+<tbody id="cal64Body"></tbody>
+</table>
+<p class="fic">Qué no cuenta: la pérdida de recall al comprimir (mídela con tu golden dataset), el grafo y los metadatos reales de tu motor (por eso la sobrecarga es un dato que tú aportas) y los datos de los propios documentos. Truncar la dimensión solo es seguro con embeddings entrenados para ello (Matryoshka). Una práctica habitual es buscar con la versión comprimida y reordenar los candidatos con los vectores completos.</p>
+<script>
+(function(){
+  var root=document.getElementById('cal64'); if(!root) return;
+  var P=[['float32',32],['float16',16],['int8',8],['4 bits',4],['2 bits',2],['1 bit (binario)',1]];
+  function $(id){return document.getElementById(id);}
+  function num(id){return Number($(id).value);}
+  function fmt(b){var g=b/1e9;if(g>=1000)return (g/1000).toLocaleString('es-ES',{maximumFractionDigits:2})+' TB';return g.toLocaleString('es-ES',{maximumFractionDigits:g<10?2:1})+' GB';}
+  function calc(){
+    var doc=num('cal64Doc'),cpd=num('cal64Cpd'),d=num('cal64Dim'),o=num('cal64Ovh'),r=num('cal64Rep'),ram=num('cal64Ram');
+    var err=$('cal64Err'),body=$('cal64Body');body.textContent='';
+    if(!(doc>0&&cpd>0&&d>0&&o>=1&&r>=1&&ram>0)){err.textContent='Revisa los datos: todo debe ser positivo; la sobrecarga y las réplicas, al menos 1.';$('cal64Der').textContent='';return;}
+    err.textContent='';
+    var n=Math.round(doc)*Math.round(cpd),f=o*Math.round(r);
+    $('cal64Der').textContent=n.toLocaleString('es-ES')+' chunks × '+d+' dimensiones. Sobrecarga y réplicas: ×'+f.toLocaleString('es-ES',{maximumFractionDigits:2})+'.';
+    var tot=P.map(function(p){var bpv=Math.ceil(d*p[1]/8);return {n:p[0],bpv:bpv,t:n*bpv*f};});
+    var base=tot[0].t,mx=base;
+    tot.forEach(function(x){
+      var tr=document.createElement('tr');
+      function td(t,c){var e=document.createElement('td');e.textContent=t;if(c)e.className=c;tr.appendChild(e);return e;}
+      td(x.n);td(x.bpv.toLocaleString('es-ES'),'n');td(fmt(x.t),'n');td('÷ '+(base/x.t).toLocaleString('es-ES',{maximumFractionDigits:1}),'n');
+      var fits=x.t/1e9<=ram;var c=td(fits?'Sí':'No',fits?'si':'no');
+      var b=document.createElement('td');var bar=document.createElement('div');bar.className='bar';bar.style.width=Math.max(1,x.t/mx*100)+'%';b.appendChild(bar);tr.appendChild(b);
+      body.appendChild(tr);
+    });
+  }
+  ['cal64Doc','cal64Cpd','cal64Dim','cal64Ovh','cal64Rep','cal64Ram'].forEach(function(id){$(id).addEventListener('input',calc);$(id).addEventListener('change',calc);});
+  $('cal64P1').addEventListener('click',function(){$('cal64Doc').value=500000;$('cal64Cpd').value=20;$('cal64Dim').value='768';$('cal64Ovh').value=1;$('cal64Rep').value=1;calc();});
+  $('cal64P2').addEventListener('click',function(){$('cal64Doc').value=10000000;$('cal64Cpd').value=20;$('cal64Dim').value='1024';$('cal64Ovh').value=1;$('cal64Rep').value=1;calc();});
+  calc();
+})();
+</script>
+</section>
 <h2 id="s65">6.5 Métricas de evaluación del retrieval</h2>
 <p>Antes de evaluar la calidad de la respuesta del LLM, evalúa la calidad del retrieval. Son problemas independientes con soluciones independientes. Si el retrieval falla, el LLM no puede compensarlo.</p>
 <table>
@@ -31001,7 +31081,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v151).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v152).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>

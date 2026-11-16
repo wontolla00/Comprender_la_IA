@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v152 — 16 noviembre 2026 · §6.4b: calculadora del tamaño de un índice vectorial
+
+- Sección nueva §6.4b con una figura interactiva propia (`#cal64`): documentos × chunks por documento × dimensión × precisión (float32, float16, int8, 4, 2 y 1 bit) × sobrecarga × réplicas, con comprobación contra la RAM disponible y proporciones. Gigabytes decimales; solo cuenta los vectores, y la sobrecarga la aporta quien usa la figura.
+- Dos casos precargados: el del §6.4 (10 M de vectores, 768-d: 30,7 GB en float32, que coincide con los «~31 GB» del texto) y un corpus masivo de 200 M de chunks en 1024-d (819,2 GB en float32).
+- Enlaza las dos palancas: dimensión (§2.4c, Matryoshka) y precisión (§6.4, §5.7c).
+- Origen: infografía de Sahu sobre RAG a 10 M de documentos, de la que solo se reaprovecha la idea del dimensionado; cifras, diseño y casos son propios y no se atribuyen. Versión v151 → v152; copia de la v151 en `archivo/`.
+
 ## v151 — 16 noviembre 2026 · §6.13.7: lo promovido caduca
 
 - Sección nueva §6.13.7 «Lo promovido caduca: recibo de versión y obsolescencia determinista»: afirmación + evidencia + recibo de versión, comprobación determinista (sin llamar al modelo), «obsoleta» distinta de «falsa», y cuatro estados (respaldada, obsoleta, alucinada, no verificada). Con nota de atribución: el patrón es de LangChain (OpenWiki, agosto 2026) y sus resultados no se pueden verificar; se presenta como diseño transferible.
