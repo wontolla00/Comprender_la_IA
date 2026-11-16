@@ -18,7 +18,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
@@ -3455,3 +3455,13 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Infografía.** No se porta: cuatro roles (orquestador, trabajadores, jueces, asesor) son una forma de organizar, no un mecanismo nuevo, y sus bloques «prueba rápida / trampa común» son consejos sin evidencia.
 
 **Aplicado.** v155: nota `s1316-evals-2026-11` en §13.16 (CI-EV-1, hecho).
+
+### 2026-11-16 (h) — Arquitectura de recuperación híbrida: BM25 + vectorial + RRF (infografía y post de LinkedIn)
+
+**Veredicto: Descartar.** `[Manual: ya cubierto en §6.2, §6.x y el widget hibw72]` `[Empreinte: nada]` `[HyperRAG: ya implementado en core/fusion.py, RRF con k = 60 ponderado por capa]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Fuente.** Infografía y post sin enlace a primario. La aritmética de la infografía es correcta (k = 60, rangos desde 1: 0,0325, 0,0323, 0,0161, 0,0159).
+
+**Contraste.** No aporta nada que el manual o HyperRAG no tengan. La frase final («mejor recuperación, no un modelo más grande») no trae evidencia. No explica el papel de k ni que RRF descarta la magnitud de las puntuaciones; el manual tampoco lo explica, pero no hay fuente en este post que lo respalde.
+
+**Sin pendiente.** Una nota en §6.2 sobre el papel de k y lo que RRF pierde queda ofrecida a David, no abierta.
