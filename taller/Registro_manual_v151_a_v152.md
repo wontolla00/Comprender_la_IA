@@ -12,8 +12,7 @@
 
 ## Verificado
 - Playwright, tema claro y oscuro, sin errores: preset del §6.4 → 30,7 GB en float32 (10 M × 768 × 4 B); preset masivo → 819,2 GB, 204,8 GB en int8 y 25,6 GB en binario; error de validación con valores no positivos; sobrecarga y réplicas aplicadas.
-- Comprobada la legibilidad con captura; el barrido de contraste automático dio un resultado no fiable en esta figura (todo a 1.00, incluidos textos visiblemente legibles), así que no se da por validado numéricamente.
+- Contraste: el primer barrido automático dio 1.00 en todo (fallo del propio escáner con los fondos transparentes de la tabla); repetido leyendo el fondo real, 0 textos por debajo de 4.5:1 en 48 elementos, en tema claro y oscuro.
 
 ## Sin verificar
-- Que el contraste cumpla 4.5:1 en todos los textos de la figura (solo comprobación visual).
 - No se ha comprobado cuántos bytes por vector usa en realidad cada motor en cada modo de cuantización de 2 o 4 bits; la figura supone empaquetado denso.
