@@ -18,11 +18,15 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (CI-OA-1 y CI-RR-1 hechos en v148); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
 - [x] **CI-RR-1 · manual, §14.5 (baja-media):** recuadro con los campos autoridad, evidencia y disparador del registro de riesgos y la regla de reversibilidad (bloquear lo irreversible, vigilar lo reversible). La tabla coloreada «bloquear / vigilar» es opcional y solo con fuente primaria. Entrada `2026-11-16 (a)`. **HECHO en v148 2026-11-16: recuadro en §14.5 sin la tabla; la tabla coloreada sigue sin hacer.**
+
+**NUEVO 2026-11-16 (b) (entrada `2026-11-16 (b)`; nada tocado en `index.html`).**
+- [ ] **CI-RS-1 · manual, RAG (baja-media):** recuadro en el capítulo de RAG con dos cosas que el manual no tiene: (1) dimensionado del índice vectorial con cuantización (ejemplo: 200 M de chunks × 1024 dimensiones = ~820 GB en float32, ~205 GB en int8, ~26 GB en binario; aritmética recalculada, cifras de una infografía) y (2) el camino de escritura (cola, reintentos, dead-letter «nada se descarta en silencio», relleno del histórico separado de las subidas en vivo, versión del modelo de embedding por chunk). Presentarlo como diseño de referencia de un profesional, no como estándar; p95 < 2 s y tamaños de lote son ilustrativos. Es cambio de versión.
+- [ ] **CI-AG-1 · manual, agentes (baja):** nota de vocabulario en el capítulo de agentes: «LLM», «agente», «agente con LLM» y «IA agéntica» se usan de forma distinta según la fuente (un post lo define como sistema de varios agentes; Anthropic en «Building Effective Agents» usa «agéntico» como paraguas que incluye flujos y agentes: comprobar en la fuente antes de citar). Unir a CI-LP-1 (bucles y fallos de contexto) y, si se quiere, nombrar Plan-and-Execute y Reflexion, que el manual no nombra. Sin decidir.
 
 **NUEVO 2026-11-07 (entradas `2026-11-07 (a)`–`(d)`; nada tocado en `index.html`).**
 - [ ] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`.
@@ -3337,3 +3341,20 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Sobre CAG (nota, entrada `2026-10-25 (j)` y CI-CA-1).** El primario de CAG está localizado: arXiv:2412.15605 (Chan et al.). No se ha leído entero; CI-CA-1 sigue aparcado.
 
 **Descartados sin registrar en esta tanda, a petición del autor:** el post de Joshi sobre cinco usos de LLM para ingenieros de datos y el de RAG frente a CAG.
+
+### 2026-11-16 (b) — Documento con cinco piezas: RAG para 10 M de documentos, taxonomía/ontología/mapeo/grafo, arquitecturas de agentes, «LLM vs Agent vs AI Agent vs Agentic AI» y el God Object en código de IA
+
+**Veredicto: Integrar, en pequeño** (RAG a 10 M y vocabulario de agentes); **Observar** (arquitecturas de agentes); **Descartar** (taxonomía/ontología; God Object). `[Manual: CI-RS-1, CI-AG-1]` `[Empreinte: nada]` `[HyperRAG: no comprobado]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Fuente.** Cinco posts de práctica recibidos en un solo documento con cinco imágenes; sin estudios ni primarios. El texto del post del RAG llega cortado en «5. Reranking»; la infografía (Shakti Swaroop Sahu) lo completa. Los demás: infografía de taxonomía/ontología, infografía de DataInterview, infografía de Soheib Kiani y un post en francés sin autor.
+
+**Contraste con el manual.**
+- *RAG a 10 M:* ya están búsqueda híbrida, RRF, reranker, HNSW, caché semántica, re-indexado blue/green y aislamiento multi-tenant (§10.5c). Faltan el dimensionado del índice con cuantización (el manual cuantiza modelos, §5.7c, no índices) y el camino de escritura con cola y dead-letter. Aritmética de la infografía recalculada y correcta (200 M de chunks; 820, 205 y 26 GB; ~100 000 M de tokens a ~500 por chunk).
+- *Taxonomía, ontología, mapeo y grafo:* el manual ya trae la confusión «piden una ontología y necesitan una taxonomía» y el grafo sobre una jerarquía sin relaciones tipadas. Descartado; sigue abierta la investigación aparte sobre Genie Ontology.
+- *Arquitecturas de agentes:* ReAct está citado (Yao et al., 2022) y «context rot» aparece una vez; Plan-and-Execute, Reflexion y LATS no se nombran. Se suma como segunda fuente de CI-LP-1. La puntuación éxito/tokens de la infografía es, según ella misma, una heurística; Empreinte ya tiene «coste por tarea completada».
+- *LLM vs agente vs agente de IA vs IA agéntica:* el manual no distingue los cuatro términos y el uso varía entre fuentes (ver CI-AG-1).
+- *God Object:* consejos estándar de diseño; las causas que da (sesgo de los benchmarks, miopía de contexto) van sin fuente. Descartado.
+
+**Verificado.** Solo la aritmética de tamaños. Sin verificar: p95 < 2 s, 40 workers, lotes de 256, «100–200 candidatos» frente a «100 pares» del reranker (el texto y la infografía difieren), y la definición de Anthropic citada de memoria.
+
+**Pendientes.** CI-RS-1 y CI-AG-1, en la cabecera.
