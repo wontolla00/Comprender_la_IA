@@ -18,7 +18,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
@@ -30,6 +30,9 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 **NUEVO 2026-11-16 (d) (entrada `2026-11-16 (d)`; CI-MX-1 hecho en v150).**
 - [x] **CI-MX-1 · manual, §5.7b.3 (baja):** la «especialización emergente» de los expertos pasa de ventaja a cautela con el primario (Mixtral, §5). **HECHO en v150 2026-11-16; ver `taller/Registro_manual_v149_a_v150.md`.**
+
+**NUEVO 2026-11-16 (g) (entrada `2026-11-16 (g)`; CI-EV-1 hecho en v155).**
+- [x] **CI-EV-1 · manual, §13.16 (baja-media):** nota sobre evaluar agentes: estado final frente a transcripción, juez estrecho con salida «no sé» y contrastado con personas, comparar ejemplo por ejemplo, pass@k frente a pass^k. **HECHO en v155 2026-11-16; ver `taller/Registro_manual_v154_a_v155.md`.**
 
 **NUEVO 2026-11-16 (f) (entrada `2026-11-16 (f)`; CI-ON-1 hecho en v154).**
 - [x] **CI-ON-1 · manual, §2.5 o §6.5b (baja-media):** una caja «caso con fecha» que compare Neo4j (formato abierto), Databricks Genie Ontology, Microsoft Fabric IQ y Palantir Foundry en barrera de entrada, mantenimiento, qué se hace cumplir de verdad y portabilidad. Investigación hecha el 16/11 con documentación de cada plataforma (ver entrada `(f)`). **HECHO en v154 2026-11-16 (§2.5.5.4); ver `taller/Registro_manual_v153_a_v154.md`.**
@@ -3434,3 +3437,21 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Lectura.** Las cuatro son capas de producto dentro de una plataforma, no el formalismo compartido de la Web Semántica: la interoperabilidad entre proveedores es lo más débil (formato abierto en Neo4j, importación de RDF/OWL en Fabric). Es lectura mía; ninguna fuente aporta pruebas independientes de mejora de precisión ni de coste de mantenimiento.
 
 **Aplicado.** v154: nota «caso con fecha» en §2.5.5.4 (CI-ON-1, hecho). Antes de escribirla se releyó el anuncio de disponibilidad general de Databricks (11/11/2026): lo disponible es Genie Ontology y los fragmentos; el gestor de ontología sigue «próximamente en beta», y no se describe aprobación humana previa al uso de lo aprendido.
+
+### 2026-11-16 (g) — Bucle de agente guiado por evals (infografía y post de Rakesh Gohel; guías de Anthropic y LangChain)
+
+**Veredicto: Integrar, en pequeño.** `[Manual: CI-EV-1]` `[Empreinte: nada]` `[HyperRAG: nada que cambiar; ejemplo para la nota]` `[Auditra: refuerza que quien construye no es quien juzga]` `[Corpus: nada]`
+
+**Fuente.** Infografía y post que resumen dos guías. Leídas completas las dos guías primarias: Anthropic, *Demystifying evals for AI agents* (9/1/2026) y LangChain, *What Is Eval-Driven Development?* (9/11/2026). Los marcadores de la infografía están rotulados «ilustrativos»: sin cifras que verificar.
+
+**Qué aportan las guías.** Anthropic: estado final del entorno frente a transcripción; calificadores de código, de modelo y humanos, con sus pros y contras; pruebas de capacidad (empiezan bajas) frente a regresión (cerca del 100 %); un juez por dimensión, con salida «Unknown» y calibración con expertos; pass@k frente a pass^k; leer las trazas; vigilar la saturación. LangChain: definir qué es bueno, escribir la prueba antes de construir y comparar tras cada cambio; revisar ejemplo por ejemplo (el promedio oculta regresiones), conjunto de reserva contra el sobreajuste, y no fiarse de un juez sin contrastar con personas.
+
+**Corrección a mi análisis previo.** La recomendación de aprobado/suspenso en lugar de una escala de 1 a 10 es de LangChain; la guía de Anthropic no especifica escala numérica.
+
+**Contraste con el manual.** Ya cubierto: quien construye no es quien juzga (§10.5b, §14.5), ground truth y acuerdo entre anotadores (§13.12.3), éxito medio que oculta fallos (§13.16), evaluación online (§13.7, §7.4). Faltaba: estado final frente a transcripción, organización por tipos de calificador, diseño del juez y su contraste con personas, y la distinción pass@k/pass^k.
+
+**Otras obras.** HyperRAG tiene dos posturas: comprobaciones deterministas (`ARRANQUE.md` §2.1, «nunca un juez LLM para calidad de respuesta») y un arnés con juez de 1 a 10 (`scripts/eval_harness.py`, según este Triaje). No se cambia nada; es el ejemplo natural de la nota.
+
+**Infografía.** No se porta: cuatro roles (orquestador, trabajadores, jueces, asesor) son una forma de organizar, no un mecanismo nuevo, y sus bloques «prueba rápida / trampa común» son consejos sin evidencia.
+
+**Aplicado.** v155: nota `s1316-evals-2026-11` en §13.16 (CI-EV-1, hecho).

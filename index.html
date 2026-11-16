@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v154</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v155</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v154 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v155 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -26233,6 +26233,14 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
 <p>Al ingerir la segunda ejecución en el panel de control, la tabla de Robustez mezclaba en la misma columna valores numéricos y el texto "no aplicable" (la fila de arriba). Un tipo de dato no homogéneo que la librería de serialización de la interfaz no pudo convertir, y la página completa dejó de cargar. El fallo no estaba en ninguna cifra: estaba en cómo se mostraban. Se detectó al verificar en el navegador antes de dar el trabajo por terminado — no al confiar en que "si el script no lanzó excepción, funciona" — y se corrigió formateando todos los valores como texto antes de mostrarlos. Un ejemplo pequeño y del mismo día del patrón que este capítulo lleva describiendo desde el título: verificar en el punto de consumo, no solo en el punto de generación.</p>
 </div>
 <p>Estas tres ejecuciones no sustituyen ninguna de las capas anteriores de este capítulo — RAGAS y el golden dataset siguen midiendo si el sistema acierta; esto mide si acierta de forma consistente, se degrada con gracia, sabe cuándo no sabe, y qué tan grave es cuando falla. Encaja como una cuarta capa de medición, no como reemplazo: el mismo principio de "capas que se acumulan, no se sustituyen" que ya organiza §7.3 (Self-RAG junto a RAGAS junto al guardarraíl de escalado humano).</p>
+<div class="nota" id="s1316-evals-2026-11"><strong>🔎 Matiz (2026-11) · Evaluar a un agente: el resultado, el juez y el ejemplo concreto</strong> Dos guías de 2026 (Anthropic, <em>Demystifying evals for AI agents</em>, enero; LangChain, <em>What Is Eval-Driven Development?</em>, noviembre) coinciden en cuatro cosas que este capítulo no recogía.
+<ul>
+<li><strong>Califica el estado final, no lo que el agente dice.</strong> Que exista la reserva en la base de datos cuenta; que el agente afirme haberla hecho, no. Se puntúa el resultado y no la ruta exacta (las secuencias rígidas de pasos fallan ante variantes válidas), y conviene dar crédito parcial cuando la tarea tiene varios componentes.</li>
+<li><strong>Elige el calificador según el criterio.</strong> Código cuando la comprobación es determinista (rápido, barato, reproducible, pero frágil ante variantes válidas); modelo cuando la salida es abierta (flexible, pero no determinista y con necesidad de calibración); personas para calibrar a los anteriores. Aparte, las pruebas de <em>capacidad</em> empiezan con una tasa de acierto baja (hay algo que mejorar) y las de <em>regresión</em> deberían rondar el 100 %.</li>
+<li><strong>Un juez estrecho, con salida de escape y contrastado con personas.</strong> Anthropic recomienda un criterio por juez en lugar de un juez para todo, permitirle responder «no sé» cuando no hay información suficiente y calibrarlo con expertos; no fija una escala numérica. La recomendación de preguntar con aprobado/suspenso en vez de 1–10 es de LangChain. Compara las puntuaciones del juez con las humanas antes de fiarte de él (<a href="#s13123">§13.12.3</a>).</li>
+<li><strong>Compara ejemplo por ejemplo.</strong> El promedio puede subir mientras un caso que funcionaba deja de funcionar; en el caso de LangChain, una descripción de herramienta demasiado amplia hacía que una pregunta de «cómo hago» abriera un ticket. Escribe la prueba antes del arreglo y comprueba que falla en la versión rota; guarda un conjunto de reserva que no revisas mientras iteras; y lee las trazas, porque un calificador defectuoso hunde la puntuación sin que el agente falle.</li>
+</ul>
+Y una distinción que complementa la consistencia de arriba: <em>pass@k</em> es la probabilidad de que al menos uno de k intentos acierte (sube con k) y <em>pass^k</em> la de que acierten todos (baja con k). Con un 75 % por intento y tres intentos, y suponiendo intentos independientes, acierta el 42 % de las veces (0,75³). Para un agente de cara al cliente importa la segunda. En HyperRAG conviven hoy dos posturas, según las notas del propio proyecto: comprobaciones deterministas y «nunca un juez LLM para la calidad de la respuesta» en el arranque, y un arnés con juez de 1 a 10. Es justo la tensión que describe esta nota, y por eso es un ejemplo y no una receta (<a href="#s1315">§13.15</a>).</div>
 <h3>✅ Resultado de este capítulo</h3>
 <p>Tienes el framework completo de QA para un sistema RAG en producción: golden dataset, métricas RAGAS con su geometría de díada vs. trípode y las condiciones de aplicabilidad de cada métrica, el problema epistemológico del ground truth y cómo construir datasets de calibración auditables (kappa de Cohen, estratificación, versionado, calibración contra referencias establecidas), clasificación de errores, pruebas adversariales, monitorización, evaluación online, A/B testing, detección de alucinaciones sin ground truth por clustering de consistencia, silence rate y consensus decay rate como métricas de gobernanza, red teaming como práctica de gobernanza (tres generaciones, cuatro modalidades, vectores por tipo de sistema, relación asimétrica con el golden dataset), los riesgos de calidad y seguridad del código generado por IA sin revisión humana (vibe coding, deuda de comprensión), el protocolo de intersección verificada para usar varios modelos como panel de crítica sin heredar sus confabulaciones ni su sesgo hacia el centro, y un marco de fiabilidad de agente (consistencia, robustez, predictibilidad, seguridad) que mide lo que una sola cifra de éxito esconde, con sus límites de aplicabilidad declarados en vez de forzados. Y, en la capa que se suele dar por buena, los tres defectos de procedencia que hacen que un arnés de evaluación produzca números con buen aspecto y sin validez — la caché que descarta los parámetros del barrido, el componente ausente de la etiqueta y el <code>assert</code> que valida su propia declaración. Puedes liderar el diseño de calidad de cualquier sistema de IA de tu organización, incluyendo el código que lo construye.</p>
 </div>
@@ -31091,7 +31099,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v154).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v155).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -34343,7 +34351,7 @@ faithfulness = vec_coherence - 0.15
 #memo-phase-build strong{color:#fff}
 #w-numctx th{color:#cbd5e1 !important}
 
-body:not(.dark) #s2554-plataformas-2026-11 strong,body:not(.dark) #s63-mecanismo-2026-11 strong,body:not(.dark) #s32-obsoleta-2026-11 strong,body:not(.dark) #s6137-atribucion strong{color:#92400e;}
+body:not(.dark) #s2554-plataformas-2026-11 strong,body:not(.dark) #s63-mecanismo-2026-11 strong,body:not(.dark) #s32-obsoleta-2026-11 strong,body:not(.dark) #s1316-evals-2026-11 strong,body:not(.dark) #s6137-atribucion strong{color:#92400e;}
 body.dark .nota a{color:#8ec5ff;}
 body.dark .nota a:visited{color:#c4b5fd;}
 body.dark #s57b3 + div a{color:#8ec5ff;}

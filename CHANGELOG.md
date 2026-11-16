@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v155 — 16 noviembre 2026 · §13.16: evaluar a un agente (resultado, juez, ejemplo concreto)
+
+- Nota nueva al final de §13.16: estado final frente a transcripción; elegir calificador (código, modelo, personas) y pruebas de capacidad frente a regresión; juez estrecho con salida «no sé» y contrastado con personas; comparar ejemplo por ejemplo, conjunto de reserva y leer trazas; pass@k frente a pass^k.
+- Atribución separada: el aprobado/suspenso en lugar de 1–10 es de LangChain; Anthropic no fija una escala. HyperRAG se usa como ejemplo de dos posturas convivientes (según sus propias notas).
+- Origen: entrada `2026-11-16 (g)` del Triaje (infografía y post de Rakesh Gohel), CI-EV-1. No se porta la infografía (roles de orquestador, trabajadores, jueces y asesor). Versión v154 → v155; copia de la v154 en `archivo/`.
+
 ## v154 — 16 noviembre 2026 · §2.5.5.4: cuatro «ontologías» de plataforma
 
 - Nota «caso con fecha» al final de §2.5.5.4: Databricks Genie Ontology (disponible de forma general desde el 11/11/2026, con el gestor de ontología aún «próximamente en beta»), Microsoft Fabric IQ (ontología en vista previa; importa RDF/OWL), Palantir Foundry (objetos, vínculos y acciones) y Neo4j Ontology Graph Specification (formato abierto, sin versiones publicadas). Enlaces a la documentación de cada una.
