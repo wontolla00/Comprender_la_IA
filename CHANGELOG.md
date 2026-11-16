@@ -2,6 +2,11 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v146 — 16 noviembre 2026 · Contraste en tema claro de los widgets oscuros
+
+- **Corrección de legibilidad, sin cambio de contenido.** En tema claro, los widgets de tarjeta oscura (§1.2 ETL↔RAG, §3.4 diagnóstico de métricas, §6.13.2 tipos de memoria, tablas de herramientas, y los widgets `arb10`, `err13`, `act16`, `mm22`) heredaban de las reglas globales (h4, strong, td, .nota) un texto oscuro sobre fondo oscuro. Se añade un bloque `<style id="fix-contraste-widgets-oscuros">` al final del documento que fuerza el color a las variables propias de cada widget. También se aclaran los grises de `#rag-mec-es`, la cabecera de `#w-numctx` y los títulos de `#memo-phase-build`.
+- Tema oscuro: sin cambios. Versión v145 → v146; copia de la v145 en `archivo/`.
+
 ## v145 — 9 noviembre 2026 · §13.15.4: ganchos, fallo cerrado o abierto
 
 - **§13.15.4, recuadro «Matiz (2026-11)»** (`id="s13154-ganchos-2026-11"`): un control en un gancho debe decidir de antemano si falla cerrado o abierto. Microsoft Learn «Hooks (GitHub Copilot)» (vista previa, 29/09/2026) y la documentación de Claude Code y del Agent SDK, leídas íntegras: valor por defecto abierto, interruptor `onFailure: block` / `on_failure="block"` donde existe, permisos para prohibiciones sin excepción. No se generaliza a otras plataformas.
