@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v148 — 16 noviembre 2026 · §21.8 y §14.5: OWASP agéntico y registro de riesgos de agentes
+
+- **§21.8, subapartado «Y la lista para agentes»** (`id="s218-agentico"`) y recuadro «Matiz (2026-11)» (`id="s218-agentico-2026-11"`): tabla del OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10) con la sección del manual más cercana a cada entrada. Identificadores y nombres tomados del blog de lanzamiento de OWASP (9/12/2025); no se leyó el documento completo ni se reproducen sus correspondencias con la lista LLM. El recuadro avisa de que ASI05 y ASI07 son los de menor cobertura específica.
+- **§14.5, recuadro «Matiz (2026-11)»** (`id="s145-registro-agentes-2026-11"`): tres campos que suelen faltar en un registro de riesgos de agentes (autoridad, evidencia, disparador), la regla de «bloquear lo irreversible, vigilar lo reversible» y subir un nivel la valoración si la peor acción no se puede deshacer. Presentado como práctica sugerida por un profesional, no como estándar. La tabla coloreada «bloquear / vigilar» de diez filas queda sin hacer.
+- Corrección de contraste: enlaces dentro de `.nota` en tema oscuro (antes azul por defecto sobre fondo marrón, 1,55:1).
+- Origen: CI-OA-1 y CI-RR-1 de la entrada `2026-11-16 (a)` del Triaje. Versión v147 → v148; copia de la v147 en `archivo/`.
+
 ## v147 — 16 noviembre 2026 · §9.8: widget interactivo del RAG agéntico con bucle
 
 - **§9.8, «Combinación 3: RAG agéntico»:** el `.pipeline` lineal de seis cajas (que no mostraba el bucle) se sustituye por un widget interactivo (`id="ragag14"`): 8 nodos, bucle de reformulación, tres escenarios (fácil, difícil, sin respuesta con abstención), máximo de iteraciones configurable, contadores de llamadas y coste relativo ilustrativo, y comparación con el RAG lineal. Datos ficticios, etiquetados como ejemplo ilustrativo.

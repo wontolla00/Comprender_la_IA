@@ -18,11 +18,11 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (nuevos CI-OA-1 y CI-RR-1); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (CI-OA-1 y CI-RR-1 hechos en v148); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
-**NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; nada tocado en `index.html`).**
-- [ ] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión.
-- [ ] **CI-RR-1 · manual, §14.5 (baja-media):** recuadro con los campos autoridad, evidencia y disparador del registro de riesgos y la regla de reversibilidad (bloquear lo irreversible, vigilar lo reversible). La tabla coloreada «bloquear / vigilar» es opcional y solo con fuente primaria. Entrada `2026-11-16 (a)`.
+**NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
+- [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.**
+- [x] **CI-RR-1 · manual, §14.5 (baja-media):** recuadro con los campos autoridad, evidencia y disparador del registro de riesgos y la regla de reversibilidad (bloquear lo irreversible, vigilar lo reversible). La tabla coloreada «bloquear / vigilar» es opcional y solo con fuente primaria. Entrada `2026-11-16 (a)`. **HECHO en v148 2026-11-16: recuadro en §14.5 sin la tabla; la tabla coloreada sigue sin hacer.**
 
 **NUEVO 2026-11-07 (entradas `2026-11-07 (a)`–`(d)`; nada tocado en `index.html`).**
 - [ ] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`.
