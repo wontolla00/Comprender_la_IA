@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v148** (noviembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v149** (noviembre 2026)
 
 ---
 
@@ -114,6 +114,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 |---|---|
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
+| **v149** | §21.8: tabla OWASP agéntico cotejada con el documento completo en ASI05 y ASI07; ambas marcadas como cobertura mínima del manual. |
 | **v148** | §21.8: mapa del OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10) → secciones del manual; §14.5: tres campos del registro de riesgos de agentes (autoridad, evidencia, disparador) y regla de reversibilidad. |
 | **v147** | §9.8, «RAG agéntico»: la figura lineal se sustituye por un widget interactivo con el bucle (evaluar, reformular, abstenerse) y comparación con RAG lineal. |
 | **v146** | Contraste en tema claro: los widgets de tarjeta oscura (§1.2, §3.4, §6.13.2, tablas de herramientas y otros) dejan de heredar texto oscuro. |

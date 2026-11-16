@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v148</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v149</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v148 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v149 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -30666,15 +30666,15 @@ updateAttackConfig();
 <tr><td><strong>ASI02</strong> Tool Misuse and Exploitation</td><td>Herramientas legítimas empujadas a un uso inseguro o destructivo</td><td><a href="#s216">21.6</a>, <a href="#s217">21.7</a>, <a href="#cap102">§10.2</a> (agente mínimo viable), <a href="#s104">§10.4</a></td></tr>
 <tr><td><strong>ASI03</strong> Identity and Privilege Abuse</td><td>Credenciales filtradas o permisos de más permiten actuar fuera del alcance previsto</td><td><a href="#s10102">§10.10.2</a> (identidad del agente), <a href="#s105c">§10.5c</a> (autorización y aislamiento)</td></tr>
 <tr><td><strong>ASI04</strong> Agentic Supply Chain Vulnerabilities</td><td>Componentes que se cargan en tiempo de ejecución (servidores MCP, agentes A2A, plugins) envenenados</td><td><a href="#s216">21.6</a> (servidores MCP), <a href="#s10101">§10.10.1</a>, Cap. 15 (versionado)</td></tr>
-<tr><td><strong>ASI05</strong> Unexpected Code Execution</td><td>Rutas en lenguaje natural que acaban ejecutando código</td><td><a href="#s104">§10.4</a> (sandboxing del código generado); sin sección propia</td></tr>
+<tr><td><strong>ASI05</strong> Unexpected Code Execution</td><td>Código generado o inyectado que se ejecuta y compromete el equipo, el contenedor o el entorno</td><td><a href="#s104">§10.4</a>: solo una línea de sandboxing del código generado; <b>cobertura mínima</b>, sin sección propia</td></tr>
 <tr><td><strong>ASI06</strong> Memory and Context Poisoning</td><td>Una memoria envenenada cambia el comportamiento mucho después de la interacción original</td><td><a href="#ca-puerta-promocion">§6.13.4</a> y <a href="#s1093">§10.9.3</a> (puerta de promoción), <a href="#s214">21.4.1</a></td></tr>
-<tr><td><strong>ASI07</strong> Insecure Inter-Agent Communication</td><td>Mensajes falsificados entre agentes desvían a un grupo entero</td><td><a href="#s10101">§10.10.1</a> (A2A), <a href="#s106">§10.6</a> (trazabilidad multi-agente)</td></tr>
+<tr><td><strong>ASI07</strong> Insecure Inter-Agent Communication</td><td>Mensajes entre agentes sin autenticación, integridad ni validación: interceptación, suplantación, repetición</td><td><a href="#s10101">§10.10.1</a> describe A2A pero no su seguridad; <a href="#s106">§10.6</a> (solo trazabilidad); <b>cobertura mínima</b></td></tr>
 <tr><td><strong>ASI08</strong> Cascading Failures</td><td>Una señal falsa se propaga por el flujo automatizado con impacto creciente</td><td><a href="#s103">§10.3</a>, <a href="#s104b">§10.4b</a>, <a href="#s10104">§10.10.4</a>, Cap. 12.4 (circuit breaker)</td></tr>
 <tr><td><strong>ASI09</strong> Human-Agent Trust Exploitation</td><td>Explicaciones pulidas y seguras de sí mismas llevan al humano a aprobar algo dañino</td><td><a href="#cap142">§14.2</a> (supervisión decorativa), <a href="#s143">§14.3</a>, <a href="#s107">§10.7</a></td></tr>
-<tr><td><strong>ASI10</strong> Rogue Agents</td><td>Desalineación, ocultación y acción autodirigida del agente</td><td><a href="#s10104">§10.10.4</a>, <a href="#s104b">§10.4b</a> (las ocho salidas, con interruptor de emergencia)</td></tr>
+<tr><td><strong>ASI10</strong> Rogue Agents</td><td>Agentes comprometidos o que se desvían de su función autorizada; el daño nace de la deriva de comportamiento</td><td><a href="#s10104">§10.10.4</a>, <a href="#s104b">§10.4b</a> (las ocho salidas, con interruptor de emergencia)</td></tr>
 </tbody>
 </table>
-<div class="nota" id="s218-agentico-2026-11"><strong>🔎 Matiz (2026-11) · Qué está verificado de esta segunda lista</strong> El OWASP GenAI Security Project publicó el <em>Top 10 for Agentic Applications 2026</em> el 9 de diciembre de 2025. Los diez identificadores y nombres de la tabla están tomados del <a href="https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/" target="_blank" rel="noopener">blog de lanzamiento de OWASP</a>; la columna «En qué consiste» es una paráfrasis del manual. No se ha leído el documento completo (la <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" target="_blank" rel="noopener">página del recurso</a> remite a una descarga), así que aquí no se reproducen sus correspondencias con la lista LLM ni sus medidas de mitigación. La columna «Dónde en el manual» es una lectura por tema y título de sección, no un cotejo línea a línea. <b>ASI05 y ASI07 son los de menor cobertura específica:</b> lo más cercano es el sandboxing de §10.4 y el tratamiento de A2A en §10.10.1, y no se ha comprobado que el manual aborde la suplantación de mensajes entre agentes.</div>
+<div class="nota" id="s218-agentico-2026-11"><strong>🔎 Matiz (2026-11) · Qué está verificado de esta segunda lista</strong> El OWASP GenAI Security Project publicó el <em>Top 10 for Agentic Applications 2026</em> el 9 de diciembre de 2025 (<a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" target="_blank" rel="noopener">página del recurso</a>). Se ha leído el documento completo: los diez identificadores y nombres son los suyos y la columna «En qué consiste» es una paráfrasis del manual. Aquí no se reproducen sus correspondencias con la lista LLM ni su texto. La columna «Dónde en el manual» es una lectura por tema y título de sección, <b>cotejada contra el texto solo en ASI05 y ASI07</b>, y ahí el resultado es una laguna: el manual no desarrolla lo que OWASP recomienda. Para ASI05, prohibir <code>eval</code> en agentes de producción, no ejecutar como administrador, separar la generación de código de su ejecución con puertas de validación y exigir aprobación humana en ejecuciones con privilegios elevados. Para ASI07, autenticación mutua y firma de los mensajes entre agentes, protección contra repetición (nonces y marcas de tiempo), fijar la versión del protocolo y rechazar degradaciones, y registros de agentes con identidad verificada. Los otros ocho cruces siguen sin cotejar línea a línea.</div>
 <p style="font-size:.85rem;color:var(--muted);">Complementos útiles para auditoría: MITRE ATLAS (catálogo de tácticas y técnicas adversariales contra sistemas de IA, en el formato de ATT&amp;CK) y NIST AI 100-2 (taxonomía de ataques de machine learning adversarial). Para agentes, OWASP AISVS (ver §10.10.2).</p>
 
 <h2 id="s219">21.9 Qué controlas y qué NO garantizas</h2>
@@ -30859,7 +30859,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v148).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v149).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>

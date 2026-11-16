@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v149 — 16 noviembre 2026 · §21.8: OWASP agéntico cotejado en ASI05 y ASI07
+
+- Leído el PDF completo del OWASP Top 10 for Agentic Applications 2026. Cotejados contra el manual ASI05 y ASI07: ambos quedan marcados como **cobertura mínima** (el manual solo tiene una línea de sandboxing en §10.4 y la descripción de A2A en §10.10.1, sin seguridad de mensajes). El recuadro resume en palabras propias lo que OWASP recomienda y el manual no desarrolla.
+- Ajustadas las descripciones de ASI05, ASI07 y ASI10 en la tabla a la definición de OWASP. Los otros ocho cruces siguen sin cotejar línea a línea.
+- Versión v148 → v149; copia de la v148 en `archivo/`.
+
 ## v148 — 16 noviembre 2026 · §21.8 y §14.5: OWASP agéntico y registro de riesgos de agentes
 
 - **§21.8, subapartado «Y la lista para agentes»** (`id="s218-agentico"`) y recuadro «Matiz (2026-11)» (`id="s218-agentico-2026-11"`): tabla del OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10) con la sección del manual más cercana a cada entrada. Identificadores y nombres tomados del blog de lanzamiento de OWASP (9/12/2025); no se leyó el documento completo ni se reproducen sus correspondencias con la lista LLM. El recuadro avisa de que ASI05 y ASI07 son los de menor cobertura específica.
