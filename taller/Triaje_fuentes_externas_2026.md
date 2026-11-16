@@ -18,7 +18,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-16 (entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-16 (entradas `(i)` Neo4j Intelligraph con IBM y `(j)` hoja de ruta de seguridad de agentes registradas como Descartar, sin pendiente; entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
 
 **NUEVO 2026-11-16 (entrada `2026-11-16 (a)`; CI-OA-1 y CI-RR-1 hechos en v148).**
 - [x] **CI-OA-1 · manual, §21.8 (baja-media):** añadir la correspondencia con el OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10, publicado el 9/12/2025), citando la fuente primaria y no el post. Es cambio de versión. **HECHO en v148 2026-11-16: tabla ASI01–ASI10 y recuadro en §21.8; ver `taller/Registro_manual_v147_a_v148.md`.** Nota 2026-11-16: PDF completo leído en v149; ASI05 y ASI07 cotejados (cobertura mínima del manual); ver `taller/Registro_manual_v148_a_v149.md`.
@@ -3465,3 +3465,23 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Contraste.** No aporta nada que el manual o HyperRAG no tengan. La frase final («mejor recuperación, no un modelo más grande») no trae evidencia. No explica el papel de k ni que RRF descarta la magnitud de las puntuaciones; el manual tampoco lo explica, pero no hay fuente en este post que lo respalde.
 
 **Sin pendiente.** Una nota en §6.2 sobre el papel de k y lo que RRF pierde queda ofrecida a David, no abierta.
+
+### 2026-11-16 (i) — Neo4j Intelligraph con IBM (post de LinkedIn y blog de Neo4j)
+
+**Veredicto: Descartar.** `[Manual: ya cubierto en §6.6, §6.11.6 y §6.13]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Fuente.** Post de LinkedIn y anuncio de Neo4j. Oferta conjunta con IBM (watsonx Orchestrate y watsonx.data) que IBM licencia y da soporte; la novedad es de distribución (contrato y soporte), no de arquitectura. Solo se vieron fragmentos del anuncio, no la página completa.
+
+**Contraste.** Grafo como memoria y capa de conocimiento de agentes: ya en el manual. El post no describe cómo se audita ni cómo se evita que la memoria aprendida caduque (§6.13.7). La cifra del proveedor (más del 90 % experimenta, menos de la mitad escala) no tiene fuente visible. Existe un proyecto Neo4j Labs de integración con watsonx Orchestrate por MCP; es una integración, no un método.
+
+**Sin verificar.** La cita del directivo de IBM, la versión para el sector público de EE. UU. y el modelo de soporte. Sin pendiente. Relacionada con la entrada `(f)` (Neo4j, Observar).
+
+### 2026-11-16 (j) — «AI Agent Security: The Ultimate Roadmap» (infografía de Sumit Gupta y post de LinkedIn)
+
+**Veredicto: Descartar.** `[Manual: casi todo ya cubierto; ver huecos]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Auditra: nada]` `[Corpus: nada]`
+
+**Fuente.** Infografía de 11 etapas y 55 títulos de habilidades, sin contenido, definiciones ni fuentes. El post añade generalidades.
+
+**Contraste.** Se comprobó por búsqueda de términos en el manual. Cubierto: tríada letal (con Willison), OWASP Agentic Top 10 (CI-OA-1, v148), confused deputy, STRIDE, MAESTRO, inyección indirecta, menor privilegio, listas de permitidas, credenciales efímeras, identidad del agente, sandbox, cortacircuitos, envenenamiento de memoria y de RAG, procedencia, red teaming, SLO, A2A, fallos en cascada, colusión. Sin resultados: radio de impacto (*blast radius*), registro de decisiones de arquitectura (ADR), funciones de aptitud, ley de Conway.
+
+**Sin verificar.** Si el manual explica que la mitigación de la tríada letal es retirar una de las tres patas; no se buscó al autor ni una versión con contenido. Sin pendiente: «radio de impacto» podría ganarse una frase en §21.8, pero saldría de conocimiento propio, no de esta fuente.
