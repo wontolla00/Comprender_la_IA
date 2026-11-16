@@ -17172,7 +17172,7 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
 </tbody>
 </table>
 <p>Los nombres de los estados son los de este manual; el patrón original usa un vocabulario parecido. La distinción entre <em>obsoleta</em> y <em>alucinada</em> es la misma que separa, en la evaluación de RAG, un error «fundamentado, pero en una fuente que ya no vale» de uno inventado (<a href="#s32">§3.2</a>).</p>
-<p><strong>Dos límites.</strong> Primero, <em>solo funciona si la evidencia está versionada</em>: sin versión no hay recibo, y esa afirmación debe quedar como «no verificada», nunca como «respaldada». Segundo, la <em>granularidad del recibo</em> importa. Con una huella por documento entero, cualquier cambio marca como obsoleta toda la memoria que cuelga de él; con una huella por fragmento (la misma idea que los identificadores por hash de contenido del §15.3) solo se marcan las afirmaciones afectadas. La figura deja comprobarlo.</p>
+<p><strong>Dos límites.</strong> Primero, <em>solo funciona si la evidencia está versionada</em>: sin versión no hay recibo, y esa afirmación debe quedar como «no verificada», nunca como «respaldada». Segundo, la <em>granularidad del recibo</em> importa. Con una huella por documento entero, cualquier cambio marca como obsoleta toda la memoria que cuelga de él; con una huella por fragmento (la misma idea que los identificadores de chunk por hash de contenido del <a href="#s152">§15.2</a>) solo se marcan las afirmaciones afectadas. La figura deja comprobarlo.</p>
 <section id="obs67" aria-label="Figura interactiva: afirmaciones guardadas con recibo de versión">
 <style>
 #obs67{--bg:#0e1a2b;--card:#13253a;--line:#1e3350;--txt:#e8f0f8;--mut:#9fb3c8;--ok:#6ee7a0;--old:#ffcf87;--bad:#ff9e9e;--unk:#c3d0e0;--acc:#4cc9f0;

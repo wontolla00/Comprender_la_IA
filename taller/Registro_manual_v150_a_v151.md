@@ -17,4 +17,4 @@
 
 ## Sin verificar
 - Afirmaciones y cifras del post original (no se usan).
-- Si la referencia cruzada al §15.3 (identificadores por hash de contenido) sigue vigente tras la reestructuración: no se ha releído esa sección en esta versión.
+- (Corregido tras releer) La referencia a los identificadores por hash de contenido apuntaba a §15.3, que trata del versionado de modelos; la idea está en §15.2 («Actualización incremental vs. re-indexación completa»). Corregida a §15.2, con enlace.
