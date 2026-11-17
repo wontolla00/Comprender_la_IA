@@ -44,7 +44,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 - [x] **CI-AR-1 · manual, RAG (baja-media):** comprobar si §6 y la evaluación de RAG separan el error «fundamentado, pero en una fuente desactualizada o no autoritativa» de la alucinación (el texto de Karuparti lo ilustra con un RFP en una revisión antigua y unos ingresos tomados de una presentación en lugar del sistema financiero). El manual ya habla de «obsoleto» en 23 sitios; no se ha comprobado si cubren este caso. Entrada `2026-11-07 (a)`. **HECHO en v151 2026-11-16 (matiz en §3.2; estados en §6.13.7); ver `taller/Registro_manual_v150_a_v151.md`.**
 - [ ] **HR-AR-1 · HyperRAG (baja-media):** misma pregunta para el arnés de evaluación: ¿cuenta aparte la respuesta apoyada en la fuente equivocada? Se une a la comprobación de C3 antes de preguntas temporales con normas nuevas. Sin decidir.
 - [x] **CI-NC-1 · manual (baja):** NCM (arXiv 2610.14162). Una línea en la parte de generación solo si hay réplica independiente o una API; hoy es investigación a pequeña escala. No se ha comprobado cómo trata el manual los modelos de lenguaje por difusión. Entrada `2026-11-07 (b)`. **DESCARTADO 2026-11-09: investigación a pequeña escala (725 M de parámetros) y sin réplica ni API; el manual solo trata difusión de imagen. Reabrir si aparece réplica independiente.**
-- [ ] **EM-FL-1 · Empreinte (baja):** Flint como proveedor local de prueba, solo si el autor lo quiere; su caída de velocidad con el contexto es el mismo fenómeno de EM-IE-1. Sin decidir.
+- [x] **EM-FL-1 · Empreinte (baja) · APARCADO 2026-11-17 por el autor:** Flint como proveedor local de prueba (modelo de código de 40 B, mezcla de expertos; primario sin leer; no cabe en la GPU de ~6 GB de este equipo). **Se reabre si** se consigue hardware mayor o si un cliente usa Flint. Su caída de velocidad con el contexto puede medirse con cualquier modelo local ya soportado.
 - [ ] **CI-LP-1 · manual, agentes (baja-media):** comprobar si el capítulo de agentes define el bucle de turno y el de traza, y si nombra los fallos de contexto (envenenamiento, distracción, confusión, conflicto) con su fuente original; si falta, una caja breve. Antes de atribuir la taxonomía a alguien, leer el primario. Entrada `2026-11-07 (c)`.
 - [x] **CI-HF-1 · manual, §10.10.4 (baja):** reformular la salvedad «la de 70.000 mensajes no se ha vuelto a cotejar»: METR/Redwood la da. Una frase; no hecho. Entrada `2026-11-07 (d)`. **HECHO en v143 2026-11-09: frase corregida en §10.10.4; ver `taller/Registro_manual_v142_a_v143.md`.**
 - [ ] **CI-SASE-1 · manual, gobernanza (baja-media):** posible recuadro sobre las capas de control de un agente (red y acceso, contenido malicioso, acción de negocio). Antes de citar a un fabricante o a Gartner, leer en primario al menos un anuncio técnico y el informe; no afirmar que un producto «no tiene» una función sin comprobarlo en su documentación. Observar. Entrada `2026-11-05 (a)`. *(No figuraba en esta cabecera; añadido el 2026-11-09.)*
@@ -180,7 +180,7 @@ el log, no de importancia.
 
 **Decisiones pendientes — solo quedan las de Empreinte/HyperRAG:**
 
-1. **Empreinte** — desglose de latencia/tokens por fase
+1. **Empreinte** — *[EM-LF-1, APARCADO 2026-11-17 junto al timing por capa de HyperRAG (punto 2); comprobado: `rag_engine.py` solo mide un `latency_ms` total, sin fases; se reabren a la vez si un encargo real pide medir tiempos]* desglose de latencia/tokens por fase
    (`embedding_latency_ms`/`retrieval_latency_ms`/`generation_latency_ms`)
    en `audit_sensor.py::record()`, hoy un único `latency_ms` agregado por
    turno. Fuente: Griciunas/tracing. Condicionado a verificar si
@@ -189,7 +189,7 @@ el log, no de importancia.
    `reranker`) en `search`/`query`, hoy ausente. Misma fuente. Anclado
    también en `docs/ARRANQUE.md` §8 y `docs/RETOMAR.md` §7 de HyperRAG,
    marcado ahí como "sin medir, sin decidir, no tocar sin discutirlo antes".
-3. **Empreinte** — `retrieved_chunks: []` en vez de (o además de)
+3. **Empreinte** — *[CERRADO 2026-11-17, hecho en otra forma: `rag_engine.py` ya guarda `context_chunks_meta` (orden, fuente, score) y calcula la calidad en línea con los textos; no se guardan los textos en el log, a propósito]* `retrieved_chunks: []` en vez de (o además de)
    `chunks_used` (conteo) en `audit_sensor.py`, para habilitar
    faithfulness/context precision sobre tráfico real. Fuente: Chunking
    Strategies for RAG / recomendación ya existente del propio manual
