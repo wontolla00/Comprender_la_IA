@@ -55,7 +55,7 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 **CERRADO en v141 / PENDIENTE de Empreinte: «Inference Engineering» (2026-10-30, entrada `2026-10-30 (b)`; veredicto «Integrar, en pequeño»).**
 - [x] **CI-IE-1 · §5.7d, recuadro breve (media-baja): HECHO en v141** (30/10/2026; ver `taller/Registro_manual_v140_a_v141.md`). definir juntos TTFT, ITL y TPOT (sin igualar ITL y TPOT); *goodput* según DistServe (arXiv 2401.09670: tasa máxima que cumple el objetivo de servicio, por GPU); *chunked prefill* según Sarathi-Serve (OSDI '24); cuantización de la caché KV según la documentación de vLLM (fp8, calibrar). PP/DP opcional. No citar las aceleraciones de los papers como generales. Primarios leídos solo con herramienta que resume: releer antes de citar cifras. Si se aplica: v141, copia de v140 en `archivo/`, CHANGELOG y `taller/Registro_manual_v140_a_v141.md`.
-- [ ] **EM-IE-1 · Empreinte (baja-media):** campo opcional `ttft_ms` (n/d si falta) y porcentaje de interacciones que cumplen un objetivo de latencia declarado por el usuario, como análogo de *goodput*; se une a EM-RT-1. Sujeto a la regla P3. Sin decidir.
+- [x] **EM-IE-1 · Empreinte (baja-media) · 2026-11-17: anotación corregida, construcción aplazada por el autor:** la extensión ya guarda `t_first_byte_ms` (heterogéneo por proveedor, sin consumidor, cobertura parcial; en Claude mide el primer evento del turno, no el primer token). El análogo de goodput (porcentaje bajo un objetivo de latencia declarado) queda para cuando un cliente declare ese objetivo. Detalle en `Empreinte/CLAUDE.md`.
 
 **CERRADO en v141: CUDA Graphs (2026-10-30, entrada `2026-10-30 (c)`; veredicto «Integrar, en pequeño»).**
 - [x] **CI-CG-1 · §5.7d, párrafo overhead-bound (baja-media): HECHO en v141** (30/10/2026). una o dos frases con el nombre CUDA Graphs y su coste (grafos para tamaños capturados, relleno o vuelta a eager, memoria y arranque extra), más palabras clave del buscador. Fuente: diseño de CUDA Graphs de vLLM y tutorial de CUDA; sin cifras de aceleración y sin afirmar lo de las direcciones de memoria. Puede ir junto a CI-IE-1 en una sola v141. Primarios leídos solo con herramienta que resume.
@@ -3212,7 +3212,7 @@ conciliación de previsiones; comparar antes y después a perímetro comparable,
 
 **Relevancia.**
 - *Manual (media-baja):* un recuadro breve en §5.7d con TTFT/ITL/TPOT, *goodput* según DistServe, *chunked prefill* según Sarathi-Serve y cuantización de la caché KV según la documentación de vLLM; PP/DP opcional.
-- *Empreinte (baja-media):* hoy mide solo latencia hasta el fin de la respuesta; no registra TTFT. Ver EM-IE-1. Sujeto a la regla P3 de Empreinte (nada pensado para vender).
+- *Empreinte (baja-media):* hoy mide latencia hasta el fin de la respuesta y la extensión guarda `t_first_byte_ms`, que no es un TTFT comparable (corregido el 2026-11-17). Ver EM-IE-1. Sujeto a la regla P3 de Empreinte (nada pensado para vender).
 - *HyperRAG:* baja (tampoco registra TTFT). *Corpus:* nada.
 - *Transversal «Impacto económico de la IA»:* enlaza con el coste por tarea completada (EM-RT-1); sin post.
 - *Auditra:* sin detalle aquí (el Triaje es público).
