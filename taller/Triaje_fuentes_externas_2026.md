@@ -2801,7 +2801,7 @@ puntos: el 63,1 % es «la estimación del dúo igualaba a la mejor de las dos» 
 intentar» (segunda condición); ya hecho como nota-puente en `10_epigenetica/` (sin tocar texto vigente). Empreinte: el estudio fija el esfuerzo de
 razonamiento y criba 17 modelos candidatos, ejemplo de control del confusor de EM-IT-1; sin tarea nueva. HyperRAG: nada. Auditra: ver nota privada.
 
-**Veredicto: Integrar, con cautela.** `[Manual: CI-MC-1, baja-media]` `[Corpus: nota-puente hecha, propuesta de inserción sin aplicar, decide el autor]`
+**Veredicto: Integrar, con cautela.** `[Manual: CI-MC-1, baja-media]` `[Corpus: nota-puente hecha; el autor decidió el 2026-10-16 la opción (c), sin insertar; comprobado el 2026-11-17: sin réplica ni revisión por pares localizadas del preprint]`
 `[Empreinte: sin tarea]` `[HyperRAG: nada]` `[Auditra: ver nota privada]`
 
 ### 2026-10-12 (g) — «How Backpropagation Works» (Tech with Mak; infografía, post y versión interactiva HTML)
