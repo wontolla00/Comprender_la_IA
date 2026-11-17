@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v156 — 17 noviembre 2026 · §14.2b: «derechos de decisión» sí tiene literatura
+
+- Aviso de la cabecera de §14.2b corregido: la matriz Delegar / Supervisar / Retomar / Responder es propia de este manual, pero el término tiene literatura (Weill y Ross, 2004; MIT CISR, 2026). Antes decía que no tenía adopción externa ni literatura de referencia.
+- Nota de convergencia reescrita: MIT CISR como fuente primaria; el hilo de LinkedIn queda como señal secundaria.
+- Nota nueva `s142b-cisr-2026-11`: origen del término (Weill y Ross, citado por una reseña), matriz ambigüedad × riesgo del CISR (cuatro tipos; encuadrar, actuar y aprender), cómo se relaciona con la matriz del manual y límites, incluida la discrepancia entre el texto y la figura del propio briefing.
+- Origen: entrada `2026-10-25 (l)` del Triaje y su actualización del 2026-11-17, CI-CR-1. Versión v155 → v156; copia de la v155 en `archivo/`.
+
 ## v155 — 16 noviembre 2026 · §13.16: evaluar a un agente (resultado, juez, ejemplo concreto)
 
 - Nota nueva al final de §13.16: estado final frente a transcripción; elegir calificador (código, modelo, personas) y pruebas de capacidad frente a regresión; juez estrecho con salida «no sé» y contrastado con personas; comparar ejemplo por ejemplo, conjunto de reserva y leer trazas; pass@k frente a pass^k.

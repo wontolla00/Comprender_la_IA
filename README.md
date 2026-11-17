@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v155** (noviembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v156** (noviembre 2026)
 
 ---
 
@@ -114,6 +114,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 |---|---|
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
+| **v156** | §14.2b: el término «derechos de decisión» sí tiene literatura (Weill y Ross, 2004; MIT CISR, 2026); aviso y nota de convergencia corregidos y nota nueva sobre la matriz ambigüedad × riesgo del CISR, con las discrepancias de su propia figura. |
 | **v155** | §13.16: nota sobre evaluar agentes (estado final frente a transcripción, juez estrecho con salida «no sé», comparar ejemplo por ejemplo, pass@k frente a pass^k), a partir de las guías de Anthropic y LangChain; ejemplo de las dos posturas de HyperRAG. |
 | **v154** | §2.5.5.4: caso con fecha que compara las «ontologías» de Databricks, Microsoft Fabric IQ, Palantir Foundry y Neo4j (formalismo compartido frente a capa de producto), con cautelas y enlace con la puerta de promoción de §6.13.4. |
 | **v153** | §6.3: nota sobre por qué hay dos etapas y qué cuesta la segunda (coste lineal con los candidatos, sigmoide no es calibración) y aviso de que las cifras de «ganancia típica» son orientativas y sin fuente única. |
