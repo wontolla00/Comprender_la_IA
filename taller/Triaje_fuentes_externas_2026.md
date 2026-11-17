@@ -3499,6 +3499,6 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 - Discrepancias del propio briefing: el texto da el encuadre estratégico a los directivos humanos y la figura lo marca como «humano con IA»; en el cuadrante consecuente el texto dice que los líderes fijan la tolerancia al riesgo y la figura marca el encuadre como IA. 30 entrevistas con 27 directivos (texto) frente a 29 (figura). Pies de las páginas 2 y 3: «June 2025» (errata).
 - MIT Sloan añade por su cuenta que toda decisión de precios exige un humano en el bucle; el briefing solo dice que acertar siempre con el precio es una restricción innegociable.
 
-**Relevancia.** Manual: hecho en v156 (§14.2b). Auditra: ver nota privada. Empreinte, HyperRAG y corpus: ver el cierre de la sesión del 17/11 en la bitácora.
+**Relevancia.** Manual: hecho en v156 (§14.2b). Auditra: ver nota privada. Empreinte y HyperRAG: nada. Corpus: dos usos acotados propuestos el 17/11 para «La orden que nadie dio» (matizar «apenas tiene literatura» sobre la autorización; la regla del dueño con nombre del CISR como contrapunto), sin decidir.
 
-**Veredicto: Integrar (hecho).** `[Manual: CI-CR-1, HECHO en v156]` `[Auditra: ver nota privada]` `[Empreinte: sin pendiente nuevo]` `[HyperRAG: nada]` `[Corpus: nada]`
+**Veredicto: Integrar (hecho).** `[Manual: CI-CR-1, HECHO en v156]` `[Auditra: ver nota privada]` `[Empreinte: nada]` `[HyperRAG: nada]` `[Corpus: propuesta sin decidir]`
