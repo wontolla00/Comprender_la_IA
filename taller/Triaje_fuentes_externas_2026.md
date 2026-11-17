@@ -2456,7 +2456,7 @@ Cruce con el manual y con el resto de la obra.
 - **HyperRAG:** sin cambio. Fortune indica que pedir pros y contras no eliminó el sesgo; Tension Hold no está
   medido frente a *trendslop* y no se afirma que lo mitigue.
 - **Corpus:** dos notas puente en `03_El_Restaurador_de_Huellas/taller/` (Asimov; ficción prospectiva).
-  Herbie/sicofancia en *El síndrome del zorro amable* queda como decisión abierta de David.
+  Herbie/sicofancia en *El síndrome del zorro amable*: quedó como decisión abierta de David; **resuelto el 2026-09-30 fuera del ensayo** (nota-puente `10_epigenetica/El_robot_que_miente_por_amabilidad_nota_puente.md`; el ensayo no se modifica; comprobado el 2026-11-17 que sigue sin mencionar a Asimov ni a Herbie).
 
 `[Manual: v114 → v115 — §20.1 (trendslop), §20.3b (IMD)]`
 
