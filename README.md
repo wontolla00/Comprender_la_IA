@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v157** (noviembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v158** (noviembre 2026)
 
 ---
 
@@ -114,6 +114,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 |---|---|
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
+| **v158** | §10.9, §21.5, §20.3 y §14.5: guía de la AEPD sobre IA agéntica (memoria y aprobación humana); estudio de Strömberg, Lei y Wu sobre deberes y exámenes; tres capas de control de un agente (SASE, inspección de herramientas, decisión de negocio). |
 | **v157** | §10.9.2 y §10.5c: nota sobre bucles, los cuatro fallos de contexto (Breunig) y el vocabulario agente / agéntico (Anthropic); nota sobre dimensionado del índice vectorial con cuantización y camino de escritura. |
 | **v156** | §14.2b: el término «derechos de decisión» sí tiene literatura (Weill y Ross, 2004; MIT CISR, 2026); aviso y nota de convergencia corregidos y nota nueva sobre la matriz ambigüedad × riesgo del CISR, con las discrepancias de su propia figura. |
 | **v155** | §13.16: nota sobre evaluar agentes (estado final frente a transcripción, juez estrecho con salida «no sé», comparar ejemplo por ejemplo, pass@k frente a pass^k), a partir de las guías de Anthropic y LangChain; ejemplo de las dos posturas de HyperRAG. |

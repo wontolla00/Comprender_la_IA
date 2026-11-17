@@ -2,6 +2,14 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v158 — 17 noviembre 2026 · AEPD, Strömberg y SASE
+
+- Nota nueva `s109-aepd-2026-11` al final de §10.9: guía de la AEPD de febrero de 2026 (76 páginas, para responsables y encargados; estudio introductorio, medidas en condicional): memoria de trabajo y de gestión, mínimo necesario, catalogar y borrar, compartimentar, plazos, «no log» por componente, desactivar la memoria frente a pedir que se ignore, limpieza.
+- Nota nueva `s215-aepd-2026-11` al final de §21.5: puntos de aprobación humana (alto impacto, irreversibles, atípicos), criterios para valorar la intervención, riesgo de cargar la responsabilidad al supervisor, «cuatro ojos» como opción, «regla de 2» con su atribución; el decálogo para personas usuarias es otro documento.
+- Nota nueva `s203-stromberg-2026-11` en §20.3: Strömberg, Lei y Wu (CEPR DP 21577): 26.811 alumnos, deberes +18 %, exámenes mensuales −20 %, acceso −24 % y −18 %; diseño cuasi-experimental con datos observacionales de un condado; cómo citarlo. Frase de «sigue sin datos» matizada.
+- Nota nueva `s145-sase-2026-11` al final de §14.5: tres capas de control (acceso y tráfico; contenido y llamadas a herramientas; decisión de negocio) con lo documentado por Cisco, Palo Alto y el resumen de Gartner.
+- Origen: Triaje, CI-AE-1, CI-AE-2, CI-ST-1 y CI-SASE-1. Versión v157 → v158; copia de la v157 en `archivo/`.
+
 ## v157 — 17 noviembre 2026 · §10.9.2 y §10.5c: bucles y contexto; dimensionado del índice
 
 - Nota nueva `s1092-agentes-2026-11` antes de §10.9.3: dos bucles (dentro de un turno y entre turnos), los cuatro fallos de contexto de Breunig (envenenamiento, distracción, confusión, conflicto; el primero lo atribuye él a DeepMind, no se presentan como estándar y se distinguen del ASI06), vocabulario «sistema agéntico / flujo de trabajo / agente» según Anthropic (dic. 2024) y una línea sobre Reflexion (arXiv:2303.11366, solo resumen leído).
