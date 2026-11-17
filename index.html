@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v156</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v157</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v156 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v157 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -22339,6 +22339,12 @@ renderLayers(); renderDetail();
   </div>
 <p>En la práctica: el <code>tenant_id</code> y los permisos del usuario autenticado se resuelven en código a partir de la sesión —nunca a partir de lo que el usuario escribe en el prompt— y se usan para filtrar la query de retrieval (Cap. 6) o de base de datos <em>antes</em> de que el resultado entre en el contexto del LLM. Filtrar después de generar la respuesta (revisando el output en busca de fugas) llega tarde: el dato ya estuvo en el contexto y puede filtrarse por vías que un filtro de salida no cubre (paráfrasis, resumen, traducción a otro idioma). Aislar en el <em>retrieval</em>, no solo en el <em>output</em>.</p>
 <p style="font-size:.85rem;color:var(--muted);font-style:italic;">Nota de terminología: RBAC, aislamiento multi-tenant y credenciales con alcance mínimo (scoped credentials) son manifestaciones concretas de un principio de seguridad más general, el <strong>mínimo privilegio</strong> (<em>least privilege</em>): cada agente y cada rol debe operar con el conjunto más pequeño de accesos que le permita cumplir su tarea, nunca con un superconjunto "por si acaso". Es el mismo principio que los checklists divulgativos de "guardrails" para agentes suelen agrupar bajo "identidad y permisos".</p>
+<div class="nota" id="s105c-indice-2026-11">
+<strong>🔎 Matiz (2026-11) · Dimensionar el índice vectorial y diseñar el camino de escritura</strong>
+<p><b>La aritmética de los vectores no es el dimensionado del índice.</b> Un índice de 200 millones de chunks de 1024 dimensiones ocupa unos 820 GB en float32 solo en vectores (200 M × 1024 × 4 bytes). La cuantización escalar a int8 lo deja en unos 205 GB y la binaria, a un bit por dimensión, en unos 26 GB. Son las reducciones de 4x y 32x que documentan Qdrant y Elasticsearch, y valen para la <em>memoria</em>. Hay cuatro cosas que esa cuenta no incluye: los vectores originales se siguen guardando en disco para reordenar los mejores candidatos (con cuantización, el disco no baja, sube); cada vector cuantizado lleva unos bytes de corrección; el grafo HNSW no se comprime, así que pesa proporcionalmente más cuanto más se cuantiza el resto; y la cuantización binaria exige sobremuestrear y reordenar, y su recall depende del modelo de embedding. Se mide con los datos propios; no se supone.</p>
+<p><b>El camino de escritura (diseño de referencia, no estándar).</b> Un patrón habitual de profesionales, que el manual presenta como punto de partida y no como norma: una cola entre el ingestor y el índice; reintentos con espera creciente; una cola de fallos donde nada se descarta en silencio; el relleno del histórico en un carril separado de las subidas en vivo, para que una carga masiva no retrase lo nuevo; y la versión del modelo de embedding guardada <em>en cada chunk</em>, no solo en la configuración del índice (ver la tabla de versiones de arriba). Los tamaños de lote, el número de trabajadores y los umbrales de latencia que circulan en las guías son ilustrativos y dependen de cada sistema.</p>
+<p><b>Límites.</b> Las cifras de compresión y los sobrecostes salen de la documentación de Qdrant y Elasticsearch; los sobrecostes de bytes varían según el producto y la versión. El camino de escritura no se ha contrastado con una fuente primaria: es opinión de práctica.</p>
+</div>
 <h2 id="s106">10.6 Trazabilidad en sistemas multi-agente: el mínimo irrenunciable</h2>
 <p>La trazabilidad en agentes no es opcional: es lo que te permite depurar, auditar y mejorar el sistema cuando algo falla. Diseñarla desde el primer día es diez veces más fácil que añadirla a posteriori.</p>
 <ul>
@@ -22511,6 +22517,13 @@ renderLayers(); renderDetail();
 </div>
 </div>
 </div>
+</div>
+<div class="nota" id="s1092-agentes-2026-11">
+<strong>🔎 Matiz (2026-11) · Bucles, fallos de contexto y el vocabulario «agente» / «agéntico»</strong>
+<p><b>Dos bucles que conviene no mezclar.</b> Dentro de un turno, el modelo decide, llama a una herramienta, recibe el resultado y vuelve a decidir hasta dar por terminada la tarea; es el ciclo planificar → actuar → observar → iterar que formalizó ReAct (Yao et al., 2022). Entre turnos hay otro, que es el que trata este apartado: qué se arrastra y qué se reconstruye de un turno al siguiente. Un agente puede iterar muchas veces dentro de un turno sin que cambie nada de lo que recuerda después.</p>
+<p><b>Cuatro maneras de fallar por el contexto.</b> Drew Breunig (22 de junio de 2025) las ordena así: <em>envenenamiento</em> (un error o una alucinación entra en el contexto y se reutiliza como si fuera cierto), <em>distracción</em> (el contexto acumulado pesa más que lo que el modelo sabe hacer), <em>confusión</em> (información sobrante influye en la respuesta) y <em>conflicto</em> (partes del contexto se contradicen). Él atribuye el término «envenenamiento» al informe técnico de Gemini 2.5 de DeepMind; los otros tres nombres no los atribuye a nadie, así que la taxonomía conviene citarla como suya y no como estándar. No confundir con el «envenenamiento de contexto» de la memoria persistente que figura en la lista OWASP agéntica (ASI06): aquel es un ataque; estos cuatro son fallos que pueden darse sin atacante.</p>
+<p><b>«Agente» y «agéntico».</b> Schluntz y Zhang (Anthropic, diciembre de 2024) llaman <em>sistemas agénticos</em> al paraguas y separan dos cosas: los <em>flujos de trabajo</em>, en los que código predefinido orquesta el modelo y las herramientas, y los <em>agentes</em>, en los que el modelo dirige su propio proceso y decide qué herramientas usa. Es una definición entre otras: las fuentes no usan «agente» de forma uniforme, y ante una cifra o una arquitectura conviene comprobar cuál de los dos significados maneja el autor. Reflexion (Shinn et al., 2023, arXiv:2303.11366) es otra variante del bucle: el agente escribe con palabras qué falló y lo guarda como memoria de episodios, sin actualizar pesos.</p>
+<p><b>Límites.</b> El caso de distracción que cuenta Breunig (un agente jugando a un videojuego) es anecdótico según él mismo, y los umbrales a partir de los cuales el contexto largo perjudica varían por modelo. El artículo de Anthropic advierte de que parte de las herramientas que describe han cambiado desde 2024. De Reflexion se ha leído solo el resumen.</p>
 </div>
 <h3 id="s1093">10.9.3 La puerta de promoción como componente de producción</h3>
 <p>La puerta de promoción (introducida en 6.13.4) es, desde la perspectiva del agente, el componente que convierte observaciones de ejecución en memoria durable verificada. Su importancia no es teórica: es el mecanismo que previene que la entropía acumulada del 10.3 se propague también al nivel de la memoria — un agente que aprende de sus propias alucinaciones como si fueran hechos verificados produce errores que se autorefuerzan y se vuelven cada vez más difíciles de detectar.</p>
@@ -31106,7 +31119,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v156).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v157).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>
@@ -34358,7 +34371,7 @@ faithfulness = vec_coherence - 0.15
 #memo-phase-build strong{color:#fff}
 #w-numctx th{color:#cbd5e1 !important}
 
-body:not(.dark) #s2554-plataformas-2026-11 strong,body:not(.dark) #s63-mecanismo-2026-11 strong,body:not(.dark) #s32-obsoleta-2026-11 strong,body:not(.dark) #s1316-evals-2026-11 strong,body:not(.dark) #s142b-cisr-2026-11 strong,body:not(.dark) #s6137-atribucion strong{color:#92400e;}
+body:not(.dark) #s2554-plataformas-2026-11 strong,body:not(.dark) #s63-mecanismo-2026-11 strong,body:not(.dark) #s32-obsoleta-2026-11 strong,body:not(.dark) #s1316-evals-2026-11 strong,body:not(.dark) #s142b-cisr-2026-11 strong,body:not(.dark) #s1092-agentes-2026-11 strong,body:not(.dark) #s105c-indice-2026-11 strong,body:not(.dark) #s6137-atribucion strong{color:#92400e;}
 body.dark .nota a{color:#8ec5ff;}
 body.dark .nota a:visited{color:#c4b5fd;}
 body.dark #s57b3 + div a{color:#8ec5ff;}

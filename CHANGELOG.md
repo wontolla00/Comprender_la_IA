@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v157 — 17 noviembre 2026 · §10.9.2 y §10.5c: bucles y contexto; dimensionado del índice
+
+- Nota nueva `s1092-agentes-2026-11` antes de §10.9.3: dos bucles (dentro de un turno y entre turnos), los cuatro fallos de contexto de Breunig (envenenamiento, distracción, confusión, conflicto; el primero lo atribuye él a DeepMind, no se presentan como estándar y se distinguen del ASI06), vocabulario «sistema agéntico / flujo de trabajo / agente» según Anthropic (dic. 2024) y una línea sobre Reflexion (arXiv:2303.11366, solo resumen leído).
+- Nota nueva `s105c-indice-2026-11` al final de §10.5c: 200 M × 1024 dimensiones (820 / 205 / 26 GB) como memoria de vectores, no como dimensionado; lo que no incluye (vectores originales en disco, bytes de corrección, grafo HNSW, sobremuestreo y reordenación, recall según modelo) y camino de escritura como diseño de referencia sin primario.
+- Origen: entradas `2026-11-16 (b)` y relacionadas del Triaje, CI-LP-1, CI-AG-1 y CI-RS-1. Versión v156 → v157; copia de la v156 en `archivo/`.
+
 ## v156 — 17 noviembre 2026 · §14.2b: «derechos de decisión» sí tiene literatura
 
 - Aviso de la cabecera de §14.2b corregido: la matriz Delegar / Supervisar / Retomar / Responder es propia de este manual, pero el término tiene literatura (Weill y Ross, 2004; MIT CISR, 2026). Antes decía que no tenía adopción externa ni literatura de referencia.
