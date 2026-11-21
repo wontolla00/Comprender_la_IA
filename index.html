@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v158</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v159</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v158 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v159 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -17608,7 +17608,7 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
   </div>
 <div class="warning">
 <strong>⚠️ Las técnicas de reformulación de consulta no son gratis solo porque parezcan baratas</strong>
-    Multi-query, step-back y HyDE se presentan arriba con su coste en latencia, pero el coste que de verdad hay que medir es el de <strong>recall</strong>. En el mismo laboratorio, un transformador de consulta (reformulación automática antes de buscar) costó 10,0 puntos de acierto de media a k=5 y 4,7 a k=20 frente a no transformar — y solo ganó (5,1 puntos en la peor población, a k=5) en una tanda pequeña y no reproducible. Antes de activar cualquier técnica de esta tabla en producción, mide con y sin ella sobre tu propio conjunto: la intuición de que "reformular la pregunta solo puede ayudar" no se sostuvo en esta medida.
+    Multi-query, step-back y HyDE se presentan arriba con su coste en latencia, pero el coste que de verdad hay que medir es el de <strong>recall</strong>. En el mismo laboratorio (190 preguntas, un conjunto ya visto y usado para decidir; una sola pasada, con un modelo de lenguaje dentro del transformador), reformular automáticamente la consulta antes de buscar costó 5,8 puntos de acierto de media a k=5 y 4,7 a k=20 frente a no transformar. Buscar también la consulta original, además de las variantes, recuperó parte de ese coste (4,2 y 1,6 puntos), pero ninguna variante medida mejoró la peor población (el tramo de solape léxico bajo, 39 preguntas). Antes de activar cualquier técnica de esta tabla en producción, mide con y sin ella sobre tu propio conjunto: la intuición de que "reformular la pregunta solo puede ayudar" no se sostuvo en esta medida.
   </div>
 <h4>Query expansion: recuperar lo que el usuario no formuló bien</h4>
 <p>La query del usuario rara vez es la mejor formulación para el sistema de retrieval. <strong>Query expansion</strong> genera variantes de la pregunta original y recupera la unión de resultados, ampliando el espacio de búsqueda.</p>
@@ -17628,10 +17628,10 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
 <td>1 llamada LLM + 1 retrieval adicional</td>
 </tr>
 <tr>
-<td><strong>HyDE (Hypothetical Document Embeddings)</strong></td>
+<td><strong>HyDE (Hypothetical Document Embeddings)</strong> — Gao et al., 2022 (<a href="https://arxiv.org/abs/2212.10496" target="_blank" rel="noopener">arXiv:2212.10496</a>)</td>
 <td>El LLM genera un fragmento hipotético de cómo sería la respuesta ideal, y ese fragmento — no la query original — se usa como vector de búsqueda. Funciona porque el espacio de embeddings es más denso entre fragmentos que entre preguntas y fragmentos.</td>
 <td>Preguntas muy específicas con vocabulario técnico; dominios donde las preguntas y los documentos tienen distribuciones léxicas muy distintas</td>
-<td>1 llamada LLM. Riesgo: el fragmento hipotético puede alucinar y sesgar el retrieval</td>
+<td>1 llamada LLM. Riesgo: el fragmento hipotético puede alucinar y sesgar el retrieval. Los autores sostienen que el codificador filtra los detalles falsos del fragmento; su resumen no cuantifica cuánto</td>
 </tr>
 <tr>
 <td><strong>Query expansion clásica</strong></td>
@@ -17684,6 +17684,40 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
 </div>
 <p><strong>Caso real citado, verificado antes de escribirlo.</strong> HyperRAG (del mismo autor de este manual) implementa esta aproximación como <code>self_critique_enabled</code> — apagado por defecto, con regeneración acotada a un único intento (nunca puede entrar en bucle) y con el fallo-abierto descrito arriba. Verificado con seis tests que cubren el pipeline completo: desactivado no añade ninguna llamada; sin problema no regenera; con problema regenera exactamente una vez; con <code>regenerate=False</code> solo anota el juicio sin regenerar; el JSON se parsea correctamente con o sin valla de markdown; y una respuesta no parseable del crítico falla abierto en vez de bloquear la respuesta.</p>
 <p>Encaja como una capa más, no como sustituto de las anteriores: la detección offline (RAGAS/faithfulness) sigue siendo necesaria para medir tendencias agregadas que una crítica por-consulta no puede ver, y el guardarraíl de escalado a humano (§3.7) sigue siendo la última línea para los casos de alto riesgo donde ni la autocorrección automática es aceptable sin revisión.</p>
+<div class="nota" id="s73-control-2026-11">
+<strong>🔎 Matiz (2026-11) · Tres momentos en que un RAG puede decidir adaptarse (Adaptive-RAG, CRAG y Self-RAG) y dónde está cada técnica de las listas</strong>
+<p><b>Una ordenación por momento.</b> Las listas de «técnicas de RAG» que circulan por las redes nombran tres ideas de control que conviene no confundir, porque actúan en momentos distintos: <em>antes de recuperar</em> (¿cuánta recuperación necesita esta pregunta?), <em>después de recuperar</em> (¿ha salido bien la recuperación?) y <em>después de generar</em> (¿está respaldada la respuesta?). La última es Self-RAG, descrita arriba. La ordenación por momento es de este manual; no la hacen los artículos.</p>
+<p><b>Antes: Adaptive-RAG.</b> Jeong, Baek, Cho, Hwang y Park (<a href="https://arxiv.org/abs/2403.14403" target="_blank" rel="noopener">arXiv:2403.14403</a>, 2024; solo el resumen leído) parten de que un sistema que trata igual todas las consultas gasta cómputo de más en las simples y se queda corto en las de varios pasos. Proponen un clasificador de complejidad, un modelo de lenguaje más pequeño entrenado para predecir el nivel de cada consulta, que elige entre no recuperar, recuperar una vez o recuperar de forma iterativa en varios pasos. Según los autores, mejora la eficiencia y la precisión frente a las líneas base que prueban, en conjuntos de preguntas y respuestas de dominio abierto. La pieza crítica es el clasificador: si se equivoca de nivel, la pregunta difícil recibe una recuperación simple o la fácil paga una iterativa. En el laboratorio del autor, una versión local de la idea (un modelo clasifica la pregunta y restringe qué capas de recuperación se usan) igualó a la recuperación básica (91 % frente a 92 %; 74 preguntas de conjuntos ya vistos; medición del 13/11/2026) y tardó 2,9 veces más. No es una reproducción del artículo.</p>
+<p><b>Después: CRAG.</b> Yan, Gu, Zhu y Ling (<a href="https://arxiv.org/abs/2401.15884" target="_blank" rel="noopener">arXiv:2401.15884</a>, 2024; solo el resumen leído) proponen la generación aumentada con recuperación correctiva: un evaluador de recuperación ligero valora la calidad global de los documentos recuperados y su grado de confianza decide qué acción de recuperación se activa; cuando el corpus estático no basta, se complementa con búsqueda web; y un algoritmo de descomponer y recomponer filtra de los documentos lo que no es relevante. Presentan mejoras en cuatro conjuntos de datos, de generación corta y larga; el resumen no da cifras. Es la contrapartida, sobre la recuperación, de lo que Self-RAG hace sobre la respuesta, y comparte su punto débil: todo depende de que el evaluador detecte el fallo. En un intento propio de recuperación iterativa, con un modelo local de 14.000 millones de parámetros como detector de qué evidencia faltaba, el detector la señaló en 3 de las 13 preguntas que la necesitaban (15/11/2026). Es una muestra pequeña, de un conjunto ya visto y con una sola pasada: ilustra el problema, no lo mide, y tampoco es una reproducción de CRAG.</p>
+<p><b>Dónde está cada técnica de las listas.</b> Las listas de veinte técnicas repiten nombres que el manual ya trata con otras palabras. Esta tabla las ordena:</p>
+<table>
+<thead><tr><th>Técnica (como la nombran las listas)</th><th>Dónde en el manual</th></tr></thead>
+<tbody>
+<tr><td>Naive RAG</td><td>§1.1 a §1.3 (el pipeline básico y sus fases)</td></tr>
+<tr><td>Semantic chunking</td><td>§1.4 y §7.2 (chunking contextual)</td></tr>
+<tr><td>Hybrid search</td><td>§6.2</td></tr>
+<tr><td>Reranking</td><td>§6.3 y §6.3b</td></tr>
+<tr><td>Query rewriting</td><td>§7.2 (query expansion)</td></tr>
+<tr><td>Multi-query</td><td>§7.2 (query expansion)</td></tr>
+<tr><td>HyDE</td><td>§7.2 (query expansion), con su fuente primaria</td></tr>
+<tr><td>Query decomposition</td><td>Parcial: las subpreguntas dentro de multi-query y step-back (§7.2); las preguntas multi-hop, en §6.6 y §6.7.4 (RAPTOR); sin apartado propio</td></tr>
+<tr><td>Query routing</td><td>Parcial: el router que ajusta los pesos BM25 y vectorial según el tipo de consulta aparece en el Caso 2-1 del laboratorio de errores del Módulo 2 y como esquema en §6.6; la clasificación por complejidad, en esta nota (Adaptive-RAG)</td></tr>
+<tr><td>Parent-child chunking</td><td>§1.4 (jerárquico padre→hijo), §7.1 (corrección del fallo de chunking) y §6.7.4 (frente a RAPTOR)</td></tr>
+<tr><td>Metadata filtering</td><td>§7.2 (filtros de metadatos)</td></tr>
+<tr><td>Contextual retrieval</td><td>§7.2 (chunking contextual)</td></tr>
+<tr><td>Context compression</td><td>§7.2 (compresión contextual, en la tabla de chunking contextual)</td></tr>
+<tr><td>GraphRAG</td><td>§6.6 y §6.8 a §6.10</td></tr>
+<tr><td>Agentic RAG</td><td>§9.8</td></tr>
+<tr><td>Corrective RAG</td><td>Esta nota (CRAG)</td></tr>
+<tr><td>Self-RAG</td><td>§7.3</td></tr>
+<tr><td>Adaptive RAG</td><td>Esta nota (Adaptive-RAG)</td></tr>
+<tr><td>Multimodal RAG</td><td>§22.8 (pipeline por descripción: las imágenes y tablas escaneadas se convierten en texto y se indexan con metadatos de tipo) y §22.2.1 (CLIP, búsqueda semántica de imágenes). No trata la recuperación visual directa de páginas (ColPali y similares)</td></tr>
+<tr><td>RAG evaluation</td><td>§6.5, §7.1, §7.3, §7.4 y §13.11</td></tr>
+</tbody>
+</table>
+<p><b>Una lista no es un plan.</b> El orden útil no es el de la lista: primero medir qué falla (§6.5a y §7.1); después, cambiar un componente cada vez y comparar con y sin él, como en el aviso de §7.2 sobre la reformulación de consultas. Las técnicas baratas (búsqueda híbrida, un reranker bien elegido, filtros de metadatos) se prueban antes que los patrones de control, que añaden llamadas al modelo, latencia y modos de fallo propios.</p>
+<p><b>Límites.</b> De los tres artículos solo se han leído los resúmenes (Adaptive-RAG, CRAG y HyDE, este último citado en la tabla de §7.2). Las cifras de laboratorio son del autor, sobre conjuntos ya vistos y con una sola pasada, y no comparan los sistemas de los artículos. Este apartado no recomienda activar ninguna de estas técnicas: la regla de §7.2 (medir con y sin ella sobre tu propio conjunto) vale para todas.</p>
+</div>
 <h3>Más allá de faithfulness: la fidelidad distribucional</h3>
 <p>El grounding falso es el caso donde el modelo <em>ignora</em> el contexto recuperado. Hay un caso más sutil que faithfulness no mide: el modelo <em>usa</em> el fragmento recuperado, la respuesta es factualmente consistente con él — y aun así lo que llega al usuario no es el documento sino su paráfrasis vertida a través de la distribución del generador. El vocabulario raro se sustituye por sinónimos frecuentes, la sintaxis idiosincrática se normaliza, el registro se aplana. La fórmula compacta: <strong>la huella consultada no es la huella transmitida</strong>. Faithfulness mide consistencia factual; no mide fidelidad estilística ni distribucional. Para corpus donde la forma es parte del contenido (legal, literario, testimonial, histórico), esto es una pérdida real que ninguna métrica estándar de RAG detecta.</p>
 <p>El mismo razonamiento se extiende a las otras dos capas del pipeline, y conviene tenerlas nombradas porque desmontan una promesa frecuente ("RAG resuelve la homogeneización"):</p>
@@ -31143,7 +31177,7 @@ Son dos evaluaciones distintas. La AIPD (art. 35 RGPD) parte del tratamiento de 
 </div>
 <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 16px;margin:16px 0 24px;font-size:.78rem;display:flex;align-items:center;gap:10px;">
 <span style="font-size:1rem;">⚡</span>
-<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v158).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
+<span><strong>Contenido de alta caducidad</strong> — Este capítulo cubre sistemas multimodales (visión, audio, modelos disponibles) que evoluciona rápidamente. <strong>Última revisión: octubre de 2026 (v159).</strong> Precios del Apéndice A y de voz con fuentes primarias; licencias contrastadas con fichas oficiales; vídeo, imagen abierta y rendimiento de VLM con fuentes secundarias fechadas. Las secciones de GPT-4V/4o y Gemini 1.x–2.0 son históricas; los nombres de modelos del resto son ejemplos, no una lista vigente. Comprueba el <a href="https://github.com/wontolla00/Comprender_la_IA/blob/main/CHANGELOG.md" style="color:inherit;text-decoration:underline;">changelog del manual</a> antes de usar en producción.</span>
 </div>
 <div class="callout">
 <strong>🧵 Para qué te sirve esto</strong>

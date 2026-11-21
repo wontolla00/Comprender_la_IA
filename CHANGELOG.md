@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v159 — 21 noviembre 2026 · §7.2 y §7.3: cifra corregida, Adaptive-RAG y CRAG, mapa de técnicas
+
+- §7.2, aviso sobre reformulación de consulta: la cifra «10,0 puntos a k=5» venía de una mezcla de variantes defectuosa del laboratorio; se sustituye por la medida corregida (−5,8 a k=5 y −4,7 a k=20; con la consulta original incluida, −4,2 y −1,6; ninguna variante mejora la peor población). Se declara que es un conjunto ya visto (190 preguntas) y una sola pasada. Se elimina la frase sobre una «tanda pequeña y no reproducible».
+- §7.2, tabla de query expansion: la fila de HyDE cita su fuente primaria (Gao et al., 2022, arXiv:2212.10496) y precisa que los autores sostienen que el codificador filtra los detalles falsos, sin cuantificarlo en el resumen.
+- Nota nueva `s73-control-2026-11` en §7.3 (antes de «Más allá de faithfulness»): tres momentos de control (antes: Adaptive-RAG, arXiv:2403.14403; después de recuperar: CRAG, arXiv:2401.15884; después de generar: Self-RAG), con una medición propia de cada idea marcada como no reproducción; tabla de equivalencias de las veinte técnicas de las listas con su sección; «una lista no es un plan»; límites. La tabla remite al RAG multimodal de §22.8 y §22.2.1 y declara que no se trata la recuperación visual directa de páginas.
+- Origen: Triaje, entrada 2026-11-20 (a). Versión v158 → v159; copia de la v158 en `archivo/`.
+
 ## v158 — 17 noviembre 2026 · AEPD, Strömberg y SASE
 
 - Nota nueva `s109-aepd-2026-11` al final de §10.9: guía de la AEPD de febrero de 2026 (76 páginas, para responsables y encargados; estudio introductorio, medidas en condicional): memoria de trabajo y de gestión, mínimo necesario, catalogar y borrar, compartimentar, plazos, «no log» por componente, desactivar la memoria frente a pedir que se ignore, limpieza.
