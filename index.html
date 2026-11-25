@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v160</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v161</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v160 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v161 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -9619,14 +9619,14 @@ Solo cruzan fronteras entre proveedores la importación de RDF/OWL de Fabric y e
 <tr>
 <td><b>BERTScore</b></td>
 <td>Compara cada palabra (o trozo de palabra) del texto generado con cada una de la referencia usando <em>embeddings contextuales</em> y similitud coseno. Cada elemento se empareja con el más parecido del otro texto, sin exigir una correspondencia uno a uno. La <em>recall</em> promedia esas mejores coincidencias sobre la referencia, la <em>precisión</em> sobre el texto generado y la F1 es su media armónica (los autores recomiendan la F1). Opcionalmente pondera por idf, de modo que las palabras raras pesan más.</td>
-<td>No está diseñada para comprobar hechos: una respuesta con la cifra o el nombre equivocados puede parecerse mucho a la correcta en sentido general. Eso es consecuencia de cómo se calcula, no una medición hecha aquí. Además, el valor depende del modelo de embeddings elegido y exige una referencia. El «reescalado con línea base» solo cambia cómo se leen los números (los hace menos apretados), no el orden entre sistemas, y no garantiza por sí mismo un rango de 0 a 1.</td>
+<td>Le cuesta detectar errores de hecho, y lo dicen sus propios autores: en los ejemplos cualitativos del apéndice A del artículo asigna una similitud alta cuando la traducción cambia «alemán» por «inglés» o escribe «martes» donde debía decir «lunes», y no reconoce que 5 ft 11 in equivale a 1,80 m. Son ejemplos, no una tasa de fallo. Además, el valor depende del modelo de embeddings (para inglés recomiendan RoBERTa-large; para otros idiomas, un BERT multilingüe, menos estable en idiomas con pocos recursos) y exige una referencia. El «reescalado con línea base» solo cambia cómo se leen los números, no el orden entre sistemas, y deja los valores «típicamente» entre 0 y 1, sin garantizarlo.</td>
 <td>Paráfrasis y resúmenes en que importa el sentido más que las palabras exactas, siempre junto a otras señales y contrastada con una muestra revisada por personas.</td>
 </tr>
 <tr>
 <td><b>METEOR</b></td>
-<td>Alinea palabras una a una en tres fases: idénticas, con la misma raíz y sinónimas (con WordNet, un recurso en inglés). Combina precisión y recall con una media armónica en la que el recall pesa mucho más (en la versión de 2005, unas nueve veces) y resta una penalización por fragmentación: cuantos más trozos desordenados, más baja la nota.</td>
-<td>Nació para traducción automática (Banerjee y Lavie, 2005) y sus constantes se ajustaron con datos de ese ámbito. Fuera de él, y fuera del inglés, hay que comprobar que la versión que uses admite el idioma antes de fiarte de la cifra. Tampoco verifica hechos. Se leyó la versión de 2005; existen versiones posteriores que no se han revisado aquí.</td>
-<td>Textos con variación léxica natural (sinónimos, flexiones) en inglés, como alternativa algo más tolerante que BLEU, no como veredicto.</td>
+<td>Alinea el texto generado con la referencia mediante cuatro emparejadores: palabras idénticas, de la misma raíz, sinónimas (WordNet) y paráfrasis (frases que una tabla de paráfrasis da por equivalentes). De todas las alineaciones posibles elige la que cubre más palabras con menos «trozos» contiguos y en el mismo orden. Calcula precisión y recall con pesos por tipo de emparejamiento y por palabras de contenido frente a palabras funcionales, las combina con una media armónica que, en los juegos de parámetros publicados, favorece al recall, y resta una penalización por fragmentación: cuantos más trozos desordenados, más baja la nota. Los parámetros se ajustan para coincidir con juicios humanos. Es la descripción de la versión 1.5 (2014); la original de 2005 emparejaba en tres fases, sin paráfrasis.</td>
+<td>Nació para traducción automática (Banerjee y Lavie, 2005) y se validó con juicios humanos sobre rankings de traducciones; en estas fuentes no hay una validación con respuestas de modelos de lenguaje. Tiene juegos de parámetros propios para inglés, checo, alemán, español y francés (Denkowski y Lavie, 2014); en esa tabla solo el inglés da peso a los sinónimos. Para un idioma sin juego propio, la versión «universal» exige aprender una lista de palabras funcionales y una tabla de paráfrasis a partir de un corpus paralelo de traducción. Según sus autores, los resultados en los idiomas incluidos en el ajuste están sesgados a favor de la versión universal; el único idioma ajeno a ese ajuste fue el ruso, donde la correlación con el juicio humano (tau de Kendall por frase) casi duplicó la de BLEU (0,128 frente a 0,068). Tampoco verifica hechos.</td>
+<td>Textos con variación léxica natural (sinónimos, flexiones, paráfrasis) en un idioma con juego de parámetros propio, como alternativa más tolerante que BLEU; no como veredicto.</td>
 </tr>
 <tr>
 <td><b>Perplejidad</b></td>
@@ -9637,7 +9637,7 @@ Solo cruzan fronteras entre proveedores la importación de RDF/OWL de Fabric y e
 </tbody>
 </table>
 <p><b>Una regla para las tres.</b> Ninguna sustituye al golden dataset de §3.3 ni a la revisión humana: BERTScore y METEOR necesitan además una referencia buena, y la perplejidad necesita las probabilidades que el modelo asigna a cada palabra, que no siempre se pueden obtener de un servicio externo. Si una lista las presenta todas con «más alto es mejor», la perplejidad es la excepción: ahí menos es mejor.</p>
-<p style="font-size:.85rem;color:var(--muted);margin-bottom:0;"><em>Fuentes.</em> Zhang, Kishore, Wu, Weinberger y Artzi, «BERTScore: Evaluating Text Generation with BERT», ICLR 2020 (<a href="https://arxiv.org/abs/1904.09675" target="_blank" rel="noopener">arXiv:1904.09675</a>; texto completo leído con una herramienta que resume). Banerjee y Lavie, «METEOR: An Automatic Metric for MT Evaluation with Improved Correlation with Human Judgments», ACL Workshop on Intrinsic and Extrinsic Evaluation Measures, 2005 (<a href="https://aclanthology.org/W05-0909/" target="_blank" rel="noopener">ACL Anthology W05-0909</a>; PDF leído con una herramienta que resume). Jurafsky y Martin, <em>Speech and Language Processing</em>, cap. 3 «N-gram Language Models» (borrador de agosto de 2026, <a href="https://web.stanford.edu/~jurafsky/slp3/3.pdf" target="_blank" rel="noopener">web.stanford.edu/~jurafsky/slp3</a>). Sobre el reescalado de BERTScore, también el README del repositorio oficial (<a href="https://github.com/Tiiiger/bert_score" target="_blank" rel="noopener">Tiiiger/bert_score</a>).</p>
+<p style="font-size:.85rem;color:var(--muted);margin-bottom:0;"><em>Fuentes.</em> Zhang, Kishore, Wu, Weinberger y Artzi, «BERTScore: Evaluating Text Generation with BERT», ICLR 2020 (<a href="https://arxiv.org/abs/1904.09675" target="_blank" rel="noopener">arXiv:1904.09675</a>; texto completo leído). Banerjee y Lavie, «METEOR: An Automatic Metric for MT Evaluation with Improved Correlation with Human Judgments», ACL Workshop on Intrinsic and Extrinsic Evaluation Measures, 2005 (<a href="https://aclanthology.org/W05-0909/" target="_blank" rel="noopener">ACL Anthology W05-0909</a>; PDF leído con una herramienta que resume). Denkowski y Lavie, «Meteor Universal: Language Specific Translation Evaluation for Any Target Language», Noveno Taller de Traducción Automática Estadística (WMT), Baltimore, 2014 (<a href="https://aclanthology.org/W14-3348/" target="_blank" rel="noopener">ACL Anthology W14-3348</a>; texto completo leído). Jurafsky y Martin, <em>Speech and Language Processing</em>, cap. 3 «N-gram Language Models» (borrador de agosto de 2026, <a href="https://web.stanford.edu/~jurafsky/slp3/3.pdf" target="_blank" rel="noopener">web.stanford.edu/~jurafsky/slp3</a>). Sobre el reescalado de BERTScore, también el README del repositorio oficial (<a href="https://github.com/Tiiiger/bert_score" target="_blank" rel="noopener">Tiiiger/bert_score</a>).</p>
 </div>
 <!-- ═══ DIAGRAMA: Métricas RAGAS ═══ -->
 <p style="margin:10px 0 12px;font-size:0.92rem;line-height:1.7;color:#374151;">

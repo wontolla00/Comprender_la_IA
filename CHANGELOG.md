@@ -2,6 +2,13 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v161 — 25 noviembre 2026 · §3.4: METEOR 1.5 y apéndice A de BERTScore
+
+- Nota `s34-similitud-2026-11` (§3.4), fila de METEOR reescrita con el texto completo de Denkowski y Lavie (WMT 2014, Baltimore): cuatro emparejadores (idénticas, raíz, sinónimos y paráfrasis), alineación única con el mínimo de «trozos», pesos por emparejador y por palabras de contenido o funcionales, parámetros ajustados a juicios humanos, juegos propios para inglés, checo, alemán, español y francés (solo el inglés con peso para sinónimos) y uno «universal» para cualquier idioma, que exige aprender palabras funcionales y paráfrasis de un corpus paralelo. Se declara que los resultados en los idiomas del ajuste están sesgados a favor de la versión universal y que el ruso fue el único idioma ajeno (0,128 frente a 0,068 de BLEU, tau de Kendall por frase). La descripción de 2005 deja de ser la principal; se retira la frase «existen versiones posteriores que no se han revisado aquí».
+- Fila de BERTScore: la limitación con los errores de hecho pasa de «consecuencia del cálculo, sin medir» a lo que dicen los autores en el apéndice A (tabla 7: alemán por inglés, martes por lunes, 5 ft 11 in frente a 1,80 m; ejemplos cualitativos, no una tasa de fallo); se añaden los modelos de embeddings que recomiendan (RoBERTa-large para inglés, BERT multilingüe para otros idiomas, menos estable con pocos recursos) y se precisa que el reescalado deja los valores «típicamente» entre 0 y 1.
+- Fuentes: BERTScore y Meteor Universal leídos enteros; Banerjee y Lavie (2005) y Jurafsky y Martin siguen leídos con una herramienta que resume.
+- Origen: Triaje, entrada 2026-11-25 (a), CI-ME-1 completado. Versión v160 → v161; copia de la v160 en `archivo/`.
+
 ## v160 — 25 noviembre 2026 · §3.4: BERTScore, METEOR y perplejidad
 
 - Nota nueva `s34-similitud-2026-11` al final de la tabla de §3.4 (antes del diagrama de RAGAS): tabla «qué hace / qué no ve / cuándo tiene sentido» para BERTScore (embeddings contextuales y coseno, emparejamiento voraz, recall, precisión y F1, idf opcional, reescalado solo de legibilidad), METEOR (tres fases de alineación, media armónica con recall muy ponderado, penalización por fragmentación; versión de 2005) y perplejidad (inversa de la probabilidad normalizada, solo comparable con el mismo vocabulario, menor es mejor, no mide la calidad de una respuesta). Regla común: ninguna sustituye al golden dataset de §3.3 ni a la revisión humana.
