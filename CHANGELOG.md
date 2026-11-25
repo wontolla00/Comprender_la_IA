@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v160 — 25 noviembre 2026 · §3.4: BERTScore, METEOR y perplejidad
+
+- Nota nueva `s34-similitud-2026-11` al final de la tabla de §3.4 (antes del diagrama de RAGAS): tabla «qué hace / qué no ve / cuándo tiene sentido» para BERTScore (embeddings contextuales y coseno, emparejamiento voraz, recall, precisión y F1, idf opcional, reescalado solo de legibilidad), METEOR (tres fases de alineación, media armónica con recall muy ponderado, penalización por fragmentación; versión de 2005) y perplejidad (inversa de la probabilidad normalizada, solo comparable con el mismo vocabulario, menor es mejor, no mide la calidad de una respuesta). Regla común: ninguna sustituye al golden dataset de §3.3 ni a la revisión humana.
+- Motivo: el índice de búsqueda anunciaba BERTScore en el Cap. 3 y el cuerpo no lo explicaba; METEOR no aparecía en ningún sitio y la perplejidad no estaba definida. Fuentes primarias leídas con una herramienta que resume (Zhang et al., ICLR 2020; Banerjee y Lavie, 2005; Jurafsky y Martin, cap. 3).
+- Origen: Triaje, entrada 2026-11-25 (a), CI-ME-1. Versión v159 → v160; copia de la v159 en `archivo/`.
+
 ## v159 — 21 noviembre 2026 · §7.2 y §7.3: cifra corregida, Adaptive-RAG y CRAG, mapa de técnicas
 
 - §7.2, aviso sobre reformulación de consulta: la cifra «10,0 puntos a k=5» venía de una mezcla de variantes defectuosa del laboratorio; se sustituye por la medida corregida (−5,8 a k=5 y −4,7 a k=20; con la consulta original incluida, −4,2 y −1,6; ninguna variante mejora la peor población). Se declara que es un conjunto ya visto (190 preguntas) y una sola pasada. Se elimina la frase sobre una «tanda pequeña y no reproducible».
