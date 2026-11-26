@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v162 — 26 noviembre 2026 · §10.2: la pregunta anterior a la tabla («¿hace falta un LLM?»)
+
+- Fila nueva al principio de la tabla de §10.2: «¿Se resuelve con una regla, una consulta, una API, un script o un modelo clásico?» → no uses un LLM. Antes la tabla arrancaba en «una sola llamada a un LLM» y daba por hecho que el LLM ya estaba sobre la mesa.
+- Nota nueva `s102-sinllm-2026-11` bajo la tabla: ordenación por naturaleza del problema (reglas y datos estructurados; análisis o predicción; respuesta que emerge experimentando; lenguaje o información no estructurada; acciones encadenadas que se adaptan) con lo que suele bastar y dónde entra el LLM, declarada como regla de criterio y no como medida; comprobar que un paso sirve antes de automatizarlo (cartografiar el flujo: dobles capturas, validaciones que nadie lee, esperas), atribuido a la práctica Lean y sin cifras; límites (problemas que caen en dos filas, remite a 10.2b y a la evaluación del Cap. 13).
+- Sin fuente primaria: el texto es la síntesis del manual a partir de un post sin autor identificado, que no se cita. Origen: Triaje, entrada 2026-11-26 (b), CI-LL-1. Versión v161 → v162; copia de la v161 en `archivo/`.
+
 ## v161 — 25 noviembre 2026 · §3.4: METEOR 1.5 y apéndice A de BERTScore
 
 - Nota `s34-similitud-2026-11` (§3.4), fila de METEOR reescrita con el texto completo de Denkowski y Lavie (WMT 2014, Baltimore): cuatro emparejadores (idénticas, raíz, sinónimos y paráfrasis), alineación única con el mínimo de «trozos», pesos por emparejador y por palabras de contenido o funcionales, parámetros ajustados a juicios humanos, juegos propios para inglés, checo, alemán, español y francés (solo el inglés con peso para sinónimos) y uno «universal» para cualquier idioma, que exige aprender palabras funcionales y paráfrasis de un corpus paralelo. Se declara que los resultados en los idiomas del ajuste están sesgados a favor de la versión universal y que el ruso fue el único idioma ajeno (0,128 frente a 0,068 de BLEU, tau de Kendall por frase). La descripción de 2005 deja de ser la principal; se retira la frase «existen versiones posteriores que no se han revisado aquí».

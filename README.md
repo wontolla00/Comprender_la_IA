@@ -1,7 +1,7 @@
 # Comprender la Inteligencia Artificial — Edición 2026
 
 **Arquitectura, Límites y Gobernanza de los Sistemas Generativos**
-Manual de formación técnica y conceptual · versión actual: **v161** (noviembre 2026)
+Manual de formación técnica y conceptual · versión actual: **v162** (noviembre 2026)
 
 ---
 
@@ -115,6 +115,7 @@ Perfiles de lectura, rutas MVP, leyenda de marcas, hilo conductor del caso Merid
 | **v140** | §12.4c: el precio de lista no es el coste de enrutar (caché, reintentos y espera; coste por tarea completada). |
 | **v142** | §12.x y §14.y: enmascarar no es anonimizar (términos RGPD, correcciones de garantías absolutas). |
 | **v161** | §3.4: METEOR 1.5 (Meteor Universal, WMT 2014) y el apéndice A de BERTScore sobre errores de hecho, con los textos completos leídos. |
+| **v162** | §10.2: fila previa «¿se resuelve sin LLM?» en la tabla del agente mínimo viable y nota sobre cartografiar el flujo antes de automatizar. |
 | **v160** | §3.4: BERTScore, METEOR y perplejidad (qué hace cada una, qué no ve y cuándo tiene sentido), con fuentes primarias. |
 | **v159** | §7.2 y §7.3: cifra corregida del coste de reformular la consulta; HyDE con fuente primaria; nota sobre Adaptive-RAG, CRAG y Self-RAG como tres momentos de control, con mapa de las veinte técnicas de las listas. |
 | **v158** | §10.9, §21.5, §20.3 y §14.5: guía de la AEPD sobre IA agéntica (memoria y aprobación humana); estudio de Strömberg, Lei y Wu sobre deberes y exámenes; tres capas de control de un agente (SASE, inspección de herramientas, decisión de negocio). |

@@ -18,7 +18,10 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-26 (entradas `2026-11-25 (b)`, entrevista GFT sobre modernización de código heredado con IA, y `2026-11-26 (a)`, post francés sobre capas del pipeline RAG; CI-LG-1 abierto); antes 2026-11-25 (entrada `2026-11-25 (a)`, infografía de métricas de evaluación; CI-ME-1 hecho en v160 y completado en v161); antes 2026-11-17 (CI-CR-1 hecho en v156; entrada `2026-11-17 (a)`); antes 2026-11-16 (entradas `(i)` Neo4j Intelligraph con IBM y `(j)` hoja de ruta de seguridad de agentes registradas como Descartar, sin pendiente; entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-26 (entrada `2026-11-26 (b)`, post francés sobre dónde poner IA generativa en los procesos de negocio; CI-LL-1 hecho en v162; entradas `2026-11-25 (b)`, entrevista GFT sobre modernización de código heredado con IA, y `2026-11-26 (a)`, post francés sobre capas del pipeline RAG; CI-LG-1 abierto); antes 2026-11-25 (entrada `2026-11-25 (a)`, infografía de métricas de evaluación; CI-ME-1 hecho en v160 y completado en v161); antes 2026-11-17 (CI-CR-1 hecho en v156; entrada `2026-11-17 (a)`); antes 2026-11-16 (entradas `(i)` Neo4j Intelligraph con IBM y `(j)` hoja de ruta de seguridad de agentes registradas como Descartar, sin pendiente; entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+
+**NUEVO 2026-11-26 (b) (entrada `2026-11-26 (b)`; CI-LL-1 hecho en v162).**
+- [x] **CI-LL-1 · manual, §10.2 (baja):** fila previa «¿se resuelve con una regla, una consulta, una API, un script o un modelo clásico?» en la tabla del agente mínimo viable, y nota sobre ordenar por naturaleza del problema y cartografiar el flujo antes de automatizar. **HECHO en v162 2026-11-26:** nota `s102-sinllm-2026-11`; ver `taller/Registro_manual_v161_a_v162.md`. Sin fuente primaria: síntesis del manual, sin cifras.
 
 **NUEVO 2026-11-25 (b) (entrada `2026-11-25 (b)`).**
 - [ ] **CI-LG-1 · manual (baja):** nota breve sobre modernización de código heredado asistida por IA con los resultados primarios verificados (Google, IBM, Diggs et al.) y la advertencia de que las cifras de los proveedores son afirmaciones, no mediciones. Ubicación por decidir (cerca del caso de contrato fail-to-pass de §13 o subsección nueva; el manual no tiene sección de ingeniería de software con IA). **PENDIENTE, sin aplicar:** es cambio de versión y espera el visto bueno del autor.
@@ -3576,3 +3579,19 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Precisión sobre Empreinte.** Lo aparcado en EM-LF-1 es la **latencia y tokens por fase**, no la calidad por capa; se aparcó el 17/11/2026 junto al timing por capa de HyperRAG (`rag_engine.py` solo mide un `latency_ms` total) y se reabre a la vez si un encargo real pide medir tiempos.
 
 **Sin verificar.** Autoría, fecha y origen del post.
+
+### 2026-11-26 (b) — Post francés «Il faut absolument qu'on regarde où mettre de l'IA (gen) dans nos processus métier» (sin autor ni fecha)
+
+**Veredicto: Integrar en pequeño.** `[Manual: CI-LL-1, HECHO en v162 — §10.2]` `[Empreinte: nada en código]` `[HyperRAG: nada]` `[Auditra: sin valorar; código no leído]` `[Corpus: nada]`
+
+**Fuente.** Post pegado como texto el 26/11, sin autor, enlace ni fecha; sin cifras, así que no hay nada que verificar. Su tesis: antes de poner IA generativa en un proceso hay que cartografiar cómo circula el trabajo (dobles capturas, validaciones que nadie lee, esperas) y elegir la herramienta según la naturaleza del problema (regla, API o script; modelo predictivo o experto; exploración; LLM para lenguaje o información no estructurada; agentes para acciones encadenadas).
+
+**Lo que falla.** Es opinión («estoy dispuesto a apostar»): lo de las pruebas de concepto que no se generalizan va sin un solo dato, y no dice cómo comprobar que un paso «sirve para algo».
+
+**Contraste con el manual (búsqueda de texto, no lectura íntegra).** §10.2 ya dice «empieza por lo más simple», §10.2b pregunta si el problema es complicado o complejo y §2.5.5 critica la cadena automática. Hueco: la tabla de §10.2 arrancaba en «¿una sola llamada a un LLM?» y no tenía la pregunta anterior (regla, consulta, API, script o modelo clásico), ni nada sobre cartografiar el flujo.
+
+**Aplicado.** Fila previa en la tabla de §10.2 y nota `s102-sinllm-2026-11`, declarada como regla de criterio y no como medida, sin citar el post y sin cifras. Detalle en `taller/Registro_manual_v161_a_v162.md`.
+
+**Referencia de estilo.** La pedagogía (dos preguntas y cinco peldaños) vale como referencia, igual que el post de `2026-11-26 (a)`.
+
+**Sin verificar.** Autoría, fecha y origen del post; la atribución del cartografiado a la práctica Lean es conocimiento general, no contrastado con una fuente.

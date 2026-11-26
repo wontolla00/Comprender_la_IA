@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v161</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v162</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v161 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v162 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -21778,12 +21778,29 @@ renderQuestion();
 <table>
 <thead><tr><th>Antes de añadir un agente, pregunta</th><th>Si la respuesta es…</th><th>Entonces</th></tr></thead>
 <tbody>
+<tr><td>¿Se resuelve con una regla, una consulta, una API, un script o un modelo clásico? (ver la nota bajo la tabla)</td><td>Sí</td><td>No uses un LLM. Una regla se prueba, cuesta menos y no varía entre ejecuciones.</td></tr>
 <tr><td>¿Puede resolverse con un único LLM call bien diseñado?</td><td>Sí</td><td>No añadas un agente. Diseña el prompt.</td></tr>
 <tr><td>¿Puede resolverse con un pipeline RAG estándar?</td><td>Sí</td><td>No añadas un agente. Construye el pipeline.</td></tr>
 <tr><td>¿La tarea requiere múltiples pasos con decisiones intermedias?</td><td>Sí</td><td>Considera un agente simple (1 LLM + herramientas).</td></tr>
 <tr><td>¿Requiere coordinación entre especialistas con roles distintos?</td><td>Sí</td><td>Considera arquitectura multi-agente. Con mucha precaución.</td></tr>
 </tbody>
 </table>
+<div class="nota" id="s102-sinllm-2026-11">
+<strong>🔎 Matiz (2026-11) · La pregunta anterior a la tabla: ¿hace falta un LLM?</strong>
+<p>La primera fila de la tabla añade un peldaño que suele darse por supuesto. Antes de elegir entre una llamada, un pipeline o un agente conviene preguntarse de qué naturaleza es el problema. Esta ordenación es una regla de criterio, no un resultado medido:</p>
+<table>
+<thead><tr><th>Naturaleza del problema</th><th>Lo que suele bastar</th><th>Dónde entra el LLM</th></tr></thead>
+<tbody>
+<tr><td>Reglas conocidas y datos estructurados</td><td>Una regla, una consulta, una API o un script</td><td>Solo si hay que interpretar una entrada que no llega estructurada</td></tr>
+<tr><td>Hay que analizar o predecir con datos</td><td>Un modelo estadístico o de aprendizaje clásico, un cálculo, o una persona experta con buenos datos</td><td>Para ayudar a explorar o a explicar el resultado, no para sustituir el modelo</td></tr>
+<tr><td>La respuesta emerge experimentando</td><td>Explorar, probar y aprender</td><td>Puede acelerar la exploración</td></tr>
+<tr><td>Lenguaje o información no estructurada</td><td>Una llamada bien diseñada o un pipeline RAG (filas siguientes)</td><td>Es su terreno, incluso dentro de un proceso muy clásico</td></tr>
+<tr><td>Varias acciones que se encadenan y se adaptan al contexto</td><td>Un agente simple (filas siguientes)</td><td>Sí, con las cautelas de 10.2b y 10.3</td></tr>
+</tbody>
+</table>
+<p><strong>Antes de automatizar un paso, comprobar que sirve para algo.</strong> Cartografiar cómo circula de verdad el trabajo suele sacar a la luz dobles capturas, validaciones que nadie lee y esperas entre etapas. Algunas se resuelven quitándolas, sin ninguna herramienta nueva. Es práctica clásica de mejora de procesos (el enfoque Lean), no una aportación de la IA generativa, y el manual no cuantifica cuántas de las cosas que se proponen automatizar sobran.</p>
+<p><strong>Límites.</strong> La ordenación es una forma de plantear la pregunta, no un teorema: hay problemas que caen en dos filas a la vez, y la última sigue sujeta a la advertencia de 10.2b (un problema complejo no se resuelve con una cadena bien orquestada). Y una demostración que impresiona no prueba que el proceso funcione a escala: eso se mide con la evaluación del Cap. 13.</p>
+</div>
 <div class="warning">
 <strong>⚠️ El sesgo de la pregunta inversa</strong>
     Las preguntas de la tabla anterior están formuladas para detectar cuándo un agente es necesario. La pregunta más útil, en la práctica, es la inversa: ¿qué tendría que ocurrir para que esta arquitectura agentica fracase silenciosamente en producción? La respuesta casi siempre involucra entropía acumulada (sección 10.3). Si no puedes describir, antes de construir, qué fracasos esperar y cómo detectarlos, no estás listo para añadir agentes — estás listo para sufrirlos.
