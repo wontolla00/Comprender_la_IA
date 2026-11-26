@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v162</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v163</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v162 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v163 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -26272,6 +26272,22 @@ assert cfg.index.compress_context is False   # pasa</code></pre>
 <p>La primera regla de la tabla anterior —un <code>assert</code> interroga el atributo que el sistema lee en caliente, no el que el arnés acaba de escribir— tiene una versión automatizable que vale la pena nombrar aparte, porque convierte un principio de diseño en un chequeo que se puede exigir en cada caso de test sin depender de que quien lo escriba lo recuerde.</p>
 <p>Herramientas de evaluación de agentes basadas en trazas (por ejemplo Tracely, que lee trazas OTLP y congela ejecuciones fallidas como fixtures deterministas para CI) imponen lo que llaman un <strong>contrato fail-to-pass</strong>: un caso de regresión solo se acepta como válido si, verificado contra el código anterior al arreglo, <em>falla</em>; y contra el código con el arreglo aplicado, <em>pasa</em>. Un caso que pasa en ambas versiones no demuestra nada y se descarta.</p>
 <p>Es, en la práctica, un chequeo mecánico de la misma pregunta que el Caso 3 de esta sección respondió a mano: "¿podría este test pasar con el sistema roto?". El contrato fail-to-pass no permite responder que sí. La cautela que hay que añadir es simétrica a la de esta misma sección sobre jueces LLM: si el veredicto de qué cuenta como "fallo" y "arreglo" lo pone un juez LLM en vez de un check estructural, el mecanismo de congelar el caso no protege contra que el propio juez confabule un veredicto coherente pero equivocado — hereda exactamente el riesgo de "evaluación confabulada" nombrado más arriba en este capítulo. El valor del contrato fail-to-pass no depende de tener un juez LLM: es igual de válido, y más seguro, con checks puramente estructurales.</p>
+<div class="nota" id="s13152-heredado-2026-11">
+<strong>🔎 Matiz (2026-11) · La validación también decide en la migración de código heredado</strong>
+<p>Es la misma pregunta en otro terreno: cuando un LLM traduce o modifica código, «parece correcto» no es un criterio; cuenta qué comprobación lo acepta. La evidencia publicada es heterogénea, y conviene decir qué mide cada trabajo.</p>
+<table>
+<thead><tr><th>Trabajo</th><th>Qué midió</th><th>Lo que no dice</th></tr></thead>
+<tbody>
+<tr><td>Google (Ziftci et al., FSE 2025, arXiv:2504.09691)</td><td>39 migraciones de enteros de 32 a 64 bits (no es código heredado en un lenguaje antiguo): 595 cambios, tres desarrolladores, doce meses. El 74,45 % de los cambios y el 69,46 % de las ediciones los generó el LLM. Cada cambio pasa seis filtros, del más barato al más caro (respuesta completa, no solo espacios, el árbol sintáctico se analiza y cambia, el LLM confirma que el cambio era necesario, compila, pasan los tests) antes de la revisión humana.</td><td>El «50 % de tiempo» es estimación de los desarrolladores, sin cronometrar; sin experimento controlado; un único modelo interno y un único tipo de migración.</td></tr>
+<tr><td>IBM (Hans et al., arXiv:2504.10548)</td><td>De COBOL a Java con tests generados por ejecución simbólica (no por un LLM), a nivel de párrafo: el 84 % de 51 párrafos alcanzó cobertura de ramas completa. Detectó traducciones erróneas, como una condición de bucle invertida.</td><td>Cobertura de ramas no es equivalencia funcional; los propios autores dicen que los tests no la garantizan.</td></tr>
+<tr><td>IBM (Froimovich et al., arXiv:2507.23356)</td><td>Comprobadores analíticos más un LLM como juez. Con tres fallos inyectados en un ejemplo, los comprobadores detectaron dos y el juez uno; además, el juez señaló un problema inexistente y dio por buena una llamada mal traducida.</td><td>Es un ejemplo ilustrativo, no una tasa de fallo; el trabajo no ofrece una cifra de acuerdo del juez con expertos.</td></tr>
+<tr><td>MITRE (Diggs et al., arXiv:2411.14971)</td><td>Comentarios de código generados por LLM en MUMPS y en ensamblador de mainframe. Bien valorados en MUMPS; en ensamblador el acuerdo entre revisores es pobre (ICC entre 0,12 y 0,22).</td><td>Es documentación, no traducción. Los autores no corrigieron las correlaciones por comparaciones múltiples y desaconsejan conclusiones firmes de cada valor.</td></tr>
+<tr><td>COBOL-Coder (Dau et al., arXiv:2604.03986)</td><td>Modelo de 7B y 14B ajustado a COBOL. Generando COBOL, 49,33 de Pass@1 (14B) frente a 16,4 de GPT-4o en COBOLEval; de Java a COBOL, 34,93 frente a 3,93 de GPT-oss-120B. De COBOL a Java gana el modelo general de 120B (89,51 frente a 83,91).</td><td>Evaluación por fichero, sin dependencias entre ficheros, copybooks ni JCL; compilar y juzgar con un LLM no verifica la semántica; la encuesta a desarrolladores tuvo tres participantes.</td></tr>
+</tbody>
+</table>
+<p><strong>Lo que tienen en común.</strong> Lo que acepta o rechaza el cambio es la validación: filtros baratos antes que revisión humana (Google), varios comprobadores que se equivocan en cosas distintas (IBM) y un juez LLM que no basta por sí solo. Y el error se compone entre piezas: IBM ilustra que diez párrafos traducidos con un 90 % de acierto cada uno dan solo un 34 % de probabilidad de un programa entero correcto. Es un cálculo ilustrativo del propio trabajo, no una medida, y recuerda a la entropía acumulada de 10.3.</p>
+<p><strong>Límites.</strong> Ninguno de estos trabajos mide el mantenimiento posterior ni resultados en producción, y el código de una empresa concreta puede diferir de sus bancos de prueba. Las cifras de ahorro que publican proveedores de servicios y plataformas son afirmaciones, no mediciones con un método que se pueda revisar; el manual no las reproduce.</p>
+</div>
 <h3 id="s13153">13.15.3 El filtro que cubre un idioma mejor que otro, y parece un fallo del modelo</h3>
 <p>El mismo patrón —el número sobrevive, la condición que lo produjo no— tiene una variante específica de los sistemas multilingües, y es fácil de confundir con un hallazgo real porque produce exactamente la forma de una conclusión razonable: <em>"el sistema rinde peor en el idioma X"</em>.</p>
 <p>Un conjunto de evaluación generado automáticamente se filtraba para descartar preguntas <strong>referenciales</strong> — las que dependen del contexto inmediato ("¿qué opina el autor de esto?") y no tienen una única respuesta verificable fuera de su párrafo. El filtro se implementaba como una lista de sustantivos referenciales, una por idioma. Auditada después de que el francés puntuara sistemáticamente peor que el inglés y el español: la rama francesa cubría <strong>8 sustantivos</strong>; las ramas inglesa y española, <strong>12 o más cada una</strong>. Ninguna de las tres cubría la palabra que más importaba en el corpus de prueba (reflexión/réflexion/reflection). Resultado: en francés sobrevivían al filtro sistemáticamente más preguntas de las que deberían haberse descartado — preguntas sin respuesta única, que ningún sistema puede acertar de forma fiable.</p>

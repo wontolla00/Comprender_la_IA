@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v163 — 26 noviembre 2026 · §13.15.2: la validación en la migración de código heredado
+
+- Nota nueva `s13152-heredado-2026-11` al final de §13.15.2 (tras el contrato fail-to-pass): tabla de cinco trabajos con lo que midió cada uno y lo que no dice — Google (migración de enteros de 32 a 64 bits, 595 cambios, seis filtros previos a la revisión humana, ahorro del 50 % como percepción), IBM (tests por ejecución simbólica, cobertura de ramas no es equivalencia; comprobadores analíticos y juez LLM con tres fallos inyectados), MITRE (comentarios de código, acuerdo pobre entre revisores en ensamblador) y COBOL-Coder (la especialización gana al generar COBOL; en COBOL→Java gana el modelo general). Lectura común (la validación decide; el error se compone, con la cifra del 34 % marcada como ilustrativa) y límites. Las cifras de proveedores no se reproducen.
+- Fuentes: los cinco PDF leídos enteros. Dos inconsistencias internas de los papers (COBOL-Coder, Diggs) no se trasladan al texto.
+- Origen: Triaje, entrada 2026-11-25 (b), CI-LG-1. Versión v162 → v163; copia de la v162 en `archivo/`.
+
 ## v162 — 26 noviembre 2026 · §10.2: la pregunta anterior a la tabla («¿hace falta un LLM?»)
 
 - Fila nueva al principio de la tabla de §10.2: «¿Se resuelve con una regla, una consulta, una API, un script o un modelo clásico?» → no uses un LLM. Antes la tabla arrancaba en «una sola llamada a un LLM» y daba por hecho que el LLM ya estaba sobre la mesa.
