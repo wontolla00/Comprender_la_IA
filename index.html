@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v163</title>
+<title>Comprender la IA — Edición 2026 · rev. octubre 2026 · v164</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
 
@@ -1112,7 +1112,7 @@ body.dark .exec-mode dt{color:#cbd5e1;}
 </head>
 <body>
 <div class="topbar">
-<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v163 · oct 2026</span></span>
+<span class="topbar-title">Comprender la IA · Edición 2026 <span style="font-size:.72rem;background:rgba(37,99,235,.15);color:var(--accent);padding:1px 6px;border-radius:4px;margin-left:4px;">v164 · oct 2026</span></span>
 <nav class="topbar-nav">
 <a href="#indice">Índice</a>
 <a href="#parte1">Módulo 1</a>
@@ -15221,6 +15221,15 @@ render();
   </script>
 </div>
 <!-- ═══ FIN BLOQUE INTERACTIVO ═══ -->
+</div>
+<div class="nota" id="s66-graphr1-2026-11">
+<strong>🔎 Matiz (2026-11) · GraphRAG agéntico entrenado con refuerzo: la recuperación como política que se aprende</strong>
+<p>Hasta aquí el grafo se construye y se consulta con reglas o con prompts fijos. Una línea distinta, representada por Graph-R1 (Luo et al., ICML 2026, arXiv:2507.21892), trata la recuperación como una política que se aprende: un agente razona en varios turnos, formula consultas a un <em>hipergrafo</em> (un grafo donde una arista puede unir más de dos nodos) y decide cuándo responder. Se entrena con aprendizaje por refuerzo (GRPO) y una recompensa sencilla: un término de formato (0,5 por cada paso bien formado, con tope de 1) más la F1 de la respuesta final frente a la de referencia.</p>
+<ul>
+<li><strong>Montaje.</strong> Modelos Qwen2.5 de 1,5B, 3B y 7B entrenados en 4 GPU A100 de 80 GB; el hipergrafo se construye con GPT-4o-mini; seis conjuntos estándar de preguntas (2WikiMultiHopQA, HotpotQA, Musique, NQ, PopQA y TriviaQA), con 5.120 ejemplos de entrenamiento y 128 de prueba por conjunto.</li>
+<li><strong>Resultado.</strong> Con el modelo de 7B, unos 57 puntos de F1 frente a 32 del RAG estándar y 46 de Search-R1, otro método de RAG con refuerzo. Los autores observan además que los métodos de GraphRAG que solo usan prompts suelen quedar por debajo del RAG estándar: el grafo por sí solo no basta, lo que lo aprovecha es el entrenamiento.</li>
+</ul>
+<p><strong>Límites.</strong> Son conjuntos públicos de preguntas sobre texto de Wikipedia, no corpus propios ni documentos de empresa. Con 128 casos de prueba por conjunto, y sin intervalos de confianza ni repeticiones con semillas en lo leído, las diferencias pequeñas no se pueden interpretar; el propio texto da dos valores distintos para el modelo de 7B (57,28 y 57,82). La evaluación de la generación se hace con rúbricas aplicadas por un LLM, y el grafo se construye con un modelo externo. Entrenar un agente es otro orden de compromiso que ajustar un pipeline: antes de plantearlo conviene comprobar, como en 8.0b, en qué capa falla el sistema y si un RAG estándar bien medido no basta, y recordar la advertencia de 6.6b sobre lo que un grafo colapsa.</p>
 </div>
 <hr class="sep"/>
 <div class="resultado-final">

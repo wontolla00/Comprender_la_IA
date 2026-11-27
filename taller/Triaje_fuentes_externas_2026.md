@@ -18,7 +18,10 @@ solo lo que supera el triaje; queda registrado en `Registro_manual_vNN.md`
 
 ## Pendientes abiertos — leer esto primero al retomar
 
-*Actualizado 2026-11-26 (CI-LG-1 hecho en v163, con los cinco PDF leídos; entrada `2026-11-26 (b)`, post francés sobre dónde poner IA generativa en los procesos de negocio; CI-LL-1 hecho en v162; entradas `2026-11-25 (b)`, entrevista GFT sobre modernización de código heredado con IA, y `2026-11-26 (a)`, post francés sobre capas del pipeline RAG; CI-LG-1 abierto); antes 2026-11-25 (entrada `2026-11-25 (a)`, infografía de métricas de evaluación; CI-ME-1 hecho en v160 y completado en v161); antes 2026-11-17 (CI-CR-1 hecho en v156; entrada `2026-11-17 (a)`); antes 2026-11-16 (entradas `(i)` Neo4j Intelligraph con IBM y `(j)` hoja de ruta de seguridad de agentes registradas como Descartar, sin pendiente; entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+*Actualizado 2026-11-27 (entrada `2026-11-27 (a)`, comparación RAG, Graph-R1 y RAG agéntico; CI-GR-1 hecho en v164); antes 2026-11-26 (CI-LG-1 hecho en v163, con los cinco PDF leídos; entrada `2026-11-26 (b)`, post francés sobre dónde poner IA generativa en los procesos de negocio; CI-LL-1 hecho en v162; entradas `2026-11-25 (b)`, entrevista GFT sobre modernización de código heredado con IA, y `2026-11-26 (a)`, post francés sobre capas del pipeline RAG; CI-LG-1 abierto); antes 2026-11-25 (entrada `2026-11-25 (a)`, infografía de métricas de evaluación; CI-ME-1 hecho en v160 y completado en v161); antes 2026-11-17 (CI-CR-1 hecho en v156; entrada `2026-11-17 (a)`); antes 2026-11-16 (entradas `(i)` Neo4j Intelligraph con IBM y `(j)` hoja de ruta de seguridad de agentes registradas como Descartar, sin pendiente; entrada `(h)` RAG híbrido con RRF registrada como Descartar, sin pendiente; entrada `(g)` evals de agentes registrada como Integrar en pequeño y CI-EV-1 hecho en v155; entrada `(f)` Neo4j registrada como Observar y CI-ON-1 hecho en v154 tras la investigación de las cuatro plataformas; nueva entrada `(e)` y CI-RK-1 hecho en v153; CI-AR-1 hecho en v151; CI-OA-1 y CI-RR-1 hechos en v148; nuevos CI-RS-1 y CI-AG-1; Ernst `2026-11-16 (c)` registrado como Observar, sin pendiente nuevo; CI-MX-1 hecho en v150); antes 2026-11-09 (tanda 1 de cierre: CI-HF-1, CI-PI-1, CI-MS-1, CI-XP-1, CI-NC-1, CI-MN-1, EM-RT-1 cerrados; CI-DV-1 aparcado).*
+
+**NUEVO 2026-11-27 (a) (entrada `2026-11-27 (a)`; CI-GR-1 hecho en v164).**
+- [x] **CI-GR-1 · manual, §6.6 (baja):** nota sobre GraphRAG agéntico entrenado con refuerzo (Graph-R1, ICML 2026) con sus límites. **HECHO en v164 2026-11-27:** nota `s66-graphr1-2026-11`, con el PDF de la v2 leído entero; ver `taller/Registro_manual_v163_a_v164.md`.
 
 **NUEVO 2026-11-26 (b) (entrada `2026-11-26 (b)`; CI-LL-1 hecho en v162).**
 - [x] **CI-LL-1 · manual, §10.2 (baja):** fila previa «¿se resuelve con una regla, una consulta, una API, un script o un modelo clásico?» en la tabla del agente mínimo viable, y nota sobre ordenar por naturaleza del problema y cartografiar el flujo antes de automatizar. **HECHO en v162 2026-11-26:** nota `s102-sinllm-2026-11`; ver `taller/Registro_manual_v161_a_v162.md`. Sin fuente primaria: síntesis del manual, sin cifras.
@@ -3595,3 +3598,21 @@ El incidente ya está tratado en §10.10.4 con METR/Redwood y el informe de Open
 **Referencia de estilo.** La pedagogía (dos preguntas y cinco peldaños) vale como referencia, igual que el post de `2026-11-26 (a)`.
 
 **Sin verificar.** Autoría, fecha y origen del post; la atribución del cartografiado a la práctica Lean es conocimiento general, no contrastado con una fuente.
+
+### 2026-11-27 (a) — «Traditional RAG vs Graph-R1 vs Agentic RAG» (Poornachandra Kongara, LinkedIn, infografía y texto) y el artículo Graph-R1
+
+**Veredicto: el post, Descartar; Graph-R1 (el artículo), Integrar en pequeño.** `[Manual: CI-GR-1, HECHO en v164 — §6.6]` `[Empreinte: nada]` `[HyperRAG: nada ahora]` `[Auditra: sin valorar; código no leído]` `[Corpus: nada]`
+
+**Fuente.** Infografía y texto pegados el 27/11 (autor presentado como analista de datos; sin cifras ni método). El texto compara RAG tradicional, Graph-R1 y RAG agéntico. Es descriptivo, y la comparación RAG / RAG agéntico / GraphRAG ya estaba en `2026-09-28 (d)` y `2026-11-07 (a)`, y en §6.5b, §6.6 y §10.9.5.
+
+**Lo nuevo: Graph-R1** (Luo et al., arXiv:2507.21892, v1 del 29/07/2025, v2 del 02/06/2026; ICML 2026). No estaba en el Triaje ni en el manual (búsquedas de texto sobre Graph-R1, Search-R1 e «hipergrafo»).
+
+**Lo que falla en la infografía.** Pone a Graph-R1 a mitad de camino entre RAG y RAG agéntico, pero el artículo se define como agéntico; habla de «knowledge graph» y el artículo usa un hipergrafo; no dice que hay que entrenar el agente. La recompensa «F1 + Format Score» coincide con la de la v2 (corrección de lo dicho antes en la conversación: se había señalado como simplificación a partir del resumen de la v1, que menciona tres componentes).
+
+**Verificado (PDF de la v2, 21 páginas, leído entero).** Agente de varios turnos sobre un hipergrafo, entrenado con GRPO; recompensa de formato (0,5 por paso, tope de 1) más F1 de la respuesta; Qwen2.5 de 1,5B, 3B y 7B, 4 GPU A100 de 80 GB, hipergrafo construido con GPT-4o-mini; seis conjuntos estándar con 5.120 ejemplos de entrenamiento y 128 de prueba por conjunto; con el 7B, 57,28 o 57,82 de F1 (dos valores en el propio texto) frente a 32,05 del RAG estándar y 46,19 de Search-R1; los autores dicen que los GraphRAG solo con prompts suelen quedar por debajo del RAG estándar.
+
+**Contraste.** Manual: novedad real pero acotada (benchmarks públicos de Wikipedia, muestras pequeñas, sin intervalos en lo leído); nota en §6.6 con sus límites y el enlace a 8.0b y 6.6b. HyperRAG: tiene capa de grafo, pero Graph-R1 exige entrenar un agente; nada ahora. Empreinte: nada. Auditra: sin valorar. Corpus: nada.
+
+**Aplicado.** Nota `s66-graphr1-2026-11` en §6.6 (v164); detalle en `taller/Registro_manual_v163_a_v164.md`.
+
+**Sin verificar.** Coste de entrenar el agente; ausencia de intervalos y de semillas (búsquedas de texto, no lectura de todas las tablas); qué modelo aplica la evaluación de la generación.

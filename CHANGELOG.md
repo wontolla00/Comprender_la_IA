@@ -2,6 +2,12 @@
 
 Historial editorial del manual. Las notas de proceso ("se movió aquí en v91", "añadido en v98"…) viven en este fichero y no en el texto que lee el alumno.
 
+## v164 — 27 noviembre 2026 · §6.6: GraphRAG agéntico entrenado con refuerzo (Graph-R1)
+
+- Nota nueva `s66-graphr1-2026-11` al final de §6.6 (tras el bloque interactivo, antes del recuadro de resultado del capítulo): la recuperación como política que se aprende (Luo et al., ICML 2026, arXiv:2507.21892); agente de varios turnos sobre un hipergrafo, entrenado con GRPO y una recompensa de formato más F1 de la respuesta final; montaje (Qwen2.5 de 1,5B, 3B y 7B, 4 GPU A100 de 80 GB, hipergrafo construido con GPT-4o-mini, seis conjuntos estándar, 5.120 ejemplos de entrenamiento y 128 de prueba por conjunto); resultado con el modelo de 7B (unos 57 de F1 frente a 32 del RAG estándar y 46 de Search-R1) y la observación de los autores de que los GraphRAG solo con prompts suelen quedar por debajo del RAG estándar; límites (benchmarks públicos, muestras pequeñas sin intervalos, dos valores distintos para el 7B en el propio texto, evaluación de generación con rúbricas de un LLM) y enlace con 8.0b y 6.6b.
+- Fuente: PDF de la v2 (2 de junio de 2026), 21 páginas, leído entero.
+- Origen: Triaje, entrada 2026-11-27 (a), CI-GR-1. Versión v163 → v164; copia de la v163 en `archivo/`.
+
 ## v163 — 26 noviembre 2026 · §13.15.2: la validación en la migración de código heredado
 
 - Nota nueva `s13152-heredado-2026-11` al final de §13.15.2 (tras el contrato fail-to-pass): tabla de cinco trabajos con lo que midió cada uno y lo que no dice — Google (migración de enteros de 32 a 64 bits, 595 cambios, seis filtros previos a la revisión humana, ahorro del 50 % como percepción), IBM (tests por ejecución simbólica, cobertura de ramas no es equivalencia; comprobadores analíticos y juez LLM con tres fallos inyectados), MITRE (comentarios de código, acuerdo pobre entre revisores en ensamblador) y COBOL-Coder (la especialización gana al generar COBOL; en COBOL→Java gana el modelo general). Lectura común (la validación decide; el error se compone, con la cifra del 34 % marcada como ilustrativa) y límites. Las cifras de proveedores no se reproducen.
